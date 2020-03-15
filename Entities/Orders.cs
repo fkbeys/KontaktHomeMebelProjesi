@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -15,11 +16,11 @@ namespace Entities
         public int OrderId { get; set; }
         [Required]
         public DateTime CreateOn { get; set; }
-        [Required]
+       
         public string CreateUser { get; set; }
         [Required]
         public DateTime LastUpdate { get; set; }
-        [Required]
+       
         public string UpdateUser { get; set; }
         [Required,StringLength(50)]
         public string CustomerName { get; set; }
@@ -30,18 +31,22 @@ namespace Entities
         [Required]
         public string SellerCode { get; set; }
         [Required]
-        public int Tel1 { get; set; }
+        public string Tel1 { get; set; }
         [Required]
-        public int Tel2 { get; set; }
+        public string Tel2 { get; set; }
         [Required,StringLength(250)]
         public string Address { get; set; }
         [Required]
-        public DateTime VisitDate { get; set; }
+        public DateTime VisitDate { get; set; }   
+        [DisplayName("Mətbəx")]
+        public bool OrderType1 { get; set; }
+        [DisplayName("Ofis Mebeli")]
+        public bool OrderType2 { get; set; }
+        [DisplayName("Ev Mebeli")]
+        public bool OrderType3 { get; set; }
         [Required]
-        public string OrderType { get; set; }
-        [Required]
-        public decimal Price { get; set; }
-        [Required,StringLength(200)]
+        public double Price { get; set; }
+        [Required,StringLength(200), DataType(DataType.MultilineText)]       
         public string Note { get; set; }
         [Required]
         public bool IsActive { get; set; }

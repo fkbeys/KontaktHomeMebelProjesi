@@ -6,7 +6,7 @@
     <title>Kontakt Home</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->   
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -23,11 +23,15 @@
     <link href="~/plugins/datetimepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <!--Data Table-->
     <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
-    
+    <!--Alert-->
+    <link href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <!--Custom Scripts-->
     <script src="~/Scripts/MyScripts.js"></script>
+    <!--Alert-->
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -204,8 +208,8 @@
     <script src="~/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- DataTables -->   
-    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>  
+    <!-- DataTables -->
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
     <!-- Select2 -->
     <script src="~/plugins/select2/js/select2.full.min.js"></script>
     <!-- InputMask -->
@@ -218,6 +222,8 @@
     <!-- date time picker js-->
     <script src="~/plugins/datetimepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/plugins/datetimepicker/locales/bootstrap-datepicker.az.min.js"></script>
+
+
     <script src="~/Scripts/MyScripts.js"></script>
     <script>
         $(function () {
@@ -229,14 +235,14 @@
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
             })
-
+            $('#telno1').inputmask("(999)999-99-99")
+            $('#telno2').inputmask("(999)999-99-99")
             //Datemask dd/mm/yyyy
             $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
             //Datemask2 mm/dd/yyyy
             $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
             //Money Euro
             $('[data-mask]').inputmask()
-
             //Date range picker
             $('#reservation').daterangepicker()
             //Date range picker with time picker
