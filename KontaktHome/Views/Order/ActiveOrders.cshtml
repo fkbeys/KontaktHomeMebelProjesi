@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "ActiveOrders";
+}
+
+<script>
+    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+    document.getElementById('sidemenu1_1').className = 'nav-link active';
+    document.getElementById('activeOrders').className = 'nav-link active';
+</script>
+<div class="row" >   
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="table-responsive" id="activeOrdersPrint">
+                        <table id="tableActiveOrders" class="display"  width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Tarix</th>
+                                    <th>Sənəd No</th>
+                                    <th>Müştəri Adı</th>
+                                    <th>Müştəri Soyadı</th>
+                                    <th>Müştəri Ata Adı</th>
+                                    <th>Tel No</th>
+                                    <th>Status</th>
+                                    <th></th>                                   
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
