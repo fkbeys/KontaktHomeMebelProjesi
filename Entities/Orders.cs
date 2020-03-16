@@ -52,6 +52,14 @@ namespace Entities
         public bool IsActive { get; set; }
         [Required]
         public int OrderStatus { get; set; }
+        public string VisitorCode { get; set; }
+        public string VisitorName { get; set; }
+        [DisplayName("Vizitor Təyin Et")]
+        public bool IsVisitorAdded { get; set; }
+
+
+        //TODO: OrderStatuslar: 1. Gözləmədə 2.VisitorTəyinEdilib
+
 
     }
 }

@@ -40,7 +40,7 @@ namespace DataAccessLayer
             return Save();
         }
         public int Update(T obj)
-        {
+        {            
             return Save();
         }
         public int Delete(T obj)
@@ -50,7 +50,7 @@ namespace DataAccessLayer
         }
 
         public int Save()
-        {
+        {            
             return context.SaveChanges();
         }
 
