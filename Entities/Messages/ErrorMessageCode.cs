@@ -22,6 +22,7 @@ namespace Entities.Messages
         UserCouldNotInserted = 160,
         UserCouldNotUpdated = 161,
         DataNotFound = 170,
-        DataUpdateError = 171
+        DataUpdateError = 171,
+        DataInsertError=172
     }
 }

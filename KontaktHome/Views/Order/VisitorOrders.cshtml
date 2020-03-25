@@ -21,6 +21,50 @@
         </script>
     }
     <div class="col-md-12">
+        <div class="card card-info">
+            <div class="card-header">
+                <h4 class="card-title">Aktiv Vizitor Sifarişləri</h4>
+            </div>
+            <div class="card-body">
+                <div class="row col-md-6">
+                    <div class="col-md-6 col-xl-4" id="sandbox-container">
+                        <div class="form-group">
+                            <label>Başlanğıc Tarixi</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control " id="visitfirstDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-6 col-xl-4" id="sandbox-container">
+                        <div class="form-group">
+                            <label>Bitiş Tarixi</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control " id="visitlastDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="visitchkAllOrders" value="option1">
+                                <label for="visitchkAllOrders" class="custom-control-label">Bütün Sifarişlər</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" id="btnVisitorOrderSearch" class="btn btn-primary">Axtar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
         <div class="card card-primary">
             <div class="card-body">
                 <div class="col-md-12">
@@ -35,6 +79,7 @@
                                     <th>Müştəri Soyadı</th>
                                     <th>Müştəri Ata Adı</th>
                                     <th>Tel No</th>
+                                    <th>Nişangah</th>
                                     <th>Status</th>
                                     <th></th>
                                 </tr>

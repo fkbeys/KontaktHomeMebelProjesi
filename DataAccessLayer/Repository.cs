@@ -40,7 +40,8 @@ namespace DataAccessLayer
             return Save();
         }
         public int Update(T obj)
-        {            
+        {      
+            //context.Entry(obj).State= EntityState.Modified;
             return Save();
         }
         public int Delete(T obj)

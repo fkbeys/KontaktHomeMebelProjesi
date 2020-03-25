@@ -1924,6 +1924,7 @@
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery.inputmask.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\MyScripts.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -2031,6 +2032,7 @@
     <Content Include="Views\Order\EditOrder.cshtml" />
     <Content Include="Views\Order\VisitorOrders.cshtml" />
     <Content Include="Views\Order\OrderInfo.cshtml" />
+    <Content Include="Views\Order\CustomerVisit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2041,6 +2043,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="plugins\filterizr\ActiveFilter.d.ts" />

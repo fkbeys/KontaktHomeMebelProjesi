@@ -21,29 +21,76 @@
         </script>
     }
     <div class="col-md-12">
-        <div class="card card-primary">
+        <div class="card card-info">
+            <div class="card-header">
+                <h4 class="card-title">Aktiv Sifarişlər</h4>
+            </div>
             <div class="card-body">
-                <div class="col-md-12">
-                    <div class="table-responsive" id="activeOrdersPrint">
-                        <table id="tableActiveOrders" class="display" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Tarix</th>
-                                    <th>Sənəd No</th>
-                                    <th>Müştəri Adı</th>
-                                    <th>Müştəri Soyadı</th>
-                                    <th>Müştəri Ata Adı</th>
-                                    <th>Tel No</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
+                <div class="row col-md-6">
+                    <div class="col-md-6 col-xl-4" id="sandbox-container">
+                        <div class="form-group">
+                            <label>Başlanğıc Tarixi</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control " id="firstDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-6 col-xl-4" id="sandbox-container">
+                        <div class="form-group">
+                            <label>Bitiş Tarixi</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control " id="lastDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">                       
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="chkAllOrders" value="option1">
+                                <label for="chkAllOrders" class="custom-control-label">Bütün Sifarişlər</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" id="btnOrderSearch" class="btn btn-primary">Axtar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div class="col-md-12">
+    <div class="card card-primary">
+        <div class="card-body">
+            <div class="col-md-12">
+                <div class="table-responsive" id="activeOrdersPrint">
+                    <table id="tableActiveOrders" class="display" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tarix</th>
+                                <th>Sənəd No</th>
+                                <th>Müştəri Adı</th>
+                                <th>Müştəri Soyadı</th>
+                                <th>Müştəri Ata Adı</th>
+                                <th>Tel No</th>
+                                <th>Satıcı Kodu</th>
+                                <th>Sifariş Mağazası</th>
+                                <th>Status</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 

@@ -1,0 +1,358 @@
+﻿@using Entities
+@model CustomerVisitData
+@{
+    ViewBag.Title = "CustomerVisit";
+}
+
+<div class="content">
+    <div class="container">
+        <!-- /.left panel -->
+        <div class="col-md-9">
+            @using (Html.BeginForm("CustomerVisit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(x => x.order.OrderId)
+                @Html.HiddenFor(x => x.order.CustomerName)
+                @Html.HiddenFor(x => x.order.CustomerSurname)
+                @Html.HiddenFor(x => x.order.Tel1)
+                @Html.HiddenFor(x => x.order.Tel2)
+                @Html.HiddenFor(x => x.order.Address)
+                @Html.HiddenFor(x => x.order.CustomerFatherName)
+                @Html.HiddenFor(x => x.order.ItemCount)
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Müştəri Məlumatları</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <label>Müştəri Adı : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerName)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Müştəri Soyadı : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerSurname)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Müştəri Ata Adı : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerFatherName)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Tel No. 1 : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel1)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Tel No. 2 : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel2)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Ünvan : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Address)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Nişangah : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Location)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Satıcı Kodu : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.SellerCode)</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <label>Ziyarət Tarixi : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitDate)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Sifariş Növü : </label>
+                                    @if (Model.order.OrderType1 == true)
+                                    {
+                                        @Html.LabelFor(x => x.order.OrderType1, new { @class = "text-secondary" })<label class="text-secondary">,</label>
+                                    }
+                                    @if (Model.order.OrderType2 == true)
+                                    {
+                                        @Html.LabelFor(x => x.order.OrderType2, new { @class = "text-secondary" })<label class="text-secondary">,</label>
+                                    }
+                                    @if (Model.order.OrderType3 == true)
+                                    {
+                                        @Html.LabelFor(x => x.order.OrderType3, new { @class = "text-secondary" })
+                                    }
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Sifariş Qeyd: </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Note)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Məhsul Sayı: </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemCount)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Məhsul Açıqlama: </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemDescription)</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 border-top border-secondary pt-2">
+                                <button type="button" id="addNewItemmmmm" onclick="addItemToVisitForm()" class="btn bg-gradient-info float-right"><i class="fas fa-plus"></i>  Məhsul Əlavə Et</button>
+                            </div>
+                        </div>
+                        <!--card body end-->
+                    </div>
+                </div>
+                @Html.AntiForgeryToken()
+                <div class="form-group col-lg-12">
+                    @Html.ValidationSummary(false)
+                </div>
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Məhsullar</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="col-md-12" id="itemSection">
+                            @for (int i = 0; i < Model.visitData.Count; i++)
+                            {
+                                @Html.HiddenFor(m => m.visitData[i].VisitID)
+                                @Html.HiddenFor(m => m.visitData[i].CreateOn)
+                                @Html.HiddenFor(m => m.visitData[i].CreateUser)
+                                @Html.HiddenFor(m => m.visitData[i].LastUpdate)
+                                @Html.HiddenFor(m => m.visitData[i].UpdateUser)
+                                @Html.HiddenFor(m => m.visitData[i].OrderId)
+                                @Html.HiddenFor(m => m.visitData[i].VisitGuid)
+                                @Html.HiddenFor(m => m.visitData[i].ProductName)
+                                <div class="card card-info collapsed-card">
+                                    <div class="card-header">
+                                        @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
+                                        <a href="#"><h3 class="card-title" data-card-widget="collapse">Məhsul @mehsulsayi </h3></a>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body" style="display: none;">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <label>Mebel Tipi</label>
+                                                        <div class="form-group">
+                                                            <div class="col-form-txt">
+                                                                @Html.DropDownListFor(m => m.visitData[i].ProductCode, Model.itemGroups, "- Seçin -", new { @class = "form-control", @id = "mainGroup" + i.ToString() })
+                                                                @Html.ValidationMessageFor(m => m.visitData[i].ProductCode)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row border-top border-info pt-3">
+                                                    <div class="col-sm-12"><label>Ölçü</label></div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>En</label>
+                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ..." } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Uzun</label>
+                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ..." } })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Hündürlük</label>
+                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ..." } })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row border-top border-info pt-3">
+                                                    <div class="col-sm-6">
+                                                        <label>Material Növü</label>
+                                                        <div class="form-group">
+                                                            <select class="form-control" id="materialType_@i.ToString()" name="visitData[@i].MaterialType">
+                                                                <option value="">- Seçin -</option>
+                                                                <option value="MDF">MDF</option>
+                                                                <option value="Laminand" selected="selected">Laminand</option>
+                                                                <option value="Membran">Membran</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label>Material Rəngi</label>
+                                                        <div class="form-group">
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ..." } })
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row border-top border-info pt-3">
+                                                    <div class="col-sm-6">
+                                                        <label>Dəzgahlıq</label>
+                                                        <div class="form-group">
+                                                            <select class="form-control" id="panelType_@i.ToString()" name="visitData[@i].PanelType">
+                                                                <option value="">- Seçin -</option>
+                                                                <option value="Mərmər">Mərmər</option>
+                                                                <option value="Rezapal">Rezapal</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label>Dəzgahlıq Rəngi</label>
+                                                        <div class="form-group">
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ..." } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row border-top border-info pt-3">
+                                                    <div class="col-sm-6">
+                                                        <label>Qapaq</label>
+                                                        <div class="form-group">
+                                                            <select class="form-control" id="doorType_@i.ToString()" name="visitData[@i].DoorType">
+                                                                <option value="">- Seçin -</option>
+                                                                <option value="MDF">MDF</option>
+                                                                <option value="Laminand">Laminand</option>
+                                                                <option value="Membran">Membran</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <label>Qapaq Rəngi</label>
+                                                        <div class="form-group">
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ..." } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row border-top border-info pt-3">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Aksesuar</label>
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ..." } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Güzgü</label>
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ..." } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row border-top border-info pt-3">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label>Qeyd</label>
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3" } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer" style="display: none;">
+
+                                    </div>
+                                </div>
+                                <script>
+                                var groupid = "mainGroup"+'@i';
+                                document.getElementById(groupid).value = '@Model.visitData[i].ProductCode';
+                                var materialType = "materialType_" + '@i';
+                                document.getElementById(materialType).value = '@Model.visitData[i].MaterialType';
+                                var panelType = "panelType_" + '@i';
+                                document.getElementById(panelType).value = '@Model.visitData[i].PanelType';
+                                 var doorType = "doorType_" + '@i';
+                                document.getElementById(doorType).value = '@Model.visitData[i].DoorType';
+                                </script>
+                            }
+                        </div>
+                        <div class="row ">
+                            <div class="col-sm-12 border-top border-primary pt-3">
+                                <div class="col-sm-12">
+                                    @Html.LabelFor(x => x.orderFiles.orderFiles, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                <div class="col-sm-6 bg-light">
+                                    @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })
+                                    @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
+                                    <button type="button" class="btn-sm btn-danger float-right" onclick="deleteimages()"><i class="far fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary float-right">Qeyd Et</button>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var sira = '@Model.visitData.Count';
+    var modelsira='@Model.visitData.Count';
+    function addItemToVisitForm() {
+        sira++;
+        @*var html = '@for (int i = 0; i < 10; i++){<input type="text" class="form-control" name="visitData[' + sira + '].Colour" placeholder="Enter ...">}';*@
+
+        var card = document.createElement('div');
+        card.className = 'card card-info collapsed-card';
+        card.id = 'card-' + sira;
+        var cardheader = document.createElement('div');
+        cardheader.className = 'card-header';
+        var cardheaderlink = document.createElement('a');
+        cardheaderlink.href = '#';
+        cardheaderlink.innerHTML = '<h3 class="card-title" data-card-widget="collapse">Məhsul '+sira+'</h3>';
+        var cardtools = document.createElement('div');
+        cardtools.className = 'card-tools';
+        cardtools.innerHTML = '<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i> <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="far fa-trash-alt"></i></button>';
+        var cardbody = document.createElement('div');
+        cardbody.className = 'card-body';
+        cardbody.style = 'display: none;';
+        var cardfooter = document.createElement('div');
+        cardfooter.className = 'card-footer';
+        cardfooter.style = 'display: none;';
+
+        var bodyrow = document.createElement('div');
+        bodyrow.className = 'row';
+        var bodycolumn = document.createElement('div');
+        bodycolumn.className = 'col-sm-12';
+        bodycolumn.innerHTML = '<div class="row"><div class="col-sm-6"><label>Mebel Tipi</label><div class="form-group"><div class="col-form-txt"><select class="form-control" name="visitData[' + modelsira + '].ProductCode"><option value="">- Seçin -</option>@foreach (var item in Model.itemGroups)
+        {<option value="@item.Value">@item.Text</option>} </select><span class="field-validation-valid" data-valmsg-for="visitData[' + modelsira + '].ProductCode" data-valmsg-replace="true"></span></div></div></div></div><div class="row border-top border-info pt-3"><div class="col-sm-12"><label>Ölçü</label></div><div class="col-sm-4"><div class="form-group"><label>En</label><input class="form-control text-box single-line" data-val="true" data-val-number="The field DWidth must be a number." data-val-required="The DWidth field is required." id="dimensionWide" name="visitData[' + modelsira + '].DWidth" placeholder="En ..." type="text" value="0"></div></div><div class="col-sm-4"><div class="form-group"><label>Uzun</label><input class="form-control text-box single-line" data-val="true" data-val-number="The field DLenght must be a number." data-val-required="The DLenght field is required." id="dimensionLemght" name="visitData[' + modelsira + '].DLenght" placeholder="Uzun ..." type="text" value="0" ></div></div><div class="col-sm-4"><div class="form-group"><label>Hündürlük</label><input class="form-control text-box single-line" data-val="true" data-val-number="The field DHeight must be a number." data-val-required="The DHeight field is required." id="dimensionHeight" name="visitData[' + modelsira + '].DHeight" placeholder="Hündürlük ..." type="text" value="0"></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Material Növü</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].MaterialType"><option value="">- Seçin -</option><option value="MDF">MDF</option><option value="Laminand">Laminand</option><option value="Membran">Membran</option></select></div></div><div class="col-sm-6"><label>Material Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].MaterialColour" placeholder="Rəng ..." type="text"></div></div></div></div>  <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Dəzgahlıq</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].PanelType"><option value="">- Seçin -</option><option value="Mərmər">Mərmər</option><option value="Rezapal">Rezapal</option></select></div></div><div class="col-sm-6"><label>Dəzgahlıq Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].PanelColour" placeholder="Rəng ..." type="text" value=""></div></div></div></div>  <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Qapaq</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].DoorType"><option value="">- Seçin -</option><option value="MDF">MDF</option><option value="Laminand">Laminand</option><option value="Membran">Membran</option></select></div></div><div class="col-sm-6"><label>Qapaq Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].DoorColour" placeholder="Rəng ..." type="text" value=""></div></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-6"><div class="form-group"><label>Aksesuar</label><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].Accessory" placeholder="Aksesuar ..." type="text"></div></div></div><div class="col-sm-6"><div class="form-group"><label>Güzgü</label><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].Mirror" placeholder="Güzgü ..." type="text"></div></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-12"><div class="form-group"><label>Qeyd</label><div class="col-form-txt"><textarea class="form-control text-box multi-line" name="visitData['+modelsira+'].Note" placeholder="Qeyd ..." rows="3" spellcheck="false"></textarea></div></div></div></div>';
+
+        bodyrow.appendChild(bodycolumn);
+        cardbody.appendChild(bodyrow);
+        cardheader.appendChild(cardheaderlink);
+        cardheader.appendChild(cardtools);
+        card.appendChild(cardheader);
+        card.appendChild(cardbody);
+        card.appendChild(cardfooter);
+        modelsira++;
+
+        $('#itemSection').append(card);
+    }
+
+    function deleteimages() {
+        document.getElementById('imageSelection').value = null;
+    }
+</script>

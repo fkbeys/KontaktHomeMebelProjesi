@@ -24,6 +24,10 @@ namespace Entities
         [Required]
         public bool IsVisitor { get; set; }
         [Required]
-        public bool IsActive { get; set; }       
+        public bool IsActive { get; set; }
+        [StringLength(50)]
+        public string StoreCode { get; set; }
+        [StringLength(50)]
+        public string StoreName { get; set; }
     }
 }

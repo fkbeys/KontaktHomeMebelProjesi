@@ -10,8 +10,8 @@ namespace BusinessLayer
     {
         public Test()
         {
-            DataAccessLayer.DatabaseContext db = new DataAccessLayer.DatabaseContext();
-            db.Orders.ToList();
+            //DataAccessLayer.DatabaseContext db = new DataAccessLayer.DatabaseContext();
+            ////db.Orders.ToList();
             
         }
     }
