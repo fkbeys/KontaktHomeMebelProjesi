@@ -29,5 +29,9 @@ namespace Entities
         public string StoreCode { get; set; }
         [StringLength(50)]
         public string StoreName { get; set; }
+        [Required]
+        public bool IsSeller { get; set; }
+        [Required]
+        public bool IsCord { get; set; }
     }
 }

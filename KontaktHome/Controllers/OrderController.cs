@@ -55,7 +55,8 @@ namespace KontaktHome.Controllers
                     order.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
                 }
-                return RedirectToAction("NewOrder", new { status = "1" });
+                TempData["msg"] = "1";
+                return RedirectToAction("NewOrder");
             }
             return View(data);
         }
@@ -155,6 +156,7 @@ namespace KontaktHome.Controllers
             {
                 data.OrderStatus = 2;
                 data.VisitorCode = visitorName;
+                data.VisitorStatus = 1;
                 BusinessLayerResult<Users> users = userManager.GetUserInformation(visitorName);
                 if (users.Errors.Count == 0)
                 {
@@ -178,7 +180,8 @@ namespace KontaktHome.Controllers
                     order.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
                 }
-                return RedirectToAction("ActiveOrders", new { status = "1" });
+                TempData["msg"] = "1";
+                return RedirectToAction("ActiveOrders");
             }
             return View(data);
         }
@@ -290,17 +293,26 @@ namespace KontaktHome.Controllers
                 {
                     return HttpNotFound();
                 }
-                List<Visits> visits= visitManager.List(x => x.OrderId == Sira).ToList();
-                OrderFileUpload uploadedFiles = new OrderFileUpload();
-                CustomerVisitData data = new CustomerVisitData();
-                data.order = order;
-                data.orderFiles = uploadedFiles;
-                data.visitData = visits;
-                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
-                //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
-                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
-                //ViewBag.AnaGruplar = listanagruplar;
-                return View(data);
+                else if (order.VisitorStatus != 2)
+                {
+                    TempData["msg"] = "3";
+                    return RedirectToAction("VisitorOrders");
+                }
+                else
+                {
+                    List<Visits> visits = visitManager.List(x => x.OrderId == Sira).ToList();
+                    OrderFileUpload uploadedFiles = new OrderFileUpload();
+                    CustomerVisitData data = new CustomerVisitData();
+                    data.order = order;
+                    data.orderFiles = uploadedFiles;
+                    data.visitData = visits;
+                    List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
+                    //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
+                    data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
+                    //ViewBag.AnaGruplar = listanagruplar;
+                    return View(data);
+                }
+               
             }
             catch (Exception ex)
             {
@@ -357,7 +369,31 @@ namespace KontaktHome.Controllers
             //ViewBag.AnaGruplar = listanagruplar;
            
             return View(data);
-        }
+        }         
+        public ActionResult AcceptOrder(int? Sira)
+        {
+            if (Sira == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Orders order = orderManager.Find(x => x.OrderId == Sira);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                BusinessLayerResult<Orders> data= orderManager.AcceptOrder(order);
+                if (data.Errors.Count>0)
+                {
+                    data.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    TempData["msg"] = "0";
+                    return RedirectToAction("VisitorOrders");
+                }
+            }
+            TempData["msg"] = "2";
+            return RedirectToAction("VisitorOrders");
+        }   
 
     }
 }

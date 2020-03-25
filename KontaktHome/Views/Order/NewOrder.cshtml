@@ -13,16 +13,20 @@
     <div class="container">
         <!-- /.left panel -->
         <div class="col-md-12">
-            @if (ViewBag.Status == "1")
+            @if (TempData["msg"] != null)
             {
-                <script>
-                    Swal.fire(
-                        'Qeyd Tamamlandı!',
-                        '',
-                        'success'
-                    )
-                </script>
+                if (TempData["msg"].ToString() == "1")
+                {
+                    <script>
+                        Swal.fire(
+                            'Qeyd Tamamlandı!',
+                            '',
+                            'success'
+                        )
+                    </script>
+                }
             }
+
             @using (Html.BeginForm())
             {
                 @Html.AntiForgeryToken()
@@ -39,14 +43,14 @@
                                 <div class="form-group">
                                     <label>Ad</label>
                                     @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "Ad ..." } })
-                                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })                                    
+                                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Soyad</label>
                                     @Html.EditorFor(model => model.CustomerSurname, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "Soyad ..." } })
-                                    @Html.ValidationMessageFor(model => model.CustomerSurname,"", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(model => model.CustomerSurname, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -137,7 +141,7 @@
                                     <label>Sifariş Növü</label>
                                     <div class="custom-control custom-checkbox">
                                         @Html.CheckBoxFor(model => model.OrderType1, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox1" })
-                                        @Html.LabelFor(c => c.OrderType1, new { @class = "custom-control-label", @for = "customCheckbox1" })                                      
+                                        @Html.LabelFor(c => c.OrderType1, new { @class = "custom-control-label", @for = "customCheckbox1" })
                                     </div>
                                     <div class="custom-control custom-checkbox">
                                         @Html.CheckBoxFor(model => model.OrderType2, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox2" })

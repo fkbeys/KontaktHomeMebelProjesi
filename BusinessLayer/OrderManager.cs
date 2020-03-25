@@ -63,5 +63,25 @@ namespace BusinessLayer
             return orders;         
            
         }
+        public BusinessLayerResult<Orders> AcceptOrder(Orders data)
+        {
+            Orders getOrder = Find(x => x.OrderId == data.OrderId);
+            BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
+            if (getOrder != null)
+            {
+                orders.Result = Find(x => x.OrderId == data.OrderId);
+                orders.Result.VisitorStatus = 2;
+                if (base.Update(orders.Result) == 0)
+                {
+                    orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
+                }
+            }
+            else
+            {
+                orders.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Seçilən Qeyd tapılmadı");
+            }
+            return orders;
+
+        }
     }
 }

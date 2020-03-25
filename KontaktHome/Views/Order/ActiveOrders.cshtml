@@ -10,16 +10,20 @@
 
 </script>
 <div class="row">
-    @if (ViewBag.Status == "1")
+    @if (TempData["msg"] != null)
     {
-        <script>
-            Swal.fire(
-                'Qeyd Yeniləndi!',
-                '',
-                'success'
-            )
-        </script>
+        if (TempData["msg"].ToString() == "1")
+        {
+            <script>
+                Swal.fire(
+                    'Qeyd Yeniləndi!',
+                    '',
+                    'success'
+                )
+            </script>
+        }
     }
+
     <div class="col-md-12">
         <div class="card card-info">
             <div class="card-header">
@@ -49,7 +53,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">                       
+                    <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" id="chkAllOrders" value="option1">

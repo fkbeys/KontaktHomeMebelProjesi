@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomerVisitData.cs" />
+    <Compile Include="LoginViewModel.cs" />
     <Compile Include="Messages\ErrorMessageCode.cs" />
     <Compile Include="Messages\ErrorMessageObj.cs" />
     <Compile Include="OrderFileUpload.cs" />

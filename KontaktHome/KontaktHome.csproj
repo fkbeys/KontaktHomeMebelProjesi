@@ -103,6 +103,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\login_styles.css" />
     <Content Include="Content\Site.css" />
     <Content Include="dist\css\adminlte.css" />
     <Content Include="dist\css\adminlte.min.css" />
@@ -123,6 +124,7 @@
     <Content Include="dist\img\avatar2.png" />
     <Content Include="dist\img\avatar3.png" />
     <Content Include="dist\img\avatar5.png" />
+    <Content Include="dist\img\bg.jpg" />
     <Content Include="dist\img\boxed-bg.jpg" />
     <Content Include="dist\img\boxed-bg.png" />
     <Content Include="dist\img\credit\american-express.png" />
@@ -139,11 +141,6 @@
     <Content Include="dist\img\photo2.png" />
     <Content Include="dist\img\photo3.jpg" />
     <Content Include="dist\img\photo4.jpg" />
-    <Content Include="dist\img\prod-1.jpg" />
-    <Content Include="dist\img\prod-2.jpg" />
-    <Content Include="dist\img\prod-3.jpg" />
-    <Content Include="dist\img\prod-4.jpg" />
-    <Content Include="dist\img\prod-5.jpg" />
     <Content Include="dist\img\user1-128x128.jpg" />
     <Content Include="dist\img\user2-160x160.jpg" />
     <Content Include="dist\img\user3-128x128.jpg" />
@@ -2004,9 +2001,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Filters\Auth.cs" />
+    <Compile Include="Filters\AuthAdmin.cs" />
+    <Compile Include="Filters\AuthCord.cs" />
+    <Compile Include="Filters\AuthSeller.cs" />
+    <Compile Include="Filters\AuthVisitor.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CurrentSession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2033,6 +2036,8 @@
     <Content Include="Views\Order\VisitorOrders.cshtml" />
     <Content Include="Views\Order\OrderInfo.cshtml" />
     <Content Include="Views\Order\CustomerVisit.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2042,7 +2047,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="UploadedFiles\" />
   </ItemGroup>
   <ItemGroup>

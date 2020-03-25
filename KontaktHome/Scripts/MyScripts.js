@@ -124,6 +124,11 @@ $(document).ready(function () {
     $('body').on('click', '#btnVisitorOrderSearch', function () {       
         getVisitorActiveOrdersWithParametr();
     });
+    $('body').on('click', '#btnAcceptOrder', function () {
+        var currow = $(this).closest('tr');
+        var sira = currow.children('td:eq(2)').text();
+        window.location.href = "../Order/AcceptOrder" + '?Sira=' + sira;
+    });
     cmbSelectVistorChange();
 });
 
@@ -166,7 +171,7 @@ $('#tableVisitorOrders').DataTable({
         },
         {
             data: null, render: function () {
-                return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnStartVisit' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Ziyarət Et</a> ";
+                return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptOrder' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartVisit' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Ziyarət Et</a> ";
             }
         }
     ],
