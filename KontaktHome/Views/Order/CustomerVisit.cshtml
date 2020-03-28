@@ -302,6 +302,27 @@
                         <button type="submit" class="btn btn-primary float-right">Qeyd Et</button>
                     </div>
                 </div>
+
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <div class="card-title">
+                            Sifariş Şəkilləri
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            @foreach (var visitiamges in Model.visitImages)
+                            {
+                                <div class="col-sm-2">
+                                    <a href="@Url.Content(visitiamges.ImagePath)" data-toggle="lightbox" data-title="@visitiamges.ImageName" data-gallery="gallery">
+                                        <img src="@Url.Content(visitiamges.ImagePath)" class="img-fluid mb-2" alt="@visitiamges.ImageName">
+                                    </a>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
             }
 
         </div>
@@ -354,5 +375,5 @@
 
     function deleteimages() {
         document.getElementById('imageSelection').value = null;
-    }
+    }  
 </script>

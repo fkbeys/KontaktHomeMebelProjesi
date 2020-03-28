@@ -13,5 +13,6 @@ namespace Entities
         public OrderFileUpload orderFiles { get; set; }
         public List<Visits> visitData { get; set; }
         public SelectList itemGroups { get; set; }
+        public List<VisitImages> visitImages { get; set; }
     }
 }

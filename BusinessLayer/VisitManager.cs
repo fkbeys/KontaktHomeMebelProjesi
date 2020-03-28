@@ -11,7 +11,7 @@ namespace BusinessLayer
 {
     public class VisitManager : ManagerBase<Visits>
     {
-        public BusinessLayerResult<Visits> SaveVisit(List<Visits> data,int orderId)
+        public BusinessLayerResult<Visits> SaveVisit(List<Visits> data,int orderId,Users user)
         {
             BusinessLayerResult<Visits> visitdata = new BusinessLayerResult<Visits>();
             visitdata.Result = new Visits();
@@ -35,9 +35,9 @@ namespace BusinessLayer
                 foreach (var item in data)
                 {
                     item.CreateOn = tarix;
-                    item.CreateUser = "Admin";
+                    item.CreateUser = user.UserName;
                     item.LastUpdate = tarix;
-                    item.UpdateUser = "Admin";
+                    item.UpdateUser = user.UserName;
                     item.VisitGuid = guid;
                     item.OrderId = orderId;
                     if (base.Insert(item) == 0)
@@ -54,9 +54,9 @@ namespace BusinessLayer
                     if (item.VisitID==0)
                     {
                         item.CreateOn = tarix;
-                        item.CreateUser = "Admin";
+                        item.CreateUser = user.UserName;
                         item.LastUpdate = tarix;
-                        item.UpdateUser = "Admin";
+                        item.UpdateUser = user.UserName;
                         item.VisitGuid = guid;
                         item.OrderId = orderId;
                         if (base.Insert(item) == 0)
@@ -67,7 +67,7 @@ namespace BusinessLayer
                     else
                     {
                         item.LastUpdate = tarix;
-                        item.UpdateUser = "User";
+                        item.UpdateUser = user.UserName;
                         visitdata.Result = Find(x => x.VisitID == item.VisitID);
                         if (visitdata.Result!=null)
                         {

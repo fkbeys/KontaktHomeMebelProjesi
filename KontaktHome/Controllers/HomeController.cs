@@ -10,7 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace KontaktHome.Controllers
-{    
+{   
+    [Exc]
     public class HomeController : Controller
     {
         private UserManager userManager = new UserManager();
@@ -45,6 +46,14 @@ namespace KontaktHome.Controllers
             }
             return View(model);
         }
-
+        public ActionResult HasError()
+        {
+            return View();
+        }
+        public ActionResult Logout()
+        {
+            Session.Clear();
+            return RedirectToAction("Login");
+        }
     }
 }

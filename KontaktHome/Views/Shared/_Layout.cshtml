@@ -28,6 +28,7 @@
     <link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />
     <!--Alert-->
     <link href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+    <link href="~/plugins/ekko-lightbox/ekko-lightbox.css" rel="stylesheet" />
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -44,7 +45,9 @@
                 <li class="nav-item d-none d-sm-inline-block"> <a href="/Home/Index" class="nav-link">Home</a> </li>
                 <li class="nav-item d-none d-sm-inline-block"> <a href="#" class="nav-link">Contact</a> </li>
             </ul>
-
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item d-none d-sm-inline-block"> <a href="/Home/Logout" class="nav-link">Çıxış</a> </li>
+            </ul>
 
         </nav>
         <!-- /.navbar -->
@@ -60,7 +63,7 @@
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image"> <img src="/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> </div>
+                    <div class="image"> <img src="~/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image"> </div>
                     <div class="info"> <a href="#" class="d-block">@CurrentSession.User.UserDisplayName</a> </div>
                 </div>
 
@@ -72,46 +75,55 @@
                         <!-- Section 1-->
                         <li id="sidemenu1" class="nav-item has-treeview ">
                             <a id="sidemenu1_1" href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p> Section1 <i class="right fas fa-angle-left"></i> </p>
+                                <i class="nav-icon fas fa-copy"></i>
+                                <p> Sifariş Modulu <i class="right fas fa-angle-left"></i> </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a id="newOrder" href="/Order/NewOrder" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Yeni Sifariş</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a id="activeOrders" href="/Order/ActiveOrders" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Sifarişlər</p>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a id="visitorOrders" href="/Order/VisitorOrders" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Vizitor Sifarişləri</p>
-                                    </a>
-                                </li>
-                            </ul>
+                            @if (CurrentSession.User.IsSeller == true || CurrentSession.User.IsAdmin == true)
+                            {
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="newOrder" href="/Order/NewOrder" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Yeni Sifariş</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                            @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+                            {
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="activeOrders" href="/Order/ActiveOrders" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Sifarişlər</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                            @if (CurrentSession.User.IsVisitor == true || CurrentSession.User.IsAdmin == true)
+                            {
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="visitorOrders" href="/Order/VisitorOrders" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Vizitor Sifarişləri</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
                         </li>
                         <!-- Section 2-->
                         <li id="sidemenu2" class="nav-item has-treeview ">
                             <a id="sidemenu2_1" href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p> Section1 <i class="right fas fa-angle-left"></i> </p>
+                                <p> Modul 2 <i class="right fas fa-angle-left"></i> </p>
                             </a>
                         </li>
                         <!-- Section 3-->
                         <li id="sidemenu3" class="nav-item has-treeview ">
                             <a id="sidemenu3_1" href="#" class="nav-link ">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p> Section1 <i class="right fas fa-angle-left"></i> </p>
+                                <p> Modul 3 <i class="right fas fa-angle-left"></i> </p>
                             </a>
                         </li>
                     </ul>
@@ -142,7 +154,8 @@
     </div>
     <!-- ./wrapper -->
     <!-- jQuery -->
-    <script src="~/plugins/jquery/jquery.min.js"></script>
+    <script src="~/plugins/jquery/jquery.min.js"></script>    
+    <script src="~/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- DataTables -->
@@ -163,10 +176,8 @@
     <script src="~/Scripts/MyScripts.js"></script>
     <script>
         $(function () {
-
             //Initialize Select2 Elements
             $('.select2').select2()
-
             //Initialize Select2 Elements
             $('.select2bs4').select2({
                 theme: 'bootstrap4'
@@ -189,47 +200,14 @@
                     format: 'MM/DD/YYYY hh:mm A'
                 }
             })
-            //Date range as a button
-            $('#daterange-btn').daterangepicker(
-                {
-                    ranges: {
-                        'Today': [moment(), moment()],
-                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'This Month': [moment().startOf('month'), moment().endOf('month')],
-                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                    },
-                    startDate: moment().subtract(29, 'days'),
-                    endDate: moment()
-                },
-                function (start, end) {
-                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-                }
-            )
-
-            //Timepicker
-            $('#timepicker').datetimepicker({
-                format: 'LT'
-            })
-
-            //Bootstrap Duallistbox
-            $('.duallistbox').bootstrapDualListbox()
-
-            //Colorpicker
-            $('.my-colorpicker1').colorpicker()
-            //color picker with addon
-            $('.my-colorpicker2').colorpicker()
-
-            $('.my-colorpicker2').on('colorpickerChange', function (event) {
-                $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
-            });
-
-            $("input[data-bootstrap-switch]").each(function () {
-                $(this).bootstrapSwitch('state', $(this).prop('checked'));
-            });
-
-
+        })
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });           
         })
     </script>
 </body>
