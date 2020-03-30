@@ -85,9 +85,15 @@ namespace Entities
         public string ItemDescription { get; set; }
         public string OrderStore { get; set; }
         public int VisitorStatus { get; set; }
+        [DisplayName("Dizayner Təyin Et")]
+        public bool IsDesignerAdded { get; set; }
+        public string DesignerCode { get; set; }
+        public string DesignerName { get; set; }
+        public int DesignerStatus { get; set; }
 
-
-        //TODO: OrderStatuslar: 1. Gözləmədə 2.VisitorTəyinEdilib
+        //TODO: OrderStatuslar: 1. Gözləmədə 2.VisitorTəyinEdilib 3.Dizayner Təyin edilim 
+        //TODO: VisitorStatuslar: 1.Gözləmədə 2.Qəbul edilib 3.VizitEdilib 4.Vizit Tamamlanib
+        //TODO: DEsignerStatuslar 1.Gözləmədə 2. Qəbul edilib 3.deizayn edilib 4. dizaynr tamamlanib
 
 
     }

@@ -1,15 +1,15 @@
 ﻿
 @{
-    ViewBag.Title = "VisitorOrders";
+    ViewBag.Title = "DesignerOrders";
 }
 
 <script>
     document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
     document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('visitorOrders').className = 'nav-link active';
+    document.getElementById('designerOrders').className = 'nav-link active';
 
 </script>
-<div class="row"> 
+<div class="row">
     @if (TempData["msg"] != null)
     {
         if (TempData["msg"].ToString() == "3")
@@ -46,7 +46,7 @@
     <div class="col-md-12">
         <div class="card card-info">
             <div class="card-header">
-                <h4 class="card-title">Aktiv Vizitor Sifarişləri</h4>
+                <h4 class="card-title">Aktiv Dizayner Sifarişləri</h4>
             </div>
             <div class="card-body">
                 <div class="row col-md-6">
@@ -57,7 +57,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                 </div>
-                                <input type="text" class="form-control " id="visitfirstDate">
+                                <input type="text" class="form-control " id="designfirstDate">
                             </div>
                         </div>
                     </div>
@@ -68,20 +68,20 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                 </div>
-                                <input type="text" class="form-control " id="visitlastDate">
+                                <input type="text" class="form-control " id="designlastDate">
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="visitchkAllOrders" value="option1">
-                                <label for="visitchkAllOrders" class="custom-control-label">Bütün Sifarişlər</label>
+                                <input class="custom-control-input" type="checkbox" id="designchkAllOrders" value="option1">
+                                <label for="designchkAllOrders" class="custom-control-label">Bütün Sifarişlər</label>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" id="btnVisitorOrderSearch" class="btn btn-primary">Axtar</button>
+                        <button type="submit" id="btnDesignerOrderSearch" class="btn btn-primary">Axtar</button>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
             <div class="card-body">
                 <div class="col-md-12">
                     <div class="table-responsive" id="visitorOrdersPrint">
-                        <table id="tableVisitorOrders" class="display" width="100%" cellspacing="0">
+                        <table id="tableDesignerOrders" class="display" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -115,6 +115,4 @@
         </div>
     </div>
 </div>
-
-
 

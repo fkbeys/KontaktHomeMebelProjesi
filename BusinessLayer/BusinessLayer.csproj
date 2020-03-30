@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnaGrupManager.cs" />
+    <Compile Include="Encrypt.cs" />
     <Compile Include="ImagesManager.cs" />
     <Compile Include="ManagerBase.cs" />
     <Compile Include="OrderManager.cs" />

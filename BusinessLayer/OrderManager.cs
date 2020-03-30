@@ -48,8 +48,10 @@ namespace BusinessLayer
                 orders.Result.VisitorCode = data.VisitorCode;
                 orders.Result.VisitorName = data.VisitorName;
                 orders.Result.OrderStatus = data.OrderStatus;
-
-
+                orders.Result.DesignerStatus = data.DesignerStatus;
+                orders.Result.DesignerCode = data.DesignerCode;
+                orders.Result.DesignerName = data.DesignerName;
+                orders.Result.IsDesignerAdded = data.IsDesignerAdded;
 
                 if (base.Update(orders.Result)==0)
                 {
@@ -63,14 +65,22 @@ namespace BusinessLayer
             return orders;         
            
         }
-        public BusinessLayerResult<Orders> AcceptOrder(Orders data)
+        public BusinessLayerResult<Orders> AcceptOrder(Orders data,int? status)
         {
             Orders getOrder = Find(x => x.OrderId == data.OrderId);
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
                 orders.Result = Find(x => x.OrderId == data.OrderId);
-                orders.Result.VisitorStatus = 2;
+                if (status==1)
+                {
+                    orders.Result.VisitorStatus = 2;
+                }
+                else if (status==2)
+                {
+                    orders.Result.DesignerStatus = 2;
+                }
+                
                 if (base.Update(orders.Result) == 0)
                 {
                     orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");

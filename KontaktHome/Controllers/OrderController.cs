@@ -82,6 +82,7 @@ namespace KontaktHome.Controllers
             int j = 0;
             foreach (var item in fakturalar)
             {
+                string orderStatus = "";
                 if (item.OrderStatus == 1)
                 {
                     orderStatus = "Gözləmədə";
@@ -90,7 +91,8 @@ namespace KontaktHome.Controllers
                 {
                     orderStatus = "Vizitor Təyin Edilib";
                 }
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus };
+                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -116,6 +118,7 @@ namespace KontaktHome.Controllers
                 int j = 0;
                 foreach (var item in fakturalar)
                 {
+                    string orderStatus = "";
                     if (item.OrderStatus == 1)
                     {
                         orderStatus = "Gözləmədə";
@@ -124,7 +127,8 @@ namespace KontaktHome.Controllers
                     {
                         orderStatus = "Vizitor Təyin Edilib";
                     }
-                    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus };
+                    string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link };
                     j++;
                 }
                 return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -136,20 +140,24 @@ namespace KontaktHome.Controllers
 
         }
         [Auth]
+        [EncryptedActionParameter]
         public ActionResult EditOrder(int? Sira)
         {
             if (Sira == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true).ToList();
+            List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true && x.IsActive == true).ToList();
             var listvisitor = users.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
+            List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
+            var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             if (order == null)
             {
                 return HttpNotFound();
             }
             ViewBag.Visitor = listvisitor;
+            ViewBag.Designer = listdesigner;
             return View(order);
         }
         [Auth]
@@ -158,6 +166,7 @@ namespace KontaktHome.Controllers
         public ActionResult EditOrder(Orders data, FormCollection form)
         {
             string visitorName = form["Visitor"].ToString();
+            string designerName = form["Designer"].ToString();
             DateTime currentDate = DateTime.Now;
             data.LastUpdate = currentDate;
             data.OrderStatus = 1;
@@ -183,6 +192,20 @@ namespace KontaktHome.Controllers
                 data.OrderStatus = 1;
                 data.VisitorCode = "";
             }
+            if (data.IsDesignerAdded == true)
+            {
+                data.DesignerStatus = 1;
+                data.DesignerCode = designerName;
+                BusinessLayerResult<Users> users = userManager.GetUserInformation(designerName);
+                if (users.Errors.Count == 0)
+                {
+                    data.DesignerName = users.Result.UserDisplayName;
+                }
+                else
+                {
+                    data.DesignerName = "User Not Found";
+                }
+            }
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Orders> order = orderManager.UpdateOrder(data);
@@ -206,83 +229,76 @@ namespace KontaktHome.Controllers
         [WebMethod]
         public ActionResult GetVisitorActiveOrders()
         {
-            try
+            string userName = CurrentSession.User.UserName;
+            List<Orders> fakturalar = new List<Orders>();
+            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.VisitorCode == userName).ToList();
+            var UserData = new object[fakturalar.Count];
+            int j = 0;
+            foreach (var item in fakturalar)
             {
-                string userName = CurrentSession.User.UserName;
-                List<Orders> fakturalar = new List<Orders>();
-                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.VisitorCode == userName).ToList();
-                var UserData = new object[fakturalar.Count];
-                int j = 0;
-                foreach (var item in fakturalar)
+                string orderStatus = "";
+                if (item.VisitorStatus == 1)
                 {
-                    if (item.VisitorStatus == 1)
-                    {
-                        orderStatus = "Gözləmədə";
-                    }
-                    else if (item.VisitorStatus == 2)
-                    {
-                        orderStatus = "Qəbul Edilib";
-                    }
-                    else if (item.VisitorStatus == 3)
-                    {
-                        orderStatus = "Vizit Edilib";
-                    }
-                    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus };
-                    j++;
+                    orderStatus = "Gözləmədə";
                 }
-                return Json(UserData, JsonRequestBehavior.AllowGet);
+                else if (item.VisitorStatus == 2)
+                {
+                    orderStatus = "Qəbul Edilib";
+                }
+                else if (item.VisitorStatus == 3)
+                {
+                    orderStatus = "Vizit Edilib";
+                }
+                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link };
+                j++;
             }
-            catch (Exception)
-            {
-                return RedirectToAction("Home/Index");
-            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
 
         }
         [Auth]
         [WebMethod]
         public ActionResult GetVisitorActiveOrdersWithParametr(OrderSearch data)
         {
-            try
+
+            string userName = CurrentSession.User.UserName;
+            List<Orders> fakturalar = new List<Orders>();
+            DateTime startdate = Convert.ToDateTime(data.firstDate);
+            DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+            if (data.allorders == true)
             {
-                string userName = CurrentSession.User.UserName;
-                List<Orders> fakturalar = new List<Orders>();
-                DateTime startdate = Convert.ToDateTime(data.firstDate);
-                DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
-                if (data.allorders == true)
-                {
-                    fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName).ToList();
-                }
-                else
-                {
-                    fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName).ToList();
-                }
-                var UserData = new object[fakturalar.Count];
-                int j = 0;
-                foreach (var item in fakturalar)
-                {
-                    if (item.VisitorStatus == 1)
-                    {
-                        orderStatus = "Gözləmədə";
-                    }
-                    else if (item.VisitorStatus == 2)
-                    {
-                        orderStatus = "Qəbul Edilib";
-                    }
-                    else if (item.VisitorStatus == 3)
-                    {
-                        orderStatus = "Vizit Edilib";
-                    }
-                    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus };
-                    j++;
-                }
-                return Json(UserData, JsonRequestBehavior.AllowGet);
+                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName).ToList();
             }
-            catch (Exception ex)
+            else
             {
-                return RedirectToAction("Home/Index");
+                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName).ToList();
             }
+            var UserData = new object[fakturalar.Count];
+            int j = 0;
+            foreach (var item in fakturalar)
+            {
+                string orderStatus = "";
+                if (item.VisitorStatus == 1)
+                {
+                    orderStatus = "Gözləmədə";
+                }
+                else if (item.VisitorStatus == 2)
+                {
+                    orderStatus = "Qəbul Edilib";
+                }
+                else if (item.VisitorStatus == 3)
+                {
+                    orderStatus = "Vizit Edilib";
+                }
+                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+
         }
         [Auth]
+        [EncryptedActionParameter]
         public ActionResult OrderInfo(int? Sira)
         {
             if (Sira == null)
@@ -295,7 +311,7 @@ namespace KontaktHome.Controllers
                 return HttpNotFound();
             }
             else if (order.VisitorStatus != 2)
-            {                
+            {
                 return RedirectToAction("VisitorOrders");
             }
             else
@@ -316,11 +332,12 @@ namespace KontaktHome.Controllers
             }
         }
         [Auth]
+        [EncryptedActionParameter]
         public ActionResult CustomerVisit(int? Sira)
         {
             if (Sira == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("/Home/HasError");
             }
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             if (order == null)
@@ -383,9 +400,9 @@ namespace KontaktHome.Controllers
                         {
                             var InputFileName = Path.GetFileName(file.FileName);
                             var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
-                            var imagePath= Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
+                            var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
                             file.SaveAs(ServerSavePath);
-                            visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString() });
+                            visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 1 });
                         }
                     }
                     BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
@@ -404,12 +421,14 @@ namespace KontaktHome.Controllers
             return View(data);
         }
         [Auth]
+        [EncryptedActionParameter]
         public ActionResult AcceptOrder(int? Sira)
         {
             if (Sira == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("/Home/HasError");
             }
+
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             if (order == null)
             {
@@ -417,7 +436,7 @@ namespace KontaktHome.Controllers
             }
             else
             {
-                BusinessLayerResult<Orders> data = orderManager.AcceptOrder(order);
+                BusinessLayerResult<Orders> data = orderManager.AcceptOrder(order, 1);
                 if (data.Errors.Count > 0)
                 {
                     data.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
@@ -428,6 +447,198 @@ namespace KontaktHome.Controllers
             TempData["msg"] = "2";
             return RedirectToAction("VisitorOrders");
         }
+        [Auth]
+        [EncryptedActionParameter]
+        public ActionResult AcceptDesignerOrder(int? Sira)
+        {
+            if (Sira == null)
+            {
+                return RedirectToAction("/Home/HasError");
+            }
+            Orders order = orderManager.Find(x => x.OrderId == Sira);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                BusinessLayerResult<Orders> data = orderManager.AcceptOrder(order, 2);
+                if (data.Errors.Count > 0)
+                {
+                    data.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    TempData["msg"] = "0";
+                    return RedirectToAction("DesignerOrders");
+                }
+            }
+            TempData["msg"] = "2";
+            return RedirectToAction("DesignerOrders");
+        }
+        [Auth]
+        public ActionResult DesignerOrders(string status)
+        {
+            ViewBag.Status = status;
+            return View();
+        }
+        [Auth]
+        [WebMethod]
+        public ActionResult GetDesignerActiveOrders()
+        {
+            string userName = CurrentSession.User.UserName;
+            List<Orders> fakturalar = new List<Orders>();
+            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.DesignerCode == userName).ToList();
+            var UserData = new object[fakturalar.Count];
+            int j = 0;
+            foreach (var item in fakturalar)
+            {
+                string orderStatus = "";
+                if (item.DesignerStatus == 1)
+                {
+                    orderStatus = "Gözləmədə";
+                }
+                else if (item.DesignerStatus == 2)
+                {
+                    orderStatus = "Qəbul Edilib";
+                }
+                else if (item.DesignerStatus == 3)
+                {
+                    orderStatus = "Dizayn Tamamlanıb";
+                }
+                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
 
+        }
+        [Auth]
+        [EncryptedActionParameter]
+        public ActionResult DesignerEdit(int? Sira)
+        {
+            if (Sira == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            //var base64EncodedBytes = System.Convert.FromBase64String(Sira);
+            //int sira1 = Convert.ToInt32(System.Text.Encoding.UTF8.GetString(base64EncodedBytes));
+
+            Orders order = orderManager.Find(x => x.OrderId == Sira);
+            if (order == null)
+            {
+                return HttpNotFound();
+            }
+            else if (order.DesignerStatus != 2)
+            {
+                TempData["msg"] = "3";
+                return RedirectToAction("DesignerOrders");
+            }
+            else
+            {
+                List<Visits> visits = visitManager.List(x => x.OrderId == Sira).ToList();
+                OrderFileUpload uploadedFiles = new OrderFileUpload();
+                CustomerVisitData data = new CustomerVisitData();
+                var visitGuid = visits.Where(x => x.OrderId == Sira).Select(m => m.VisitGuid).Single();
+                data.order = order;
+                data.orderFiles = uploadedFiles;
+                data.visitData = visits;
+                data.visitImages = imagesManager.List(x => x.VisitGuid == visitGuid);
+                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
+                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
+                return View(data);
+            }
+        }
+        [Auth]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DesignerEdit(CustomerVisitData data, FormCollection form)
+        {
+            data.order = orderManager.Find(x => x.OrderId == data.order.OrderId);
+            List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
+            data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
+            foreach (var item in data.visitData)
+            {
+                var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
+                item.ProductName = anagrupadi;
+            }
+            List<VisitImages> visitImages = new List<VisitImages>();
+            if (ModelState.IsValid)
+            {
+                BusinessLayerResult<Visits> visitData = visitManager.SaveVisit(data.visitData, data.order.OrderId, CurrentSession.User);
+                if (visitData.Errors.Count > 0)
+                {
+                    visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    return View(data);
+                }
+                if (data.orderFiles.orderFiles.Count() > 0)
+                {
+
+                    bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
+                    if (!exists)
+                        Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
+                    foreach (HttpPostedFileBase file in data.orderFiles.orderFiles)
+                    {
+                        if (file != null)
+                        {
+                            var InputFileName = Path.GetFileName(file.FileName);
+                            var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
+                            var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
+                            file.SaveAs(ServerSavePath);
+                            visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 2 });
+                        }
+                    }
+                    BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
+                    if (imageData.Errors.Count > 0)
+                    {
+
+                    }
+                }
+                TempData["msg"] = "1";
+                return RedirectToAction("DesignerOrders");
+            }
+
+            //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
+            //ViewBag.AnaGruplar = listanagruplar;
+
+            return View(data);
+        }
+        [Auth]
+        [WebMethod]
+        public ActionResult GetDesignerActiveOrdersWithParametr(OrderSearch data)
+        {
+            string userName = CurrentSession.User.UserName;
+            List<Orders> fakturalar = new List<Orders>();
+            DateTime startdate = Convert.ToDateTime(data.firstDate);
+            DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+            if (data.allorders == true)
+            {
+                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName).ToList();
+            }
+            else
+            {
+                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName).ToList();
+            }
+            var UserData = new object[fakturalar.Count];
+            int j = 0;
+            foreach (var item in fakturalar)
+            {
+                string orderStatus = "";
+                if (item.DesignerStatus == 1)
+                {
+                    orderStatus = "Gözləmədə";
+                }
+                else if (item.DesignerStatus == 2)
+                {
+                    orderStatus = "Qəbul Edilib";
+                }
+                else if (item.DesignerStatus == 3)
+                {
+                    orderStatus = "Dizayn Tamamlanıb";
+                }
+                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

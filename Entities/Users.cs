@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -20,8 +21,10 @@ namespace Entities
         [Required, StringLength(50)]
         public string UserDisplayName { get; set; }
         [Required]
+        [DisplayName("Admin")]
         public bool IsAdmin { get; set; }
         [Required]
+        [DisplayName("Vizitor")]
         public bool IsVisitor { get; set; }
         [Required]
         public bool IsActive { get; set; }
@@ -30,8 +33,13 @@ namespace Entities
         [StringLength(50)]
         public string StoreName { get; set; }
         [Required]
+        [DisplayName("Satıcı")]
         public bool IsSeller { get; set; }
         [Required]
+        [DisplayName("Kordinator")]
         public bool IsCord { get; set; }
+        [Required]
+        [DisplayName("Dizayner")]
+        public bool IsDesigner { get; set; }
     }
 }

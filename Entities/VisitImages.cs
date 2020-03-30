@@ -19,5 +19,7 @@ namespace Entities
         public string ImageName { get; set; }
         
         public string ImagePath { get; set; }
+        public int ImageType { get; set; }
+        //imagetype: 1-sifaris sekilleri 2-render sekilleri
     }
 }

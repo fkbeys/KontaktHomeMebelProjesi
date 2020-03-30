@@ -179,6 +179,24 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="custom-control custom-checkbox">
+                                    @Html.CheckBoxFor(model => model.IsDesignerAdded, new { @class = "custom-control-input", @id = "chkboxSetDesigner", @onchange = "cmbSelectDesignerChange()", @type = "checkbox", })
+                                    @Html.LabelFor(model => model.IsDesignerAdded, new { @for = "chkboxSetDesigner", @class = "custom-control-label" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-1" id="containerDesigner">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Dizayner Adı</label>
+                                    <div class="col-form-txt">
+                                        @Html.DropDownList("Designer", (ViewBag.Designer as SelectList), "", new { @class = "form-control", @id = "designerCode" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary float-right">Sorğunu Tamamla</button>
@@ -190,4 +208,5 @@
 </div>
 <script>      
     document.getElementById('visitorCode').value='@Model.VisitorCode';
+    document.getElementById('designerCode').value='@Model.DesignerCode';
 </script>

@@ -29,7 +29,7 @@
     <!--Alert-->
     <link href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
     <link href="~/plugins/ekko-lightbox/ekko-lightbox.css" rel="stylesheet" />
-
+    <link href="~/Content/Custom.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
     <!--Custom Scripts-->
@@ -111,13 +111,17 @@
                                     </li>
                                 </ul>
                             }
-                        </li>
-                        <!-- Section 2-->
-                        <li id="sidemenu2" class="nav-item has-treeview ">
-                            <a id="sidemenu2_1" href="#" class="nav-link ">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p> Modul 2 <i class="right fas fa-angle-left"></i> </p>
-                            </a>
+                            @if (CurrentSession.User.IsDesigner == true || CurrentSession.User.IsAdmin == true)
+                            {
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="designerOrders" href="/Order/DesignerOrders" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Dizayner Sifarişləri</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
                         </li>
                         <!-- Section 3-->
                         <li id="sidemenu3" class="nav-item has-treeview ">
@@ -126,6 +130,34 @@
                                 <p> Modul 3 <i class="right fas fa-angle-left"></i> </p>
                             </a>
                         </li>
+                        <!-- Section 2-->
+                        @if (CurrentSession.User.IsAdmin == true)
+                        {
+                            <li id="sidemenu2" class="nav-item has-treeview ">
+                                <a id="sidemenu2_1" href="#" class="nav-link ">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p> Admin Panel <i class="right fas fa-angle-left"></i> </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="users" href="/Admin/Index" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>İstifadəçilər</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a id="newUser" href="/Admin/CreateUser" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Yeni İstifadəçi</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -207,7 +239,7 @@
                 $(this).ekkoLightbox({
                     alwaysShowClose: true
                 });
-            });           
+            });
         })
     </script>
 </body>

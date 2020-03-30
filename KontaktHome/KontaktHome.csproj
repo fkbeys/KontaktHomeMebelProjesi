@@ -103,6 +103,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Custom.css" />
     <Content Include="Content\login_styles.css" />
     <Content Include="Content\Site.css" />
     <Content Include="dist\css\adminlte.css" />
@@ -2002,6 +2003,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Filters\Auth.cs" />
@@ -2010,6 +2012,7 @@
     <Compile Include="Filters\AuthSeller.cs" />
     <Compile Include="Filters\AuthVisitor.cs" />
     <Compile Include="Filters\Exc.cs" />
+    <Compile Include="Filters\Protect.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2043,6 +2046,11 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\HasError.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\CreateUser.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
+    <Content Include="Views\Order\DesignerOrders.cshtml" />
+    <Content Include="Views\Order\DesignerEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

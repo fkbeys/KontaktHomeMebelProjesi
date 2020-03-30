@@ -10,7 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace KontaktHome.Controllers
-{   
+{
     [Exc]
     public class HomeController : Controller
     {
@@ -21,7 +21,6 @@ namespace KontaktHome.Controllers
         {            
             return View();
         }
-
         public ActionResult Login()
         {
             return View();

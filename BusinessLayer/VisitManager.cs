@@ -40,6 +40,7 @@ namespace BusinessLayer
                     item.UpdateUser = user.UserName;
                     item.VisitGuid = guid;
                     item.OrderId = orderId;
+                    item.Price = 0;
                     if (base.Insert(item) == 0)
                     {
                         visitdata.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi.Qeyd Tamamlanmadı.");
@@ -91,6 +92,9 @@ namespace BusinessLayer
                             visitdata.Result.CreateUser = item.CreateUser;
                             visitdata.Result.CreateOn = item.CreateOn;
                             visitdata.Result.Accessory = item.Accessory;
+                            visitdata.Result.Price = item.Price;
+                            visitdata.Result.IsDeclined = item.IsDeclined;
+                            visitdata.Result.DeclineReason = item.DeclineReason;
                             
                         }
                        

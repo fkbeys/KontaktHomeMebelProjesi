@@ -50,5 +50,52 @@ namespace BusinessLayer
             }
             return res;
         }
+        public BusinessLayerResult<Users> InsertUser(Users data)
+        {
+            BusinessLayerResult<Users> newuser = new BusinessLayerResult<Users>();
+            newuser.Result = Find(x => x.UserName == data.UserName);
+            if (newuser.Result!=null)
+            {
+                newuser.AddError(ErrorMessageCode.UsernameAlreadyExists, "İstifadəçi kodu mövcuddur.");
+            }
+            else
+            {
+                newuser.Result = data;
+                newuser.Result.IsActive = true;
+                if (base.Insert(newuser.Result)==0)
+                {
+                    newuser.AddError(ErrorMessageCode.UserCouldNotInserted, "Xəta baş verdi. İstifadəçi qeyd edilmədi.");
+                }
+            }
+            return newuser;
+        }
+        public BusinessLayerResult<Users> UpdateUser(Users data)
+        {
+            BusinessLayerResult<Users> user = new BusinessLayerResult<Users>();
+            user.Result = Find(x => x.UserID == data.UserID);
+            if (user.Result!=null)
+            {
+                user.Result.UserPassword = data.UserPassword;
+                user.Result.UserDisplayName = data.UserDisplayName;
+                user.Result.IsActive = data.IsActive;
+                user.Result.IsAdmin = data.IsAdmin;
+                user.Result.IsCord = data.IsCord;
+                user.Result.IsSeller = data.IsSeller;
+                user.Result.IsVisitor = data.IsVisitor;
+                user.Result.StoreCode = data.StoreCode;
+                user.Result.StoreName = data.StoreName;
+                user.Result.IsDesigner = data.IsDesigner;
+
+                if (base.Update(user.Result)==0)
+                {
+                    user.AddError(ErrorMessageCode.UserCouldNotUpdated, "Xəta baş verdi. İstifadəçi yenilənmədi");
+                }
+            }
+            else
+            {
+                user.AddError(ErrorMessageCode.UserCouldNotFind, "Xəta baş verdi. İstifadəçi tapılmadı.");
+            }
+            return user;
+        }
     }
 }

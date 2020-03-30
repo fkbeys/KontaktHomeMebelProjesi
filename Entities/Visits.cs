@@ -36,6 +36,11 @@ namespace Entities
         public string DoorType { get; set; }
         [Required]
         public string DoorColour { get; set; }
+        public double Price { get; set; }
+        [DisplayName("Razılaşmadı")]
+        public bool IsDeclined { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string DeclineReason { get; set; }
 
 
     }
