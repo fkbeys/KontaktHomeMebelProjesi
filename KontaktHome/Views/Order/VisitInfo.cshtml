@@ -1,24 +1,16 @@
-﻿@using Entities
+﻿
+@using Entities
 @model CustomerVisitData
 @{
-    ViewBag.Title = "DesignerEdit";
+    ViewBag.Title = "VisitInfo";
 }
 
 <div class="content">
     <div class="container">
         <!-- /.left panel -->
         <div class="col-md-9">
-            @using (Html.BeginForm("DesignerEdit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (Html.BeginForm("CustomerVisit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                @Html.HiddenFor(x => x.order.OrderId)
-                @Html.HiddenFor(x => x.order.CustomerName)
-                @Html.HiddenFor(x => x.order.CustomerSurname)
-                @Html.HiddenFor(x => x.order.Tel1)
-                @Html.HiddenFor(x => x.order.Tel2)
-                @Html.HiddenFor(x => x.order.Address)
-                @Html.HiddenFor(x => x.order.CustomerFatherName)
-                @Html.HiddenFor(x => x.order.ItemCount)
-
                 <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Siafriş Məlumatları</h3>
@@ -132,7 +124,7 @@
                                 <div class="col-sm-12">
                                     <label>Məhsul Açıqlama: </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemDescription)</label>
-                                </div>
+                                </div>                                                  
                                 <div class="col-sm-12">
                                     <label>Dizayner Kodu : </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.DesignerCode)</label>
@@ -203,10 +195,9 @@
                                                     <div class="col-sm-6">
                                                         <label>Mebel Tipi</label>
                                                         <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.DropDownListFor(m => m.visitData[i].ProductCode, Model.itemGroups, "- Seçin -", new { @class = "form-control", @id = "mainGroup" + i.ToString(),@disabled="disabled" })
-                                                                @Html.ValidationMessageFor(m => m.visitData[i].ProductCode)
-                                                            </div>
+
+                                                            @Html.EditorFor(x => x.visitData[i].ProductCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -216,19 +207,19 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>En</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...",@readonly="readonly" } })
+                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Uzun</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...",@readonly="readonly" } })
+                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Hündürlük</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...",@readonly="readonly" } })
+                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -237,19 +228,14 @@
                                                     <div class="col-sm-6">
                                                         <label>Material Növü</label>
                                                         <div class="form-group">
-                                                            <select class="form-control" id="materialType_@i.ToString()" name="visitData[@i].MaterialType" disabled>
-                                                                <option value="">- Seçin -</option>
-                                                                <option value="MDF">MDF</option>
-                                                                <option value="Laminand" selected="selected">Laminand</option>
-                                                                <option value="Membran">Membran</option>
-                                                            </select>
+                                                            @Html.EditorFor(x => x.visitData[i].MaterialType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label>Material Rəngi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
 
                                                             </div>
                                                         </div>
@@ -260,18 +246,14 @@
                                                     <div class="col-sm-6">
                                                         <label>Dəzgahlıq</label>
                                                         <div class="form-group">
-                                                            <select class="form-control" id="panelType_@i.ToString()" name="visitData[@i].PanelType" disabled>
-                                                                <option value="">- Seçin -</option>
-                                                                <option value="Mərmər">Mərmər</option>
-                                                                <option value="Rezapal">Rezapal</option>
-                                                            </select>
+                                                            @Html.EditorFor(x => x.visitData[i].PanelType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label>Dəzgahlıq Rəngi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -281,19 +263,14 @@
                                                     <div class="col-sm-6">
                                                         <label>Qapaq</label>
                                                         <div class="form-group">
-                                                            <select class="form-control" id="doorType_@i.ToString()" name="visitData[@i].DoorType" disabled>
-                                                                <option value="">- Seçin -</option>
-                                                                <option value="MDF">MDF</option>
-                                                                <option value="Laminand">Laminand</option>
-                                                                <option value="Membran">Membran</option>
-                                                            </select>
+                                                            @Html.EditorFor(x => x.visitData[i].DoorType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <label>Qapaq Rəngi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -304,7 +281,7 @@
                                                         <div class="form-group">
                                                             <label>Aksesuar</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -312,7 +289,7 @@
                                                         <div class="form-group">
                                                             <label>Güzgü</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ..." ,@readonly="readonly"} })
+                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -323,7 +300,7 @@
                                                         <div class="form-group">
                                                             <label>Qeyd</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -333,13 +310,13 @@
                                                         <div class="form-group">
                                                             <label>Qiymət</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ..." } })
+                                                                @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ..." ,@readonly = "readonly"} })
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12">
                                                         <div class="custom-control custom-checkbox">
-                                                            @Html.CheckBoxFor(x => x.visitData[i].IsDeclined, new { @class = "custom-control-input", @id = "chkboxSetDecline", @onchange = "cmbIsDeclined()", @type = "checkbox", })
+                                                            @Html.CheckBoxFor(x => x.visitData[i].IsDeclined, new { @class = "custom-control-input", @id = "chkboxSetDecline", @onchange = "cmbIsDeclined()", @type = "checkbox",@disabled ="disabled" })
                                                             @Html.LabelFor(x => x.visitData[i].IsDeclined, new { @for = "chkboxSetDecline", @class = "custom-control-label" })
                                                         </div>
                                                     </div>
@@ -347,7 +324,7 @@
                                                         <div class="form-group">
                                                             <label>Razılaşmama Səbəbi</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].DeclineReason, new { htmlAttributes = new { @class = "form-control", id = "declinereason", placeholder = "Razılaşmama səbəbi ...", rows = "3" } })
+                                                                @Html.EditorFor(x => x.visitData[i].DeclineReason, new { htmlAttributes = new { @class = "form-control", id = "declinereason", placeholder = "Razılaşmama səbəbi ...", rows = "3",@readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -361,37 +338,15 @@
 
                                     </div>
                                 </div>
-                                <script>
-                                var groupid = "mainGroup"+'@i';
-                                document.getElementById(groupid).value = '@Model.visitData[i].ProductCode';
-                                var materialType = "materialType_" + '@i';
-                                document.getElementById(materialType).value = '@Model.visitData[i].MaterialType';
-                                var panelType = "panelType_" + '@i';
-                                document.getElementById(panelType).value = '@Model.visitData[i].PanelType';
-                                 var doorType = "doorType_" + '@i';
-                                document.getElementById(doorType).value = '@Model.visitData[i].DoorType';
-                                </script>
+
                             }
                         </div>
-                        <div class="row ">
-                            <div class="col-sm-12 border-top border-primary pt-3">
-                                <div class="col-sm-12">
-                                    @Html.LabelFor(x => x.orderFiles.orderFiles, htmlAttributes: new { @class = "control-label" })
-                                </div>
-                                <div class="col-sm-6 bg-light">
-                                    @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })
-                                    @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
-                                    <button type="button" class="btn-sm btn-danger float-right" onclick="deleteimages()"><i class="far fa-trash-alt"></i></button>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-right">Qeyd Et</button>
                     </div>
                 </div>
-
                 <div class="card card-primary">
                     <div class="card-header">
                         <div class="card-title">
@@ -445,8 +400,5 @@
     </div>
 </div>
 
-<script>
-    function deleteimages() {
-        document.getElementById('imageSelection').value = null;
-    }
-</script>
+
+

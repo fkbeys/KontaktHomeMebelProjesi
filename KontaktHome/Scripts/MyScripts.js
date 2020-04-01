@@ -101,6 +101,9 @@ $(document).ready(function () {
     $("#itemCount").inputFilter(function (value) {
         return /^\d*$/.test(value);
     });
+    $("#userEditdate").inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
     $("#dimensionWide").inputFilter(function (value) {
         return /^-?\d*[.]?\d*$/.test(value);
     });
@@ -112,7 +115,10 @@ $(document).ready(function () {
     });
     $("#orderPrice").inputFilter(function (value) {
         return /^-?\d*[.]?\d*$/.test(value);
-    });
+    });     
+    //$('.custom-control-input').click(function () {
+    //    $('.custom-control-input').not(this).prop('checked', false);
+    //});
 });
 function getActiveOrdersWithParametr() {
 
@@ -188,7 +194,7 @@ function getActiveOrdersWithParametr() {
                 },
                 {
                     data: null, render: function (data, type, full) {                        
-                        return '<a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Bağla</a>';
+                        return '<a href="/Order/OrderInfo' + full[10] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/CloseOrder' + full[10] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Bağla</a>';
                     }
                 }
             ],
@@ -554,7 +560,7 @@ $('#tableDesignerOrders').DataTable({
             //    return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptDesigner' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartDesign' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Dizayn Et</a> ";
             //}
             data: null, render: function (data, type, full) {
-                return '<a href="/Order/OrderInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> <a href="/Order/DesignerEdit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
+                return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> <a href="/Order/DesignerEdit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
             }
         }
     ],
@@ -635,7 +641,7 @@ $('#tableActiveOrders').DataTable({
         {
             data: null, render: function (data, type, full) {
                 //return "<a href='#' id='btnOrderEdit' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Düzəliş Et/Vizitor Təyin Et</a><a href='#' id='btnOrderDeactivate' class='btn btn-danger btn-sm m-1' role='button'><i class='far fa-trash-alt'></i> Bağla</a>";               
-                return '<a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Bağla</a>';
+                return '<a href="/Order/OrderInfo' + full[10] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/CloseOrder' + full[10] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Bağla</a>';
             }
         }
     ],
@@ -714,7 +720,7 @@ $('#tableVisitorOrders').DataTable({
             //    return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptOrder' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartVisit' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Ziyarət Et</a> ";
             //}
             data: null, render: function (data, type, full) {
-                return '<a href="/Order/OrderInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> <a href="/Order/CustomerVisit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Ziyarət Et</a>';
+                return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> <a href="/Order/CustomerVisit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Vizit Başla</a>';
             }
         }
     ],

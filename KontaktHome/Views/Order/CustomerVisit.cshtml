@@ -121,6 +121,7 @@
                                 @Html.HiddenFor(m => m.visitData[i].OrderId)
                                 @Html.HiddenFor(m => m.visitData[i].VisitGuid)
                                 @Html.HiddenFor(m => m.visitData[i].ProductName)
+                               
                                 <div class="card card-info collapsed-card">
                                     <div class="card-header">
                                         @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
@@ -152,18 +153,21 @@
                                                         <div class="form-group">
                                                             <label>En</label>
                                                             @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ..." } })
+                                                            @Html.ValidationMessageFor(x => x.visitData[i].DWidth, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Uzun</label>
                                                             @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ..." } })
+                                                            @Html.ValidationMessageFor(x => x.visitData[i].DLenght, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Hündürlük</label>
                                                             @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ..." } })
+                                                            @Html.ValidationMessageFor(x => x.visitData[i].DHeight, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -178,6 +182,7 @@
                                                                 <option value="Laminand" selected="selected">Laminand</option>
                                                                 <option value="Membran">Membran</option>
                                                             </select>
+                                                            @Html.ValidationMessageFor(x => x.visitData[i].MaterialType, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -185,7 +190,7 @@
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
                                                                 @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ..." } })
-
+                                                                @Html.ValidationMessageFor(x => x.visitData[i].MaterialColour, "", new { @class = "text-danger" })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -331,9 +336,11 @@
 
 <script>
     var sira = '@Model.visitData.Count';
-    var modelsira='@Model.visitData.Count';
+    var modelsira = '@Model.visitData.Count';
+    var mehsulsayi = '@Model.order.ItemCount';
     function addItemToVisitForm() {
-        sira++;
+        if (modelsira < mehsulsayi) {
+             sira++;
         @*var html = '@for (int i = 0; i < 10; i++){<input type="text" class="form-control" name="visitData[' + sira + '].Colour" placeholder="Enter ...">}';*@
 
         var card = document.createElement('div');
@@ -346,7 +353,7 @@
         cardheaderlink.innerHTML = '<h3 class="card-title" data-card-widget="collapse">Məhsul '+sira+'</h3>';
         var cardtools = document.createElement('div');
         cardtools.className = 'card-tools';
-        cardtools.innerHTML = '<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i> <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="far fa-trash-alt"></i></button>';
+        cardtools.innerHTML = '<button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus">';
         var cardbody = document.createElement('div');
         cardbody.className = 'card-body';
         cardbody.style = 'display: none;';
@@ -371,9 +378,12 @@
         modelsira++;
 
         $('#itemSection').append(card);
+        }
+       
+
     }
 
     function deleteimages() {
         document.getElementById('imageSelection').value = null;
-    }  
+    }
 </script>

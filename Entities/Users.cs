@@ -41,5 +41,6 @@ namespace Entities
         [Required]
         [DisplayName("Dizayner")]
         public bool IsDesigner { get; set; }
+        public int EditDate { get; set; }
     }
 }

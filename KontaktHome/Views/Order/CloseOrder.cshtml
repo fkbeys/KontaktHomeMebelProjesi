@@ -2,7 +2,7 @@
 @using KontaktHome.Models
 @model Orders
 @{
-    ViewBag.Title = "EditOrder";
+    ViewBag.Title = "CloseOrder";
 }
 
 <div class="content  ">
@@ -15,8 +15,8 @@
                 @Html.HiddenFor(model => model.OrderId)
                 @Html.HiddenFor(model => model.CreateOn)
                 @Html.AntiForgeryToken()
-                <div class="form-group col-lg-12">
-                    @*@Html.ValidationSummary(false)*@
+                <div class="form-group col-md-12">
+                    @Html.ValidationSummary(false)
                 </div>
                 <div class="card card-primary">
                     <div class="card-header">
@@ -24,24 +24,39 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-sm-12  border-bottom border-info pb-1 mb-1">
+                                <label>Siafriş Status: </label>
+                                @if (Model.OrderStatus == 1)
+                                {
+                                    <label class="text-secondary">Gözləmədə</label>
+                                }
+                                else if (Model.OrderStatus == 2)
+                                {
+                                    <label class="text-secondary">Vizitor Təyin Edilib</label>
+                                }
+                                else if (Model.OrderStatus == 3)
+                                {
+                                    <label class="text-secondary">Dizayner Təyin Edilib</label>
+                                }
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ad</label>
-                                    @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "Ad ..." } })
+                                    @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "Ad ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Soyad</label>
-                                    @Html.EditorFor(model => model.CustomerSurname, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "Soyad ..." } })
+                                    @Html.EditorFor(model => model.CustomerSurname, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "Soyad ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.CustomerSurname, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ata Adı</label>
-                                    @Html.EditorFor(model => model.CustomerFatherName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Ata Adı ..." } })
+                                    @Html.EditorFor(model => model.CustomerFatherName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Ata Adı ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.CustomerFatherName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -52,7 +67,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        @Html.EditorFor(model => model.Tel1, new { htmlAttributes = new { @class = "form-control", id = "telno1" } })
+                                        @Html.EditorFor(model => model.Tel1, new { htmlAttributes = new { @class = "form-control", id = "telno1", @readonly = "readonly" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Tel1, "", new { @class = "text-danger" })
                                 </div>
@@ -64,7 +79,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-phone"></i></span>
                                         </div>
-                                        @Html.EditorFor(model => model.Tel2, new { htmlAttributes = new { @class = "form-control", id = "telno2" } })
+                                        @Html.EditorFor(model => model.Tel2, new { htmlAttributes = new { @class = "form-control", id = "telno2", @readonly = "readonly" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Tel2, "", new { @class = "text-danger" })
                                 </div>
@@ -76,7 +91,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fas fa-map-marked-alt"></i></span>
                                         </div>
-                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", id = "customeraddress", placeholder = "Ünvan ..." } })
+                                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", id = "customeraddress", placeholder = "Ünvan ...", @readonly = "readonly" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                                 </div>
@@ -100,7 +115,7 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                         </div>
-                                        @Html.EditorFor(model => model.VisitDate, new { htmlAttributes = new { @class = "form-control", id = "visitdate" } })
+                                        @Html.EditorFor(model => model.VisitDate, new { htmlAttributes = new { @class = "form-control", id = "visitdate", @readonly = "readonly" } })
                                     </div>
                                     @Html.ValidationMessageFor(model => model.VisitDate, "", new { @class = "text-danger" })
                                 </div>
@@ -116,14 +131,14 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Məhsul Sayı</label>
-                                    @Html.EditorFor(model => model.ItemCount, new { htmlAttributes = new { @class = "form-control", id = "itemCount", placeholder = "Məhsul Sayı ..." } })
+                                    @Html.EditorFor(model => model.ItemCount, new { htmlAttributes = new { @class = "form-control", id = "itemCount", placeholder = "Məhsul Sayı ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.ItemCount, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label>Qeyd</label>
-                                    @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Məhsul Qeydi ..." } })
+                                    @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Məhsul Qeydi ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -132,15 +147,15 @@
                                 <div class="form-group">
                                     <label>Sifariş Növü</label>
                                     <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.OrderType1, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox1" })
+                                        @Html.CheckBoxFor(model => model.OrderType1, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox1", @disabled = "disabled" })
                                         @Html.LabelFor(c => c.OrderType1, new { @class = "custom-control-label", @for = "customCheckbox1" })
                                     </div>
                                     <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.OrderType2, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox2" })
+                                        @Html.CheckBoxFor(model => model.OrderType2, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox2", @disabled = "disabled" })
                                         @Html.LabelFor(c => c.OrderType2, new { @class = "custom-control-label", @for = "customCheckbox2" })
                                     </div>
                                     <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.OrderType3, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox3" })
+                                        @Html.CheckBoxFor(model => model.OrderType3, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox3", @disabled = "disabled" })
                                         @Html.LabelFor(c => c.OrderType3, new { @class = "custom-control-label", @for = "customCheckbox3" })
                                     </div>
                                 </div>
@@ -148,7 +163,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Təxmini Qiymət</label>
-                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ..." } })
+                                    @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -157,7 +172,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Qeyd</label>
-                                    @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", @rows = "3", id = "note", placeholder = "Qeyd ..." } })
+                                    @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control", @rows = "3", id = "note", placeholder = "Qeyd ...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -168,7 +183,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsVisitorAdded, new { @class = "custom-control-input", @id = "chkboxSetVisitor", @onchange = "cmbSelectVistorChange()", @type = "checkbox", })
+                                        @Html.CheckBoxFor(model => model.IsVisitorAdded, new { @class = "custom-control-input", @id = "chkboxSetVisitor", @onchange = "cmbSelectVistorChange()", @type = "checkbox", @disabled = "disabled" })
                                         @Html.LabelFor(model => model.IsVisitorAdded, new { @for = "chkboxSetVisitor", @class = "custom-control-label" })
                                     </div>
                                 </div>
@@ -178,7 +193,7 @@
                                     <div class="form-group">
                                         <label>Vizitor Adı</label>
                                         <div class="col-form-txt">
-                                            @Html.DropDownList("Visitor", (ViewBag.Visitor as SelectList), "", new { @class = "form-control", @id = "visitorCode" })
+                                            @Html.DropDownList("Visitor", (ViewBag.Visitor as SelectList), "", new { @class = "form-control", @id = "visitorCode", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
@@ -186,7 +201,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsDesignerAdded, new { @class = "custom-control-input", @id = "chkboxSetDesigner", @onchange = "cmbSelectDesignerChange()", @type = "checkbox", })
+                                        @Html.CheckBoxFor(model => model.IsDesignerAdded, new { @class = "custom-control-input", @id = "chkboxSetDesigner", @onchange = "cmbSelectDesignerChange()", @type = "checkbox", @disabled = "disabled" })
                                         @Html.LabelFor(model => model.IsDesignerAdded, new { @for = "chkboxSetDesigner", @class = "custom-control-label" })
                                     </div>
                                 </div>
@@ -196,22 +211,35 @@
                                     <div class="form-group">
                                         <label>Dizayner Adı</label>
                                         <div class="col-form-txt">
-                                            @Html.DropDownList("Designer", (ViewBag.Designer as SelectList), "", new { @class = "form-control", @id = "designerCode" })
+                                            @Html.DropDownList("Designer", (ViewBag.Designer as SelectList), "", new { @class = "form-control", @id = "designerCode", @readonly = "readonly" })
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         }
+
+                        <div class="row mt-1">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Bağlama Səbəbi</label>
+                                    @Html.EditorFor(model => model.CloseReason, new { htmlAttributes = new { @class = "form-control", @rows = "3", id = "", placeholder = "Bağlama səbəbi ..." } })
+                                    @Html.ValidationMessageFor(model => model.CloseReason, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-right">Sorğunu Tamamla</button>
+                        <button type="submit" class="btn btn-danger float-right">Sifarişi Bağla</button>
                     </div>
                 </div>
             }
         </div>
     </div>
 </div>
-<script>      
+<script>
+
     document.getElementById('visitorCode').value='@Model.VisitorCode';
     document.getElementById('designerCode').value='@Model.DesignerCode';
 </script>
+

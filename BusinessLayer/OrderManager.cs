@@ -52,6 +52,7 @@ namespace BusinessLayer
                 orders.Result.DesignerCode = data.DesignerCode;
                 orders.Result.DesignerName = data.DesignerName;
                 orders.Result.IsDesignerAdded = data.IsDesignerAdded;
+                orders.Result.VisitorStatus = data.VisitorStatus;
 
                 if (base.Update(orders.Result)==0)
                 {
@@ -71,9 +72,9 @@ namespace BusinessLayer
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
-                orders.Result = Find(x => x.OrderId == data.OrderId);
+                orders.Result = Find(x => x.OrderId == data.OrderId);               
                 if (status==1)
-                {
+                {                   
                     orders.Result.VisitorStatus = 2;
                 }
                 else if (status==2)
@@ -84,6 +85,30 @@ namespace BusinessLayer
                 if (base.Update(orders.Result) == 0)
                 {
                     orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
+                }
+            }
+            else
+            {
+                orders.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Seçilən Qeyd tapılmadı");
+            }
+            return orders;
+
+        }
+        public BusinessLayerResult<Orders> CloseOrder(Orders data)
+        {
+            Orders getOrder = Find(x => x.OrderId == data.OrderId);
+            BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
+            if (getOrder != null)
+            {
+                orders.Result = Find(x => x.OrderId == data.OrderId);
+                orders.Result.LastUpdate = data.LastUpdate;
+                orders.Result.UpdateUser = data.UpdateUser;
+                orders.Result.IsActive = false;
+                orders.Result.CloseReason = data.CloseReason;
+
+                if (base.Update(orders.Result) == 0)
+                {
+                    orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Sifariş bağlanmadı");
                 }
             }
             else

@@ -22,6 +22,47 @@
                 )
             </script>
         }
+        else if (TempData["msg"].ToString() == "2")
+        {
+            <script>
+                Swal.fire(
+                    'Vizitor təyin edilmiş sifarişlərdə dəyişiklik ediləbilməz.!',
+                    '',
+                    'error'
+                )
+            </script>
+        }
+        else if (TempData["msg"].ToString() == "3")
+        {
+            <script>
+                Swal.fire(
+                    'Sənəd dəyişiklik tarixi icazə verilən tarixdən çoxdur.!',
+                    '',
+                    'error'
+                )
+            </script>
+        }
+        else if (TempData["msg"].ToString() == "4")
+        {
+            <script>
+                Swal.fire(
+                    'Sifariş bağlamağa icazəniz yoxdur.!',
+                    '',
+                    'error'
+                )
+            </script>
+        }
+        else if (TempData["msg"].ToString() == "5")
+        {
+            <script>
+                Swal.fire(
+                    'Sifariş bağlandı!',
+                    '',
+                    'success'
+                )
+            </script>
+        }
+
     }
 
     <div class="col-md-12">
@@ -63,7 +104,7 @@
                     </div>
                     <div class="col-md-12">
                         <button type="submit" id="btnOrderSearch" class="btn btn-primary">Axtar</button>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>

@@ -89,7 +89,7 @@
                                     </li>
                                 </ul>
                             }
-                            @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+                            @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true || CurrentSession.User.IsSeller==true)
                             {
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">

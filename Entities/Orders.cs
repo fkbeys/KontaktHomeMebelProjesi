@@ -90,7 +90,8 @@ namespace Entities
         public string DesignerCode { get; set; }
         public string DesignerName { get; set; }
         public int DesignerStatus { get; set; }
-
+        [DataType(DataType.MultilineText)]
+        public string CloseReason { get; set; }
         //TODO: OrderStatuslar: 1. Gözləmədə 2.VisitorTəyinEdilib 3.Dizayner Təyin edilim 
         //TODO: VisitorStatuslar: 1.Gözləmədə 2.Qəbul edilib 3.VizitEdilib 4.Vizit Tamamlanib
         //TODO: DEsignerStatuslar 1.Gözləmədə 2. Qəbul edilib 3.deizayn edilib 4. dizaynr tamamlanib

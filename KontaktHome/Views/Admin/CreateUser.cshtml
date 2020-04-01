@@ -42,36 +42,43 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>İstifadəçi Kodu</label>
-                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "İstifadəçi kodu..." } })
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "İstifadəçi kodu..." } })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>İstifadəçi Şifrəsi</label>
-                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "İstifadəçi şifrəsi..." } })
+                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "İstifadəçi şifrəsi..." } })
                                     @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>İstifadəçi Adı</label>
-                                    @Html.EditorFor(model => model.UserDisplayName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "İstifadəçi adı.." } })
+                                    @Html.EditorFor(model => model.UserDisplayName, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "İstifadəçi adı.." } })
                                     @Html.ValidationMessageFor(model => model.UserDisplayName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Mağaza Kodu</label>
-                                    @Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Mağaza kodu..." } })
+                                    @Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Mağaza kodu..." } })
                                     @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Mağaza Adı</label>
-                                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Mağaza adı..." } })
+                                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Mağaza adı..." } })
                                     @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Dəyişiklik Edebiləcəyi Gün Sayı</label>
+                                    @Html.EditorFor(model => model.EditDate, new { htmlAttributes = new { @class = "form-control", id = "userEditdate", placeholder = "Gün ..." } })
+                                    @Html.ValidationMessageFor(model => model.EditDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-12">
