@@ -15,7 +15,7 @@ using System.Web.Services;
 
 namespace KontaktHome.Controllers
 {
-    //[Exc]
+    [Exc]
     public class OrderController : Controller
     {
         //TODO: Yeni sifarisde nisangahlar olacaq

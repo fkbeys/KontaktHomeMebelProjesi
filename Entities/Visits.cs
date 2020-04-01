@@ -27,7 +27,7 @@ namespace Entities
         public double DLenght { get; set; }
         [Required(ErrorMessage = "Hündürlük yazılmayıb")]
         public double DHeight { get; set; }
-        [RequiredIf("PanelType!=null",ErrorMessage ="Material növü seçilməyib")]
+        [RequiredIf("ProductCode!=null", ErrorMessage ="Material növü seçilməyib")]
         public string MaterialType { get; set; }
         [RequiredIf("MaterialType!=null", ErrorMessage = "Material rəngi yazılmayıb")]
         public string MaterialColour { get; set; }
