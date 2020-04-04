@@ -12,36 +12,16 @@
 <div class="row">
     @if (TempData["msg"] != null)
     {
-        if (TempData["msg"].ToString() == "3")
-        {
-            <script>
+        <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
                 Swal.fire(
-                    'Sifariş Qəbul Eilməyib!',
+                   message,
                     '',
-                    'error'
+                    type
                 )
-            </script>
-        }
-        else if (TempData["msg"].ToString() == "2")
-        {
-            <script>
-                Swal.fire(
-                    'Sifariş Qəbul Edildi!',
-                    '',
-                    'success'
-                )
-            </script>
-        }
-        else if (TempData["msg"].ToString() == "1")
-        {
-            <script>
-                Swal.fire(
-                    'Qeyd Yeniləndi!',
-                    '',
-                    'success'
-                )
-            </script>
-        }
+        </script>
+
     }
     <div class="col-md-12">
         <div class="card card-info">
@@ -76,7 +56,7 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" id="designchkAllOrders" value="option1">
-                                <label for="designchkAllOrders" class="custom-control-label">Bütün Sifarişlər</label>
+                                <label for="designchkAllOrders" class="custom-control-label">Tamamlanmış Sifarişlər</label>
                             </div>
                         </div>
                     </div>
@@ -105,6 +85,7 @@
                                     <th>Nişangah</th>
                                     <th>Status</th>
                                     <th>Link</th>
+                                    <th>Status1</th>
                                     <th></th>
                                 </tr>
                             </thead>

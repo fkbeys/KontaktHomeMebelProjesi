@@ -14,6 +14,7 @@ namespace KontaktHome.Controllers
     [Exc]
     [Auth]
     [AuthAdmin]
+    [OutputCache(NoStore = true, Duration = 0)]
     public class AdminController : Controller
     {
         private UserManager userManager = new UserManager();

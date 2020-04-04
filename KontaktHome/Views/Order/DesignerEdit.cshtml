@@ -186,6 +186,10 @@
                                 @Html.HiddenFor(m => m.visitData[i].OrderId)
                                 @Html.HiddenFor(m => m.visitData[i].VisitGuid)
                                 @Html.HiddenFor(m => m.visitData[i].ProductName)
+                                @Html.HiddenFor(m => m.visitData[i].ProductCode)
+                                @Html.HiddenFor(m => m.visitData[i].PanelType)
+                                @Html.HiddenFor(m => m.visitData[i].DoorType)
+                                @Html.HiddenFor(m => m.visitData[i].MaterialType)
                                 <div class="card card-info collapsed-card">
                                     <div class="card-header">
                                         @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
@@ -204,7 +208,7 @@
                                                         <label>Mebel Tipi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.DropDownListFor(m => m.visitData[i].ProductCode, Model.itemGroups, "- Seçin -", new { @class = "form-control", @id = "mainGroup" + i.ToString(),@disabled="disabled" })
+                                                                @Html.DropDownListFor(m => m.visitData[i].ProductCode, Model.itemGroups, "- Seçin -", new { @class = "form-control", @id = "mainGroup" + i.ToString(), @disabled = "disabled" })
                                                                 @Html.ValidationMessageFor(m => m.visitData[i].ProductCode)
                                                             </div>
                                                         </div>
@@ -216,19 +220,19 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>En</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...",@readonly="readonly" } })
+                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Uzun</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...",@readonly="readonly" } })
+                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Hündürlük</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...",@readonly="readonly" } })
+                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -249,7 +253,7 @@
                                                         <label>Material Rəngi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
 
                                                             </div>
                                                         </div>
@@ -271,7 +275,7 @@
                                                         <label>Dəzgahlıq Rəngi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -293,7 +297,7 @@
                                                         <label>Qapaq Rəngi</label>
                                                         <div class="form-group">
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -304,7 +308,7 @@
                                                         <div class="form-group">
                                                             <label>Aksesuar</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -312,7 +316,7 @@
                                                         <div class="form-group">
                                                             <label>Güzgü</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ..." ,@readonly="readonly"} })
+                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -323,7 +327,7 @@
                                                         <div class="form-group">
                                                             <label>Qeyd</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3",@readonly="readonly" } })
+                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -387,8 +391,9 @@
                         </div>
                     </div>
                     <!-- /.card-body -->
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary float-right">Qeyd Et</button>
+                    <div class="card-footer">                        
+                        <button type="submit" name="designCommand" value="Finish" class="btn btn-primary float-left">Dizayn Tamamla</button>
+                        <button type="submit" name="designCommand" value="Save" class="btn btn-info float-right mr-2">Qeyd Et</button>
                     </div>
                 </div>
 

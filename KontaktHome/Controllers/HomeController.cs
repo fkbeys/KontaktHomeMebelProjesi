@@ -12,6 +12,7 @@ using System.Web.Mvc;
 namespace KontaktHome.Controllers
 {
     [Exc]
+    [OutputCache(NoStore = true, Duration = 0)]
     public class HomeController : Controller
     {
         private UserManager userManager = new UserManager();

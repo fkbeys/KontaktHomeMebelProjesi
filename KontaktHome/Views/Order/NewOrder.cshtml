@@ -15,16 +15,15 @@
         <div class="col-md-12">
             @if (TempData["msg"] != null)
             {
-                if (TempData["msg"].ToString() == "1")
-                {
-                    <script>
-                        Swal.fire(
-                            'Qeyd Tamamlandı!',
-                            '',
-                            'success'
-                        )
-                    </script>
-                }
+            <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
+                Swal.fire(
+                   message,
+                    '',
+                    type
+                )
+            </script>
             }
 
             @using (Html.BeginForm())

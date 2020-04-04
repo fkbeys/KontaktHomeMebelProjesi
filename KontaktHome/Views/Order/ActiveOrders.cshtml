@@ -12,56 +12,15 @@
 <div class="row">
     @if (TempData["msg"] != null)
     {
-        if (TempData["msg"].ToString() == "1")
-        {
-            <script>
+        <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
                 Swal.fire(
-                    'Qeyd Yeniləndi!',
+                   message,
                     '',
-                    'success'
+                    type
                 )
-            </script>
-        }
-        else if (TempData["msg"].ToString() == "2")
-        {
-            <script>
-                Swal.fire(
-                    'Vizitor təyin edilmiş sifarişlərdə dəyişiklik ediləbilməz.!',
-                    '',
-                    'error'
-                )
-            </script>
-        }
-        else if (TempData["msg"].ToString() == "3")
-        {
-            <script>
-                Swal.fire(
-                    'Sənəd dəyişiklik tarixi icazə verilən tarixdən çoxdur.!',
-                    '',
-                    'error'
-                )
-            </script>
-        }
-        else if (TempData["msg"].ToString() == "4")
-        {
-            <script>
-                Swal.fire(
-                    'Sifariş bağlamağa icazəniz yoxdur.!',
-                    '',
-                    'error'
-                )
-            </script>
-        }
-        else if (TempData["msg"].ToString() == "5")
-        {
-            <script>
-                Swal.fire(
-                    'Sifariş bağlandı!',
-                    '',
-                    'success'
-                )
-            </script>
-        }
+        </script>
 
     }
 
@@ -98,7 +57,7 @@
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" id="chkAllOrders" value="option1">
-                                <label for="chkAllOrders" class="custom-control-label">Bütün Sifarişlər</label>
+                                <label for="chkAllOrders" class="custom-control-label">Bağlı Sifarişlər</label>
                             </div>
                         </div>
                     </div>
@@ -129,13 +88,14 @@
                                 <th>Sifariş Mağazası</th>
                                 <th>Status</th>
                                 <th>Link</th>
+                                <th>Aktiv</th>
                                 <th></th>
                             </tr>
                         </thead>
                     </table>
                 </div>
             </div>
-          
+
         </div>
     </div>
 </div>

@@ -13,7 +13,14 @@
             @using (Html.BeginForm())
             {
                 @Html.HiddenFor(model => model.OrderId)
+                @Html.HiddenFor(model => model.OrderStatus)
                 @Html.HiddenFor(model => model.CreateOn)
+                @Html.HiddenFor(model => model.VisitorStatus)
+                @Html.HiddenFor(model => model.DesignerStatus)               
+                @Html.HiddenFor(model => model.VisitorName)
+                @Html.HiddenFor(model => model.VisitorCode)             
+                @Html.HiddenFor(model => model.DesignerName)
+                @Html.HiddenFor(model => model.DesignerCode)
                 @Html.AntiForgeryToken()
                 <div class="form-group col-lg-12">
                     @*@Html.ValidationSummary(false)*@
@@ -163,7 +170,7 @@
                             </div>
 
                         </div>
-                        @if (CurrentSession.User.IsVisitor == true)
+                        @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
                         {
                             <div class="row">
                                 <div class="col-sm-6">
@@ -183,24 +190,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsDesignerAdded, new { @class = "custom-control-input", @id = "chkboxSetDesigner", @onchange = "cmbSelectDesignerChange()", @type = "checkbox", })
-                                        @Html.LabelFor(model => model.IsDesignerAdded, new { @for = "chkboxSetDesigner", @class = "custom-control-label" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mt-1" id="containerDesigner">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Dizayner Adı</label>
-                                        <div class="col-form-txt">
-                                            @Html.DropDownList("Designer", (ViewBag.Designer as SelectList), "", new { @class = "form-control", @id = "designerCode" })
+                            if (Model.VisitorStatus == 4)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="custom-control custom-checkbox">
+                                            @Html.CheckBoxFor(model => model.IsDesignerAdded, new { @class = "custom-control-input", @id = "chkboxSetDesigner", @onchange = "cmbSelectDesignerChange()", @type = "checkbox", })
+                                            @Html.LabelFor(model => model.IsDesignerAdded, new { @for = "chkboxSetDesigner", @class = "custom-control-label" })
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row mt-1" id="containerDesigner">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Dizayner Adı</label>
+                                            <div class="col-form-txt">
+                                                @Html.DropDownList("Designer", (ViewBag.Designer as SelectList), "", new { @class = "form-control", @id = "designerCode" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
                         }
                     </div>
                     <div class="card-footer">

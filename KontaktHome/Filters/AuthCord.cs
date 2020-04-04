@@ -11,7 +11,11 @@ namespace KontaktHome.Filters
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            if (CurrentSession.User != null && CurrentSession.User.IsCord == false)
+            if (CurrentSession.User == null)
+            {                
+                filterContext.Result = new RedirectResult("/Home/Index");
+            }
+            else if (CurrentSession.User.IsCord == false || CurrentSession.User.IsAdmin==false)
             {
                 filterContext.Result = new RedirectResult("/Home/Index");
             }

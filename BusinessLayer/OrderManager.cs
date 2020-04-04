@@ -72,16 +72,37 @@ namespace BusinessLayer
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
+                // 1* vizitor, 2* designer
                 orders.Result = Find(x => x.OrderId == data.OrderId);               
-                if (status==1)
+                if (status==12)
                 {                   
                     orders.Result.VisitorStatus = 2;
+                    orders.Result.OrderStatus = 3;
+                }               
+                else if (status==13)
+                {
+                    orders.Result.VisitorStatus = 3;                   
                 }
-                else if (status==2)
+                else if (status == 14)
+                {
+                    orders.Result.VisitorStatus = 4;
+                    orders.Result.OrderStatus = 4;
+                }
+                else if (status == 22)
                 {
                     orders.Result.DesignerStatus = 2;
+                    orders.Result.OrderStatus = 6;
                 }
-                
+                else if (status == 23)
+                {
+                    orders.Result.DesignerStatus = 3;                   
+                }
+                else if (status == 24)
+                {
+                    orders.Result.DesignerStatus = 4;
+                    orders.Result.OrderStatus = 7;
+                }
+
                 if (base.Update(orders.Result) == 0)
                 {
                     orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
