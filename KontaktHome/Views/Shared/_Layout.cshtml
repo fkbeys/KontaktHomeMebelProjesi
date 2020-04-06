@@ -46,7 +46,7 @@
                 <li class="nav-item d-none d-sm-inline-block"> <a href="#" class="nav-link">Contact</a> </li>
             </ul>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item d-none d-sm-inline-block"> <a href="/Home/Logout" class="nav-link">Çıxış</a> </li>
+                <li class="nav-item d-none d-sm-inline-block "> <a href="/Home/Logout" class="nav-link font-weight-bold">Çıxış</a> </li>
             </ul>
 
         </nav>
@@ -135,7 +135,7 @@
                         {
                             <li id="sidemenu2" class="nav-item has-treeview ">
                                 <a id="sidemenu2_1" href="#" class="nav-link ">
-                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <i class="nav-icon fas fa-users-cog"></i>
                                     <p> Admin Panel <i class="right fas fa-angle-left"></i> </p>
                                 </a>
                                 <ul class="nav nav-treeview">
@@ -165,12 +165,10 @@
             <!-- /.sidebar -->
         </aside>
 
-        <div class="content-wrapper">
-            <section class="content-header">
-                <div class="container-fluid">
-                    @RenderBody()
-                </div>
-            </section>
+        <div class="content-wrapper">           
+            <div class="container-fluid pt-3">
+                @RenderBody()
+            </div>
         </div>
 
         <footer class="main-footer">

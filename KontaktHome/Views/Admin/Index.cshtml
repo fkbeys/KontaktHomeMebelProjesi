@@ -9,36 +9,15 @@
 </script>
 @if (TempData["msg"] != null)
 {
-    if (TempData["msg"].ToString() == "1")
-    {
-        <script>
-            Swal.fire(
-                'Istifadəçi qeyd edildi!',
-                '',
-                'success'
-            )
-        </script>
-    }
-    else if (TempData["msg"].ToString() == "2")
-    {
-        <script>
-            Swal.fire(
-                'Istifadəçi mövcud deyil!',
-                '',
-                'error'
-            )
-        </script>
-    }
-    else if (TempData["msg"].ToString() == "3")
-    {
-        <script>
-            Swal.fire(
-                'Istifadəçi yeniləndi!',
-                '',
-                'success'
-            )
-        </script>
-    }
+    <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
+                Swal.fire(
+                   message,
+                    '',
+                    type
+                )
+    </script>
 }
 <div class="col-md-12">
     <div class="card card-primary">

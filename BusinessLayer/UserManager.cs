@@ -97,5 +97,26 @@ namespace BusinessLayer
             }
             return user;
         }
+        public BusinessLayerResult<Users> DeleteUser(int id)
+        {
+            BusinessLayerResult<Users> res = new BusinessLayerResult<Users>();
+            Users user = Find(x => x.UserID == id);
+
+            if (user != null)
+            {
+                if (Delete(user) == 0)
+                {
+                    res.AddError(ErrorMessageCode.UserCouldNotRemove, "İstifadəçi silinmədi.");
+                    return res;
+                }
+            }
+            else
+            {
+                res.AddError(ErrorMessageCode.UserCouldNotFind, "İstifadəçi tapılmadı.");
+            }
+
+            return res;
+        }
     }
+
 }

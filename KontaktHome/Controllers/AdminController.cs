@@ -59,18 +59,20 @@ namespace KontaktHome.Controllers
                     //TempData["msg"] = "0";
                     return View(data);
                 }
-                TempData["msg"] = "1";
+                TempData["msg"] = "Istifadəçi qeyd edildi!";
+                TempData["typ"] = "success";
                 return RedirectToAction("Index");
             }
             //TempData["msg"] = "0";
             return View(data);          
         }
-        public ActionResult EditUser(int userid)
+        public ActionResult EditUser(int? userid)
         {
             Users user = userManager.Find(x => x.UserID == userid);
             if (user==null)
             {
-                TempData["msg"] = "2";
+                TempData["msg"] = "Istifadəçi tapılmadı!";
+                TempData["typ"] = "error";
                 return RedirectToAction("Index");
             }           
             return View(user);
@@ -87,10 +89,36 @@ namespace KontaktHome.Controllers
                     user.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
                 }
-                TempData["msg"] = "3";
+                TempData["msg"] = "Istifadəçi yeniləndi!";
+                TempData["typ"] = "success";
                 return RedirectToAction("Index");
             }
             return View(data);
+        }
+        public ActionResult DeleteUser(int? userid)
+        {
+            Users user = userManager.Find(x => x.UserID == userid);
+            if (user == null)
+            {
+                TempData["msg"] = "Istifadəçi tapılmadı!";
+                TempData["typ"] = "error";
+                return RedirectToAction("Index");
+            }
+            return View(user);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteUser(Users data)
+        {
+            BusinessLayerResult<Users> istifadeci = userManager.DeleteUser(data.UserID);
+            if (istifadeci.Errors.Count>0)
+            {
+                istifadeci.Errors.ForEach(x => ModelState.AddModelError("", x.Message));              
+                return View(data);
+            }
+            TempData["msg"] = "Istifadəçi silindi!";
+            TempData["typ"] = "success";
+            return RedirectToAction("Index");
         }
     }
 

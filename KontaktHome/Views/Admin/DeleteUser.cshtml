@@ -1,0 +1,35 @@
+﻿@using Entities
+@model Users
+@{
+    ViewBag.Title = "DeleteUser";
+}
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x=>x.UserID)
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 form-group-lg">
+                <div class="form-group colmd-6">
+                    @Html.ValidationSummary(false)
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md-12 text-center pb-3 text-danger"><i class="fas fa-ban fa-4x"></i></div>
+                        <div class="col-md-12 text-center"><h3 class="font-weight-bold">Diqqət!</h3></div>
+                        <div class="col-md-12 text-center"><h5><label class="font-weight-bold"> @Html.DisplayFor(x => x.UserName)</label> istifadəçisi silinəcək.</h5></div>
+                        <div class="col-md-12 text-center"><h4 class="font-weight-bold">Davam etmək istəyirsinizmi?</h4></div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-md-12 text-center">
+                            <input type="submit" class="btn btn-primary btn-lg mr-3" value="Bəli" />
+                            <a href="/Admin/Index" class="btn btn-danger btn-lg">Xeyr</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
