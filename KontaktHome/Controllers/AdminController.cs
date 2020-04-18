@@ -4,6 +4,9 @@ using Entities;
 using KontaktHome.Filters;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.DirectoryServices.AccountManagement;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -44,12 +47,15 @@ namespace KontaktHome.Controllers
         }
         public ActionResult CreateUser()
         {
-            return View();
+            Users user = new Users();
+            user.myADUsers = GetADUsers();
+            return View(user);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateUser(Users data)
         {
+            data.myADUsers= GetADUsers();
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Users> newUser = userManager.InsertUser(data);
@@ -119,6 +125,21 @@ namespace KontaktHome.Controllers
             TempData["msg"] = "Istifadəçi silindi!";
             TempData["typ"] = "success";
             return RedirectToAction("Index");
+        }
+        public IEnumerable<SelectListItem> GetADUsers()
+        {
+            List<SelectListItem> _users = new List<SelectListItem>();
+            PrincipalContext domainconnect = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings["DomainName"], ConfigurationManager.AppSettings["DomainDc"], ConfigurationManager.AppSettings["UserName"], ConfigurationManager.AppSettings["Password"]);
+            GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(domainconnect, IdentityType.Name, ConfigurationManager.AppSettings["GroupName"]);
+            if (adGroup != null)
+            {
+                foreach (Principal p in adGroup.GetMembers(true))
+                {
+                    _users.Add(new SelectListItem { Text = p.Name, Value = p.SamAccountName });
+                }
+            }
+            IEnumerable<SelectListItem> myADUsers = _users;
+            return myADUsers;           
         }
     }
 

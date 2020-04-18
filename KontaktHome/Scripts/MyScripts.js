@@ -64,7 +64,14 @@ $(document).ready(function () {
     $('body').on('click', '#btnDesignerOrderSearch', function () {       
         getDesignerActiveOrdersWithParametr();
     });
-    
+    $("#DomainUser").change(function () {
+        var selectedItemVal = $("#DomainUser option:selected").attr("value");
+        var selectedItemText = $("#DomainUser option:selected").text();
+        $("#userUserName").val(selectedItemVal);
+        $("#userUserDisplayName").val(selectedItemText);
+        //alert(selectedItemVal);
+        //alert(selectedItemText);
+    });
     cmbSelectVistorChange();
     cmbSelectDesignerChange();
   

@@ -50,6 +50,24 @@ namespace BusinessLayer
             }
             return res;
         }
+        public BusinessLayerResult<Users> CheckUser(string username)
+        {
+            BusinessLayerResult<Users> res = new BusinessLayerResult<Users>();
+
+            res.Result = Find(x => x.UserName == username);
+            if (res.Result != null)
+            {
+                if (!res.Result.IsActive)
+                {
+                    res.AddError(ErrorMessageCode.UserIsNotActive, "İstifadəçi aktiv edilməyib.");
+                }
+            }
+            else
+            {
+                res.AddError(ErrorMessageCode.UsernameOrPassWrong, "İstifadəçi tapılmadı.");
+            }
+            return res;
+        }
         public BusinessLayerResult<Users> InsertUser(Users data)
         {
             BusinessLayerResult<Users> newuser = new BusinessLayerResult<Users>();

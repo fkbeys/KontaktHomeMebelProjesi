@@ -41,22 +41,21 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
+                                    <label>Domain İstifadəçisi</label>
+                                    @Html.DropDownList("Domain User",Model.myADUsers, "", new { @class = "form-control",id= "DomainUser" })                                   
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
                                     <label>İstifadəçi Kodu</label>
-                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "İstifadəçi kodu..." } })
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", id = "userUserName", placeholder = "İstifadəçi kodu...",@readonly="readonly" } })
                                     @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label>İstifadəçi Şifrəsi</label>
-                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "İstifadəçi şifrəsi..." } })
-                                    @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
                                     <label>İstifadəçi Adı</label>
-                                    @Html.EditorFor(model => model.UserDisplayName, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "İstifadəçi adı.." } })
+                                    @Html.EditorFor(model => model.UserDisplayName, new { htmlAttributes = new { @class = "form-control", id = "userUserDisplayName", placeholder = "İstifadəçi adı..", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.UserDisplayName, "", new { @class = "text-danger" })
                                 </div>
                             </div>

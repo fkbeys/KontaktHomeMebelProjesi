@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Entities
 {
@@ -16,7 +17,7 @@ namespace Entities
         public int UserID { get; set; }       
         [Required, StringLength(50)]
         public string UserName { get; set; }
-        [Required, StringLength(50)]
+        [StringLength(50)]
         public string UserPassword { get; set; }
         [Required, StringLength(50)]
         public string UserDisplayName { get; set; }
@@ -43,5 +44,7 @@ namespace Entities
         [DisplayName("Dizayner")]
         public bool IsDesigner { get; set; }
         public int EditDate { get; set; }
+
+        public IEnumerable<SelectListItem> myADUsers { get; set; }
     }
 }
