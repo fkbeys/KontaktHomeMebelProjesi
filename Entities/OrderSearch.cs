@@ -10,6 +10,9 @@ namespace Entities
     {
         public string firstDate { get; set; }
         public string lastDate { get; set; }
-        public bool allorders { get; set; }
+        public bool deletedOrders { get; set; }
+        public bool  activeOrders { get; set; }
+        public string sellerCode { get; set; }
+        public string storeCode { get; set; }
     }
 }

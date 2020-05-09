@@ -2057,6 +2057,7 @@
     <Content Include="Views\Order\OrderInfo.cshtml" />
     <Content Include="Views\Order\CloseOrder.cshtml" />
     <Content Include="Views\Admin\DeleteUser.cshtml" />
+    <Content Include="Views\Shared\_LeftMenu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

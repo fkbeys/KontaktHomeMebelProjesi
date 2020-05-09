@@ -6,6 +6,40 @@ $('#sandbox-container input').datepicker({
     todayHighlight: true,
     autoclose: true
 });
+(function ($) {
+    $.fn.inputFilter = function (inputFilter) {
+        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            } else {
+                this.value = "";
+            }
+        });
+    };
+}(jQuery));
+$("#itemCount").inputFilter(function (value) {
+    return /^\d*$/.test(value);
+});
+$("#userEditdate").inputFilter(function (value) {
+    return /^\d*$/.test(value);
+});
+$("#dimensionWide").inputFilter(function (value) {
+    return /^-?\d*[.]?\d*$/.test(value);
+});
+$("#dimensionLemght").inputFilter(function (value) {
+    return /^-?\d*[.]?\d*$/.test(value);
+});
+$("#dimensionHeight").inputFilter(function (value) {
+    return /^-?\d*[.]?\d*$/.test(value);
+});
+$("#orderPrice").inputFilter(function (value) {
+    return /^-?\d*[.]?\d*$/.test(value);
+});    
 $(document).ready(function () {
     $('body').on('click', '#btnOrderEdit', function () {
         var currow = $(this).closest('tr');
@@ -22,9 +56,6 @@ $(document).ready(function () {
         var sira = currow.children('td:eq(2)').text();
         window.location.href = "../Order/EditOrder" + '?Sira=' + sira;
     });
-    $('body').on('click', '#addNewItem', function () {
-        addItemToVisitForm();
-    });
     $('body').on('click', '#btnOrderInfo', function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(2)').text();
@@ -34,13 +65,7 @@ $(document).ready(function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(2)').text();
         window.location.href = "../Order/CustomerVisit" + '?Sira=' + sira;
-    });
-    $('body').on('click', '#btnOrderSearch', function () {
-        getActiveOrdersWithParametr();
-    });
-    $('body').on('click', '#btnVisitorOrderSearch', function () {       
-        getVisitorActiveOrdersWithParametr();
-    });
+    });   
     $('body').on('click', '#btnAcceptOrder', function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(2)').text();
@@ -60,10 +85,7 @@ $(document).ready(function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(1)').text();
         window.location.href = "../Admin/EditUser" + '?userid=' + sira;
-    });
-    $('body').on('click', '#btnDesignerOrderSearch', function () {       
-        getDesignerActiveOrdersWithParametr();
-    });
+    });   
     $("#DomainUser").change(function () {
         var selectedItemVal = $("#DomainUser option:selected").attr("value");
         var selectedItemText = $("#DomainUser option:selected").text();
@@ -73,8 +95,7 @@ $(document).ready(function () {
         //alert(selectedItemText);
     });
     cmbSelectVistorChange();
-    cmbSelectDesignerChange();
-  
+    cmbSelectDesignerChange();    
 });
 function cmbSelectVistorChange() {
     if ($('#chkboxSetVisitor').is(":checked"))
@@ -88,50 +109,13 @@ function cmbSelectDesignerChange() {
     else
         $("#containerDesigner").hide();
 }
-(function ($) {
-    $.fn.inputFilter = function (inputFilter) {
-        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
-            if (inputFilter(this.value)) {
-                this.oldValue = this.value;
-                this.oldSelectionStart = this.selectionStart;
-                this.oldSelectionEnd = this.selectionEnd;
-            } else if (this.hasOwnProperty("oldValue")) {
-                this.value = this.oldValue;
-                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-            } else {
-                this.value = "";
-            }
-        });
-    };
-}(jQuery));
-$(document).ready(function () {
-    $("#itemCount").inputFilter(function (value) {
-        return /^\d*$/.test(value);
-    });
-    $("#userEditdate").inputFilter(function (value) {
-        return /^\d*$/.test(value);
-    });
-    $("#dimensionWide").inputFilter(function (value) {
-        return /^-?\d*[.]?\d*$/.test(value);
-    });
-    $("#dimensionLemght").inputFilter(function (value) {
-        return /^-?\d*[.]?\d*$/.test(value);
-    });
-    $("#dimensionHeight").inputFilter(function (value) {
-        return /^-?\d*[.]?\d*$/.test(value);
-    });
-    $("#orderPrice").inputFilter(function (value) {
-        return /^-?\d*[.]?\d*$/.test(value);
-    });     
-    //$('.custom-control-input').click(function () {
-    //    $('.custom-control-input').not(this).prop('checked', false);
-    //});   
-});
 function getActiveOrdersWithParametr() {
 
     var isAllValid = true;
     var firstdate = new Date($('#firstDate').val().trim());
     var lastdate = new Date($('#lastDate').val().trim());
+    var deletedCheck = document.getElementById("chkClosedOrders").checked;
+    var activeCheck = document.getElementById("chkActiveOrders").checked;
     if (firstdate > lastdate) {
         isAllValid = false;
         Swal.fire(
@@ -147,14 +131,23 @@ function getActiveOrdersWithParametr() {
             '',
             'error'
         )
-    } 
-    if (isAllValid==true) {
-        var xcheck = document.getElementById("chkAllOrders").checked;
+    }
+    if (deletedCheck == false && activeCheck == false) {
+        isAllValid = false;
+        Swal.fire(
+            'Mütləq bir sifariş statusu seçilməlidir!',
+            '',
+            'error'
+        )
+    }
+    if (isAllValid==true) {       
         var data = {
             firstDate: $('#firstDate').val().trim(),
             lastDate: $('#lastDate').val().trim(),
-            allorders: xcheck
-
+            deletedOrders: deletedCheck,
+            activeOrders: activeCheck ,
+            sellerCode: document.getElementById('saticilar').value,
+            storeCode: document.getElementById('magazalar').value
         }
 
         $('#tableActiveOrders').DataTable({
@@ -194,22 +187,14 @@ function getActiveOrdersWithParametr() {
                     "data": "8"
                 },
                 {
-                    "data": "9"
-                },
-                {
-                    "data": "10"
-                },
-                {
-                    "data": "11"
-                },
-                {
-                    data: null, render: function (data, type, full) {                        
-                        if (full[11] == 'Aktiv') {
-                            return '<a href="/Order/OrderInfo' + full[10] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/CloseOrder' + full[10] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Bağla</a> <a href="/Order/VisitInfo' + full[10] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
+                    data: null, render: function (data, type, full) {
+                        if (full[8] == 'Aktiv') {
+                            return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/CloseOrder' + full[7] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> İmtina</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                         }
                         else {
-                            return '<a href="/Order/OrderInfo' + full[10] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/VisitInfo' + full[10] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
+                            return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                         }
+
                     }
                 }
             ],
@@ -218,16 +203,14 @@ function getActiveOrdersWithParametr() {
             },
             "columnDefs": [
                 {
-                    "targets": [8],
+                    "targets": [9],
                     "searchable": false
                 },
                 {
-                    "targets": [10],
+                    "targets": [7],
                     "visible": false
                 }
-            ],
-
-            "dom": 'Bfrtip',
+            ],    
             "buttons": [{
                 extend: 'print',
                 text: 'Print',
@@ -689,22 +672,12 @@ $('#tableActiveOrders').DataTable({
             "data": "8"
         },
         {
-            "data": "9"
-        },        
-        {
-            "data": "10"
-        },
-        {
-            "data": "11"
-        },
-        {
-            data: null, render: function (data, type, full) {
-                //return "<a href='#' id='btnOrderEdit' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Düzəliş Et/Vizitor Təyin Et</a><a href='#' id='btnOrderDeactivate' class='btn btn-danger btn-sm m-1' role='button'><i class='far fa-trash-alt'></i> Bağla</a>";  
-                if (full[11]=='Aktiv') {
-                    return '<a href="/Order/OrderInfo' + full[10] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/CloseOrder' + full[10] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Bağla</a> <a href="/Order/VisitInfo' + full[10] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
+            data: null, render: function (data, type, full) {                
+                if (full[8]=='Aktiv') {
+                    return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/CloseOrder' + full[7] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> İmtina</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                 }
                 else {
-                    return '<a href="/Order/OrderInfo' + full[10] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[10] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et/Vizitor Təyin Et</a> <a href="/Order/VisitInfo' + full[10] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
+                    return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                 }
                
             }
@@ -715,16 +688,14 @@ $('#tableActiveOrders').DataTable({
     },
     "columnDefs": [
         {
-            "targets": [8],
+            "targets": [9],
             "searchable": false
         },
         {
-            "targets": [10],
+            "targets": [7],
             "visible": false
         }
-    ],
-
-    "dom": 'Bfrtip',
+    ],    
     "buttons": [{
         extend: 'print',
         text: 'Print',
@@ -830,3 +801,17 @@ $('#tableVisitorOrders').DataTable({
 
     ]
 });
+function getToday() {
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd;
+    }
+    if (mm < 10) {
+        mm = '0' + mm;
+    }
+    today = mm + '/' + dd + '/' + yyyy;
+    return today;
+}

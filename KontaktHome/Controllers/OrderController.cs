@@ -26,6 +26,7 @@ namespace KontaktHome.Controllers
         private AnaGrupManager anagrupManager = new AnaGrupManager();
         private VisitManager visitManager = new VisitManager();
         private ImagesManager imagesManager = new ImagesManager();
+        private StoresManager storesManager = new StoresManager();
         public string orderStatus { get; set; }
         // GET: Order
         [Auth]
@@ -77,9 +78,14 @@ namespace KontaktHome.Controllers
 
         //Cordinator and seller
         [Auth]
-        public ActionResult ActiveOrders(string status)
+        public ActionResult ActiveOrders()
         {
-            ViewBag.Status = status;
+            List<Users> istifadeciler = userManager.ListQueryable().Where(x => x.IsSeller == true && x.IsActive == true).ToList();
+            var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();
+            List<Stores> magazalar = storesManager.List();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            ViewBag.Seller = saticilar;
+            ViewBag.Stores = magaza;
             return View();
         }
         [Auth]
@@ -102,7 +108,9 @@ namespace KontaktHome.Controllers
                 string orderStatus = Statuses.OrderStatus(item.OrderStatus);
                 string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
+                string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
+               
+                UserData[j] = new object[] { item.OrderId,item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -113,39 +121,53 @@ namespace KontaktHome.Controllers
         {
             try
             {
-                List<Orders> fakturalar = new List<Orders>();
-                DateTime startdate = Convert.ToDateTime(data.firstDate);
-                DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
-                if (data.allorders == true)
-                {
-                    if (CurrentSession.User.IsSeller == true)
-                    {
-                        fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.SellerCode == CurrentSession.User.UserName).ToList();
-                    }
-                    else
-                    {
-                        fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
-                    }
-                }
-                else
-                {
-                    if (CurrentSession.User.IsSeller == true)
-                    {
-                        fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.SellerCode == CurrentSession.User.UserName).ToList();
-                    }
-                    else
-                    {
-                        fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
-                    }
-                }
-                var UserData = new object[fakturalar.Count];
+                IEnumerable<Orders> fakturalar = new List<Orders>();
+                fakturalar = orderManager.GetOrdersWithParametr(data);
+                //DateTime startdate = Convert.ToDateTime(data.firstDate);
+                //DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+
+                //if (data.deletedOrders == true)
+                //{
+                //    if (CurrentSession.User.IsSeller == true)
+                //    {
+                //        fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.SellerCode == CurrentSession.User.UserName).ToList();
+                //    }
+                //    else
+                //    {
+                //        fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
+                //    }
+                //}
+                //else
+                //{
+                //    if (CurrentSession.User.IsSeller == true)
+                //    {
+                //        fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.SellerCode == CurrentSession.User.UserName).ToList();
+                //    }
+                //    else
+                //    {
+                //        fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
+                //    }
+                //}
+                //var UserData = new object[fakturalar.Count];
+                //int j = 0;
+                //foreach (var item in fakturalar)
+                //{
+                //    string orderStatus = Statuses.OrderStatus(item.OrderStatus);
+                //    string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
+                //    string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                //    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
+                //    j++;
+                //}
+                var UserData = new object[fakturalar.Count()];
                 int j = 0;
                 foreach (var item in fakturalar)
                 {
                     string orderStatus = Statuses.OrderStatus(item.OrderStatus);
                     string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
                     string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
+                    string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
+
+                    UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
                     j++;
                 }
                 return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -351,7 +373,7 @@ namespace KontaktHome.Controllers
             List<Orders> fakturalar = new List<Orders>();
             DateTime startdate = Convert.ToDateTime(data.firstDate);
             DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
-            if (data.allorders == true)
+            if (data.deletedOrders == true)
             {
                 fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName & x.IsActive==true).ToList();
             }
@@ -731,7 +753,7 @@ namespace KontaktHome.Controllers
             List<Orders> fakturalar = new List<Orders>();
             DateTime startdate = Convert.ToDateTime(data.firstDate);
             DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
-            if (data.allorders == true)
+            if (data.deletedOrders == true)
             {
                 fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.IsActive==true).ToList();
             }

@@ -3,12 +3,6 @@
     ViewBag.Title = "ActiveOrders";
 }
 
-<script>
-    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('activeOrders').className = 'nav-link active';
-
-</script>
 <div class="row">
     @if (TempData["msg"] != null)
     {
@@ -56,13 +50,37 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="chkAllOrders" value="option1">
-                                <label for="chkAllOrders" class="custom-control-label">Bağlı Sifarişlər</label>
+                                <input class="custom-control-input" type="checkbox" id="chkActiveOrders" value="option1" checked>
+                                <label for="chkActiveOrders" class="custom-control-label">Aktiv Sifarişlər</label>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" id="btnOrderSearch" class="btn btn-primary">Axtar</button>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" type="checkbox" id="chkClosedOrders" value="option1">
+                                <label for="chkClosedOrders" class="custom-control-label">İmtina Edilmiş Sifarişlər</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Satıcı</label>
+                            <div class="col-form-txt">
+                                @Html.DropDownList("Seller", (ViewBag.Seller as SelectList), "", new { @class = "form-control", id = "saticilar", })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Mağaza</label>
+                            <div class="col-form-txt">
+                                @Html.DropDownList("Stores", (ViewBag.Store as SelectList), "", new { @class = "form-control", id = "magazalar" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <button type="submit" onclick="getActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
                     </div>
                 </div>
             </div>
@@ -77,12 +95,9 @@
                     <table id="tableActiveOrders" class="display" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Tarix</th>
                                 <th>Sənəd No</th>
-                                <th>Müştəri Adı</th>
-                                <th>Müştəri Soyadı</th>
-                                <th>Müştəri Ata Adı</th>
+                                <th>Tarix</th>
+                                <th>Müştəri Məlumatları</th>                                
                                 <th>Tel No</th>
                                 <th>Satıcı Kodu</th>
                                 <th>Sifariş Mağazası</th>
@@ -100,4 +115,14 @@
     </div>
 </div>
 
-
+<script>
+    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+    document.getElementById('sidemenu1_1').className = 'nav-link active';
+    document.getElementById('activeOrders').className = 'nav-link active';
+    document.getElementById('firstDate').value = getToday();
+    document.getElementById('lastDate').value = getToday();
+    function mesaj() {
+        var tttt = document.getElementById('Seller').value;
+        alert(tttt);
+    }
+</script>

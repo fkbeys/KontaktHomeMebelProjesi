@@ -3,12 +3,7 @@
     ViewBag.Title = "DesignerOrders";
 }
 
-<script>
-    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('designerOrders').className = 'nav-link active';
 
-</script>
 <div class="row">
     @if (TempData["msg"] != null)
     {
@@ -61,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button type="submit" id="btnDesignerOrderSearch" class="btn btn-primary">Axtar</button>
+                        <button type="submit" onclick="getDesignerActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
                     </div>
                 </div>
             </div>
@@ -97,3 +92,10 @@
     </div>
 </div>
 
+<script>
+    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+    document.getElementById('sidemenu1_1').className = 'nav-link active';
+    document.getElementById('designerOrders').className = 'nav-link active';
+    document.getElementById('designfirstDate').value = getToday();
+    document.getElementById('designlastDate').value = getToday();
+</script>

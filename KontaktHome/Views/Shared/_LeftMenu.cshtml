@@ -1,0 +1,84 @@
+﻿@using KontaktHome.Models
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+        with font-awesome or any other icon font library -->
+        <!-- Section 1-->
+        <li id="sidemenu1" class="nav-item has-treeview ">
+            <a id="sidemenu1_1" href="#" class="nav-link ">
+                <i class="nav-icon fas fa-copy"></i>
+                <p> Sifariş Modulu <i class="right fas fa-angle-left"></i> </p>
+            </a>
+            @if (CurrentSession.User.IsSeller == true || CurrentSession.User.IsAdmin == true)
+            {
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="newOrder" href="/Order/NewOrder" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Yeni Sifariş</p>
+                        </a>
+                    </li>
+                </ul>
+            }
+            @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true || CurrentSession.User.IsSeller == true)
+            {
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="activeOrders" href="/Order/ActiveOrders" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Sifarişlər</p>
+                        </a>
+                    </li>
+                </ul>
+            }
+            @if (CurrentSession.User.IsVisitor == true || CurrentSession.User.IsAdmin == true)
+            {
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="visitorOrders" href="/Order/VisitorOrders" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Vizitor Sifarişləri</p>
+                        </a>
+                    </li>
+                </ul>
+            }
+            @if (CurrentSession.User.IsDesigner == true || CurrentSession.User.IsAdmin == true)
+            {
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="designerOrders" href="/Order/DesignerOrders" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Dizayner Sifarişləri</p>
+                        </a>
+                    </li>
+                </ul>
+            }
+        </li>      
+        <!-- Section 2-->
+        @if (CurrentSession.User.IsAdmin == true)
+        {
+            <li id="sidemenu2" class="nav-item has-treeview ">
+                <a id="sidemenu2_1" href="#" class="nav-link ">
+                    <i class="nav-icon fas fa-users-cog"></i>
+                    <p> Admin Panel <i class="right fas fa-angle-left"></i> </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="users" href="/Admin/Index" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>İstifadəçilər</p>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="newUser" href="/Admin/CreateUser" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Yeni İstifadəçi</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        }
+    </ul>
+</nav>

@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    public class OrderManager:ManagerBase<Orders>
+    public class OrderManager : ManagerBase<Orders>
     {
         public BusinessLayerResult<Orders> SaveOrder(Orders data)
         {
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             orders.Result = data;
-            if (base.Insert(orders.Result)==0)
+            if (base.Insert(orders.Result) == 0)
             {
                 orders.AddError(ErrorMessageCode.UserCouldNotInserted, "Xəta başverdi.Qeyd Tamamlanmadı.");
             }
@@ -24,9 +24,9 @@ namespace BusinessLayer
         }
         public BusinessLayerResult<Orders> UpdateOrder(Orders data)
         {
-            Orders getOrder = Find(x => x.OrderId == data.OrderId);           
+            Orders getOrder = Find(x => x.OrderId == data.OrderId);
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
-            if (getOrder!=null)
+            if (getOrder != null)
             {
                 orders.Result = Find(x => x.OrderId == data.OrderId);
                 orders.Result.LastUpdate = data.LastUpdate;
@@ -55,7 +55,7 @@ namespace BusinessLayer
                 orders.Result.VisitorStatus = data.VisitorStatus;
                 orders.Result.Location = data.Location;
 
-                if (base.Update(orders.Result)==0)
+                if (base.Update(orders.Result) == 0)
                 {
                     orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
                 }
@@ -64,25 +64,25 @@ namespace BusinessLayer
             {
                 orders.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Seçilən Qeyd tapılmadı");
             }
-            return orders;         
-           
+            return orders;
+
         }
-        public BusinessLayerResult<Orders> AcceptOrder(Orders data,int? status)
+        public BusinessLayerResult<Orders> AcceptOrder(Orders data, int? status)
         {
             Orders getOrder = Find(x => x.OrderId == data.OrderId);
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
                 // 1* vizitor, 2* designer
-                orders.Result = Find(x => x.OrderId == data.OrderId);               
-                if (status==12)
-                {                   
+                orders.Result = Find(x => x.OrderId == data.OrderId);
+                if (status == 12)
+                {
                     orders.Result.VisitorStatus = 2;
                     orders.Result.OrderStatus = 3;
-                }               
-                else if (status==13)
+                }
+                else if (status == 13)
                 {
-                    orders.Result.VisitorStatus = 3;                   
+                    orders.Result.VisitorStatus = 3;
                 }
                 else if (status == 14)
                 {
@@ -96,7 +96,7 @@ namespace BusinessLayer
                 }
                 else if (status == 23)
                 {
-                    orders.Result.DesignerStatus = 3;                   
+                    orders.Result.DesignerStatus = 3;
                 }
                 else if (status == 24)
                 {
@@ -139,6 +139,34 @@ namespace BusinessLayer
             }
             return orders;
 
+        }
+
+        public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data)
+        {
+            DateTime startdate = Convert.ToDateTime(data.firstDate);
+            DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+            IEnumerable<Orders> orders = new List<Orders>();
+            if (data.activeOrders == true && data.deletedOrders == false)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.IsActive == true).ToList();
+            }
+            if (data.deletedOrders == true && data.activeOrders == false)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.IsActive == false).ToList();
+            }
+            if (data.deletedOrders == true && data.activeOrders == true)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
+            }
+            if (data.sellerCode != null)
+            {
+                orders = orders.Where(x => x.SellerCode == data.sellerCode).ToList();
+            }
+            if (data.storeCode!=null)
+            {
+                orders = orders.Where(x => x.OrderStore == data.storeCode);
+            }
+            return orders;
         }
     }
 }
