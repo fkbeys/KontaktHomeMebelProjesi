@@ -141,31 +141,58 @@ namespace BusinessLayer
 
         }
 
-        public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data)
+        public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data,string sellerName)
         {
             DateTime startdate = Convert.ToDateTime(data.firstDate);
             DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
             IEnumerable<Orders> orders = new List<Orders>();
-            if (data.activeOrders == true && data.deletedOrders == false)
+            if (sellerName==null)
             {
-                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.IsActive == true).ToList();
+                if (data.activeOrders == true && data.deletedOrders == false)
+                {
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == true).ToList();
+                }
+                if (data.deletedOrders == true && data.activeOrders == false)
+                {
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == false).ToList();
+                }
+                if (data.deletedOrders == true && data.activeOrders == true)
+                {
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate).ToList();
+                }
+                if (data.sellerCode != null)
+                {
+                    orders = orders.Where(x => x.SellerCode == data.sellerCode).ToList();
+                }
+                if (data.storeCode != null)
+                {
+                    orders = orders.Where(x => x.OrderStore == data.storeCode);
+                }
             }
-            if (data.deletedOrders == true && data.activeOrders == false)
+            else
             {
-                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.IsActive == false).ToList();
+                if (data.activeOrders == true && data.deletedOrders == false)
+                {
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == true && x.SellerCode==sellerName).ToList();
+                }
+                if (data.deletedOrders == true && data.activeOrders == false)
+                {
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == false && x.SellerCode == sellerName).ToList();
+                }
+                if (data.deletedOrders == true && data.activeOrders == true)
+                {
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.SellerCode == sellerName).ToList();
+                }
+                if (data.sellerCode != null)
+                {
+                    orders = orders.Where(x => x.SellerCode == data.sellerCode).ToList();
+                }
+                if (data.storeCode != null)
+                {
+                    orders = orders.Where(x => x.OrderStore == data.storeCode);
+                }
             }
-            if (data.deletedOrders == true && data.activeOrders == true)
-            {
-                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
-            }
-            if (data.sellerCode != null)
-            {
-                orders = orders.Where(x => x.SellerCode == data.sellerCode).ToList();
-            }
-            if (data.storeCode!=null)
-            {
-                orders = orders.Where(x => x.OrderStore == data.storeCode);
-            }
+           
             return orders;
         }
     }

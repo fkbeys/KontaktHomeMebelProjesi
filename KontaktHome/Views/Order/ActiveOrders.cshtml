@@ -24,60 +24,66 @@
                 <h4 class="card-title">Aktiv Sifarişlər</h4>
             </div>
             <div class="card-body">
-                <div class="row col-md-6">
-                    <div class="col-md-6 col-xl-4" id="sandbox-container">
-                        <div class="form-group">
-                            <label>Başlanğıc Tarixi</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                <div class="row">
+                    <div class="row col-md-6 col-lg-6 col-xl-4">
+                        <div class="col-md-6 " id="sandbox-container">
+                            <div class="form-group">
+                                <label>Başlanğıc Tarixi</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control " id="firstDate">
                                 </div>
-                                <input type="text" class="form-control " id="firstDate">
                             </div>
                         </div>
-                    </div>
-                    <div class=" col-md-6 col-xl-4" id="sandbox-container">
-                        <div class="form-group">
-                            <label>Bitiş Tarixi</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                        <div class=" col-md-6 " id="sandbox-container">
+                            <div class="form-group">
+                                <label>Bitiş Tarixi</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control " id="lastDate">
                                 </div>
-                                <input type="text" class="form-control " id="lastDate">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="chkActiveOrders" value="option1" checked>
+                                    <label for="chkActiveOrders" class="custom-control-label">Aktiv Sifarişlər</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="chkClosedOrders" value="option1">
+                                    <label for="chkClosedOrders" class="custom-control-label">İmtina Edilmiş Sifarişlər</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="chkActiveOrders" value="option1" checked>
-                                <label for="chkActiveOrders" class="custom-control-label">Aktiv Sifarişlər</label>
+                    <div class="row col-md-6">
+                        <div class="col-md-6 col-xl-4 col-lg-6">
+                            <div class="form-group">
+                                <label>Satıcı</label>
+                                <div class="col-form-txt">
+                                    @Html.DropDownList("Seller", (ViewBag.Seller as SelectList), "", new { @class = "form-control", id = "saticilar", })
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="chkClosedOrders" value="option1">
-                                <label for="chkClosedOrders" class="custom-control-label">İmtina Edilmiş Sifarişlər</label>
+                        <div class="col-md-12"></div>
+                        <div class="col-md-6 col-xl-4">
+                            <div class="form-group">
+                                <label>Mağaza</label>
+                                <div class="col-form-txt">
+                                    @Html.DropDownList("Stores", (ViewBag.Store as SelectList), "", new { @class = "form-control", id = "magazalar" })
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Satıcı</label>
-                            <div class="col-form-txt">
-                                @Html.DropDownList("Seller", (ViewBag.Seller as SelectList), "", new { @class = "form-control", id = "saticilar", })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label>Mağaza</label>
-                            <div class="col-form-txt">
-                                @Html.DropDownList("Stores", (ViewBag.Store as SelectList), "", new { @class = "form-control", id = "magazalar" })
-                            </div>
-                        </div>
+
                     </div>
                     <div class="col-md-12">
                         <button type="submit" onclick="getActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
@@ -97,7 +103,7 @@
                             <tr>
                                 <th>Sənəd No</th>
                                 <th>Tarix</th>
-                                <th>Müştəri Məlumatları</th>                                
+                                <th>Müştəri Məlumatları</th>
                                 <th>Tel No</th>
                                 <th>Satıcı Kodu</th>
                                 <th>Sifariş Mağazası</th>

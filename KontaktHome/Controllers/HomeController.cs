@@ -67,7 +67,7 @@ namespace KontaktHome.Controllers
 
                     }
                 }
-            }
+            }           
             return View(model);
         }
         public ActionResult HasError()

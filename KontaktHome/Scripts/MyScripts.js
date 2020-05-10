@@ -1,5 +1,5 @@
 ﻿
-$('#sandbox-container input').datepicker({
+$("#sandbox-container input").datepicker({
     language: 'az',
     todayBtn: "linked",
     clearBtn: true,

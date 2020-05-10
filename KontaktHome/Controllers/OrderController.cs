@@ -20,7 +20,7 @@ namespace KontaktHome.Controllers
     public class OrderController : Controller
     {
         //TODO: Yeni sifarisde nisangahlar olacaq
-        
+
         private OrderManager orderManager = new OrderManager();
         private UserManager userManager = new UserManager();
         private AnaGrupManager anagrupManager = new AnaGrupManager();
@@ -40,7 +40,7 @@ namespace KontaktHome.Controllers
         }
 
         //Seller
-        [Auth]       
+        [Auth]
         public ActionResult NewOrder(string status)
         {
             ViewBag.Status = status;
@@ -80,7 +80,16 @@ namespace KontaktHome.Controllers
         [Auth]
         public ActionResult ActiveOrders()
         {
-            List<Users> istifadeciler = userManager.ListQueryable().Where(x => x.IsSeller == true && x.IsActive == true).ToList();
+
+            List<Users> istifadeciler = new List<Users>();
+            if (CurrentSession.User.IsSeller==true)
+            {
+                istifadeciler= userManager.ListQueryable().Where(x => x.IsSeller == true && x.IsActive == true && x.UserName==CurrentSession.User.UserName).ToList();
+            }
+            else
+            {
+                istifadeciler = userManager.ListQueryable().Where(x => x.IsSeller == true && x.IsActive == true).ToList();
+            }
             var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();
             List<Stores> magazalar = storesManager.List();
             var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
@@ -93,7 +102,7 @@ namespace KontaktHome.Controllers
         public ActionResult GetActiveOrders()
         {
             List<Orders> fakturalar = new List<Orders>();
-            if (CurrentSession.User.IsSeller == true)
+            if (CurrentSession.User.IsSeller)
             {
                 fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true && x.SellerCode == CurrentSession.User.UserName).ToList();
             }
@@ -109,8 +118,8 @@ namespace KontaktHome.Controllers
                 string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
-               
-                UserData[j] = new object[] { item.OrderId,item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
+
+                UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -122,42 +131,12 @@ namespace KontaktHome.Controllers
             try
             {
                 IEnumerable<Orders> fakturalar = new List<Orders>();
-                fakturalar = orderManager.GetOrdersWithParametr(data);
-                //DateTime startdate = Convert.ToDateTime(data.firstDate);
-                //DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
-
-                //if (data.deletedOrders == true)
-                //{
-                //    if (CurrentSession.User.IsSeller == true)
-                //    {
-                //        fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.SellerCode == CurrentSession.User.UserName).ToList();
-                //    }
-                //    else
-                //    {
-                //        fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
-                //    }
-                //}
-                //else
-                //{
-                //    if (CurrentSession.User.IsSeller == true)
-                //    {
-                //        fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.SellerCode == CurrentSession.User.UserName).ToList();
-                //    }
-                //    else
-                //    {
-                //        fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate).ToList();
-                //    }
-                //}
-                //var UserData = new object[fakturalar.Count];
-                //int j = 0;
-                //foreach (var item in fakturalar)
-                //{
-                //    string orderStatus = Statuses.OrderStatus(item.OrderStatus);
-                //    string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
-                //    string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                //    UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
-                //    j++;
-                //}
+                string sellerName = null;
+                if (CurrentSession.User.IsSeller==true)
+                {
+                    sellerName = CurrentSession.User.UserName;
+                }
+                fakturalar = orderManager.GetOrdersWithParametr(data, sellerName);
                 var UserData = new object[fakturalar.Count()];
                 int j = 0;
                 foreach (var item in fakturalar)
@@ -224,11 +203,11 @@ namespace KontaktHome.Controllers
         public ActionResult EditOrder(Orders data, FormCollection form)
         {
             DateTime currentDate = DateTime.Now;
-            data.LastUpdate = currentDate;            
-            data.UpdateUser = CurrentSession.User.UserName;          
-            if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin==true)
-            {         
-                if (data.VisitorStatus<3)
+            data.LastUpdate = currentDate;
+            data.UpdateUser = CurrentSession.User.UserName;
+            if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+            {
+                if (data.VisitorStatus < 3)
                 {
                     string visitorName = form["Visitor"].ToString();
                     if (data.IsVisitorAdded == true)
@@ -253,10 +232,10 @@ namespace KontaktHome.Controllers
                         data.VisitorName = "";
                     }
                 }
-                if (data.DesignerStatus<3)
+                if (data.DesignerStatus < 3)
                 {
                     string designerName = "";
-                    if (data.VisitorStatus==4)
+                    if (data.VisitorStatus == 4)
                     {
                         designerName = form["Designer"].ToString();
                         data.OrderStatus = 5;
@@ -282,7 +261,7 @@ namespace KontaktHome.Controllers
                         data.DesignerName = "";
                     }
                 }
-               
+
             }
             else if (CurrentSession.User.IsSeller == true)
             {
@@ -300,7 +279,7 @@ namespace KontaktHome.Controllers
                     TempData["msg"] = "Sənəd dəyişiklik tarixi icazə verilən tarixdən çoxdur!";
                     TempData["typ"] = "error";
                     return RedirectToAction("ActiveOrders");
-                }               
+                }
             }
             if (ModelState.IsValid)
             {
@@ -351,14 +330,14 @@ namespace KontaktHome.Controllers
         {
             string userName = CurrentSession.User.UserName;
             List<Orders> fakturalar = new List<Orders>();
-            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.VisitorCode == userName & x.VisitorStatus<4).ToList();
+            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.VisitorCode == userName & x.VisitorStatus < 4).ToList();
             var UserData = new object[fakturalar.Count];
             int j = 0;
             foreach (var item in fakturalar)
             {
                 string orderStatus = Statuses.VisitorOrderStatus(item.VisitorStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link,item.VisitorStatus };
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link, item.VisitorStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -375,19 +354,19 @@ namespace KontaktHome.Controllers
             DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
             if (data.deletedOrders == true)
             {
-                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName & x.IsActive==true).ToList();
+                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName & x.IsActive == true).ToList();
             }
             else
             {
-                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName & x.VisitorStatus<4).ToList();
+                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == userName & x.VisitorStatus < 4).ToList();
             }
             var UserData = new object[fakturalar.Count];
             int j = 0;
             foreach (var item in fakturalar)
             {
-                string orderStatus = Statuses.VisitorOrderStatus(item.VisitorStatus);              
+                string orderStatus = Statuses.VisitorOrderStatus(item.VisitorStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link,item.VisitorStatus };
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link, item.VisitorStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -416,11 +395,11 @@ namespace KontaktHome.Controllers
                 OrderFileUpload uploadedFiles = new OrderFileUpload();
                 CustomerVisitData data = new CustomerVisitData();
                 List<VisitImages> visitimages = new List<VisitImages>();
-                if (visits.Count>0)
+                if (visits.Count > 0)
                 {
                     Visits visitGuid = visits.FirstOrDefault(x => x.OrderId == Sira);
                     visitimages = imagesManager.List(x => x.VisitGuid == visitGuid.VisitGuid);
-                }                
+                }
                 data.order = order;
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
@@ -456,15 +435,15 @@ namespace KontaktHome.Controllers
                 OrderFileUpload uploadedFiles = new OrderFileUpload();
                 CustomerVisitData data = new CustomerVisitData();
                 List<VisitImages> visitimages = new List<VisitImages>();
-                if (visits.Count>0)
+                if (visits.Count > 0)
                 {
                     Visits visitGuid = visits.FirstOrDefault(x => x.OrderId == Sira);
                     visitimages = imagesManager.List(x => x.VisitGuid == visitGuid.VisitGuid);
-                }               
+                }
                 data.order = order;
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
-                data.visitImages = visitimages;                
+                data.visitImages = visitimages;
                 List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
                 //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
                 data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
@@ -493,8 +472,8 @@ namespace KontaktHome.Controllers
             {
                 data.visitImages = new List<VisitImages>();
             }
-            if (data.visitData!=null)
-            {               
+            if (data.visitData != null)
+            {
                 foreach (var item in data.visitData)
                 {
                     if (item.ProductCode != null)
@@ -502,14 +481,14 @@ namespace KontaktHome.Controllers
                         var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
                         item.ProductName = anagrupadi;
                     }
-                    else if (data.visitData.Count==1)
+                    else if (data.visitData.Count == 1)
                     {
                         ModelState.AddModelError("", "Məhsul seçilməyib");
                         return View(data);
                     }
                 }
-            }       
-            List<VisitImages> visitImages = new List<VisitImages>();           
+            }
+            List<VisitImages> visitImages = new List<VisitImages>();
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Visits> visitData = visitManager.SaveVisit(data.visitData, data.order.OrderId, CurrentSession.User);
@@ -541,13 +520,13 @@ namespace KontaktHome.Controllers
 
                     }
                 }
-                BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, visitorstatus);               
+                BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, visitorstatus);
                 TempData["msg"] = "1";
                 return RedirectToAction("VisitorOrders");
             }
             else
-            {                
-                if (data.visitData==null)
+            {
+                if (data.visitData == null)
                 {
                     data.visitData = new List<Visits>();
                 }
@@ -562,7 +541,7 @@ namespace KontaktHome.Controllers
             {
                 return RedirectToAction("/Home/HasError");
             }
-            if (CurrentSession.User.IsVisitor==true || CurrentSession.User.IsAdmin==true)
+            if (CurrentSession.User.IsVisitor == true || CurrentSession.User.IsAdmin == true)
             {
                 Orders order = orderManager.Find(x => x.OrderId == Sira);
                 if (order == null)
@@ -571,7 +550,7 @@ namespace KontaktHome.Controllers
                 }
                 else
                 {
-                    if (order.VisitorStatus>=2)
+                    if (order.VisitorStatus >= 2)
                     {
                         return RedirectToAction("VisitorOrders");
                     }
@@ -589,7 +568,7 @@ namespace KontaktHome.Controllers
             else
             {
                 return RedirectToAction("VisitorOrders");
-            }           
+            }
         }
 
         //Designer
@@ -608,7 +587,7 @@ namespace KontaktHome.Controllers
             }
             else
             {
-                if (order.DesignerStatus>=2)
+                if (order.DesignerStatus >= 2)
                 {
                     return RedirectToAction("DesignerOrders");
                 }
@@ -636,14 +615,14 @@ namespace KontaktHome.Controllers
         {
             string userName = CurrentSession.User.UserName;
             List<Orders> fakturalar = new List<Orders>();
-            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.DesignerCode == userName &x.VisitorStatus==4 & x.DesignerStatus<4).ToList();
+            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.DesignerCode == userName & x.VisitorStatus == 4 & x.DesignerStatus < 4).ToList();
             var UserData = new object[fakturalar.Count];
             int j = 0;
             foreach (var item in fakturalar)
             {
-                string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);               
+                string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link,item.DesignerStatus };
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -656,7 +635,7 @@ namespace KontaktHome.Controllers
             if (Sira == null)
             {
                 return RedirectToAction("/Home/HasError");
-            }           
+            }
 
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             if (order == null)
@@ -755,11 +734,11 @@ namespace KontaktHome.Controllers
             DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
             if (data.deletedOrders == true)
             {
-                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.IsActive==true).ToList();
+                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.IsActive == true).ToList();
             }
             else
             {
-                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.DesignerStatus<4).ToList();
+                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.DesignerStatus < 4).ToList();
             }
             var UserData = new object[fakturalar.Count];
             int j = 0;
@@ -767,7 +746,7 @@ namespace KontaktHome.Controllers
             {
                 string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link,item.DesignerStatus };
+                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -775,11 +754,11 @@ namespace KontaktHome.Controllers
         }
 
         //Cordinator
-        [Auth]       
+        [Auth]
         [EncryptedActionParameter]
         public ActionResult CloseOrder(int? Sira)
         {
-            if (CurrentSession.User.IsCord==true || CurrentSession.User.IsAdmin==true)
+            if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
             {
                 if (Sira == null)
                 {
@@ -807,9 +786,9 @@ namespace KontaktHome.Controllers
                 TempData["msg"] = "Sifariş bağlamağa icazəniz yoxdur!";
                 TempData["typ"] = "error";
                 return RedirectToAction("ActiveOrders");
-            }           
+            }
         }
-        [Auth]       
+        [Auth]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CloseOrder(Orders data)
