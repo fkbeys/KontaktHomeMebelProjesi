@@ -235,6 +235,8 @@ function getVisitorActiveOrdersWithParametr() {
     var isAllValid = true;
     var firstdate = new Date($('#visitfirstDate').val().trim());
     var lastdate = new Date($('#visitlastDate').val().trim());
+    var chkactive = document.getElementById("chkVisitActiveOrders").checked;
+    var chkdelete = document.getElementById("chkVisitClosedOrders").checked;
     if (firstdate > lastdate) {
         isAllValid = false;
         Swal.fire(
@@ -251,13 +253,21 @@ function getVisitorActiveOrdersWithParametr() {
             'error'
         )
     }
+    if (chkactive == false && chkdelete == false) {
+        isAllValid = false;
+        Swal.fire(
+            'Mütləq bir sifariş statusu seçilməlidir!',
+            '',
+            'error'
+        )
+    }
     if (isAllValid == true) {
-        var xcheck = document.getElementById("visitchkAllOrders").checked;
+       
         var data = {
             firstDate: $('#visitfirstDate').val().trim(),
             lastDate: $('#visitlastDate').val().trim(),
-            allorders: xcheck
-
+            activeOrders: chkactive,
+            deletedOrders: chkdelete
         }
 
         $('#tableVisitorOrders').DataTable({
@@ -294,27 +304,14 @@ function getVisitorActiveOrdersWithParametr() {
                     "data": "7"
                 },
                 {
-                    "data": "8"
-                },
-                {
-                    "data": "9"
-                },
-                {
-                    "data": "10"
-                },
-                {
-                    //data: null, render: function () {
-                    //    return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptOrder' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartVisit' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Ziyarət Et</a> ";
-                    //}
                     data: null, render: function (data, type, full) {
-                        if (full[10] >= 2 && full[10] < 4) {
-                            return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/CustomerVisit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Vizit Başla</a>  ';
+                        if (full[7] >= 2 && full[7] < 4) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/CustomerVisit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Vizit Başla</a> ';
                         }
-                        else if (full[10] == 1) {
-                            return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> ';
+                        else if (full[7] == 1) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> ';
                         }
-                        else if (full[10] == 4) { return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> '; }
-
+                        else if (full[7] == 4) { return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>'; }
                     }
                 }
             ],
@@ -327,26 +324,9 @@ function getVisitorActiveOrdersWithParametr() {
                     "searchable": false
                 },
                 {
-                    "targets": [9,10],
+                    "targets": [7, 6],
                     "visible": false
                 }
-            ],
-
-            "dom": 'Bfrtip',
-            "buttons": [{
-                extend: 'print',
-                text: 'Print',
-                title: 'Aktiv Sifarişlər',
-                customize: function (win) {
-                    $(win.document.body)
-                        .css('font-size', '12pt');
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                    $(win.document.body).find('h1').css('text-align', 'center');
-                }
-            }
-
             ]
         });
     }
@@ -745,28 +725,15 @@ $('#tableVisitorOrders').DataTable({
         {
             "data": "7"
         },
-        {
-            "data": "8"
-        },
-        {
-            "data": "9"
-        },        
-        {
-            "data": "10"
-        },
-        {
-            //data: null, render: function () {
-            //    return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptOrder' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartVisit' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Ziyarət Et</a> ";
-            //}
+        {        
             data: null, render: function (data, type, full) {
-                if (full[10] >= 2 && full[10] < 4) {
-                    return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/CustomerVisit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Vizit Başla</a> ';
+                if (full[7] >= 2 && full[7] < 4) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/CustomerVisit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Vizit Başla</a> ';
                 }
-                else if (full[10] == 1) {
-                    return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> ';
+                else if (full[7] == 1) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> ';
                 }
-                else if (full[10] == 4) { return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>'; }
-               
+                else if (full[7] == 4) { return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>'; }               
             }
         }
     ],
@@ -779,26 +746,9 @@ $('#tableVisitorOrders').DataTable({
             "searchable": false
         },
         {
-            "targets": [9,10],
+            "targets": [7,6],
             "visible": false
         }
-    ],
-
-    "dom": 'Bfrtip',
-    "buttons": [{
-        extend: 'print',
-        text: 'Print',
-        title: 'Aktiv Sifarişlər',
-        customize: function (win) {
-            $(win.document.body)
-                .css('font-size', '12pt');
-            $(win.document.body).find('table')
-                .addClass('compact')
-                .css('font-size', 'inherit');
-            $(win.document.body).find('h1').css('text-align', 'center');
-        }
-    }
-
     ]
 });
 function getToday() {

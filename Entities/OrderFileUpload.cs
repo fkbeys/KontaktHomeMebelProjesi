@@ -10,7 +10,7 @@ namespace Entities
 {
     public class OrderFileUpload
     {
-        [Required(ErrorMessage = "Please select file.")]
+        //[Required(ErrorMessage = "Please select file.")]
         [Display(Name = "Fayl Seç")]
         public HttpPostedFileBase[] orderFiles { get; set; }
     }
