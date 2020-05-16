@@ -140,7 +140,6 @@ namespace BusinessLayer
             return orders;
 
         }
-
         public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data, string sellerName)
         {
             DateTime startdate = Convert.ToDateTime(data.firstDate);
@@ -212,6 +211,26 @@ namespace BusinessLayer
             if (data.deletedOrders == true && data.activeOrders == true)
             {
                 orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.VisitorCode == visitorName).ToList();
+            }
+            return orders;
+        }
+        public IEnumerable<Orders> GetDesignerOrdersWithParametr(OrderSearch data, string designerName)
+        {
+            DateTime startdate = Convert.ToDateTime(data.firstDate);
+            DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+            IEnumerable<Orders> orders = new List<Orders>();
+
+            if (data.activeOrders == true && data.deletedOrders == false)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == designerName & x.IsActive == true).ToList();
+            }
+            if (data.deletedOrders == true && data.activeOrders == false)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == designerName & x.IsActive == false).ToList();
+            }
+            if (data.deletedOrders == true && data.activeOrders == true)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == designerName).ToList();
             }
             return orders;
         }

@@ -47,18 +47,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" type="checkbox" id="designchkAllOrders" value="option1">
-                                <label for="designchkAllOrders" class="custom-control-label">Tamamlanmış Sifarişlər</label>
-                            </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="chkDesignActiveOrders" value="option1" checked>
+                            <label for="chkDesignActiveOrders" class="custom-control-label">Aktiv Sifarişlər</label>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <button type="submit" onclick="getDesignerActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="chkDesignClosedOrders" value="option1">
+                            <label for="chkDesignClosedOrders" class="custom-control-label">İmtina Edilmiş Sifarişlər</label>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-12">
+                    <button type="submit" onclick="getDesignerActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
+                </div>
+            </div>
             </div>
         </div>
     </div>
@@ -70,17 +79,14 @@
                         <table id="tableDesignerOrders" class="display" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Tarix</th>
                                     <th>Sənəd No</th>
-                                    <th>Müştəri Adı</th>
-                                    <th>Müştəri Soyadı</th>
-                                    <th>Müştəri Ata Adı</th>
+                                    <th>Tarix</th>
+                                    <th>Müştəri Məlumatları</th>
                                     <th>Tel No</th>
                                     <th>Nişangah</th>
                                     <th>Status</th>
                                     <th>Link</th>
-                                    <th>Status1</th>
+                                    <th>StatusId</th>
                                     <th></th>
                                 </tr>
                             </thead>

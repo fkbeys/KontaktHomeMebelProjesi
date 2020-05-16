@@ -332,11 +332,12 @@ function getVisitorActiveOrdersWithParametr() {
     }
 
 }
-function getDesignerActiveOrdersWithParametr() {
-
+function getDesignerActiveOrdersWithParametr() {    
     var isAllValid = true;
     var firstdate = new Date($('#designfirstDate').val().trim());
     var lastdate = new Date($('#designlastDate').val().trim());
+    var chkactive = document.getElementById("chkDesignActiveOrders").checked;
+    var chkdelete = document.getElementById("chkDesignClosedOrders").checked;
     if (firstdate > lastdate) {
         isAllValid = false;
         Swal.fire(
@@ -353,15 +354,25 @@ function getDesignerActiveOrdersWithParametr() {
             'error'
         )
     }
+    
+    if (chkactive == false && chkdelete == false) {
+        isAllValid = false;
+        Swal.fire(
+            'Mütləq bir sifariş statusu seçilməlidir!',
+            '',
+            'error'
+        )
+    }
     if (isAllValid == true) {
-        var xcheck = document.getElementById("designchkAllOrders").checked;
+       
         var data = {
             firstDate: $('#designfirstDate').val().trim(),
             lastDate: $('#designlastDate').val().trim(),
-            allorders: xcheck
+            activeOrders: chkactive,
+            deletedOrders: chkdelete
 
         }
-
+       
         $('#tableDesignerOrders').DataTable({
             "destroy": true,
             "ajax": {
@@ -396,28 +407,16 @@ function getDesignerActiveOrdersWithParametr() {
                     "data": "7"
                 },
                 {
-                    "data": "8"
-                },
-                {
-                    "data": "9"
-                },
-                {
-                    "data": "10"
-                },
-                {
-                    //data: null, render: function () {
-                    //    return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptDesigner' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartDesign' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Dizayn Et</a> ";
-                    //}
                     data: null, render: function (data, type, full) {
 
-                        if (full[10] == 1) {
-                            return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
+                        if (full[7] == 1) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
                         }
-                        else if (full[10] >= 2 && full[10] < 4) {
-                            return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/DesignerEdit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
+                        else if (full[7] >= 2 && full[7] < 4) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/DesignerEdit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
                         }
-                        else if (full[10] == 4) {
-                            return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
+                        else if (full[7] == 4) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
                         }
                     }
                 }
@@ -431,26 +430,9 @@ function getDesignerActiveOrdersWithParametr() {
                     "searchable": false
                 },
                 {
-                    "targets": [9, 10],
+                    "targets": [7, 6],
                     "visible": false
                 }
-            ],
-
-            "dom": 'Bfrtip',
-            "buttons": [{
-                extend: 'print',
-                text: 'Print',
-                title: 'Aktiv Sifarişlər',
-                customize: function (win) {
-                    $(win.document.body)
-                        .css('font-size', '12pt');
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                    $(win.document.body).find('h1').css('text-align', 'center');
-                }
-            }
-
             ]
         });
     }
@@ -556,29 +538,17 @@ $('#tableDesignerOrders').DataTable({
         {
             "data": "7"
         },
-        {
-            "data": "8"
-        },
-        {
-            "data": "9"
-        },
-        {
-            "data": "10"
-        },
-        {
-            //data: null, render: function () {
-            //    return "<a href='#' id='btnOrderInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a><a href='#' id='btnAcceptDesigner' class='btn btn-primary btn-sm m-1' role='button'><i class='fas fa-check'></i> Qəbul Et</a><a href='#' id='btnStartDesign' class='btn btn-success btn-sm m-1' role='button'><i class='fas fa-user'></i> Dizayn Et</a> ";
-            //}
+        {           
             data: null, render: function (data, type, full) {
                
-                if (full[10] == 1) {
-                    return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[9] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
+                if (full[7] == 1) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
                 }
-                else if (full[10] >= 2 && full[10] < 4) {
-                    return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/DesignerEdit' + full[9] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
+                else if (full[7] >= 2 && full[7] < 4) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/DesignerEdit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
                 }
-                else if (full[10]==4) {
-                    return '<a href="/Order/VisitInfo' + full[9] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
+                else if (full[7]==4) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
                 }
             }
         }
@@ -592,26 +562,9 @@ $('#tableDesignerOrders').DataTable({
             "searchable": false
         },
         {
-            "targets": [9,10],
+            "targets": [7,6],
             "visible": false
         }
-    ],
-
-    "dom": 'Bfrtip',
-    "buttons": [{
-        extend: 'print',
-        text: 'Print',
-        title: 'Aktiv Sifarişlər',
-        customize: function (win) {
-            $(win.document.body)
-                .css('font-size', '12pt');
-            $(win.document.body).find('table')
-                .addClass('compact')
-                .css('font-size', 'inherit');
-            $(win.document.body).find('h1').css('text-align', 'center');
-        }
-    }
-
     ]
 });
 var data = {}

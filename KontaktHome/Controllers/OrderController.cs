@@ -624,7 +624,8 @@ namespace KontaktHome.Controllers
             {
                 string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
+                string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
+                UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -731,24 +732,26 @@ namespace KontaktHome.Controllers
         public ActionResult GetDesignerActiveOrdersWithParametr(OrderSearch data)
         {
             string userName = CurrentSession.User.UserName;
-            List<Orders> fakturalar = new List<Orders>();
-            DateTime startdate = Convert.ToDateTime(data.firstDate);
-            DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
-            if (data.deletedOrders == true)
-            {
-                fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.IsActive == true).ToList();
-            }
-            else
-            {
-                fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.DesignerStatus < 4).ToList();
-            }
-            var UserData = new object[fakturalar.Count];
+            //List<Orders> fakturalar = new List<Orders>();
+            //DateTime startdate = Convert.ToDateTime(data.firstDate);
+            //DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+            //if (data.deletedOrders == true)
+            //{
+            //    fakturalar = orderManager.ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.IsActive == true).ToList();
+            //}
+            //else
+            //{
+            //    fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == userName & x.DesignerStatus < 4).ToList();
+            //}
+            IEnumerable<Orders> fakturalar = orderManager.GetDesignerOrdersWithParametr(data, userName);
+            var UserData = new object[fakturalar.Count()];
             int j = 0;
             foreach (var item in fakturalar)
             {
                 string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
-                UserData[j] = new object[] { j + 1, item.CreateOn.ToString("MM/dd/yyyy"), item.OrderId, item.CustomerName, item.CustomerSurname, item.CustomerFatherName, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
+                string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
+                UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
