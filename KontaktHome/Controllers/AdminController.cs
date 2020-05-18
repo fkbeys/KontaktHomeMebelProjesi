@@ -1,6 +1,8 @@
 ﻿using BusinessLayer;
+using BusinessLayer.Managers;
 using BusinessLayer.QueryResult;
 using Entities;
+using Entities.Model;
 using KontaktHome.Filters;
 using System;
 using System.Collections.Generic;
@@ -16,12 +18,14 @@ namespace KontaktHome.Controllers
 {
     [Exc]
     [Auth]
-    [AuthAdmin]
+    //[AuthAdmin]
+    [CustomAuthorize(Roles = "Admin")]
     [OutputCache(NoStore = true, Duration = 0)]
     public class AdminController : Controller
     {
         private UserManager userManager = new UserManager();
-        // GET: Admin
+        private UserRolesManager userRolesManager = new UserRolesManager();
+        private UserRolesMappingManager userRoleMappingManager = new UserRolesMappingManager();
         public ActionResult Index()
         {
             return View();
@@ -30,7 +34,7 @@ namespace KontaktHome.Controllers
         public ActionResult GetUsers()
         {
             string userStatus = "";
-            List <Users> user = userManager.List();
+            List<Users> user = userManager.List();
             var UserData = new object[user.Count];
             int j = 0;
             foreach (var item in user)
@@ -40,7 +44,7 @@ namespace KontaktHome.Controllers
                     userStatus = "Aktiv";
                 }
                 else { userStatus = "Bağlı"; }
-                UserData[j] = new object[] { j + 1, item.UserID, item.UserName, item.UserDisplayName, item.StoreCode, item.StoreName, userStatus};
+                UserData[j] = new object[] { j + 1, item.UserID, item.UserName, item.UserDisplayName, item.StoreCode, item.StoreName, userStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -55,7 +59,7 @@ namespace KontaktHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateUser(Users data)
         {
-            data.myADUsers= GetADUsers();
+            data.myADUsers = GetADUsers();
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Users> newUser = userManager.InsertUser(data);
@@ -70,17 +74,17 @@ namespace KontaktHome.Controllers
                 return RedirectToAction("Index");
             }
             //TempData["msg"] = "0";
-            return View(data);          
+            return View(data);
         }
         public ActionResult EditUser(int? userid)
         {
             Users user = userManager.Find(x => x.UserID == userid);
-            if (user==null)
+            if (user == null)
             {
                 TempData["msg"] = "Istifadəçi tapılmadı!";
                 TempData["typ"] = "error";
                 return RedirectToAction("Index");
-            }           
+            }
             return View(user);
         }
         [HttpPost]
@@ -90,7 +94,7 @@ namespace KontaktHome.Controllers
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Users> user = userManager.UpdateUser(data);
-                if (user.Errors.Count>0)
+                if (user.Errors.Count > 0)
                 {
                     user.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
@@ -117,9 +121,9 @@ namespace KontaktHome.Controllers
         public ActionResult DeleteUser(Users data)
         {
             BusinessLayerResult<Users> istifadeci = userManager.DeleteUser(data.UserID);
-            if (istifadeci.Errors.Count>0)
+            if (istifadeci.Errors.Count > 0)
             {
-                istifadeci.Errors.ForEach(x => ModelState.AddModelError("", x.Message));              
+                istifadeci.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                 return View(data);
             }
             TempData["msg"] = "Istifadəçi silindi!";
@@ -139,10 +143,89 @@ namespace KontaktHome.Controllers
                 }
             }
             IEnumerable<SelectListItem> myADUsers = _users;
-            return myADUsers;           
+            return myADUsers;
+        }
+        public ActionResult UserRoles(int UserID)
+        {
+            UserRolesMapping roleMapping = new UserRolesMapping();
+            roleMapping.UserID = UserID;
+            List<UserRoles> userRoles = userRolesManager.List();
+            var listroles = userRoles.Select(s => new SelectListItem { Value = s.ID.ToString(), Text = s.RoleName }).ToList<SelectListItem>();
+            ViewBag.Roles = listroles;
+            return View(roleMapping);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UserRoles(UserRolesMapping model)
+        {
+            List<UserRoles> userRoles = userRolesManager.List();
+            var listroles = userRoles.Select(s => new SelectListItem { Value = s.ID.ToString(), Text = s.RoleName }).ToList<SelectListItem>();
+            ViewBag.Roles = listroles;
+            BusinessLayerResult<UserRolesMapping> rolesMapping = userRoleMappingManager.InsertUserRoles(model);
+            if (rolesMapping.Errors.Count > 0)
+            {
+                rolesMapping.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                return View(model);
+            }
+            else
+            {
+                TempData["msg"] = "İstifadəçi səlahiyyəti əlavə edildi!";
+                TempData["typ"] = "success";
+            }
+            return View(model);
+        }
+        [WebMethod]
+        public ActionResult GetUserRoles(int userid)
+        {
+            var userroles = (from user in userManager.ListQueryable()
+                             join roleMapping in userRoleMappingManager.ListQueryable()
+                             on user.UserID equals roleMapping.UserID
+                             join role in userRolesManager.ListQueryable()
+                             on roleMapping.RoleID equals role.ID
+                             where user.UserID == userid
+                             select new
+                             {
+                                 UserName = user.UserName,
+                                 UserFullName = user.UserDisplayName,
+                                 RoleId = roleMapping.ID,
+                                 RoleName = role.RoleName
+                             });
+            var UserData = new object[userroles.Count()];
+            int j = 0;
+            foreach (var item in userroles)
+            {
+                UserData[j] = new object[] { j + 1, item.UserName, item.UserFullName, item.RoleId, item.RoleName };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteUserRole(string roleMappingID)
+        {
+            if (roleMappingID != null)
+            {
+                int id = Convert.ToInt32(roleMappingID);
+                BusinessLayerResult<UserRolesMapping> roles = userRoleMappingManager.DeleteUserRole(id);
+                if (roles.Errors.Count > 0)
+                {
+                    TempData["msg"] = "Istifadəçi səlahiyyəti silinmədi";
+                    TempData["typ"] = "error";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["msg"] = "Istifadəçi səlahiyyəti silindi!";
+                    TempData["typ"] = "success";
+                    return RedirectToAction("UserRoles",new { roles.Result.UserID });
+                }
+
+               
+            }
+            return RedirectToAction("Index");
         }
     }
 
- 
+
 
 }

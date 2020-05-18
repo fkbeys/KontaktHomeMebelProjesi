@@ -628,6 +628,9 @@
     <Content Include="plugins\datetimepicker\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="plugins\datetimepicker\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="plugins\datetimepicker\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="plugins\ekko-lightbox\ekko-lightbox.css" />
+    <Content Include="plugins\ekko-lightbox\ekko-lightbox.js" />
+    <Content Include="plugins\ekko-lightbox\ekko-lightbox.min.js" />
     <Content Include="plugins\flag-icon-css\css\flag-icon.css" />
     <Content Include="plugins\flag-icon-css\css\flag-icon.min.css" />
     <Content Include="plugins\flag-icon-css\flags\1x1\ad.svg" />
@@ -1453,6 +1456,8 @@
     <Content Include="libman.json" />
     <Content Include="plugins\DataTables_2\Buttons-1.6.1\css\common.scss" />
     <Content Include="plugins\DataTables_2\Buttons-1.6.1\css\mixins.scss" />
+    <Content Include="plugins\ekko-lightbox\ekko-lightbox.js.map" />
+    <Content Include="plugins\ekko-lightbox\ekko-lightbox.min.js.map" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -1483,12 +1488,14 @@
     <Compile Include="Filters\AuthCord.cs" />
     <Compile Include="Filters\AuthSeller.cs" />
     <Compile Include="Filters\AuthVisitor.cs" />
+    <Compile Include="Filters\CustomAuthorize.cs" />
     <Compile Include="Filters\Exc.cs" />
     <Compile Include="Filters\Protect.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CurrentSession.cs" />
+    <Compile Include="Models\UsersRoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1517,6 +1524,7 @@
     <Content Include="Views\Shared\_LeftMenu.cshtml" />
     <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.5.1.min.map" />
+    <Content Include="Views\Admin\UserRoles.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

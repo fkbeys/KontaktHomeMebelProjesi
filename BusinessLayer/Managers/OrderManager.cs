@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace BusinessLayer
 {
     public class OrderManager : ManagerBase<Orders>
-    {
+    {       
         public BusinessLayerResult<Orders> SaveOrder(Orders data)
         {
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();

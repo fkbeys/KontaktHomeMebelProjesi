@@ -1,0 +1,71 @@
+﻿@using Entities.Model
+@model UserRolesMapping
+@{
+    ViewBag.Title = "UserRoles";
+}
+
+@if (TempData["msg"] != null)
+{
+    <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
+                Swal.fire(
+                   message,
+                    '',
+                    type
+                )
+    </script>
+}
+<div class="content">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="card card-primary">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.UserID, new { @id = "roleUSERID" })
+                        <div class="row">
+                            <div class="col-lg-2 col-md-3">
+                                <div class="form-group">
+                                    <label>Səlahiyyətlər</label>
+                                    <div class="col-form-txt">
+                                        @*@Html.DropDownList("Roles", (ViewBag.Roles as SelectList), "", new { @class = "form-control", @id = "userRoleID" })*@
+                                        @Html.DropDownListFor(model => model.RoleID, new SelectList(ViewBag.Roles, "Value", "Text"), new { @class = "form-control", @id = "userRoleID" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"> <button type="submit" class="btn btn-primary">Qeyd Et</button></div>
+                        </div>
+                    }
+                    @using (Html.BeginForm("DeleteUserRole", "Admin", FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="row border-top border-info mt-3 pt-2">
+                            <div class="col-md-12">
+                                <div class="table-responsive" id="usersPrint">
+                                    <table id="tableRoles" class="display" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Istifadəçi Kodu</th>
+                                                <th>İstifadəçi Adı</th>
+                                                <th>Role ID</th>
+                                                <th>Role Name</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

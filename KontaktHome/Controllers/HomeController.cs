@@ -6,6 +6,7 @@ using KontaktHome.Models;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace KontaktHome.Controllers
 {
@@ -41,7 +42,8 @@ namespace KontaktHome.Controllers
                         return View(model);
                     }
 
-                    CurrentSession.Set<Users>("login", res.Result); // Session'a kullanıcı bilgi saklama..              
+                    CurrentSession.Set<Users>("login", res.Result); // Session'a kullanıcı bilgi saklama..      
+                    FormsAuthentication.SetAuthCookie(model.Username, false);
                     return RedirectToAction("Index");   // yönlendirme..
                 }
                 if (ConfigurationManager.AppSettings["LoginMode"] == "Domain")
@@ -57,6 +59,7 @@ namespace KontaktHome.Controllers
                                 return View(model);
                             }
                             CurrentSession.Set<Users>("login", res.Result); // Session'a kullanıcı bilgi saklama..
+                          
                             return RedirectToAction("Index");   // yönlendirme..
                         }
                         else
@@ -77,6 +80,7 @@ namespace KontaktHome.Controllers
         public ActionResult Logout()
         {
             Session.Clear();
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
     }

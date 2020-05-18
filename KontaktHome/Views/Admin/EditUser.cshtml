@@ -4,122 +4,154 @@
     ViewBag.Title = "EditUser";
 }
 
-    <div class="content ">
-        <div class="container">
-            <!-- /.left panel -->
-            <div class="col-md-12">
-                @if (TempData["msg"] != null)
+<div class="content ">
+    <div class="container">
+        <!-- /.left panel -->
+        <div class="col-md-12">
+            @if (TempData["msg"] != null)
+            {
+                if (TempData["msg"].ToString() == "0")
                 {
-                    if (TempData["msg"].ToString() == "0")
-                    {
-                        <script>
+                    <script>
                         Swal.fire(
                             ' error',
                             '',
                             'success'
                         )
-                        </script>
-                    }
+                    </script>
                 }
+            }
 
-                @using (Html.BeginForm())
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.HiddenFor(model=>model.UserID)
-                    <div class="col-md-12">
-                        @Html.ValidationSummary(false)
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => model.UserID)
+                <div class="col-md-12">
+                    @Html.ValidationSummary(false)
+                </div>
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Yeni İstifadəçi</h3>
                     </div>
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Yeni İstifadəçi</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>İstifadəçi Kodu</label>
-                                        @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "İstifadəçi kodu...", @readonly = "readonly" } })
-                                        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
-                                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>İstifadəçi Kodu</label>
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "İstifadəçi kodu...", @readonly = "readonly" } })
+                                    @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>İstifadəçi Şifrəsi</label>
-                                        @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "İstifadəçi şifrəsi..." } })
-                                        @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>İstifadəçi Adı</label>
-                                        @Html.EditorFor(model => model.UserDisplayName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "İstifadəçi adı.." } })
-                                        @Html.ValidationMessageFor(model => model.UserDisplayName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Mağaza Kodu</label>
-                                        @Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Mağaza kodu..." } })
-                                        @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Mağaza Adı</label>
-                                        @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Mağaza adı..." } })
-                                        @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Dəyişiklik Edebiləcəyi Gün Sayı</label>
-                                        @Html.EditorFor(model => model.EditDate, new { htmlAttributes = new { @class = "form-control", id = "userEditdate", placeholder = "Gün ..." } })
-                                        @Html.ValidationMessageFor(model => model.EditDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>İstifadəçi Səlahiyyətləri</label>
-                                        <div class="custom-control custom-checkbox">
-                                            @Html.CheckBoxFor(model => model.IsAdmin, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox1" })
-                                            @Html.LabelFor(c => c.IsAdmin, new { @class = "custom-control-label", @for = "customCheckbox1" })
-                                        </div>
-                                        <div class="custom-control custom-checkbox">
-                                            @Html.CheckBoxFor(model => model.IsCord, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox2" })
-                                            @Html.LabelFor(c => c.IsCord, new { @class = "custom-control-label", @for = "customCheckbox2" })
-                                        </div>
-                                        <div class="custom-control custom-checkbox">
-                                            @Html.CheckBoxFor(model => model.IsSeller, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox3" })
-                                            @Html.LabelFor(c => c.IsSeller, new { @class = "custom-control-label", @for = "customCheckbox3" })
-                                        </div>
-                                        <div class="custom-control custom-checkbox">
-                                            @Html.CheckBoxFor(model => model.IsVisitor, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox4" })
-                                            @Html.LabelFor(c => c.IsVisitor, new { @class = "custom-control-label", @for = "customCheckbox4" })
-                                        </div>
-                                        <div class="custom-control custom-checkbox">
-                                            @Html.CheckBoxFor(model => model.IsDesigner, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox6" })
-                                            @Html.LabelFor(c => c.IsDesigner, new { @class = "custom-control-label", @for = "customCheckbox6" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>İstifadəçi Statusu</label>
-                                        <div class="custom-control custom-checkbox">
-                                            @Html.CheckBoxFor(model => model.IsActive, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox5" })
-                                            @Html.LabelFor(c => c.IsActive, new { @class = "custom-control-label", @for = "customCheckbox5" })
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary float-right">Qeyd Et</button>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>İstifadəçi Şifrəsi</label>
+                                    @Html.EditorFor(model => model.UserPassword, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "İstifadəçi şifrəsi..." } })
+                                    @Html.ValidationMessageFor(model => model.UserPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>İstifadəçi Adı</label>
+                                    @Html.EditorFor(model => model.UserDisplayName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "İstifadəçi adı.." } })
+                                    @Html.ValidationMessageFor(model => model.UserDisplayName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mağaza Kodu</label>
+                                    @Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Mağaza kodu..." } })
+                                    @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Mağaza Adı</label>
+                                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Mağaza adı..." } })
+                                    @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Dəyişiklik Edebiləcəyi Gün Sayı</label>
+                                    @Html.EditorFor(model => model.EditDate, new { htmlAttributes = new { @class = "form-control col-md-2", id = "userEditdate", placeholder = "Gün ..." } })
+                                    @Html.ValidationMessageFor(model => model.EditDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>İstifadəçi Statusu</label>
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.IsActive, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox5" })
+                                        @Html.LabelFor(c => c.IsActive, new { @class = "custom-control-label", @for = "customCheckbox5" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group"> <label>İstifadəçi Səlahiyyətləri</label></div>
+                                <div class="col-md-4">
+                                    <table class="table">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">ID</th>
+                                                <th scope="col">Səlahiyyət</th>
+                                                <th scope="col"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td> <button type="button" class="btn btn-sm btn-danger float-right">Sil</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td> <button type="button" class="btn btn-sm btn-danger float-right">Sil</button></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jacob</td>
+                                                <td>Thornton</td>
+                                                <td> <button type="button" class="btn btn-sm btn-danger float-right">Sil</button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>İstifadəçi Səlahiyyətləri</label>
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.IsAdmin, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox1" })
+                                        @Html.LabelFor(c => c.IsAdmin, new { @class = "custom-control-label", @for = "customCheckbox1" })
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.IsCord, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox2" })
+                                        @Html.LabelFor(c => c.IsCord, new { @class = "custom-control-label", @for = "customCheckbox2" })
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.IsSeller, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox3" })
+                                        @Html.LabelFor(c => c.IsSeller, new { @class = "custom-control-label", @for = "customCheckbox3" })
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.IsVisitor, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox4" })
+                                        @Html.LabelFor(c => c.IsVisitor, new { @class = "custom-control-label", @for = "customCheckbox4" })
+                                    </div>
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.IsDesigner, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox6" })
+                                        @Html.LabelFor(c => c.IsDesigner, new { @class = "custom-control-label", @for = "customCheckbox6" })
+                                    </div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
-                }
-            </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary float-right">Qeyd Et</button>
+                    </div>
+                </div>
+            }
         </div>
     </div>
+</div>
 

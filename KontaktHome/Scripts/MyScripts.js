@@ -39,7 +39,7 @@ $("#dimensionHeight").inputFilter(function (value) {
 });
 $("#orderPrice").inputFilter(function (value) {
     return /^-?\d*[.]?\d*$/.test(value);
-});    
+});
 $(document).ready(function () {
     $('body').on('click', '#btnOrderEdit', function () {
         var currow = $(this).closest('tr');
@@ -65,16 +65,16 @@ $(document).ready(function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(2)').text();
         window.location.href = "../Order/CustomerVisit" + '?Sira=' + sira;
-    });   
+    });
     $('body').on('click', '#btnAcceptOrder', function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(2)').text();
-        window.location.href = "../Order/AcceptOrder" + '?Sira=' + sira+'&'+'Status=1';
+        window.location.href = "../Order/AcceptOrder" + '?Sira=' + sira + '&' + 'Status=1';
     });
     $('body').on('click', '#btnAcceptDesigner', function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(2)').text();
-        window.location.href = "../Order/AcceptOrder" + '?Sira=' + sira +'&'+'Status=2';
+        window.location.href = "../Order/AcceptOrder" + '?Sira=' + sira + '&' + 'Status=2';
     });
     $('body').on('click', '#btnStartDesign', function () {
         var currow = $(this).closest('tr');
@@ -85,7 +85,7 @@ $(document).ready(function () {
         var currow = $(this).closest('tr');
         var sira = currow.children('td:eq(1)').text();
         window.location.href = "../Admin/EditUser" + '?userid=' + sira;
-    });   
+    });
     $("#DomainUser").change(function () {
         var selectedItemVal = $("#DomainUser option:selected").attr("value");
         var selectedItemText = $("#DomainUser option:selected").text();
@@ -95,7 +95,7 @@ $(document).ready(function () {
         //alert(selectedItemText);
     });
     cmbSelectVistorChange();
-    cmbSelectDesignerChange();    
+    cmbSelectDesignerChange();
 });
 function cmbSelectVistorChange() {
     if ($('#chkboxSetVisitor').is(":checked"))
@@ -140,12 +140,12 @@ function getActiveOrdersWithParametr() {
             'error'
         )
     }
-    if (isAllValid==true) {       
+    if (isAllValid == true) {
         var data = {
             firstDate: $('#firstDate').val().trim(),
             lastDate: $('#lastDate').val().trim(),
             deletedOrders: deletedCheck,
-            activeOrders: activeCheck ,
+            activeOrders: activeCheck,
             sellerCode: document.getElementById('saticilar').value,
             storeCode: document.getElementById('magazalar').value
         }
@@ -210,7 +210,7 @@ function getActiveOrdersWithParametr() {
                     "targets": [7],
                     "visible": false
                 }
-            ],    
+            ],
             "buttons": [{
                 extend: 'print',
                 text: 'Print',
@@ -262,7 +262,7 @@ function getVisitorActiveOrdersWithParametr() {
         )
     }
     if (isAllValid == true) {
-       
+
         var data = {
             firstDate: $('#visitfirstDate').val().trim(),
             lastDate: $('#visitlastDate').val().trim(),
@@ -332,7 +332,7 @@ function getVisitorActiveOrdersWithParametr() {
     }
 
 }
-function getDesignerActiveOrdersWithParametr() {    
+function getDesignerActiveOrdersWithParametr() {
     var isAllValid = true;
     var firstdate = new Date($('#designfirstDate').val().trim());
     var lastdate = new Date($('#designlastDate').val().trim());
@@ -354,7 +354,7 @@ function getDesignerActiveOrdersWithParametr() {
             'error'
         )
     }
-    
+
     if (chkactive == false && chkdelete == false) {
         isAllValid = false;
         Swal.fire(
@@ -364,7 +364,7 @@ function getDesignerActiveOrdersWithParametr() {
         )
     }
     if (isAllValid == true) {
-       
+
         var data = {
             firstDate: $('#designfirstDate').val().trim(),
             lastDate: $('#designlastDate').val().trim(),
@@ -372,7 +372,7 @@ function getDesignerActiveOrdersWithParametr() {
             deletedOrders: chkdelete
 
         }
-       
+
         $('#tableDesignerOrders').DataTable({
             "destroy": true,
             "ajax": {
@@ -473,7 +473,7 @@ $('#tableUsers').DataTable({
             //    return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
             //}
             data: null, render: function (data, type, full) {
-                return '<a href="/Admin/EditUser?userid=' + full[1] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Admin/DeleteUser?userid=' + full[1] +'" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>';            
+                return '<a href="/Admin/EditUser?userid=' + full[1] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Admin/DeleteUser?userid=' + full[1] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>  <a href="/Admin/UserRoles?UserID=' + full[1] + '" class="btn btn-warning btn-sm  mt-1 mb-1"><i class="fas fa-user-shield"></i> Səlahiyyətlər</a>';
 
             }
         }
@@ -538,16 +538,16 @@ $('#tableDesignerOrders').DataTable({
         {
             "data": "7"
         },
-        {           
+        {
             data: null, render: function (data, type, full) {
-               
+
                 if (full[7] == 1) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptDesignerOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
                 }
                 else if (full[7] >= 2 && full[7] < 4) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/DesignerEdit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
                 }
-                else if (full[7]==4) {
+                else if (full[7] == 4) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
                 }
             }
@@ -562,7 +562,7 @@ $('#tableDesignerOrders').DataTable({
             "searchable": false
         },
         {
-            "targets": [7,6],
+            "targets": [7, 6],
             "visible": false
         }
     ]
@@ -605,14 +605,14 @@ $('#tableActiveOrders').DataTable({
             "data": "8"
         },
         {
-            data: null, render: function (data, type, full) {                
-                if (full[8]=='Aktiv') {
+            data: null, render: function (data, type, full) {
+                if (full[8] == 'Aktiv') {
                     return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/CloseOrder' + full[7] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> İmtina</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                 }
                 else {
                     return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                 }
-               
+
             }
         }
     ],
@@ -628,7 +628,7 @@ $('#tableActiveOrders').DataTable({
             "targets": [7],
             "visible": false
         }
-    ],    
+    ],
     "buttons": [{
         extend: 'print',
         text: 'Print',
@@ -678,7 +678,7 @@ $('#tableVisitorOrders').DataTable({
         {
             "data": "7"
         },
-        {        
+        {
             data: null, render: function (data, type, full) {
                 if (full[7] >= 2 && full[7] < 4) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/CustomerVisit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Vizit Başla</a> ';
@@ -686,7 +686,7 @@ $('#tableVisitorOrders').DataTable({
                 else if (full[7] == 1) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a> ';
                 }
-                else if (full[7] == 4) { return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>'; }               
+                else if (full[7] == 4) { return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>'; }
             }
         }
     ],
@@ -699,7 +699,7 @@ $('#tableVisitorOrders').DataTable({
             "searchable": false
         },
         {
-            "targets": [7,6],
+            "targets": [7, 6],
             "visible": false
         }
     ]
@@ -718,3 +718,52 @@ function getToday() {
     today = mm + '/' + dd + '/' + yyyy;
     return today;
 }
+
+var userroleid = $("#roleUSERID").val();
+$('#tableRoles').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Admin/GetUserRoles",
+        "type": 'POST',
+        "data": { userid: userroleid },
+        "dataSrc": ""
+    },
+    "columns": [
+        {
+            "data": "0"
+        },
+        {
+            "data": "1"
+        },
+        {
+            "data": "2"
+        },
+        {
+            "data": "3"
+        },
+        {
+            "data": "4"
+        },
+        {
+            data: null, render: function (data, type, full) {
+                //return '<a href="/Admin/DeleteUserRole?roleid=' + full[3] + '" type="submit" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>';
+                return '<button type="submit" value="' + full[3] + '" name="roleMappingID" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</button >';
+            }
+        } 
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    },
+    "columnDefs": [
+        {
+            "targets": [5],
+            "searchable": false
+        },
+        {
+            "targets": [3],
+            "visible": false
+        }
+    ]
+});
+
+
