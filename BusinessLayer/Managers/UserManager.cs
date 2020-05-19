@@ -14,7 +14,6 @@ namespace BusinessLayer
 {
     public class UserManager : ManagerBase<Users>
     {
-
         public BusinessLayerResult<Users> GetUserInformation(string userName)
         {
             BusinessLayerResult<Users> users = new BusinessLayerResult<Users>();

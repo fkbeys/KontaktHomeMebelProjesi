@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using BusinessLayer.Managers;
 using BusinessLayer.QueryResult;
 using Entities;
 using KontaktHome.Filters;
@@ -16,20 +17,21 @@ using System.Web.Services;
 namespace KontaktHome.Controllers
 {
     [Exc]
+    [Auth]
     [OutputCache(NoStore = true, Duration = 0)]
     public class OrderController : Controller
     {
-        //TODO: Yeni sifarisde nisangahlar olacaq
-
         private OrderManager orderManager = new OrderManager();
         private UserManager userManager = new UserManager();
         private AnaGrupManager anagrupManager = new AnaGrupManager();
         private VisitManager visitManager = new VisitManager();
         private ImagesManager imagesManager = new ImagesManager();
         private StoresManager storesManager = new StoresManager();
+        private UserRolesManager userRoleManager = new UserRolesManager();
+        private UserRolesMappingManager userRolesMappingManager = new UserRolesMappingManager();
+
         public string orderStatus { get; set; }
         // GET: Order
-        [Auth]
         public ActionResult Index()
         {
             //Response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1.
@@ -38,15 +40,14 @@ namespace KontaktHome.Controllers
             //Response.AppendHeader("Expires", "0"); // Proxies.
             return View();
         }
-
         //Seller
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         public ActionResult NewOrder(string status)
         {
             ViewBag.Status = status;
             return View();
         }
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult NewOrder(Orders data)
@@ -77,18 +78,25 @@ namespace KontaktHome.Controllers
         }
 
         //Cordinator and seller
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         public ActionResult ActiveOrders()
         {
-
             List<Users> istifadeciler = new List<Users>();
-            if (CurrentSession.User.IsSeller==true)
+            if (User.IsInRole("Satici"))
             {
-                istifadeciler= userManager.ListQueryable().Where(x => x.IsSeller == true && x.IsActive == true && x.UserName==CurrentSession.User.UserName).ToList();
+                istifadeciler = userManager.ListQueryable().Where(x => x.IsActive == true && x.UserName == CurrentSession.User.UserName).ToList();
             }
             else
             {
-                istifadeciler = userManager.ListQueryable().Where(x => x.IsSeller == true && x.IsActive == true).ToList();
+                //istifadeciler = userManager.ListQueryable().Where(x => x.IsActive == true).ToList();
+                istifadeciler = (from user in userManager.ListQueryable()
+                                 join roleMapping in userRolesMappingManager.ListQueryable()
+                                 on user.UserID equals roleMapping.UserID
+                                 join role in userRoleManager.ListQueryable()
+                                 on roleMapping.RoleID equals role.ID
+                                 where role.RoleName == "Satici" && user.IsActive == true
+                                 select user
+                               ).ToList();
             }
             var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();
             List<Stores> magazalar = storesManager.List();
@@ -97,12 +105,14 @@ namespace KontaktHome.Controllers
             ViewBag.Stores = magaza;
             return View();
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [WebMethod]
         public ActionResult GetActiveOrders()
         {
             List<Orders> fakturalar = new List<Orders>();
-            if (CurrentSession.User.IsSeller)
+            //if (CurrentSession.User.IsSeller)
+            if (User.IsInRole("Satici"))
             {
                 fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true && x.SellerCode == CurrentSession.User.UserName).ToList();
             }
@@ -124,7 +134,8 @@ namespace KontaktHome.Controllers
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [WebMethod]
         public ActionResult GetActiveOrdersWithParametr(OrderSearch data)
         {
@@ -132,7 +143,7 @@ namespace KontaktHome.Controllers
             {
                 IEnumerable<Orders> fakturalar = new List<Orders>();
                 string sellerName = null;
-                if (CurrentSession.User.IsSeller==true)
+                if (User.IsInRole("Satici"))
                 {
                     sellerName = CurrentSession.User.UserName;
                 }
@@ -151,7 +162,7 @@ namespace KontaktHome.Controllers
                 }
                 return Json(UserData, JsonRequestBehavior.AllowGet);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return RedirectToAction("Home/Index");
             }
@@ -159,7 +170,7 @@ namespace KontaktHome.Controllers
         }
 
         //All
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [EncryptedActionParameter]
         public ActionResult EditOrder(int? Sira)
         {
@@ -167,9 +178,25 @@ namespace KontaktHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true && x.IsActive == true).ToList();
+            //List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true && x.IsActive == true).ToList();
+            List<Users> users = (from user in userManager.ListQueryable()
+                                 join roleMapping in userRolesMappingManager.ListQueryable()
+                                 on user.UserID equals roleMapping.UserID
+                                 join role in userRoleManager.ListQueryable()
+                                 on roleMapping.RoleID equals role.ID
+                                 where role.RoleName == "Vizitor" && user.IsActive == true
+                                 select user
+                               ).ToList();
             var listvisitor = users.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
-            List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
+            //List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
+            List<Users> designers = (from user in userManager.ListQueryable()
+                                     join roleMapping in userRolesMappingManager.ListQueryable()
+                                     on user.UserID equals roleMapping.UserID
+                                     join role in userRoleManager.ListQueryable()
+                                     on roleMapping.RoleID equals role.ID
+                                     where role.RoleName == "Dizayner" && user.IsActive == true
+                                     select user
+                               ).ToList();
             var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             if (order == null)
@@ -178,7 +205,7 @@ namespace KontaktHome.Controllers
             }
             TimeSpan gunler = DateTime.Now - order.CreateOn;
             decimal ferq = gunler.Days;
-            if (CurrentSession.User.IsSeller == true)
+            if (User.IsInRole("Satici"))
             {
                 if (order.OrderStatus != 1)
                 {
@@ -197,7 +224,8 @@ namespace KontaktHome.Controllers
             ViewBag.Designer = listdesigner;
             return View(order);
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditOrder(Orders data, FormCollection form)
@@ -205,7 +233,8 @@ namespace KontaktHome.Controllers
             DateTime currentDate = DateTime.Now;
             data.LastUpdate = currentDate;
             data.UpdateUser = CurrentSession.User.UserName;
-            if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+            //if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+            if (User.IsInRole("Kordinator") || User.IsInRole("Admin"))
             {
                 if (data.VisitorStatus < 3)
                 {
@@ -263,7 +292,7 @@ namespace KontaktHome.Controllers
                 }
 
             }
-            else if (CurrentSession.User.IsSeller == true)
+            else if (User.IsInRole("Satici")) /*(CurrentSession.User.IsSeller == true)*/
             {
                 //TODO: seller duzelis
                 TimeSpan gunler = DateTime.Now - data.CreateOn;
@@ -295,7 +324,8 @@ namespace KontaktHome.Controllers
             }
             return View(data);
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [EncryptedActionParameter]
         public ActionResult OrderInfo(int? Sira)
         {
@@ -303,9 +333,23 @@ namespace KontaktHome.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true && x.IsActive == true).ToList();
+            List<Users> users = (from user in userManager.ListQueryable()
+                                 join roleMapping in userRolesMappingManager.ListQueryable()
+                                 on user.UserID equals roleMapping.UserID
+                                 join role in userRoleManager.ListQueryable()
+                                 on roleMapping.RoleID equals role.ID
+                                 where role.RoleName == "Vizitor" && user.IsActive == true
+                                 select user
+                               ).ToList();
             var listvisitor = users.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
-            List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
+            List<Users> designers = (from user in userManager.ListQueryable()
+                                     join roleMapping in userRolesMappingManager.ListQueryable()
+                                     on user.UserID equals roleMapping.UserID
+                                     join role in userRoleManager.ListQueryable()
+                                     on roleMapping.RoleID equals role.ID
+                                     where role.RoleName == "Dizayner" && user.IsActive == true
+                                     select user
+                               ).ToList();
             var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             if (order == null)
@@ -318,13 +362,14 @@ namespace KontaktHome.Controllers
         }
 
         //Visitor
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         public ActionResult VisitorOrders(string status)
         {
             ViewBag.Status = status;
             return View();
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         [WebMethod]
         public ActionResult GetVisitorActiveOrders()
         {
@@ -338,18 +383,19 @@ namespace KontaktHome.Controllers
                 string orderStatus = Statuses.VisitorOrderStatus(item.VisitorStatus);
                 string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
-                UserData[j] = new object[] { item.OrderId,item.CreateOn.ToString("MM/dd/yyyy"),customer, item.Tel1, item.Location, orderStatus, link, item.VisitorStatus };
+                UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.VisitorStatus };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
 
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         [WebMethod]
         public ActionResult GetVisitorActiveOrdersWithParametr(OrderSearch data)
         {
 
-            string userName = CurrentSession.User.UserName;           
+            string userName = CurrentSession.User.UserName;
             IEnumerable<Orders> fakturalar = orderManager.GetVisitorOrdersWithParametr(data, userName);
             //DateTime startdate = Convert.ToDateTime(data.firstDate);
             //DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
@@ -374,7 +420,8 @@ namespace KontaktHome.Controllers
             return Json(UserData, JsonRequestBehavior.AllowGet);
 
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         [EncryptedActionParameter]
         public ActionResult VisitInfo(int? Sira)
         {
@@ -413,7 +460,8 @@ namespace KontaktHome.Controllers
                 return View(data);
             }
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         [EncryptedActionParameter]
         public ActionResult CustomerVisit(int? Sira)
         {
@@ -453,7 +501,8 @@ namespace KontaktHome.Controllers
                 return View(data);
             }
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CustomerVisit(CustomerVisitData data, string visitCommand)
@@ -535,7 +584,8 @@ namespace KontaktHome.Controllers
             }
             return View(data);
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         [EncryptedActionParameter]
         public ActionResult AcceptOrder(int? Sira)
         {
@@ -543,7 +593,7 @@ namespace KontaktHome.Controllers
             {
                 return RedirectToAction("/Home/HasError");
             }
-            if (CurrentSession.User.IsVisitor == true || CurrentSession.User.IsAdmin == true)
+            if (User.IsInRole("Vizitor") || User.IsInRole("Admin")) /*(CurrentSession.User.IsVisitor == true || CurrentSession.User.IsAdmin == true)*/
             {
                 Orders order = orderManager.Find(x => x.OrderId == Sira);
                 if (order == null)
@@ -574,7 +624,7 @@ namespace KontaktHome.Controllers
         }
 
         //Designer
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
         [EncryptedActionParameter]
         public ActionResult AcceptDesignerOrder(int? Sira)
         {
@@ -605,13 +655,15 @@ namespace KontaktHome.Controllers
             TempData["typ"] = "success";
             return RedirectToAction("DesignerOrders");
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
         public ActionResult DesignerOrders(string status)
         {
             ViewBag.Status = status;
             return View();
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
         [WebMethod]
         public ActionResult GetDesignerActiveOrders()
         {
@@ -631,7 +683,8 @@ namespace KontaktHome.Controllers
             return Json(UserData, JsonRequestBehavior.AllowGet);
 
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
         [EncryptedActionParameter]
         public ActionResult DesignerEdit(int? Sira)
         {
@@ -666,7 +719,8 @@ namespace KontaktHome.Controllers
                 return View(data);
             }
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DesignerEdit(CustomerVisitData data, string designCommand)
@@ -727,7 +781,8 @@ namespace KontaktHome.Controllers
             }
             return View(data);
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
         [WebMethod]
         public ActionResult GetDesignerActiveOrdersWithParametr(OrderSearch data)
         {
@@ -759,19 +814,33 @@ namespace KontaktHome.Controllers
         }
 
         //Cordinator
-        [Auth]
+        [CustomAuthorize(Roles = "Admin,Kordinator")]
         [EncryptedActionParameter]
         public ActionResult CloseOrder(int? Sira)
         {
-            if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+            if (User.IsInRole("Kordinator") || User.IsInRole("Admin")) /*(CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)*/
             {
                 if (Sira == null)
                 {
                     return RedirectToAction("/Home/HasError");
                 }
-                List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true && x.IsActive == true).ToList();
+                List<Users> users = (from user in userManager.ListQueryable()
+                                     join roleMapping in userRolesMappingManager.ListQueryable()
+                                     on user.UserID equals roleMapping.UserID
+                                     join role in userRoleManager.ListQueryable()
+                                     on roleMapping.RoleID equals role.ID
+                                     where role.RoleName == "Vizitor" && user.IsActive == true
+                                     select user
+                               ).ToList();
                 var listvisitor = users.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
-                List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
+                List<Users> designers = (from user in userManager.ListQueryable()
+                                         join roleMapping in userRolesMappingManager.ListQueryable()
+                                         on user.UserID equals roleMapping.UserID
+                                         join role in userRoleManager.ListQueryable()
+                                         on roleMapping.RoleID equals role.ID
+                                         where role.RoleName == "Dizayner" && user.IsActive == true
+                                         select user
+                               ).ToList();
                 var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
                 Orders order = orderManager.Find(x => x.OrderId == Sira);
                 if (order == null)
@@ -793,12 +862,13 @@ namespace KontaktHome.Controllers
                 return RedirectToAction("ActiveOrders");
             }
         }
-        [Auth]
+
+        [CustomAuthorize(Roles = "Admin,Kordinator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CloseOrder(Orders data)
         {
-            if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+            if (User.IsInRole("Kordinator") || User.IsInRole("Admin")) //if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
             {
                 data.LastUpdate = DateTime.Now;
                 data.UpdateUser = CurrentSession.User.UserName;

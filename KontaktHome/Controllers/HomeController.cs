@@ -59,7 +59,7 @@ namespace KontaktHome.Controllers
                                 return View(model);
                             }
                             CurrentSession.Set<Users>("login", res.Result); // Session'a kullanıcı bilgi saklama..
-                          
+                            FormsAuthentication.SetAuthCookie(model.Username, false);
                             return RedirectToAction("Index");   // yönlendirme..
                         }
                         else
