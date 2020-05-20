@@ -68,40 +68,41 @@
                     <button type="submit" onclick="getDesignerActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
                 </div>
             </div>
-            </div>
         </div>
     </div>
-    <div class="col-md-12">
-        <div class="card card-primary">
-            <div class="card-body">
-                <div class="col-md-12">
-                    <div class="table-responsive" id="visitorOrdersPrint">
-                        <table id="tableDesignerOrders" class="display" width="100%" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>Sənəd No</th>
-                                    <th>Tarix</th>
-                                    <th>Müştəri Məlumatları</th>
-                                    <th>Tel No</th>
-                                    <th>Nişangah</th>
-                                    <th>Status</th>
-                                    <th>Link</th>
-                                    <th>StatusId</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+</div>
+<div class="col-md-12">
+    <div class="card card-primary">
+        <div class="card-body">
+            <div class="col-md-12">
+                <div class="table-responsive" id="visitorOrdersPrint">
+                    <table id="tableDesignerOrders" class="display" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Sənəd No</th>
+                                <th>Tarix</th>
+                                <th>Müştəri Məlumatları</th>
+                                <th>Tel No</th>
+                                <th>Nişangah</th>
+                                <th>Status</th>
+                                <th>Link</th>
+                                <th>StatusId</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('designerOrders').className = 'nav-link active';
-    document.getElementById('designfirstDate').value = getToday();
-    document.getElementById('designlastDate').value = getToday();
-</script>
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu1_1').className = 'nav-link active';
+        document.getElementById('designerOrders').className = 'nav-link active';
+        document.getElementById('designfirstDate').value = getToday();
+        document.getElementById('designlastDate').value = getToday();
+    </script>
+}

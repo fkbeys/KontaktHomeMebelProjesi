@@ -3,12 +3,13 @@
 @{
     ViewBag.Title = "NewOrder";
 }
-
-<script>
-    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('newOrder').className = 'nav-link active';
-</script>
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu1_1').className = 'nav-link active';
+        document.getElementById('newOrder').className = 'nav-link active';
+    </script>
+}
 <div class="content  ">
     <div class="container">
         <!-- /.left panel -->
@@ -556,12 +557,14 @@
         </div>
     </div>
 </div>
-<script>
-    function setText(obj) {
-        var t = $(obj).text();
-        document.getElementById("addresslocation").value = t;
+@section JavaScript{
+    <script>
+        function setText(obj) {
+            var t = $(obj).text();
+            document.getElementById("addresslocation").value = t;
+        }
+    </script>
     }
-</script>
 
 
 

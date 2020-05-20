@@ -121,7 +121,7 @@
                                 @Html.HiddenFor(m => m.visitData[i].OrderId)
                                 @Html.HiddenFor(m => m.visitData[i].VisitGuid)
                                 @Html.HiddenFor(m => m.visitData[i].ProductName)
-                               
+
                                 <div class="card card-info collapsed-card">
                                     <div class="card-header">
                                         @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
@@ -305,7 +305,7 @@
                     <!-- /.card-body -->
                     <div class="card-footer">
                         <button type="submit" name="visitCommand" value="Finish" class="btn btn-primary float-left">Vizit Tamamla və Dizayna Göndər</button>
-                        <button type="submit" name="visitCommand" value="Save" class="btn btn-info float-right mr-2">Qeyd Et</button>                      
+                        <button type="submit" name="visitCommand" value="Save" class="btn btn-info float-right mr-2">Qeyd Et</button>
                     </div>
                 </div>
 
@@ -334,8 +334,8 @@
         </div>
     </div>
 </div>
-
-<script>
+@section JavaScript{
+    <script>
     var sira = '@Model.visitData.Count';
     var modelsira = '@Model.visitData.Count';
     var mehsulsayi = '@Model.order.ItemCount';
@@ -380,11 +380,12 @@
 
         $('#itemSection').append(card);
         }
-       
+
 
     }
 
     function deleteimages() {
         document.getElementById('imageSelection').value = null;
     }
-</script>
+    </script>
+}

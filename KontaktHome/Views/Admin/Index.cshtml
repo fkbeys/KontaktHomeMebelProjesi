@@ -2,14 +2,16 @@
 @{
     ViewBag.Title = "Index";
 }
-<script>
-    document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu2_1').className = 'nav-link active';
-    document.getElementById('users').className = 'nav-link active';
-</script>
-@if (TempData["msg"] != null)
-{
+@section JavaScript{
     <script>
+        document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu2_1').className = 'nav-link active';
+        document.getElementById('users').className = 'nav-link active';
+    </script>
+    }
+    @if (TempData["msg"] != null)
+    {
+        <script>
                 var message = '@TempData["msg"].ToString()';
                 var type='@TempData["typ"].ToString()';
                 Swal.fire(
@@ -17,29 +19,29 @@
                     '',
                     type
                 )
-    </script>
-}
-<div class="col-md-12">
-    <div class="card card-primary">
-        <div class="card-body">
-            <div class="col-md-12">
-                <div class="table-responsive" id="usersPrint">
-                    <table id="tableUsers" class="display" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>ID</th>
-                                <th>Istifadəçi Kodu</th>
-                                <th>İstifadəçi Adı</th>
-                                <th>Mağaza Kodu</th>
-                                <th>Mağaza Adı</th>
-                                <th>Status</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                    </table>
+        </script>
+    }
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="table-responsive" id="usersPrint">
+                        <table id="tableUsers" class="display" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>ID</th>
+                                    <th>Istifadəçi Kodu</th>
+                                    <th>İstifadəçi Adı</th>
+                                    <th>Mağaza Kodu</th>
+                                    <th>Mağaza Adı</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

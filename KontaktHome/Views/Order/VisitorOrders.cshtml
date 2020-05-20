@@ -4,7 +4,7 @@
 }
 
 
-<div class="row"> 
+<div class="row">
     @if (TempData["msg"] != null)
     {
         if (TempData["msg"].ToString() == "3")
@@ -66,7 +66,7 @@
                                 <input type="text" class="form-control " id="visitlastDate">
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
@@ -116,11 +116,13 @@
         </div>
     </div>
 </div>
-<script>
-    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('visitorOrders').className = 'nav-link active';
-    document.getElementById('visitfirstDate').value = getToday();
-    document.getElementById('visitlastDate').value = getToday();
-</script>
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu1_1').className = 'nav-link active';
+        document.getElementById('visitorOrders').className = 'nav-link active';
+        document.getElementById('visitfirstDate').value = getToday();
+        document.getElementById('visitlastDate').value = getToday();
+    </script>
+    }
 

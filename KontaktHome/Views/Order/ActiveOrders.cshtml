@@ -120,15 +120,17 @@
         </div>
     </div>
 </div>
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu1_1').className = 'nav-link active';
+        document.getElementById('activeOrders').className = 'nav-link active';
+        document.getElementById('firstDate').value = getToday();
+        document.getElementById('lastDate').value = getToday();
+        function mesaj() {
+            var tttt = document.getElementById('Seller').value;
+            alert(tttt);
+        }
+    </script>
+    }  
 
-<script>
-    document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-    document.getElementById('sidemenu1_1').className = 'nav-link active';
-    document.getElementById('activeOrders').className = 'nav-link active';
-    document.getElementById('firstDate').value = getToday();
-    document.getElementById('lastDate').value = getToday();
-    function mesaj() {
-        var tttt = document.getElementById('Seller').value;
-        alert(tttt);
-    }
-</script>

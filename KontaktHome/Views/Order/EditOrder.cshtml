@@ -599,11 +599,13 @@
         </div>
     </div>
 </div>
-<script>
+@section JavaScript{
+    <script>
     function setText(obj) {
         var t = $(obj).text();
         document.getElementById("addresslocation").value = t;
     }
     document.getElementById('visitorCode').value='@Model.VisitorCode';
     document.getElementById('designerCode').value='@Model.DesignerCode';
-</script>
+    </script>
+}

@@ -1,4 +1,4 @@
-﻿@using KontaktHome.Models
+﻿
 <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
@@ -9,7 +9,8 @@
                 <i class="nav-icon fas fa-copy"></i>
                 <p> Sifariş Modulu <i class="right fas fa-angle-left"></i> </p>
             </a>
-            @if (CurrentSession.User.IsSeller == true || CurrentSession.User.IsAdmin == true)
+
+            @if (HttpContext.Current.User.IsInRole("Satici") || HttpContext.Current.User.IsInRole("Admin"))
             {
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
@@ -20,7 +21,7 @@
                     </li>
                 </ul>
             }
-            @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true || CurrentSession.User.IsSeller == true)
+            @if (HttpContext.Current.User.IsInRole("Satici") || HttpContext.Current.User.IsInRole("Admin") || HttpContext.Current.User.IsInRole("Kordinator"))
             {
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
@@ -31,7 +32,7 @@
                     </li>
                 </ul>
             }
-            @if (CurrentSession.User.IsVisitor == true || CurrentSession.User.IsAdmin == true)
+            @if (HttpContext.Current.User.IsInRole("Vizitor") || HttpContext.Current.User.IsInRole("Admin"))
             {
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
@@ -42,7 +43,7 @@
                     </li>
                 </ul>
             }
-            @if (CurrentSession.User.IsDesigner == true || CurrentSession.User.IsAdmin == true)
+            @if (HttpContext.Current.User.IsInRole("Dizayner") || HttpContext.Current.User.IsInRole("Admin"))
             {
                 <ul class="nav nav-treeview">
                     <li class="nav-item">
@@ -53,9 +54,9 @@
                     </li>
                 </ul>
             }
-        </li>      
+        </li>
         <!-- Section 2-->
-        @if (CurrentSession.User.IsAdmin == true)
+        @if (HttpContext.Current.User.IsInRole("Admin"))
         {
             <li id="sidemenu2" class="nav-item has-treeview ">
                 <a id="sidemenu2_1" href="#" class="nav-link ">
