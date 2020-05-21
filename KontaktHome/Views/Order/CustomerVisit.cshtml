@@ -285,7 +285,7 @@
                                 var panelType = "panelType_" + '@i';
                                 document.getElementById(panelType).value = '@Model.visitData[i].PanelType';
                                  var doorType = "doorType_" + '@i';
-                                document.getElementById(doorType).value = '@Model.visitData[i].DoorType';
+                                    document.getElementById(doorType).value = '@Model.visitData[i].DoorType';
                                 </script>
                             }
                         </div>
@@ -296,9 +296,11 @@
                                 </div>
                                 <div class="col-sm-6 bg-light">
                                     @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })
-                                    @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
                                     <button type="button" class="btn-sm btn-danger float-right" onclick="deleteimages()"><i class="far fa-trash-alt"></i></button>
                                 </div>
+                                <div class="col-sm-6">
+                                    @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
+                                </div>                               
                             </div>
                         </div>
                     </div>

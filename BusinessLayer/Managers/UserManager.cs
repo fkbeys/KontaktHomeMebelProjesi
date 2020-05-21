@@ -98,14 +98,9 @@ namespace BusinessLayer
             {
                 user.Result.UserPassword = data.UserPassword;
                 user.Result.UserDisplayName = data.UserDisplayName;
-                user.Result.IsActive = data.IsActive;
-                user.Result.IsAdmin = data.IsAdmin;
-                user.Result.IsCord = data.IsCord;
-                user.Result.IsSeller = data.IsSeller;
-                user.Result.IsVisitor = data.IsVisitor;
+                user.Result.IsActive = data.IsActive;           
                 user.Result.StoreCode = data.StoreCode;
-                user.Result.StoreName = data.StoreName;
-                user.Result.IsDesigner = data.IsDesigner;
+                user.Result.StoreName = data.StoreName;             
 
                 if (base.Update(user.Result) == 0)
                 {

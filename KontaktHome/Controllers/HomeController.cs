@@ -1,10 +1,12 @@
 ﻿using BusinessLayer;
 using BusinessLayer.QueryResult;
 using Entities;
+using Entities.Model;
 using KontaktHome.Filters;
 using KontaktHome.Models;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -15,11 +17,19 @@ namespace KontaktHome.Controllers
     public class HomeController : Controller
     {
         private UserManager userManager = new UserManager();
+        private OrderManager orderManager = new OrderManager();
         // GET: Home
         [Auth]
         public ActionResult Index()
         {
-            return View();
+            int[] orderstatuses = new int[] { 2,3,4,5,6 };
+            Widgets widgets = new Widgets();
+            widgets.WaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 1).Count();
+            widgets.ProcessingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && orderstatuses.Contains(x.OrderStatus)).Count();
+            widgets.SaleWaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus==7).Count();
+            widgets.ProductionOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 8).Count();
+
+            return View(widgets);
         }
         public ActionResult Login()
         {

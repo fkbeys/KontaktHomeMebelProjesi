@@ -3,13 +3,7 @@
 @{
     ViewBag.Title = "NewOrder";
 }
-@section JavaScript{
-    <script>
-        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
-        document.getElementById('sidemenu1_1').className = 'nav-link active';
-        document.getElementById('newOrder').className = 'nav-link active';
-    </script>
-}
+
 <div class="content  ">
     <div class="container">
         <!-- /.left panel -->
@@ -161,6 +155,14 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">                                   
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.CustomerWillAnswer, new { @class = "custom-control-input", @type = "checkbox", @id = "custWillAnswer" })
+                                        @Html.LabelFor(c => c.CustomerWillAnswer, new { @class = "custom-control-label", @for = "custWillAnswer" })
+                                    </div>                                  
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -563,8 +565,11 @@
             var t = $(obj).text();
             document.getElementById("addresslocation").value = t;
         }
+        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu1_1').className = 'nav-link active';
+        document.getElementById('newOrder').className = 'nav-link active';
     </script>
-    }
+}
 
 
 

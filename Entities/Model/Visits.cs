@@ -22,10 +22,13 @@ namespace Entities
         public string UpdateUser { get; set; }
         public int OrderId { get; set; }
         [Required(ErrorMessage = "En yazılmayıb")]
+        [DisplayName("En")]
         public double DWidth { get; set; }
         [Required(ErrorMessage = "Uzunluq yazılmayıb")]
+        [DisplayName("Uzun")]
         public double DLenght { get; set; }
         [Required(ErrorMessage = "Hündürlük yazılmayıb")]
+        [DisplayName("Hündürlük")]
         public double DHeight { get; set; }
         [RequiredIf("ProductCode!=null", ErrorMessage ="Material növü seçilməyib")]
         public string MaterialType { get; set; }
@@ -44,6 +47,7 @@ namespace Entities
         [RequiredIf("DoorType!=null", ErrorMessage = "Qapi rengi yazılmayıb")]
         public string DoorColour { get; set; }
         public double Price { get; set; }
+        public double FinalPrice { get; set; }
         [DisplayName("Razılaşmadı")]
         public bool IsDeclined { get; set; }
         [DataType(DataType.MultilineText)]

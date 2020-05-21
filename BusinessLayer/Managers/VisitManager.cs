@@ -26,9 +26,7 @@ namespace BusinessLayer
                     hasData = true;
                     break;
                 }
-
             }
-
             if (hasData == false)
             {
                 DateTime tarix = DateTime.Now;
@@ -43,12 +41,12 @@ namespace BusinessLayer
                         item.VisitGuid = guid;
                         item.OrderId = orderId;
                         item.Price = 0;
+                        item.FinalPrice = 0;
                         if (base.Insert(item) == 0)
                         {
                             visitdata.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi.Qeyd Tamamlanmadı.");
                         }
                     }
-
                 }
             }
             else
@@ -76,6 +74,10 @@ namespace BusinessLayer
                             item.LastUpdate = tarix;
                             item.UpdateUser = user.UserName;
                             visitdata.Result = Find(x => x.VisitID == item.VisitID);
+                            if (item.IsDeclined==false)
+                            {
+                                item.FinalPrice = item.Price;
+                            }
                             if (visitdata.Result != null)
                             {
                                 visitdata.Result.VisitGuid = item.VisitGuid;
@@ -101,10 +103,8 @@ namespace BusinessLayer
                                 visitdata.Result.Price = item.Price;
                                 visitdata.Result.IsDeclined = item.IsDeclined;
                                 visitdata.Result.DeclineReason = item.DeclineReason;
-
+                                visitdata.Result.FinalPrice = item.FinalPrice;
                             }
-
-
                             if (base.Update(visitdata.Result) == 0)
                             {
                                 visitdata.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");

@@ -80,32 +80,7 @@
                                     @Html.EditorFor(model => model.EditDate, new { htmlAttributes = new { @class = "form-control", id = "userEditdate", placeholder = "Gün ..." } })
                                     @Html.ValidationMessageFor(model => model.EditDate, "", new { @class = "text-danger" })
                                 </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label>İstifadəçi Səlahiyyətləri</label>
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsAdmin, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox1" })
-                                        @Html.LabelFor(c => c.IsAdmin, new { @class = "custom-control-label", @for = "customCheckbox1" })
-                                    </div>
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsCord, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox2" })
-                                        @Html.LabelFor(c => c.IsCord, new { @class = "custom-control-label", @for = "customCheckbox2" })
-                                    </div>
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsSeller, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox3" })
-                                        @Html.LabelFor(c => c.IsSeller, new { @class = "custom-control-label", @for = "customCheckbox3" })
-                                    </div>
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsVisitor, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox4" })
-                                        @Html.LabelFor(c => c.IsVisitor, new { @class = "custom-control-label", @for = "customCheckbox4" })
-                                    </div>
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsDesigner, new { @class = "custom-control-input", @type = "checkbox", @id = "customCheckbox5" })
-                                        @Html.LabelFor(c => c.IsDesigner, new { @class = "custom-control-label", @for = "customCheckbox5" })
-                                    </div>
-                                </div>
-                            </div>
+                            </div>                         
                         </div>
                     </div>
                     <div class="card-footer">

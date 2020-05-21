@@ -178,7 +178,7 @@
                             </div>
 
                         </div>
-                        @if (CurrentSession.User.IsVisitor == true)
+                        @if (HttpContext.Current.User.IsInRole("Vizitor"))
                         {
                             <div class="row">
                                 <div class="col-sm-6">
@@ -239,7 +239,6 @@
 </div>
 @section JavaScript{
     <script>
-
     document.getElementById('visitorCode').value='@Model.VisitorCode';
     document.getElementById('designerCode').value='@Model.DesignerCode';
     </script>

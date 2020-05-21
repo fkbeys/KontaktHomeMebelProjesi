@@ -11,7 +11,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Razor.Generator;
 using System.Web.Services;
 
 namespace KontaktHome.Controllers
@@ -199,6 +201,8 @@ namespace KontaktHome.Controllers
                                ).ToList();
             var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
+            ViewBag.Visitor = listvisitor;
+            ViewBag.Designer = listdesigner;
             if (order == null)
             {
                 return HttpNotFound();
@@ -219,9 +223,7 @@ namespace KontaktHome.Controllers
                     TempData["typ"] = "error";
                     return RedirectToAction("ActiveOrders");
                 }
-            }
-            ViewBag.Visitor = listvisitor;
-            ViewBag.Designer = listdesigner;
+            }            
             return View(order);
         }
 
@@ -558,18 +560,18 @@ namespace KontaktHome.Controllers
                     {
                         if (file != null)
                         {
-                            var InputFileName = Path.GetFileName(file.FileName);
-                            var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
-                            var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
-                            file.SaveAs(ServerSavePath);
-                            visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 1 });
+                            string fileType = file.ContentType.ToLower();
+                            if (CheckFileType.checkIfImage(fileType))
+                            {
+                                var InputFileName = Path.GetFileName(file.FileName);
+                                var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
+                                var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
+                                file.SaveAs(ServerSavePath);
+                                visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 1 });
+                            }                           
                         }
                     }
-                    BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
-                    if (imageData.Errors.Count > 0)
-                    {
-
-                    }
+                    BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);                   
                 }
                 BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, visitorstatus);
                 TempData["msg"] = "1";
@@ -776,7 +778,7 @@ namespace KontaktHome.Controllers
                 }
                 BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, designerstatus);
                 TempData["msg"] = "Qeyd Yeniləndi!";
-                TempData["typ"] = "sussess";
+                TempData["typ"] = "success";
                 return RedirectToAction("DesignerOrders");
             }
             return View(data);

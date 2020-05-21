@@ -54,6 +54,7 @@ namespace BusinessLayer
                 orders.Result.IsDesignerAdded = data.IsDesignerAdded;
                 orders.Result.VisitorStatus = data.VisitorStatus;
                 orders.Result.Location = data.Location;
+                orders.Result.CustomerWillAnswer = data.CustomerWillAnswer;
 
                 if (base.Update(orders.Result) == 0)
                 {

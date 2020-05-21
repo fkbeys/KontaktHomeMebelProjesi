@@ -40,6 +40,9 @@ $("#dimensionHeight").inputFilter(function (value) {
 $("#orderPrice").inputFilter(function (value) {
     return /^-?\d*[.]?\d*$/.test(value);
 });
+$("#orderFinalPrice").inputFilter(function (value) {
+    return /^-?\d*[.]?\d*$/.test(value);
+});
 $(document).ready(function () {
     $('body').on('click', '#btnOrderEdit', function () {
         var currow = $(this).closest('tr');
@@ -192,7 +195,7 @@ function getActiveOrdersWithParametr() {
                             return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/CloseOrder' + full[7] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> İmtina</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                         }
                         else {
-                            return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
+                            return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a><a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                         }
 
                     }

@@ -335,7 +335,7 @@
                                                 <div class="row border-top border-info pt-3">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Qiymət</label>
+                                                            <label>Təklif Olunan Qiymət</label>
                                                             <div class="col-form-txt">
                                                                 @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ..." } })
                                                             </div>
@@ -352,6 +352,14 @@
                                                             <label>Razılaşmama Səbəbi</label>
                                                             <div class="col-form-txt">
                                                                 @Html.EditorFor(x => x.visitData[i].DeclineReason, new { htmlAttributes = new { @class = "form-control", id = "declinereason", placeholder = "Razılaşmama səbəbi ...", rows = "3" } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Yekun Məbləğ</label>
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].FinalPrice, new { htmlAttributes = new { @class = "form-control", id = "orderFinalPrice", placeholder = "Yekun Məbləğ ..." } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -383,9 +391,11 @@
                                     @Html.LabelFor(x => x.orderFiles.orderFiles, htmlAttributes: new { @class = "control-label" })
                                 </div>
                                 <div class="col-sm-6 bg-light">
-                                    @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })
-                                    @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
+                                    @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })                                   
                                     <button type="button" class="btn-sm btn-danger float-right" onclick="deleteimages()"><i class="far fa-trash-alt"></i></button>
+                                </div>
+                                <div class="col-sm-6">
+                                    @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>

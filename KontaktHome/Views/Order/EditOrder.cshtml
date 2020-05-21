@@ -160,6 +160,14 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        @Html.CheckBoxFor(model => model.CustomerWillAnswer, new { @class = "custom-control-input", @type = "checkbox", @id = "custWillAnswer" })
+                                        @Html.LabelFor(c => c.CustomerWillAnswer, new { @class = "custom-control-label", @for = "custWillAnswer" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -170,7 +178,7 @@
                             </div>
 
                         </div>
-                        @if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
+                        @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
                         {
                             <div class="row">
                                 <div class="col-sm-6">
