@@ -1,0 +1,87 @@
+﻿@using Entities
+@model Stores
+@{
+    ViewBag.Title = "CreateStore";
+}
+
+<script>
+        document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu2_1').className = 'nav-link active';
+        document.getElementById('newStore').className = 'nav-link active';
+</script>
+
+<div class="content ">
+    <div class="container">
+        <!-- /.left panel -->
+        <div class="col-md-12">
+            @if (TempData["msg"] != null)
+            {
+                <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
+                Swal.fire(
+                   message,
+                    '',
+                    type
+                )
+                </script>
+            }
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="col-md-12">
+                    @Html.ValidationSummary(false)
+                </div>
+                <div class="card card-primary">
+
+                    <div class="card-header">
+                        <h3 class="card-title">Yeni Mağaza</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mağaza Kodu</label>
+                                    @Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Mağaza kodu..." } })
+                                    @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mağaza Adı</label>
+                                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Mağaza adı..." } })
+                                    @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary float-right">Əlavə Et</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-12">
+            <div class="card card-primary">               
+                <div class="card-body">
+                    <div class="col-md-12">
+                        <div class="table-responsive" id="usersPrint">
+                            <table id="tableStores" class="display" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Mağaza Kodu</th>
+                                        <th>Mağaza Adı</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

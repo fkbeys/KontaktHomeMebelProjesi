@@ -97,6 +97,13 @@ $(document).ready(function () {
         //alert(selectedItemVal);
         //alert(selectedItemText);
     });
+    $("#userStoreCode").change(function () {
+        var selectedItemVal = $("#userStoreCode option:selected").attr("value");
+        var selectedItemText = $("#userStoreCode option:selected").text();
+        $("#userStoreName").val(selectedItemText);
+        //alert(selectedItemVal);
+        //alert(selectedItemText);
+    });
     cmbSelectVistorChange();
     cmbSelectDesignerChange();
 });
@@ -721,7 +728,6 @@ function getToday() {
     today = mm + '/' + dd + '/' + yyyy;
     return today;
 }
-
 var userroleid = $("#roleUSERID").val();
 $('#tableRoles').DataTable({
     "destroy": true,
@@ -752,7 +758,7 @@ $('#tableRoles').DataTable({
                 //return '<a href="/Admin/DeleteUserRole?roleid=' + full[3] + '" type="submit" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>';
                 return '<button type="submit" value="' + full[3] + '" name="roleMappingID" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</button >';
             }
-        } 
+        }
     ],
     "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
@@ -768,5 +774,104 @@ $('#tableRoles').DataTable({
         }
     ]
 });
+$('#tableStores').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Admin/GetStores",
+        "type": 'POST',
+        "data": data,
+        "dataSrc": ""
+    },
+    "columns": [
+        {
+            "data": "0"
+        },
+        {
+            "data": "1"
+        },
+        {
+            "data": "2"
+        },
+        {
+            //data: null, render: function () {
+            //    return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
+            //}
+            data: null, render: function (data, type, full) {
+                return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[2]}');" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</button>`;
+                //return '<a href="/Admin/DeleteStore?storeid=' + full[0] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>';
+            }
+        }
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    },
+    "columnDefs": [
+        {
+            "targets": [3],
+            "searchable": false
+        },
+        {
+            "targets": [0],
+            "visible": false
+        }
+    ]
+});
+function fancyConfirm(storeid,storecode,storename) {
+    $.fancyConfirm({
+        title: storecode +" kodlu mağaza silinəcək!",
+        message: "Davam etmək istəyirisinizmi?",
+        okButton: 'Bəli',
+        noButton: 'Xeyr',
+        callback: function (value) {
+            if (value) {
+                var url = '/Admin/DeleteStore?storeid='+storeid;
+                window.location = url;
+            } else {
+                
+            }
+        }
+    });
+}
+$.fancyConfirm = function (opts) {
+    opts = $.extend(true, {
+        title: 'Are you sure?',
+        message: '',
+        okButton: 'OK',
+        noButton: 'Cancel',
+        callback: $.noop
+    }, opts || {});
+
+    $.fancybox.open({
+        type: 'html',
+        src:
+            '<div class="fc-content">' +
+            '<h4>' + opts.title + '</h4>' +
+            '<p>' + opts.message + '</p>' +
+            '<p class="float-right">' +
+            '<button data-value="0" data-fancybox-close class="btn btn-danger mr-3">' + opts.noButton + '</button>' +
+            '<button data-value="1" data-fancybox-close class="btn btn-primary">' + opts.okButton + '</button>' +
+            '</p>' +
+            '</div>',
+        opts: {
+            animationDuration: 350,
+            animationEffect: 'material',
+            modal: true,
+            baseTpl:
+                '<div class="fancybox-container fc-container" role="dialog" tabindex="-1">' +
+                '<div class="fancybox-bg"></div>' +
+                '<div class="fancybox-inner">' +
+                '<div class="fancybox-stage"></div>' +
+                '</div>' +
+                '</div>',
+            afterClose: function (instance, current, e) {
+                var button = e ? e.target || e.currentTarget : null;
+                var value = button ? $(button).data('value') : 0;
+
+                opts.callback(value);
+            }
+        }
+    });
+}
+
 
 

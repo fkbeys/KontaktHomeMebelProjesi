@@ -24,7 +24,8 @@ namespace Entities.Messages
         DataNotFound = 170,
         DataUpdateError = 171,
         DataInsertError=172,
-        RoleAlreadyAssigned=180,
+        DataAlreadyExists = 173,
+        RoleAlreadyAssigned =180,
         RoleCouldnotInserted=181
     }
 }

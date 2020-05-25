@@ -24,6 +24,8 @@
     <link href="~/plugins/datetimepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
     <!--Data Table-->
     <link href="~/plugins/DataTables_2/DataTables-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <!--Fancybox-->
+    <link href="~/plugins/fancybox/jquery.fancybox.min.css" rel="stylesheet" />
     <!--Alert-->
     <link href="~/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
     <link href="~/Content/Custom.css" rel="stylesheet" />
@@ -111,6 +113,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+    <script src="~/plugins/fancybox/jquery.fancybox.min.js"></script>
     <script>
         $(function () {
             $('#telno1').inputmask("(999)999-99-99")
@@ -132,6 +135,6 @@
             });
         })
     </script>
-    @RenderSection("JavaScript",false)
+    @RenderSection("JavaScript", false)
 </body>
 </html>

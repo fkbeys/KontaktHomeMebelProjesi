@@ -644,6 +644,10 @@
     <Content Include="plugins\ekko-lightbox\ekko-lightbox.css" />
     <Content Include="plugins\ekko-lightbox\ekko-lightbox.js" />
     <Content Include="plugins\ekko-lightbox\ekko-lightbox.min.js" />
+    <Content Include="plugins\fancybox\jquery.fancybox.css" />
+    <Content Include="plugins\fancybox\jquery.fancybox.js" />
+    <Content Include="plugins\fancybox\jquery.fancybox.min.css" />
+    <Content Include="plugins\fancybox\jquery.fancybox.min.js" />
     <Content Include="plugins\flag-icon-css\css\flag-icon.css" />
     <Content Include="plugins\flag-icon-css\css\flag-icon.min.css" />
     <Content Include="plugins\flag-icon-css\flags\1x1\ad.svg" />
@@ -1624,6 +1628,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Admin\CreateStore.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

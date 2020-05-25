@@ -26,6 +26,7 @@ namespace KontaktHome.Controllers
         private UserManager userManager = new UserManager();
         private UserRolesManager userRolesManager = new UserRolesManager();
         private UserRolesMappingManager userRoleMappingManager = new UserRolesMappingManager();
+        private StoresManager storesManager = new StoresManager();
         public ActionResult Index()
         {
             return View();
@@ -53,6 +54,9 @@ namespace KontaktHome.Controllers
         {
             Users user = new Users();
             user.myADUsers = GetADUsers();
+            List<Stores> magazalar = storesManager.List();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            ViewBag.Stores = magaza;
             return View(user);
         }
         [HttpPost]
@@ -85,6 +89,9 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "error";
                 return RedirectToAction("Index");
             }
+            List<Stores> magazalar = storesManager.List();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            ViewBag.Stores = magaza;
             return View(user);
         }
         [HttpPost]
@@ -217,12 +224,63 @@ namespace KontaktHome.Controllers
                 {
                     TempData["msg"] = "Istifadəçi səlahiyyəti silindi!";
                     TempData["typ"] = "success";
-                    return RedirectToAction("UserRoles",new { roles.Result.UserID });
+                    return RedirectToAction("UserRoles", new { roles.Result.UserID });
                 }
 
-               
+
             }
             return RedirectToAction("Index");
+        }
+        public ActionResult CreateStore()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateStore(Stores data)
+        {
+            if (ModelState.IsValid)
+            {
+                BusinessLayerResult<Stores> newStore = storesManager.InsertStore(data);
+                if (newStore.Errors.Count > 0)
+                {
+                    newStore.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    return View(data);
+                }
+                TempData["msg"] = "Mağaza qeyd edildi!";
+                TempData["typ"] = "success";
+                return RedirectToAction("CreateStore");
+            }
+            return View(data);
+        }
+        [WebMethod]
+        public ActionResult GetStores()
+        {
+            List<Stores> magazalar = storesManager.List();
+            var UserData = new object[magazalar.Count()];
+            int j = 0;
+            foreach (var item in magazalar)
+            {
+                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DeleteStore(int? storeid)
+        {
+            BusinessLayerResult<Stores> store = storesManager.DeleteStore(storeid);
+            if (store.Errors.Count > 0)
+            {
+                string storeerror = "";
+                store.Errors.ForEach(x => storeerror=x.Message);
+                TempData["msg"] = storeerror;
+                TempData["typ"] = "error";
+                return RedirectToAction("CreateStore");
+            }
+            TempData["msg"] = "Seçilən Mağaza silindi!";
+            TempData["typ"] = "success";
+            return RedirectToAction("CreateStore");
+
         }
     }
 
