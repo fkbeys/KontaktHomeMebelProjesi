@@ -238,17 +238,66 @@
                         }
                     </div>
                     <div class="card-footer">
+                        @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+                        {
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                                Dəyişən Qeydlər
+                            </button>
+                        }
                     </div>
                 </div>
             }
         </div>
     </div>
 </div>
-@section JavaScript{
-    <script>
-
+<!-- Modal -->
+@if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+{
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Dəyişən Qeydlər</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Sütun</th>
+                                <th scope="col">Köhnə Dəyər</th>
+                                <th scope="col">Yeni Dəyər</th>
+                                <th scope="col">Dəyişmə Tarixi</th>
+                                <th scope="col">Dəyişən İstifadəçi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.ChangeLog)
+                            {
+                                <tr>
+                                    <th>@item.PropertyName</th>
+                                    <td>@item.OldValue</td>
+                                    <td>@item.NewValue</td>
+                                    <td>@item.DateChanged</td>
+                                    <td>@item.ChangedUser</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    @section JavaScript{
+        <script>
     document.getElementById('visitorCode').value='@Model.VisitorCode';
     document.getElementById('designerCode').value='@Model.DesignerCode';
-    </script>
+        </script>
     }
 

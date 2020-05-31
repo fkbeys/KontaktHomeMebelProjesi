@@ -31,6 +31,7 @@ namespace KontaktHome.Controllers
         private StoresManager storesManager = new StoresManager();
         private UserRolesManager userRoleManager = new UserRolesManager();
         private UserRolesMappingManager userRolesMappingManager = new UserRolesMappingManager();
+        private ChangeLogManager changeLogManager = new ChangeLogManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -358,8 +359,10 @@ namespace KontaktHome.Controllers
             {
                 return HttpNotFound();
             }
+            List<ChangeLog> changeLog = changeLogManager.List(x => x.PrimaryKeyValue == order.OrderId.ToString() && x.EntityName == "Orders").ToList();
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
+            ViewBag.ChangeLog = changeLog;
             return View(order);
         }
 
