@@ -19,6 +19,24 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="col-sm-12">
+                                    <label>Sifariş Nömrəsi : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.OrderId)</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <label>Sifariş Tarixi : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CreateOn)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="col-sm-12">
+                                    <label>Sifariş Mağazası : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.OrderStore)</label>
+                                </div>
+                                <div class="col-sm-12">
                                     <label>Müştəri Adı : </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerName)</label>
                                 </div>
@@ -42,54 +60,6 @@
                                     <label>Ziyarət Tarixi : </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitDate)</label>
                                 </div>
-                                <div class="col-sm-12">
-                                    <label>Satıcı Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.SellerCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Status: </label>
-                                    @if (Model.order.VisitorStatus == 1)
-                                    {
-                                        <label class="text-secondary">Gözləmədə</label>
-                                    }
-                                    else if (Model.order.VisitorStatus == 2)
-                                    {
-                                        <label class="text-secondary">Qəbul Edilib</label>
-                                    }
-                                    else if (Model.order.VisitorStatus == 3)
-                                    {
-                                        <label class="text-secondary">Vizit Edilib</label>
-                                    }
-                                    else if (Model.order.VisitorStatus == 4)
-                                    {
-                                        <label class="text-secondary">Vizit Tamamlanıb</label>
-                                    }
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Siafriş Status: </label>
-                                    @if (Model.order.OrderStatus == 1)
-                                    {
-                                        <label class="text-secondary">Gözləmədə</label>
-                                    }
-                                    else if (Model.order.OrderStatus == 2)
-                                    {
-                                        <label class="text-secondary">Vizitor Təyin Edilib</label>
-                                    }
-                                    else if (Model.order.OrderStatus == 3)
-                                    {
-                                        <label class="text-secondary">Dizayner Təyin Edilib</label>
-                                    }
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
                                 <div class="col-sm-12">
                                     <label>Ünvan : </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.Address)</label>
@@ -116,7 +86,9 @@
                                 <div class="col-sm-12">
                                     <label>Sifariş Qeyd: </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.Note)</label>
-                                </div>
+                                </div>                              
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="col-sm-12">
                                     <label>Məhsul Sayı: </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemCount)</label>
@@ -124,6 +96,22 @@
                                 <div class="col-sm-12">
                                     <label>Məhsul Açıqlama: </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemDescription)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Satıcı Kodu : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.SellerCode)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Vizitor Kodu : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorCode)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Vizitor Adı : </label>
+                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorName)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Vizitor Status: </label>
+                                    <label class="text-secondary">@BusinessLayer.QueryResult.Statuses.VisitorOrderStatus(Model.order.VisitorStatus)</label>
                                 </div>
                                 <div class="col-sm-12">
                                     <label>Dizayner Kodu : </label>
@@ -135,22 +123,11 @@
                                 </div>
                                 <div class="col-sm-12">
                                     <label>Dizayner Status : </label>
-                                    @if (Model.order.DesignerStatus == 1)
-                                    {
-                                        <label class="text-secondary">Gözləmədə</label>
-                                    }
-                                    else if (Model.order.DesignerStatus == 2)
-                                    {
-                                        <label class="text-secondary">Qəbul Edilib</label>
-                                    }
-                                    else if (Model.order.DesignerStatus == 3)
-                                    {
-                                        <label class="text-secondary">Dizayn Edilib</label>
-                                    }
-                                    else if (Model.order.DesignerStatus == 4)
-                                    {
-                                        <label class="text-secondary">Dizayn Tamamlanıb</label>
-                                    }
+                                    <label class="text-secondary">@BusinessLayer.QueryResult.Statuses.DesignerStatus(Model.order.DesignerStatus)</label>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label>Siafriş Status: </label>
+                                    <label class="text-secondary"> @BusinessLayer.QueryResult.Statuses.OrderStatus(Model.order.OrderStatus)</label>
                                 </div>
                             </div>
                         </div>
@@ -195,9 +172,7 @@
                                                     <div class="col-sm-6">
                                                         <label>Mebel Tipi</label>
                                                         <div class="form-group">
-
                                                             @Html.EditorFor(x => x.visitData[i].ProductCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -308,7 +283,7 @@
                                                 <div class="row border-top border-info pt-3">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
-                                                            <label>Qiymət</label>
+                                                            <label>Təklif Olunan Qiymət</label>
                                                             <div class="col-form-txt">
                                                                 @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ...", @readonly = "readonly" } })
                                                             </div>
@@ -325,6 +300,14 @@
                                                             <label>Razılaşmama Səbəbi</label>
                                                             <div class="col-form-txt">
                                                                 @Html.EditorFor(x => x.visitData[i].DeclineReason, new { htmlAttributes = new { @class = "form-control", id = "declinereason", placeholder = "Razılaşmama səbəbi ...", rows = "3", @readonly = "readonly" } })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label>Yekun Məbləğ</label>
+                                                            <div class="col-form-txt">
+                                                                @Html.EditorFor(x => x.visitData[i].FinalPrice, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Qiymət ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>

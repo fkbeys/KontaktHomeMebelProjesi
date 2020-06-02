@@ -61,6 +61,10 @@ namespace BusinessLayer.QueryResult
             {
                 return "Dizayn Tamamlanıb";
             }
+            else if (status == 8)
+            {
+                return "Sifariş Fakturalaşıb";
+            }
             else
             {
                 return "";

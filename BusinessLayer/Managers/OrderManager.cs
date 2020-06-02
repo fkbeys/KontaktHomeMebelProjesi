@@ -23,11 +23,12 @@ namespace BusinessLayer
             return orders;
         }
         public BusinessLayerResult<Orders> UpdateOrder(Orders data)
-        {
+        {            
             Orders getOrder = Find(x => x.OrderId == data.OrderId);
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
+               
                 orders.Result = Find(x => x.OrderId == data.OrderId);
                 orders.Result.LastUpdate = data.LastUpdate;
                 orders.Result.UpdateUser = data.UpdateUser;
@@ -55,6 +56,13 @@ namespace BusinessLayer
                 orders.Result.VisitorStatus = data.VisitorStatus;
                 orders.Result.Location = data.Location;
                 orders.Result.CustomerWillAnswer = data.CustomerWillAnswer;
+                orders.Result.IsCompleted = data.IsCompleted;
+                orders.Result.InvoiceNo = data.InvoiceNo;
+                if (data.IsCompleted == true)
+                {
+                    orders.Result.IsActive = false;
+                    orders.Result.OrderStatus = 8;
+                }
 
                 if (base.Update(orders.Result) == 0)
                 {

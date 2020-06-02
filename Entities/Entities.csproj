@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\AllowFileSize.cs" />
+    <Compile Include="Helper\CustomValidation.cs" />
     <Compile Include="Model\ChangeLog.cs" />
     <Compile Include="Model\CustomerVisitData.cs" />
     <Compile Include="Model\LoginViewModel.cs" />

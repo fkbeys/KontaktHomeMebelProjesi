@@ -203,7 +203,8 @@ namespace KontaktHome.Controllers
             var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             ViewBag.Visitor = listvisitor;
-            ViewBag.Designer = listdesigner;
+            ViewBag.Designer = listdesigner;       
+            ViewBag.Link = "/Order/VisitInfo?q=" + Encrypt.EncryptString("Sira=" + order.OrderId.ToString());
             if (order == null)
             {
                 return HttpNotFound();
@@ -313,12 +314,34 @@ namespace KontaktHome.Controllers
                     return RedirectToAction("ActiveOrders");
                 }
             }
+            List<Users> users1 = (from user in userManager.ListQueryable()
+                                 join roleMapping in userRolesMappingManager.ListQueryable()
+                                 on user.UserID equals roleMapping.UserID
+                                 join role in userRoleManager.ListQueryable()
+                                 on roleMapping.RoleID equals role.ID
+                                 where role.RoleName == "Vizitor" && user.IsActive == true
+                                 select user
+                          ).ToList();
+            var listvisitor = users1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
+            //List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
+            List<Users> designers1 = (from user in userManager.ListQueryable()
+                                     join roleMapping in userRolesMappingManager.ListQueryable()
+                                     on user.UserID equals roleMapping.UserID
+                                     join role in userRoleManager.ListQueryable()
+                                     on roleMapping.RoleID equals role.ID
+                                     where role.RoleName == "Dizayner" && user.IsActive == true
+                                     select user
+                               ).ToList();
+            var listdesigner = designers1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
+            ViewBag.Visitor = listvisitor;
+            ViewBag.Designer = listdesigner;
+            ViewBag.Link = "/Order/VisitInfo?q=" + Encrypt.EncryptString("Sira=" + data.OrderId.ToString());
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Orders> order = orderManager.UpdateOrder(data);
                 if (order.Errors.Count > 0)
                 {
-                    order.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    order.Errors.ForEach(x => ModelState.AddModelError("", x.Message));                  
                     return View(data);
                 }
                 TempData["msg"] = "Qeyd Yeniləndi!";
@@ -566,10 +589,13 @@ namespace KontaktHome.Controllers
                             string fileType = file.ContentType.ToLower();
                             if (CheckFileType.checkIfImage(fileType))
                             {
+                                WebImage img = new WebImage(file.InputStream);
+                                if (img.Width > 1280)
+                                    img.Resize(1280, 800);
                                 var InputFileName = Path.GetFileName(file.FileName);
                                 var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
                                 var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
-                                file.SaveAs(ServerSavePath);
+                                img.Save(ServerSavePath); 
                                 visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 1 });
                             }                           
                         }
@@ -766,18 +792,22 @@ namespace KontaktHome.Controllers
                     {
                         if (file != null)
                         {
-                            var InputFileName = Path.GetFileName(file.FileName);
-                            var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
-                            var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
-                            file.SaveAs(ServerSavePath);
-                            visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 2 });
+                            string fileType = file.ContentType.ToLower();
+                            if (CheckFileType.checkIfImage(fileType))
+                            {
+                                WebImage img = new WebImage(file.InputStream);
+                                if (img.Width > 1280)
+                                    img.Resize(1280, 800);
+                                var InputFileName = Path.GetFileName(file.FileName);
+                                var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
+                                var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
+                                img.Save(ServerSavePath);
+                                visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 2 });
+                            }
                         }
                     }
                     BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
-                    if (imageData.Errors.Count > 0)
-                    {
-
-                    }
+                    
                 }
                 BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, designerstatus);
                 TempData["msg"] = "Qeyd Yeniləndi!";

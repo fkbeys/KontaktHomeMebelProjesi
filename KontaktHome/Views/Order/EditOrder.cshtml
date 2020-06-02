@@ -31,6 +31,28 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-sm-12  border-bottom border-info pb-1 mb-1">
+                                <label>Siafriş Status: </label>
+                                <label class="text-secondary">@BusinessLayer.QueryResult.Statuses.OrderStatus(Model.OrderStatus)</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Sifariş Nömrəsi</label>
+                                    @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mağaza</label>
+                                    @Html.EditorFor(model => model.OrderStore, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Satıcı Kodu</label>
+                                    @Html.EditorFor(model => model.SellerCode, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "", @readonly = "readonly" } })
+                                </div>
+                            </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ad</label>
@@ -112,13 +134,7 @@
                                     @Html.ValidationMessageFor(model => model.VisitDate, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Satıcı Kodu</label>
-                                    @Html.EditorFor(model => model.SellerCode, new { htmlAttributes = new { @class = "form-control", id = "sellercode", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.SellerCode, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+
                             <div class="col-md-12"></div>
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -219,10 +235,31 @@
                                     </div>
                                 </div>
                             }
+                            if (Model.OrderStatus == 7)
+                            {
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="custom-control custom-checkbox">
+                                            @Html.CheckBoxFor(model => model.IsCompleted, new { @class = "custom-control-input", @id = "chkCompleted", @type = "checkbox", })
+                                            @Html.LabelFor(model => model.IsCompleted, new { @for = "chkCompleted", @class = "custom-control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Faktura Nömrəsi</label>
+                                            @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Faktura Nömrəsi ..." } })
+                                            @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            }
 
                         }
                     </div>
                     <div class="card-footer">
+                        <a href="@ViewBag.Link" class="btn btn-warning"><i class="fas fa-search"></i> Vizit Məlumatları</a>
                         <button type="submit" class="btn btn-primary float-right">Sorğunu Tamamla</button>
                     </div>
                 </div>

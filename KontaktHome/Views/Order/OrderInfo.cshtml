@@ -33,38 +33,46 @@
                             }
                             <div class="col-sm-12  border-bottom border-info pb-1 mb-1">
                                 <label>Siafriş Status: </label>
-                                @if (Model.OrderStatus == 1)
-                                {
-                                    <label class="text-secondary">Gözləmədə</label>
-                                }
-                                else if (Model.OrderStatus == 2)
-                                {
-                                    <label class="text-secondary">Vizitor Təyin Edilib</label>
-                                }
-                                else if (Model.OrderStatus == 3)
-                                {
-                                    <label class="text-secondary">Dizayner Təyin Edilib</label>
-                                }
+                                <label class="text-secondary">@BusinessLayer.QueryResult.Statuses.OrderStatus(Model.OrderStatus)</label>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Sifariş Nömrəsi</label>
+                                    @Html.EditorFor(model => model.OrderId, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Mağaza</label>
+                                    @Html.EditorFor(model => model.OrderStore, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "", @readonly = "readonly" } })
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Satıcı Kodu</label>
+                                    @Html.EditorFor(model => model.SellerCode, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "", @readonly = "readonly" } })
+                                </div>
+                            </div>
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ad</label>
                                     @Html.EditorFor(model => model.CustomerName, new { htmlAttributes = new { @class = "form-control", id = "customername", placeholder = "Ad ...", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.CustomerName, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Soyad</label>
                                     @Html.EditorFor(model => model.CustomerSurname, new { htmlAttributes = new { @class = "form-control", id = "customersurname", placeholder = "Soyad ...", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.CustomerSurname, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Ata Adı</label>
                                     @Html.EditorFor(model => model.CustomerFatherName, new { htmlAttributes = new { @class = "form-control", id = "customerfname", placeholder = "Ata Adı ...", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.CustomerFatherName, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -76,7 +84,7 @@
                                         </div>
                                         @Html.EditorFor(model => model.Tel1, new { htmlAttributes = new { @class = "form-control", id = "telno1", @readonly = "readonly" } })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Tel1, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -88,7 +96,7 @@
                                         </div>
                                         @Html.EditorFor(model => model.Tel2, new { htmlAttributes = new { @class = "form-control", id = "telno2", @readonly = "readonly" } })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Tel2, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -100,7 +108,7 @@
                                         </div>
                                         @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", id = "customeraddress", placeholder = "Ünvan ...", @readonly = "readonly" } })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -112,7 +120,7 @@
                                         </div>
                                         @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", id = "addresslocation", @placeholder = "Nişangah ...", @readonly = "readonly" } })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-6" id="sandbox-container">
@@ -124,14 +132,7 @@
                                         </div>
                                         @Html.EditorFor(model => model.VisitDate, new { htmlAttributes = new { @class = "form-control", id = "visitdate", @readonly = "readonly" } })
                                     </div>
-                                    @Html.ValidationMessageFor(model => model.VisitDate, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Satıcı Kodu</label>
-                                    @Html.EditorFor(model => model.SellerCode, new { htmlAttributes = new { @class = "form-control", id = "sellercode", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.SellerCode, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-12"></div>
@@ -139,14 +140,14 @@
                                 <div class="form-group">
                                     <label>Məhsul Sayı</label>
                                     @Html.EditorFor(model => model.ItemCount, new { htmlAttributes = new { @class = "form-control", id = "itemCount", placeholder = "Məhsul Sayı ...", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.ItemCount, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label>Qeyd</label>
                                     @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Məhsul Qeydi ...", @readonly = "readonly" } })
-                                    @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+
                                 </div>
                             </div>
                             <div class="col-md-12"></div>
@@ -236,6 +237,22 @@
                                 </div>
                             </div>
                         }
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="custom-control custom-checkbox">
+                                    @Html.CheckBoxFor(model => model.IsCompleted, new { @class = "custom-control-input", @id = "chkCompleted", @type = "checkbox", @disabled = "disabled" })
+                                    @Html.LabelFor(model => model.IsCompleted, new { @for = "chkCompleted", @class = "custom-control-label" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Faktura Nömrəsi</label>
+                                    @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Faktura Nömrəsi ...", @readonly = "readonly" } })                                    
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer">
                         @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))

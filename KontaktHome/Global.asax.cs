@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
+using static Entities.Helper.CustomValidation;
 
 namespace KontaktHome
 {
@@ -16,7 +17,8 @@ namespace KontaktHome
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-        }
+			DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
+		}
 	
 		//protected void Application_BeginRequest(Object sender, EventArgs e)
 		//{
