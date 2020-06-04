@@ -21,7 +21,7 @@ namespace BusinessLayer
             }
             else
             {
-                stores.Result = data;
+                stores.Result = data;               
                 if (base.Insert(stores.Result)==0)
                 {
                     stores.AddError(ErrorMessageCode.DataInsertError, "Mağaza kodu mövcuddur.");
@@ -53,6 +53,33 @@ namespace BusinessLayer
                 }
 
             }          
+            return stores;
+        }
+        public BusinessLayerResult<Stores> DeactivateActivateStore(int? storeid,bool status)
+        {
+            BusinessLayerResult<Stores> stores = new BusinessLayerResult<Stores>();
+            if (storeid == null)
+            {
+                stores.AddError(ErrorMessageCode.DataNotFound, "Seçilən Mağaza kodu tapılmadı.");
+            }
+            else
+            {
+                stores.Result = Find(x => x.StoreID == storeid);
+                stores.Result.IsActive = status;
+                if (stores.Result != null)
+                {
+                    if (base.Update(stores.Result) == 0)
+                    {
+                        stores.AddError(ErrorMessageCode.UserCouldNotRemove, "Seçilən Mağaza deaktiv edilmədi.");
+                        return stores;
+                    }
+                }
+                else
+                {
+                    stores.AddError(ErrorMessageCode.UserCouldNotFind, "Seçilən Mağaza kodu tapılmadı.");
+                }
+
+            }
             return stores;
         }
     }

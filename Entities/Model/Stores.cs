@@ -15,5 +15,6 @@ namespace Entities
         public int StoreID { get; set; }
         public string StoreCode { get; set; }
         public string StoreName { get; set; }
+        public bool IsActive { get; set; }
     }
 }

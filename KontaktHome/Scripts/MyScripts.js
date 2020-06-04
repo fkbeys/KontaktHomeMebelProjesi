@@ -793,11 +793,17 @@ $('#tableStores').DataTable({
             "data": "2"
         },
         {
+            "data": "3"
+        },
+        {
             //data: null, render: function () {
             //    return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
             //}
             data: null, render: function (data, type, full) {
-                return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[2]}');" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</button>`;
+                if (full[3] == true) {
+                    return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[3]}');" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Deaktiv Et</button>`;
+                }
+                return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[3]}');" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Aktiv Et</button>`;
                 //return '<a href="/Admin/DeleteStore?storeid=' + full[0] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>';
             }
         }
@@ -816,21 +822,41 @@ $('#tableStores').DataTable({
         }
     ]
 });
-function fancyConfirm(storeid,storecode,storename) {
-    $.fancyConfirm({
-        title: storecode +" kodlu mağaza silinəcək!",
-        message: "Davam etmək istəyirisinizmi?",
-        okButton: 'Bəli',
-        noButton: 'Xeyr',
-        callback: function (value) {
-            if (value) {
-                var url = '/Admin/DeleteStore?storeid='+storeid;
-                window.location = url;
-            } else {
-                
+function fancyConfirm(storeid, storecode, status) {
+    if (status == 'true') {
+        $.fancyConfirm({
+            title: storecode + " kodlu mağaza deaktiv ediləcək!",
+            message: "Davam etmək istəyirisinizmi?",
+            okButton: 'Bəli',
+            noButton: 'Xeyr',
+            callback: function (value) {
+                if (value) {
+                    var url = '/Admin/DeaktivateStore?storeid=' + storeid;
+                    window.location = url;
+                } else {
+
+                }
             }
-        }
-    });
+        });
+    }
+    else {
+        $.fancyConfirm({
+            title: storecode + " kodlu mağaza aktiv ediləcək!",
+            message: "Davam etmək istəyirisinizmi?",
+            okButton: 'Bəli',
+            noButton: 'Xeyr',
+            callback: function (value) {
+                if (value) {
+                    var url = '/Admin/ActivateStore?storeid=' + storeid;
+                    window.location = url;
+                } else {
+
+                }
+            }
+        });
+    }
+    
+   
 }
 $.fancyConfirm = function (opts) {
     opts = $.extend(true, {

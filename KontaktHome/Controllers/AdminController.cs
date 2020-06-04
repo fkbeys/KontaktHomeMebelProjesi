@@ -241,6 +241,7 @@ namespace KontaktHome.Controllers
         {
             if (ModelState.IsValid)
             {
+                data.IsActive = true;
                 BusinessLayerResult<Stores> newStore = storesManager.InsertStore(data);
                 if (newStore.Errors.Count > 0)
                 {
@@ -261,14 +262,14 @@ namespace KontaktHome.Controllers
             int j = 0;
             foreach (var item in magazalar)
             {
-                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName };
+                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName,item.IsActive };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult DeleteStore(int? storeid)
+        public ActionResult DeaktivateStore(int? storeid)
         {
-            BusinessLayerResult<Stores> store = storesManager.DeleteStore(storeid);
+            BusinessLayerResult<Stores> store = storesManager.DeactivateActivateStore(storeid,false);
             if (store.Errors.Count > 0)
             {
                 string storeerror = "";
@@ -277,7 +278,23 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "error";
                 return RedirectToAction("CreateStore");
             }
-            TempData["msg"] = "Seçilən Mağaza silindi!";
+            TempData["msg"] = "Seçilən Mağaza deaktiv olundu!";
+            TempData["typ"] = "success";
+            return RedirectToAction("CreateStore");
+
+        }
+        public ActionResult ActivateStore(int? storeid)
+        {
+            BusinessLayerResult<Stores> store = storesManager.DeactivateActivateStore(storeid,true);
+            if (store.Errors.Count > 0)
+            {
+                string storeerror = "";
+                store.Errors.ForEach(x => storeerror = x.Message);
+                TempData["msg"] = storeerror;
+                TempData["typ"] = "error";
+                return RedirectToAction("CreateStore");
+            }
+            TempData["msg"] = "Seçilən Mağaza aktiv olundu!";
             TempData["typ"] = "success";
             return RedirectToAction("CreateStore");
 
