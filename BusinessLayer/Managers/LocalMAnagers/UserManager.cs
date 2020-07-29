@@ -49,7 +49,7 @@ namespace BusinessLayer
             }
             else
             {
-                res.AddError(ErrorMessageCode.UsernameOrPassWrong, "İstifadəçi adı və ya şifrə düzgün deyil.");
+                res.AddError(ErrorMessageCode.UsernameOrPassWrong, "İstifadəçi adı mövcud deyil.");
             }
             return res;
         }

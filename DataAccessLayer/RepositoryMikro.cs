@@ -1,5 +1,4 @@
-﻿using Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -9,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    public class Repository<T> : RepositoryBase where T : class
+    public class RepositoryMikro<T> : RepositoryBaseMikro where T : class
     {
         private DbSet<T> _objectSet;
 
-        public Repository()
+        public RepositoryMikro()
         {
-            _objectSet = context.Set<T>();
+            _objectSet = contextmikro.Set<T>();
         }
         public List<T> List()
         {
@@ -41,23 +40,22 @@ namespace DataAccessLayer
             return Save();
         }
         public int Update(T obj)
-        {      
+        {           
             return Save();
         }
         public int Delete(T obj)
-        {            
+        {
             _objectSet.Remove(obj);
             return Save();
         }
 
         public int Save()
-        {           
-            return context.SaveChanges();
-        }       
+        {
+            return contextmikro.SaveChanges();
+        }
         public T Find(Expression<Func<T, bool>> where)
         {
             return _objectSet.FirstOrDefault(where);
-        }       
+        }
     }
-    
 }

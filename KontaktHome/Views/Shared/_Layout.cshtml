@@ -1,5 +1,4 @@
-﻿
-@using KontaktHome.Models
+﻿@using KontaktHome.Models
 
 <!DOCTYPE html>
 <html>
@@ -55,15 +54,15 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="/Home/Index" class="brand-link">
-                <img src="/dist/img/default-150x150.png" alt="KontaktHome Logo" class="brand-image elevation-0"
-                     style="opacity: .8"> <span class="brand-text font-weight-light">LOGO</span>
+                <img src="~/dist/img/logo.jpg" alt="KontaktHome Logo" class="brand-image elevation-0"
+                     style="opacity: .8"> <span class="brand-text font-weight-light">  Kontakt Home</span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image"> <img src="~/dist/img/user-160x160.jpg" class="img-circle elevation-2" alt="User Image"> </div>
+                    <div class="image"> <img src="~/dist/img/user_white.svg" class="img-circle elevation-2" alt="User Image"> </div>
                     <div class="info"> <a href="/Home/Index" class="d-block">@CurrentSession.User.UserDisplayName</a> </div>
                 </div>
 
@@ -98,6 +97,7 @@
     <!-- DataTables -->
     @*<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>*@
     <script src="~/plugins/DataTables_2/DataTables-1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
     <!-- InputMask -->
     <script src="~/plugins/moment/moment.min.js"></script>
     <script src="~/plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>

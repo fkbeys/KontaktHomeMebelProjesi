@@ -105,7 +105,7 @@ $(document).ready(function () {
         //alert(selectedItemText);
     });
     cmbSelectVistorChange();
-    cmbSelectDesignerChange();
+    cmbSelectDesignerChange();   
 });
 function cmbSelectVistorChange() {
     if ($('#chkboxSetVisitor').is(":checked"))
@@ -800,10 +800,11 @@ $('#tableStores').DataTable({
             //    return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
             //}
             data: null, render: function (data, type, full) {
-                if (full[3] == true) {
+                if (full[3] == 'Aktiv') {
                     return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[3]}');" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Deaktiv Et</button>`;
                 }
-                return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[3]}');" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Aktiv Et</button>`;
+                else { return `<button type="button" onclick="fancyConfirm('${full[0]}','${full[1]} ','${full[3]}');" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Aktiv Et</button>`; }
+
                 //return '<a href="/Admin/DeleteStore?storeid=' + full[0] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>';
             }
         }
@@ -823,7 +824,7 @@ $('#tableStores').DataTable({
     ]
 });
 function fancyConfirm(storeid, storecode, status) {
-    if (status == 'true') {
+    if (status == 'Aktiv') {
         $.fancyConfirm({
             title: storecode + " kodlu mağaza deaktiv ediləcək!",
             message: "Davam etmək istəyirisinizmi?",
@@ -855,8 +856,8 @@ function fancyConfirm(storeid, storecode, status) {
             }
         });
     }
-    
-   
+
+
 }
 $.fancyConfirm = function (opts) {
     opts = $.extend(true, {
@@ -899,5 +900,119 @@ $.fancyConfirm = function (opts) {
     });
 }
 
+//datattable serverside processing
+//$("#tableProducts").DataTable({   
+//    "serverSide": true, // for process server side  
+//    "filter": true, // this is for disable filter (search box)  
+//    "orderMulti": false, // for disable multiple column at once  
+//    "pageLength": 1,
+
+//    "ajax": {
+//        "url": "../Order/GetProducts",
+//        "type": "POST",
+//        "datatype": "json"
+//    },
+
+//    "columns": [
+//        { "data": "product_code" },
+//        { "data": "product_name" },
+//        { "data": "product_price" },
+//        { "data": "product_quantity" },      
+//        {
+//            "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Demo/Edit/' + full.product_code + '">Edit</a>'; }
+//        },
+//        {
+//            data: null, render: function (data, type, row) {
+//                return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.product_code + "'); >Delete</a>";
+//            }
+//        }
+
+//    ],    
+//    "language": {
+//        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+//    }
+
+//});
+function LoadProducts() {
+$('#tableProducts').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Order/GetProducts",
+        "type": "POST",
+        "datatype": "json"
+    },
+
+    "columns": [
+        { "data": "product_code" },
+        { "data": "product_name" },
+        { "data": "product_price" },
+        { "data": "product_quantity" },
+        {
+            "render": function (data, type, full, meta) { return '<button type="button" class="btn btn-primary btn-sm" onclick="addfaqs(\'' + full.product_code + '\',\'' + full.product_name + '\',\'' + full.product_price + '\')">Əlavə Et</i></button>'; }
+        }
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    }
+});
+}
+
+var faqs_row = 0;
+function addfaqs(productcode,productname,price) {
+    html = '<tr id="faqs-row' + faqs_row + '">';
+    html += '<td style="padding:0.60rem">' + productcode + '</td>';
+    html += '<td style="padding:0.60rem">' + productname + '</td>';
+    html += '<td style="padding:0.20rem"><input type="text" class="form-control" onChange="calculateProduct(this)" value="' + price + '"></td>';
+    html += '<td style="padding:0.20rem"><input type="text" class="form-control" onChange="calculateProduct(this)" value="0"></td>'; 
+    html += '<td style="padding:0.60rem">0</td>'; 
+    html += '<td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(\''+ faqs_row+'\')"><i class="fa fa-trash"></i> Sil</button></td>';
+    html += '</tr>';
+    $('#faqs tbody').append(html);
+    faqs_row++;
+}
+function calculateProduct(obj) {
+    var currow = $(obj).closest('tr');
+    //currow.find('td:eq(4)').html(val);   
+    var price = currow.find('td:eq(2) input[type="text"]').val();;
+    var quamtity = currow.find('td:eq(3) input[type="text"]').val();    
+    var total = parseFloat(price) * parseFloat(quamtity);   
+    currow.find('td:eq(4)').html(total.toFixed(2));  
+    calculateTotal();
+    //var masraf = document.getElementById("masrafyekun").innerText;
+    //var toplam = parseFloat(Cemi) + parseFloat(masraf);
+    //var Endirimmeblegi = parseFloat(FakturaToplami - Cemi).toFixed(2);
+    
+    //$('#yekun').html(show_float_val(toplam));
+    //$('#fakturaendirimi').html(show_float_val(Endirimmeblegi));
+    //GeneratedItemsTable();
+}
+function calculateTotal() {
+    var Cemi = 0.00;
+    var FakturaToplami = 0.00;
+    let table = document.querySelector("#faqs tbody");
+    if (table.rows.length>0) {
+        for (let row of table.rows) {
+            Cemi = Cemi + parseFloat(row.cells[4].innerText);
+        }
+    }
+    var Faiz = document.getElementById("chargeValue").value;
+    var CemFaizi = (Cemi * Faiz) / 100;
+    var Total = Cemi + CemFaizi;
+    $('#productTotal').html(Cemi.toFixed(2));
+    $('#productSum').html(Total.toFixed(2));
+}
+
+function removeproduct(rowid) {
+    $('#faqs-row' + rowid + '').remove();
+    calculateTotal();
+}
+$("#productCharge").change(function () {    
+    var selectedItemVal = $("#productCharge option:selected").attr("value");
+    if (selectedItemVal == "") {
+        selectedItemVal = 0;
+    }
+    $("#chargeValue").val(selectedItemVal);
+    calculateTotal();
+});
 
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    public class AnaGrupManager:ManagerBase<STOK_ANA_GRUPLARI>
+    public class AnaGrupManager:ManagerBaseMikro<STOK_ANA_GRUPLARI>
     {
     }
 }

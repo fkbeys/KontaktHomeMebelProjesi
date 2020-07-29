@@ -7,15 +7,16 @@
 	outline: none;
 }
 body {
+	font-family: 'Roboto', sans-serif;
 	background: url(../dist/img/bg.jpg) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
 }
 
 .login-form {
-	font: 16px/2em Lato, serif;
+	/*font: 16px/2em Lato, serif;*/
 	margin: 100px auto;
 	max-width: 400px;
 	color: #5d5d5d;

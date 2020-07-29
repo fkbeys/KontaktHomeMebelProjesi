@@ -56,20 +56,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Managers\AnaGrupManager.cs" />
-    <Compile Include="Managers\ChangeLogManager.cs" />
-    <Compile Include="Managers\UserRolesManager.cs" />
-    <Compile Include="Managers\UserRolesMappingManager.cs" />
+    <Compile Include="ManagerBaseMikro.cs" />
+    <Compile Include="Managers\LocalMAnagers\AdditionalChargesManager.cs" />
+    <Compile Include="Managers\MikroManagers\AnaGrupManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\ChangeLogManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\UserRolesManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\UserRolesMappingManager.cs" />
+    <Compile Include="Managers\MikroManagers\ProductsManager.cs" />
     <Compile Include="Security\Encrypt.cs" />
-    <Compile Include="Managers\ImagesManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\ImagesManager.cs" />
     <Compile Include="ManagerBase.cs" />
-    <Compile Include="Managers\OrderManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\OrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryResult\BusinessLayerResult.cs" />
     <Compile Include="QueryResult\Statuses.cs" />
-    <Compile Include="Managers\StoresManager.cs" />
-    <Compile Include="Managers\UserManager.cs" />
-    <Compile Include="Managers\VisitManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\StoresManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\UserManager.cs" />
+    <Compile Include="Managers\LocalMAnagers\VisitManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
@@ -85,6 +88,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

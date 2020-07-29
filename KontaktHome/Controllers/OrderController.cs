@@ -1,7 +1,11 @@
 ﻿using BusinessLayer;
 using BusinessLayer.Managers;
+using BusinessLayer.Managers.LocalMAnagers;
+using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
+using Entities.Model.LocalModels;
+using Entities.Model.MikroModels;
 using KontaktHome.Filters;
 using KontaktHome.Models;
 using System;
@@ -32,6 +36,8 @@ namespace KontaktHome.Controllers
         private UserRolesManager userRoleManager = new UserRolesManager();
         private UserRolesMappingManager userRolesMappingManager = new UserRolesMappingManager();
         private ChangeLogManager changeLogManager = new ChangeLogManager();
+        private ProductsManager productManager = new ProductsManager();
+        private AdditionalChargesManager additionalChargesManager = new AdditionalChargesManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -203,7 +209,7 @@ namespace KontaktHome.Controllers
             var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             ViewBag.Visitor = listvisitor;
-            ViewBag.Designer = listdesigner;       
+            ViewBag.Designer = listdesigner;
             ViewBag.Link = "/Order/VisitInfo?q=" + Encrypt.EncryptString("Sira=" + order.OrderId.ToString());
             if (order == null)
             {
@@ -225,7 +231,7 @@ namespace KontaktHome.Controllers
                     TempData["typ"] = "error";
                     return RedirectToAction("ActiveOrders");
                 }
-            }            
+            }
             return View(order);
         }
 
@@ -315,22 +321,22 @@ namespace KontaktHome.Controllers
                 }
             }
             List<Users> users1 = (from user in userManager.ListQueryable()
-                                 join roleMapping in userRolesMappingManager.ListQueryable()
-                                 on user.UserID equals roleMapping.UserID
-                                 join role in userRoleManager.ListQueryable()
-                                 on roleMapping.RoleID equals role.ID
-                                 where role.RoleName == "Vizitor" && user.IsActive == true
-                                 select user
+                                  join roleMapping in userRolesMappingManager.ListQueryable()
+                                  on user.UserID equals roleMapping.UserID
+                                  join role in userRoleManager.ListQueryable()
+                                  on roleMapping.RoleID equals role.ID
+                                  where role.RoleName == "Vizitor" && user.IsActive == true
+                                  select user
                           ).ToList();
             var listvisitor = users1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             //List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
             List<Users> designers1 = (from user in userManager.ListQueryable()
-                                     join roleMapping in userRolesMappingManager.ListQueryable()
-                                     on user.UserID equals roleMapping.UserID
-                                     join role in userRoleManager.ListQueryable()
-                                     on roleMapping.RoleID equals role.ID
-                                     where role.RoleName == "Dizayner" && user.IsActive == true
-                                     select user
+                                      join roleMapping in userRolesMappingManager.ListQueryable()
+                                      on user.UserID equals roleMapping.UserID
+                                      join role in userRoleManager.ListQueryable()
+                                      on roleMapping.RoleID equals role.ID
+                                      where role.RoleName == "Dizayner" && user.IsActive == true
+                                      select user
                                ).ToList();
             var listdesigner = designers1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             ViewBag.Visitor = listvisitor;
@@ -341,7 +347,7 @@ namespace KontaktHome.Controllers
                 BusinessLayerResult<Orders> order = orderManager.UpdateOrder(data);
                 if (order.Errors.Count > 0)
                 {
-                    order.Errors.ForEach(x => ModelState.AddModelError("", x.Message));                  
+                    order.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
                 }
                 TempData["msg"] = "Qeyd Yeniləndi!";
@@ -388,7 +394,6 @@ namespace KontaktHome.Controllers
             ViewBag.ChangeLog = changeLog;
             return View(order);
         }
-
         //Visitor
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
         public ActionResult VisitorOrders(string status)
@@ -595,12 +600,12 @@ namespace KontaktHome.Controllers
                                 var InputFileName = Path.GetFileName(file.FileName);
                                 var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
                                 var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
-                                img.Save(ServerSavePath); 
+                                img.Save(ServerSavePath);
                                 visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 1 });
-                            }                           
+                            }
                         }
                     }
-                    BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);                   
+                    BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
                 }
                 BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, visitorstatus);
                 TempData["msg"] = "1";
@@ -740,7 +745,7 @@ namespace KontaktHome.Controllers
                 List<Visits> visits = visitManager.List(x => x.OrderId == Sira).ToList();
                 OrderFileUpload uploadedFiles = new OrderFileUpload();
                 CustomerVisitData data = new CustomerVisitData();
-                var visitGuid = visits.Where(x => x.OrderId == Sira).Select(m => m.VisitGuid).Single();
+                var visitGuid = visits.Where(x => x.OrderId == Sira).Select(m => m.VisitGuid).First();
                 data.order = order;
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
@@ -807,7 +812,7 @@ namespace KontaktHome.Controllers
                         }
                     }
                     BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
-                    
+
                 }
                 BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, designerstatus);
                 TempData["msg"] = "Qeyd Yeniləndi!";
@@ -923,6 +928,67 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "error";
                 return RedirectToAction("ActiveOrders");
             }
+        }
+
+        public ActionResult ProductionRecipe(int? visitId, int? orderId)
+        {
+            ProductionRecipe prorecipe = new ProductionRecipe();
+            prorecipe.order = orderManager.Find(x => x.OrderId == orderId);
+            if (prorecipe.order == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            prorecipe.visits = visitManager.Find(x => x.VisitID == visitId);
+            if (prorecipe.visits == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            List<AdditionalCharges> charges = new List<AdditionalCharges>();
+            charges = additionalChargesManager.List();
+            prorecipe.itemGroups= new SelectList(charges, "charge_value", "charge_name");
+            return View(prorecipe);
+        }
+        [WebMethod]
+        public ActionResult GetProducts()
+        {
+            List<Products> product = productManager.GetProducts();
+            return Json(new { data = product });
+            //Datatable serverside processing
+            //var draw = Request.Form.GetValues("draw").FirstOrDefault();
+            //var start = Request.Form.GetValues("start").FirstOrDefault();
+            //var length = Request.Form.GetValues("length").FirstOrDefault();
+            //var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+            //var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+            //var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+
+            ////Paging Size (10,20,50,100)    
+            //int pageSize = length != null ? Convert.ToInt32(length) : 0;
+            //int skip = start != null ? Convert.ToInt32(start) : 0;
+            //int recordsTotal = 0;
+
+            //// Getting all Customer data    
+            //var customerData = productManager.GetProducts();
+
+            ////Sorting    
+            ////if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+            ////{
+            ////    customerData = customerData.OrderBy(sortColumn + " " + sortColumnDir);
+            ////}
+            ////Search    
+            //if (!string.IsNullOrEmpty(searchValue))
+            //{
+            //    customerData = customerData.Where(m => m.product_name == searchValue).ToList();
+            //}
+
+            ////total number of rows count     
+            //recordsTotal = customerData.Count();
+            ////Paging     
+            //var data = customerData.Skip(skip).Take(pageSize).ToList();
+            ////Returning Json Data    
+            //return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+
+
         }
     }
 }

@@ -111,3 +111,41 @@
     opacity: 1;
     transform: translateY(0) scale(1);
 }
+.table-form > tbody > tr > td:nth-child(odd) {
+    background-color: rgba(0,0,0,.05);
+    vertical-align: middle;
+    width: 1%;
+    white-space: nowrap;
+    text-align: right;
+    padding-left: 1rem;
+    padding-top: 0;
+    padding-bottom: 0
+}
+
+    .table-form > tbody > tr > td:nth-child(odd) > label {
+        display: block;
+        margin-bottom: 0;
+        font-size: .875em
+    }
+
+.table-form > tbody > tr > td:nth-child(even) {
+    padding: 0
+}
+
+    .table-form > tbody > tr > td:nth-child(even) > .custom-select, .table-form > tbody > tr > td:nth-child(even) > .form-control {
+        border: 0
+    }
+
+.table-form > tbody > tr > td:nth-child(even) {
+}
+
+.table-form-custom > tbody > tr > td:nth-child(odd) {
+    background-color: rgba(0,0,0,.05);
+    vertical-align: middle;
+    width: 1%;
+    white-space: nowrap;
+    text-align: right;
+    padding-left: 1rem;
+    padding-top: 0;
+    padding-bottom: 0
+}

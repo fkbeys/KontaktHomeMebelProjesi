@@ -1,0 +1,192 @@
+﻿@using Entities.Model.LocalModels
+@model ProductionRecipe
+@{
+    ViewBag.Title = "ProductionRecipe";
+}
+<div class="content">
+    <div class="col-md-12">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Siafriş Məlumatları</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-form-custom">
+                            <tbody>
+                                <tr>
+                                    <td>Müştəri Adı/Soyadı :</td>
+                                    <td class="p-1">@Model.order.CustomerSurname @Model.order.CustomerName @Model.order.CustomerFatherName</td>
+                                </tr>
+                                <tr>
+                                    <td>Sifariş Nömrəsi:</td>
+                                    <td class="p-1">@Model.order.OrderId</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-form-custom">
+                            <tbody>
+                                <tr>
+                                    <td>Vizit Nömrəsi :</td>
+                                    <td class="p-1">@Model.visits.VisitID</td>
+                                </tr>
+                                <tr>
+                                    <td>Məhsul Növü :</td>
+                                    <td class="p-1">@Model.visits.ProductCode</td>
+                                </tr>
+                                <tr>
+                                    <td>Məhsul En :</td>
+                                    <td class="p-1">@Model.visits.DWidth</td>
+                                </tr>
+                                <tr>
+                                    <td>Məhsul Uzun :</td>
+                                    <td class="p-1">@Model.visits.DLenght</td>
+                                </tr>
+                                <tr>
+                                    <td>Məhsul Hündürlük :</td>
+                                    <td class="p-1">@Model.visits.DHeight</td>
+                                </tr>
+                                <tr>
+                                    <td>Material Növü :</td>
+                                    <td class="p-1">@Model.visits.MaterialType</td>
+                                </tr>
+                                <tr>
+                                    <td>Material Rəngi :</td>
+                                    <td class="p-1">@Model.visits.MaterialColour</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered table-form">
+                            <tbody>
+                                <tr>
+                                    <td>Dəzgahlıq :</td>
+                                    <td class="p-1">@Model.visits.PanelType</td>
+                                </tr>
+                                <tr>
+                                    <td>Dəzgahlıq Rəngi :</td>
+                                    <td class="p-1">@Model.visits.PanelColour</td>
+                                </tr>
+                                <tr>
+                                    <td>Qapaq :</td>
+                                    <td class="p-1">@Model.visits.DoorType</td>
+                                </tr>
+                                <tr>
+                                    <td>Qapaq Rəngi :</td>
+                                    <td class="p-1">@Model.visits.DoorColour</td>
+                                </tr>
+                                <tr>
+                                    <td>Aksesuar :</td>
+                                    <td class="p-1">@Model.visits.Accessory</td>
+                                </tr>
+                                <tr>
+                                    <td>Güzgü :</td>
+                                    <td class="p-1">@Model.visits.Mirror</td>
+                                </tr>
+                                <tr>
+                                    <td>Qeyd :</td>
+                                    <td class="p-1">@Model.visits.Note</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card card-secondary">
+            <div class="card-header">
+                <h3 class="card-title">Reçete Girişi</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-info" data-toggle="modal" onclick="LoadProducts()" data-target="#stokModal"><i class="fas fa-plus"> Stok Seç</i></button>
+                    </div>
+                </div>
+                <div class="row pt-2 mt-2 border-top">
+                    <div class="table-responsive">
+                        <table id="faqs" class="table table-bordered table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th style="width:30%">Stok Kodu</th>
+                                    <th style="width:30%">Stok Adı</th>
+                                    <th style="width:10%">Qiymət</th>
+                                    <th style="width:10%">Miqdar</th>
+                                    <th style="width:10%">Toplam</th>
+                                    <th style="width:10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt-3">            
+                        <div class="col-md-6 col-sm-6 col-lg-3">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-form-custom">
+                                    <tbody>
+                                        <tr>
+                                            <td>Cəmi :</td>
+                                            <td id="productTotal">0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Məsrəf Növü :</td>
+                                            <td>@Html.DropDownList("productCharge", Model.itemGroups, "", new { @class = "form-control", @id = "productCharge", @onChange = "calculateTotal()" })</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Məsrəf Faizi :</td>
+                                            <td><input type="text" class="form-control" value="0.00" id="chargeValue" onChange = "calculateTotal()" /></td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Yekun Məbləğ :</td>
+                                            <td id="productSum">0.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="stokModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Məhsullar</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="tableProducts" class="display" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Stok Kodu</th>
+                                <th>Stok Adı</th>
+                                <th>Qiyməti</th>
+                                <th>Miqdarı</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+            </div>
+        </div>
+    </div>
+</div>

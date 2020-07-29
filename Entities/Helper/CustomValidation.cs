@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Entities.Helper
 {
-    public class CustomValidation
+    public static class CustomValidation
     {
         public class RequiredIfAttribute : RequiredAttribute
         {

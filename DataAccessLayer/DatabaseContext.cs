@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Entities.Model;
+using Entities.Model.LocalModels;
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -11,14 +12,14 @@ namespace DataAccessLayer
     public class DatabaseContext : DbContext
     {
         public DbSet<Orders> Orders { get; set; }
-        public DbSet<Users> Users { get; set; }
-        public DbSet<STOK_ANA_GRUPLARI> StokAnaGruplar { get; set; }
+        public DbSet<Users> Users { get; set; }    
         public DbSet<Visits> Visits { get; set; }
         public DbSet<VisitImages> VisitImages { get; set; }
         public DbSet<Stores> Stores { get; set; }
         public DbSet<ChangeLog> ChangeLogs { get; set; }
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<UserRolesMapping> UserRolesMappings { get; set; }
+        public DbSet<AdditionalCharges> AdditionalCharges { get; set; }
 
         public override int SaveChanges()
         {

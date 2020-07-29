@@ -76,25 +76,28 @@
   <ItemGroup>
     <Compile Include="Helper\AllowFileSize.cs" />
     <Compile Include="Helper\CustomValidation.cs" />
-    <Compile Include="Model\ChangeLog.cs" />
-    <Compile Include="Model\CustomerVisitData.cs" />
-    <Compile Include="Model\LoginViewModel.cs" />
+    <Compile Include="Model\LocalModels\AdditionalCharges.cs" />
+    <Compile Include="Model\LocalModels\ChangeLog.cs" />
+    <Compile Include="Model\LocalModels\CustomerVisitData.cs" />
+    <Compile Include="Model\LocalModels\LoginViewModel.cs" />
     <Compile Include="Messages\ErrorMessageCode.cs" />
     <Compile Include="Messages\ErrorMessageObj.cs" />
-    <Compile Include="Model\OrderFileUpload.cs" />
-    <Compile Include="Model\Orders.cs" />
-    <Compile Include="Model\OrderSearch.cs" />
-    <Compile Include="Model\UserRoles.cs" />
-    <Compile Include="Model\UserRolesMapping.cs" />
-    <Compile Include="Model\Widgets.cs" />
+    <Compile Include="Model\LocalModels\OrderFileUpload.cs" />
+    <Compile Include="Model\LocalModels\Orders.cs" />
+    <Compile Include="Model\LocalModels\OrderSearch.cs" />
+    <Compile Include="Model\LocalModels\ProductionRecipe.cs" />
+    <Compile Include="Model\LocalModels\UserRoles.cs" />
+    <Compile Include="Model\LocalModels\UserRolesMapping.cs" />
+    <Compile Include="Model\LocalModels\Widgets.cs" />
+    <Compile Include="Model\MikroModels\Products.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Model\Seller.cs" />
-    <Compile Include="Model\STOK_ANA_GRUPLARI.cs" />
-    <Compile Include="Model\Stores.cs" />
-    <Compile Include="Model\Users.cs" />
-    <Compile Include="Model\VisitImages.cs" />
-    <Compile Include="Model\VisitItemGroups.cs" />
-    <Compile Include="Model\Visits.cs" />
+    <Compile Include="Model\LocalModels\Seller.cs" />
+    <Compile Include="Model\MikroModels\STOK_ANA_GRUPLARI.cs" />
+    <Compile Include="Model\LocalModels\Stores.cs" />
+    <Compile Include="Model\LocalModels\Users.cs" />
+    <Compile Include="Model\LocalModels\VisitImages.cs" />
+    <Compile Include="Model\LocalModels\VisitItemGroups.cs" />
+    <Compile Include="Model\LocalModels\Visits.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -116,5 +119,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

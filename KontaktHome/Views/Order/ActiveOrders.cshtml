@@ -25,8 +25,8 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="row col-md-6 col-lg-6 col-xl-4">
-                        <div class="col-md-6 " id="sandbox-container">
+                    <div class="row col-md-12 col-xl-6 ">
+                        <div class="col-md-6" id="sandbox-container">
                             <div class="form-group">
                                 <label>Başlanğıc Tarixi</label>
                                 <div class="input-group">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class=" col-md-6 " id="sandbox-container">
+                        <div class="col-md-6" id="sandbox-container">
                             <div class="form-group">
                                 <label>Bitiş Tarixi</label>
                                 <div class="input-group">
@@ -45,6 +45,22 @@
                                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                                     </div>
                                     <input type="text" class="form-control " id="lastDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Satıcı</label>
+                                <div class="col-form-txt">
+                                    @Html.DropDownList("Seller", (ViewBag.Seller as SelectList), "", new { @class = "form-control", id = "saticilar", })
+                                </div>
+                            </div>
+                        </div>                       
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Mağaza</label>
+                                <div class="col-form-txt">
+                                    @Html.DropDownList("Stores", (ViewBag.Store as SelectList), "", new { @class = "form-control", id = "magazalar" })
                                 </div>
                             </div>
                         </div>
@@ -64,27 +80,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row col-md-6">
-                        <div class="col-md-6 col-xl-4 col-lg-6">
-                            <div class="form-group">
-                                <label>Satıcı</label>
-                                <div class="col-form-txt">
-                                    @Html.DropDownList("Seller", (ViewBag.Seller as SelectList), "", new { @class = "form-control", id = "saticilar", })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12"></div>
-                        <div class="col-md-6 col-xl-4">
-                            <div class="form-group">
-                                <label>Mağaza</label>
-                                <div class="col-form-txt">
-                                    @Html.DropDownList("Stores", (ViewBag.Store as SelectList), "", new { @class = "form-control", id = "magazalar" })
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    </div>                   
                     <div class="col-md-12">
                         <button type="submit" onclick="getActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
                     </div>
@@ -101,7 +97,7 @@
                     <table id="tableActiveOrders" class="display" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>Sənəd No</th>
+                                <th>Sifariş No</th>
                                 <th>Tarix</th>
                                 <th>Müştəri Məlumatları</th>
                                 <th>Tel No</th>

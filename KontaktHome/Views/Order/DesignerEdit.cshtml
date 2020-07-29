@@ -25,7 +25,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-6">                               
                                 <div class="col-sm-12">
                                     <label>Müştəri Adı : </label>
                                     <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerName)</label>
@@ -369,8 +369,8 @@
                                         <!-- /.row -->
                                     </div>
                                     <!-- /.card-body -->
-                                    <div class="card-footer" style="display: none;">
-
+                                    <div class="card-footer" style="display: none;">                               
+                                        @Html.ActionLink("Reçete Hesabla", "ProductionRecipe", "Order",new { visitId=Model.visitData[i].VisitID,orderId=Model.order.OrderId }, new { @class="btn btn-primary"})
                                     </div>
                                 </div>
                                 <script>
@@ -390,13 +390,15 @@
                                 <div class="col-sm-12">
                                     @Html.LabelFor(x => x.orderFiles.orderFiles, htmlAttributes: new { @class = "control-label" })
                                 </div>
-                                <div class="col-sm-6 bg-light">
-                                    @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })                                   
-                                    <button type="button" class="btn-sm btn-danger float-right" onclick="deleteimages()"><i class="far fa-trash-alt"></i></button>
-                                </div>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection", @class = "custom-file-input" })
+                                        <label class="custom-file-label" for="imageSelection">Fayl seç....</label>
+                                    </div>                                   
+                                </div>                     
                                 <div class="col-sm-6">
                                     @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
-                                </div>
+                                </div>                               
                             </div>
                         </div>
                     </div>
@@ -426,7 +428,6 @@
                                     </div>
                                 }
                             }
-
                         </div>
                     </div>
                 </div>
@@ -463,6 +464,9 @@
     <script>
         function deleteimages() {
             document.getElementById('imageSelection').value = null;
-        }
+        };
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
     </script>
     }

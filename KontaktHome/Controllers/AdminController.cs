@@ -262,7 +262,16 @@ namespace KontaktHome.Controllers
             int j = 0;
             foreach (var item in magazalar)
             {
-                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName,item.IsActive };
+                string status = "";
+                if (item.IsActive==true)
+                {
+                    status = "Aktiv";
+                }
+                else
+                {
+                    status = "Dekativ";
+                }
+                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName,status };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
