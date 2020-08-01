@@ -20,7 +20,7 @@ namespace DataAccessLayer
         public DbSet<UserRoles> UserRoles { get; set; }
         public DbSet<UserRolesMapping> UserRolesMappings { get; set; }
         public DbSet<AdditionalCharges> AdditionalCharges { get; set; }
-
+        public DbSet<Production> Production { get; set; }
         public override int SaveChanges()
         {
             var modifiedEntities = ChangeTracker.Entries()

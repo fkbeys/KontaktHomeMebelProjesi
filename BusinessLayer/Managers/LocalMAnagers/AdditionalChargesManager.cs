@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.Managers.LocalMAnagers
+namespace BusinessLayer.Managers.LocalManagers
 {
     public class AdditionalChargesManager:ManagerBase<AdditionalCharges>
     {

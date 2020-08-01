@@ -117,5 +117,27 @@ namespace BusinessLayer
             visitdata.Result.VisitGuid = guid;
             return visitdata;
         }
+        public BusinessLayerResult<Visits> UpdatePrice(int visitid, double price, Users user)
+        {
+
+            BusinessLayerResult<Visits> _visit = new BusinessLayerResult<Visits>();
+            _visit.Result = Find(x => x.VisitID == visitid);
+            if (_visit.Result!=null)
+            {
+                _visit.Result.Price = price;
+                _visit.Result.LastUpdate = DateTime.Now;
+                _visit.Result.UpdateUser = user.UserName;
+
+                if (base.Update(_visit.Result)==0)
+                {
+                    _visit.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
+                }
+            }
+            else
+            {
+                _visit.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Qeyd Tapılmadı");
+            }
+            return _visit;
+        }
     }
 }

@@ -105,7 +105,7 @@ $(document).ready(function () {
         //alert(selectedItemText);
     });
     cmbSelectVistorChange();
-    cmbSelectDesignerChange();   
+    cmbSelectDesignerChange();
 });
 function cmbSelectVistorChange() {
     if ($('#chkboxSetVisitor').is(":checked"))
@@ -934,63 +934,42 @@ $.fancyConfirm = function (opts) {
 
 //});
 function LoadProducts() {
-$('#tableProducts').DataTable({
-    "destroy": true,
-    "ajax": {
-        "url": "../Order/GetProducts",
-        "type": "POST",
-        "datatype": "json"
-    },
+    $('#tableProducts').DataTable({
+        "destroy": true,
+        "ajax": {
+            "url": "../Order/GetProducts",
+            "type": "POST",
+            "datatype": "json"
+        },
 
-    "columns": [
-        { "data": "product_code" },
-        { "data": "product_name" },
-        { "data": "product_price" },
-        { "data": "product_quantity" },
-        {
-            "render": function (data, type, full, meta) { return '<button type="button" class="btn btn-primary btn-sm" onclick="addfaqs(\'' + full.product_code + '\',\'' + full.product_name + '\',\'' + full.product_price + '\')">Əlavə Et</i></button>'; }
+        "columns": [
+            { "data": "product_code" },
+            { "data": "product_name" },
+            { "data": "product_price" },
+            { "data": "product_quantity" },
+            {
+                "render": function (data, type, full, meta) { return '<button type="button" class="btn btn-primary btn-sm" onclick="addfaqs(\'' + full.product_code + '\',\'' + full.product_name + '\',\'' + full.product_price + '\')">Əlavə Et</i></button>'; }
+            }
+        ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
         }
-    ],
-    "language": {
-        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
-    }
-});
+    });
 }
 
-var faqs_row = 0;
-function addfaqs(productcode,productname,price) {
-    html = '<tr id="faqs-row' + faqs_row + '">';
-    html += '<td style="padding:0.60rem">' + productcode + '</td>';
-    html += '<td style="padding:0.60rem">' + productname + '</td>';
-    html += '<td style="padding:0.20rem"><input type="text" class="form-control" onChange="calculateProduct(this)" value="' + price + '"></td>';
-    html += '<td style="padding:0.20rem"><input type="text" class="form-control" onChange="calculateProduct(this)" value="0"></td>'; 
-    html += '<td style="padding:0.60rem">0</td>'; 
-    html += '<td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(\''+ faqs_row+'\')"><i class="fa fa-trash"></i> Sil</button></td>';
-    html += '</tr>';
-    $('#faqs tbody').append(html);
-    faqs_row++;
-}
+
 function calculateProduct(obj) {
-    var currow = $(obj).closest('tr');
-    //currow.find('td:eq(4)').html(val);   
-    var price = currow.find('td:eq(2) input[type="text"]').val();;
-    var quamtity = currow.find('td:eq(3) input[type="text"]').val();    
-    var total = parseFloat(price) * parseFloat(quamtity);   
-    currow.find('td:eq(4)').html(total.toFixed(2));  
+    var currow = $(obj).closest('tr');   
+    var price = currow.find('td:eq(2) input[type="text"]').val();
+    var quamtity = currow.find('td:eq(3) input[type="text"]').val();
+    var total = parseFloat(price) * parseFloat(quamtity);
+    currow.find('td:eq(4)').html(total.toFixed(2));
     calculateTotal();
-    //var masraf = document.getElementById("masrafyekun").innerText;
-    //var toplam = parseFloat(Cemi) + parseFloat(masraf);
-    //var Endirimmeblegi = parseFloat(FakturaToplami - Cemi).toFixed(2);
-    
-    //$('#yekun').html(show_float_val(toplam));
-    //$('#fakturaendirimi').html(show_float_val(Endirimmeblegi));
-    //GeneratedItemsTable();
 }
 function calculateTotal() {
     var Cemi = 0.00;
-    var FakturaToplami = 0.00;
     let table = document.querySelector("#faqs tbody");
-    if (table.rows.length>0) {
+    if (table.rows.length > 0) {
         for (let row of table.rows) {
             Cemi = Cemi + parseFloat(row.cells[4].innerText);
         }
@@ -1001,12 +980,44 @@ function calculateTotal() {
     $('#productTotal').html(Cemi.toFixed(2));
     $('#productSum').html(Total.toFixed(2));
 }
-
-function removeproduct(rowid) {
-    $('#faqs-row' + rowid + '').remove();
+var deletedItems = [];
+function removeproduct(obj) {
+    var currow = $(obj).closest('tr');
+    var row_index = currow.index();
+    var id = document.getElementById("tableProd").rows[row_index].cells[5].innerHTML;   
+    if (id == 0) {        
+        currow.remove();
+    }
+    else {
+        deletedItems.push(id);
+        currow.remove();
+        //var form = $('#__AjaxAntiForgeryForm');
+        //var token = $('input[name="__RequestVerificationToken"]', form).val();     
+        //$.ajax({
+        //    url: '/Order/DeleteProduct',
+        //    type: "POST",
+        //    data: {
+        //        __RequestVerificationToken: token,
+        //        id: id
+        //    },
+        //    success: function (d) {               
+        //        if (d.status == true) {                   
+        //            Swal.fire('Qeyd Silindi', '', 'success');     
+        //            currow.remove();
+        //        }
+        //        else {
+        //            alert('Qeyd silinmədi.');
+        //            this.disabled = false;
+        //        }
+        //    },
+        //    error: function () {
+        //        alert('Error. Please try again.');
+        //    }
+        //});
+    }
     calculateTotal();
 }
-$("#productCharge").change(function () {    
+$("#productCharge").change(function () {
     var selectedItemVal = $("#productCharge option:selected").attr("value");
     if (selectedItemVal == "") {
         selectedItemVal = 0;
@@ -1015,4 +1026,71 @@ $("#productCharge").change(function () {
     calculateTotal();
 });
 
+$('#recipeSave').click(function () {
+    var recipeItems = [];
+    var isAllValid = true;
+    let table = document.querySelector("#faqs tbody");
+    if (table.rows.length == 0) {
+        $('#recipeitemAlert').replaceWith('<div id="recipeitemAlert" class="alert alert-danger col-md-12" role="alert">Stok seçilməyib.</div>');
+        isAllValid = false;
+    }
+    else {
+        $('#recipeitemAlert').replaceWith('<div id="recipeitemAlert"></div>');
+        isAllValid = true;
+    }
+    if (isAllValid == true) {
+        for (let row of table.rows) {
+            recipeItems.push({
+                ProductCode: row.cells[0].innerText,
+                ProductName: row.cells[1].innerText,
+                ProductPrice: row.cells[2].children[0].value,
+                ProductQuantity: row.cells[3].children[0].value,
+                ProductTotal: row.cells[4].innerText,
+                ProductCharges: document.getElementById("chargeValue").value,
+                Id: row.cells[5].innerText,
+                OrderId: document.getElementById("orderNo").innerText,
+                VisitId: document.getElementById("visitNo").innerText
+            });
+        }
+        if (recipeItems.length > 0) {
+            var form = $('#__AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+            var orderNo = document.getElementById("orderNo").innerText;
+            var visitNo = document.getElementById("visitNo").innerText;
+            var data = {
+                order_No: orderNo,
+                visit_No: visitNo,
+                recipe_Items: recipeItems,
+                deleted_items: deletedItems
+            };
+            $.ajax({
+                url: '/Order/SaveRecipe',
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: token,
+                    data: data
+                },
+                success: function (d) {
+                    
+                    if (d.status == true) {                        
+                        Swal.fire('Qeyd Tamamlandı', '', 'success');                        
+                        window.location.href = d.Url + d.link;
+                    }
+                    else {
+                        var errortext = '';
+                        for (var i = 0; i < d.errors.length; i++) {
+                            errortext+=d.errors[i]+"<br>"
+                        }
+                        $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
+                        Swal.fire('Xəta başverdi', '', 'error');
+                        this.disabled = false;
+                    }
+                },
+                error: function () {
+                    alert('Error. Please try again.');
+                }
+            });
+        }
+    }
+});
 

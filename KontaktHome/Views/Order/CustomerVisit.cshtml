@@ -7,7 +7,7 @@
 <div class="content">
     <div class="container">
         <!-- /.left panel -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             @using (Html.BeginForm("CustomerVisit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.HiddenFor(x => x.order.OrderId)
@@ -18,79 +18,91 @@
                 @Html.HiddenFor(x => x.order.Address)
                 @Html.HiddenFor(x => x.order.CustomerFatherName)
                 @Html.HiddenFor(x => x.order.ItemCount)
-
-                <div class="card card-primary">
+                @Html.AntiForgeryToken()
+                <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Müştəri Məlumatları</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Müştəri Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Soyadı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerSurname)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Ata Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerFatherName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Tel No. 1 : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel1)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Tel No. 2 : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel2)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Ünvan : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Address)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Nişangah : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Location)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Satıcı Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.SellerCode)</label>
-                                </div>
+                                <table class="table table-bordered table-form-custom">
+                                    <tbody>
+                                        <tr>
+                                            <td>Müştəri Adı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerName)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Müştəri Soyadı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerSurname)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Müştəri Ata Adı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerFatherName)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tel No. 1 :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Tel1)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tel No. 2 :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Tel2)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Satıcı Kodu :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.SellerCode)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ziyarət Tarixi :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitDate)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Ziyarət Tarixi : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitDate)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Sifariş Növü : </label>
-                                    @if (Model.order.OrderType1 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType1, new { @class = "text-secondary" })<label class="text-secondary">,</label>
-                                    }
-                                    @if (Model.order.OrderType2 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType2, new { @class = "text-secondary" })<label class="text-secondary">,</label>
-                                    }
-                                    @if (Model.order.OrderType3 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType3, new { @class = "text-secondary" })
-                                    }
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Sifariş Qeyd: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Note)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Məhsul Sayı: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemCount)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Məhsul Açıqlama: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemDescription)</label>
-                                </div>
+
+                                <table class="table table-bordered table-form-custom">
+                                    <tbody>
+                                       
+                                        <tr>
+                                            <td>Ünvan :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Address)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nişangah :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Location)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sifariş Növü :</td>
+                                            <td class="p-1">
+                                                @if (Model.order.OrderType1 == true)
+                                                {
+                                                    @Html.LabelFor(x => x.order.OrderType1)
+                                                },
+                                                @if (Model.order.OrderType2 == true)
+                                                {
+                                                    @Html.LabelFor(x => x.order.OrderType2)
+                                                },
+                                                @if (Model.order.OrderType3 == true)
+                                                {
+                                                    @Html.LabelFor(x => x.order.OrderType3)
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sifariş Qeyd :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Note)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Məhsul Sayı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.ItemCount)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Məhsul Açıqlama :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.ItemDescription)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
                             <div class="col-sm-12 border-top border-secondary pt-2">
@@ -100,11 +112,11 @@
                         <!--card body end-->
                     </div>
                 </div>
-                @Html.AntiForgeryToken()
+
                 <div class="form-group col-lg-12">
                     @Html.ValidationSummary(false)
                 </div>
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Məhsullar</h3>
                     </div>
@@ -152,21 +164,21 @@
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>En</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ..." } })
+                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control inputmask", @id = "dimensionWide", @placeholder = "En ...", @inputmode = "numeric" } })
                                                             @Html.ValidationMessageFor(x => x.visitData[i].DWidth, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Uzun</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ..." } })
+                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control inputmask", @id = "dimensionLemght", @placeholder = "Uzun ...", @inputmode = "numeric" } })
                                                             @Html.ValidationMessageFor(x => x.visitData[i].DLenght, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <div class="form-group">
                                                             <label>Hündürlük</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ..." } })
+                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control inputmask", @id = "dimensionHeight", @placeholder = "Hündürlük ...", @inputmode = "numeric" } })
                                                             @Html.ValidationMessageFor(x => x.visitData[i].DHeight, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
@@ -294,24 +306,25 @@
                                 <div class="col-sm-12">
                                     @Html.LabelFor(x => x.orderFiles.orderFiles, htmlAttributes: new { @class = "control-label" })
                                 </div>
-                                <div class="col-sm-6 bg-light">
-                                    @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection" })
-                                    <button type="button" class="btn-sm btn-danger float-right" onclick="deleteimages()"><i class="far fa-trash-alt"></i></button>
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection", @class = "custom-file-input" })
+                                        <label class="custom-file-label" for="imageSelection">Fayl seç....</label>
+                                    </div>
                                 </div>
                                 <div class="col-sm-6">
                                     @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
-                                </div>                               
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
-                        <button type="submit" name="visitCommand" value="Finish" class="btn btn-primary float-left">Vizit Tamamla və Dizayna Göndər</button>
                         <button type="submit" name="visitCommand" value="Save" class="btn btn-info float-right mr-2">Qeyd Et</button>
+                        <button type="submit" name="visitCommand" value="Finish" class="btn btn-primary float-right mr-2">Vizit Tamamla və Dizayna Göndər</button>
                     </div>
                 </div>
-
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <div class="card-title">
                             Sifariş Şəkilləri
@@ -344,7 +357,6 @@
     function addItemToVisitForm() {
         if (modelsira < mehsulsayi) {
              sira++;
-        @*var html = '@for (int i = 0; i < 10; i++){<input type="text" class="form-control" name="visitData[' + sira + '].Colour" placeholder="Enter ...">}';*@
 
         var card = document.createElement('div');
         card.className = 'card card-info collapsed-card';
@@ -369,7 +381,7 @@
         var bodycolumn = document.createElement('div');
         bodycolumn.className = 'col-sm-12';
             bodycolumn.innerHTML = '<div class="row"><div class="col-sm-6"><label>Mebel Tipi</label><div class="form-group"><div class="col-form-txt"><select class="form-control" name="visitData[' + modelsira + '].ProductCode"><option value="">- Seçin -</option>@foreach (var item in Model.itemGroups)
-        {<option value="@item.Value">@item.Text</option>} </select><span class="field-validation-valid" data-valmsg-for="visitData[' + modelsira + '].ProductCode" data-valmsg-replace="true"></span></div></div></div></div><div class="row border-top border-info pt-3"><div class="col-sm-12"><label>Ölçü</label></div><div class="col-sm-4"><div class="form-group"><label>En</label><input class="form-control text-box single-line" data-val="true" data-val-number="The field DWidth must be a number." data-val-required="The DWidth field is required." id="dimensionWide" name="visitData[' + modelsira + '].DWidth" placeholder="En ..." type="text" value="0"></div></div><div class="col-sm-4"><div class="form-group"><label>Uzun</label><input class="form-control text-box single-line" data-val="true" data-val-number="The field DLenght must be a number." data-val-required="The DLenght field is required." id="dimensionLemght" name="visitData[' + modelsira + '].DLenght" placeholder="Uzun ..." type="text" value="0" ></div></div><div class="col-sm-4"><div class="form-group"><label>Hündürlük</label><input class="form-control text-box single-line" data-val="true" data-val-number="The field DHeight must be a number." data-val-required="The DHeight field is required." id="dimensionHeight" name="visitData[' + modelsira + '].DHeight" placeholder="Hündürlük ..." type="text" value="0"></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Material Növü</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].MaterialType"><option value="">- Seçin -</option><option value="MDF">MDF</option><option value="Laminand">Laminand</option><option value="Membran">Membran</option></select></div></div><div class="col-sm-6"><label>Material Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].MaterialColour" placeholder="Rəng ..." type="text"></div></div></div></div>  <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Dəzgahlıq</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].PanelType"><option value="">- Seçin -</option><option value="Mərmər">Mərmər</option><option value="Rezapal">Rezapal</option></select></div></div><div class="col-sm-6"><label>Dəzgahlıq Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].PanelColour" placeholder="Rəng ..." type="text" value=""></div></div></div></div>  <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Qapaq</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].DoorType"><option value="">- Seçin -</option><option value="MDF">MDF</option><option value="Laminand">Laminand</option><option value="Membran">Membran</option></select></div></div><div class="col-sm-6"><label>Qapaq Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].DoorColour" placeholder="Rəng ..." type="text" value=""></div></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-6"><div class="form-group"><label>Aksesuar</label><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].Accessory" placeholder="Aksesuar ..." type="text"></div></div></div><div class="col-sm-6"><div class="form-group"><label>Güzgü</label><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].Mirror" placeholder="Güzgü ..." type="text"></div></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-12"><div class="form-group"><label>Qeyd</label><div class="col-form-txt"><textarea class="form-control text-box multi-line" name="visitData['+modelsira+'].Note" placeholder="Qeyd ..." rows="3" spellcheck="false"></textarea></div></div></div></div>';
+        {<option value="@item.Value">@item.Text</option>} </select><span class="field-validation-valid" data-valmsg-for="visitData[' + modelsira + '].ProductCode" data-valmsg-replace="true"></span></div></div></div></div><div class="row border-top border-info pt-3"><div class="col-sm-12"><label>Ölçü</label></div><div class="col-sm-4"><div class="form-group"><label>En</label><input class="form-control text-box single-line inputmask" data-val="true" data-inputmask-alias="decimal" inputmode="numeric"  data-val-number="The field DWidth must be a number." data-val-required="The DWidth field is required." id="dimensionWide" name="visitData[' + modelsira + '].DWidth" placeholder="En ..." type="text" value="0"></div></div><div class="col-sm-4"><div class="form-group"><label>Uzun</label><input class="form-control text-box single-line inputmask" data-inputmask-alias="decimal" inputmode="numeric" data-val="true" data-val-number="The field DLenght must be a number." data-val-required="The DLenght field is required." id="dimensionLemght" name="visitData[' + modelsira + '].DLenght" placeholder="Uzun ..." type="text" value="0" ></div></div><div class="col-sm-4"><div class="form-group"><label>Hündürlük</label><input class="form-control text-box single-line inputmask" data-inputmask-alias="decimal" inputmode="numeric" data-val="true" data-val-number="The field DHeight must be a number." data-val-required="The DHeight field is required." id="dimensionHeight" name="visitData[' + modelsira + '].DHeight" placeholder="Hündürlük ..." type="text" value="0"></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Material Növü</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].MaterialType"><option value="">- Seçin -</option><option value="MDF">MDF</option><option value="Laminand">Laminand</option><option value="Membran">Membran</option></select></div></div><div class="col-sm-6"><label>Material Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].MaterialColour" placeholder="Rəng ..." type="text"></div></div></div></div>  <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Dəzgahlıq</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].PanelType"><option value="">- Seçin -</option><option value="Mərmər">Mərmər</option><option value="Rezapal">Rezapal</option></select></div></div><div class="col-sm-6"><label>Dəzgahlıq Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].PanelColour" placeholder="Rəng ..." type="text" value=""></div></div></div></div>  <div class="row border-top border-info pt-3"><div class="col-sm-6"><label>Qapaq</label><div class="form-group"><select class="form-control" name="visitData['+modelsira+'].DoorType"><option value="">- Seçin -</option><option value="MDF">MDF</option><option value="Laminand">Laminand</option><option value="Membran">Membran</option></select></div></div><div class="col-sm-6"><label>Qapaq Rəngi</label><div class="form-group"><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].DoorColour" placeholder="Rəng ..." type="text" value=""></div></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-6"><div class="form-group"><label>Aksesuar</label><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].Accessory" placeholder="Aksesuar ..." type="text"></div></div></div><div class="col-sm-6"><div class="form-group"><label>Güzgü</label><div class="col-form-txt"><input class="form-control text-box single-line" name="visitData['+modelsira+'].Mirror" placeholder="Güzgü ..." type="text"></div></div></div></div> <div class="row border-top border-info pt-3"><div class="col-sm-12"><div class="form-group"><label>Qeyd</label><div class="col-form-txt"><textarea class="form-control text-box multi-line" name="visitData['+modelsira+'].Note" placeholder="Qeyd ..." rows="3" spellcheck="false"></textarea></div></div></div></div>';
 
         bodyrow.appendChild(bodycolumn);
         cardbody.appendChild(bodyrow);
@@ -382,13 +394,14 @@
 
         $('#itemSection').append(card);
         }
-
-
+        Inputmask().mask(document.querySelectorAll('.inputmask'));
     }
-
     function deleteimages() {
         document.getElementById('imageSelection').value = null;
         }
-      
+
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
     </script>
 }

@@ -1,10 +1,17 @@
 ﻿@using Entities.Model.LocalModels
-@model ProductionRecipe
+@model ProductionData
 @{
     ViewBag.Title = "ProductionRecipe";
 }
+@using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+{
+    @Html.AntiForgeryToken()
+}
 <div class="content">
     <div class="col-md-12">
+        <div id="errors" class="col-md-12">
+            
+        </div>
         <div class="card card-secondary">
             <div class="card-header">
                 <h3 class="card-title">Siafriş Məlumatları</h3>
@@ -20,7 +27,7 @@
                                 </tr>
                                 <tr>
                                     <td>Sifariş Nömrəsi:</td>
-                                    <td class="p-1">@Model.order.OrderId</td>
+                                    <td class="p-1" id="orderNo">@Model.order.OrderId</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -32,7 +39,7 @@
                             <tbody>
                                 <tr>
                                     <td>Vizit Nömrəsi :</td>
-                                    <td class="p-1">@Model.visits.VisitID</td>
+                                    <td class="p-1" id="visitNo">@Model.visits.VisitID</td>
                                 </tr>
                                 <tr>
                                     <td>Məhsul Növü :</td>
@@ -107,10 +114,11 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-info" data-toggle="modal" onclick="LoadProducts()" data-target="#stokModal"><i class="fas fa-plus"> Stok Seç</i></button>
+                        <button type="button" class="btn btn-info float-right" data-toggle="modal" onclick="LoadProducts()" data-target="#stokModal"><i class="fas fa-plus"> Stok Seç</i></button>
                     </div>
                 </div>
                 <div class="row pt-2 mt-2 border-top">
+                    <div id="recipeitemAlert"></div>
                     <div class="table-responsive">
                         <table id="faqs" class="table table-bordered table-hover table-striped">
                             <thead class="thead-dark">
@@ -120,40 +128,85 @@
                                     <th style="width:10%">Qiymət</th>
                                     <th style="width:10%">Miqdar</th>
                                     <th style="width:10%">Toplam</th>
+                                    <th style="display:none" >ID</th>
                                     <th style="width:10%"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tableProd">
+                                @if (Model.productionItems.Count > 0)
+                                {
+                                    for (int i = 0; i < Model.productionItems.Count; i++)
+                                    {
+                                <tr id="faqs-row@(i)">
+                                    <td style="padding:0.60rem">@Model.productionItems[i].ProductCode</td>
+                                    <td style="padding:0.60rem">@Model.productionItems[i].ProductName</td>
+                                    <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductPrice"></td>
+                                    <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductQuantity"></td>
+                                    <td style="padding:0.60rem">@Model.productionItems[i].ProductTotal</td>
+                                    <td style="padding:0.60rem;display:none">@Model.productionItems[i].Id</td>
+                                    <td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(this)"><i class="fa fa-trash"></i> Sil</button></td>
+                                </tr>
+                                    }
+                                }
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row mt-3">            
-                        <div class="col-md-6 col-sm-6 col-lg-3">
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-form-custom">
-                                    <tbody>
-                                        <tr>
-                                            <td>Cəmi :</td>
-                                            <td id="productTotal">0.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Məsrəf Növü :</td>
-                                            <td>@Html.DropDownList("productCharge", Model.itemGroups, "", new { @class = "form-control", @id = "productCharge", @onChange = "calculateTotal()" })</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Məsrəf Faizi :</td>
-                                            <td><input type="text" class="form-control" value="0.00" id="chargeValue" onChange = "calculateTotal()" /></td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>Yekun Məbləğ :</td>
-                                            <td id="productSum">0.00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>                   
+                <div class="row mt-3">
+                    <div class="col-md-6 col-sm-6 col-lg-3">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-form-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Cəmi :</td>
+                                        @if (Model.productionItems.Count > 0)
+                                        {
+                                            <td id="productTotal" class="text-right">@Model.productionItems[0].DocSum</td>
+                                        }
+                                        else
+                                        {
+                                            <td id="productTotal" class="text-right">0.00</td>
+                                        }
+                                        <td>AZN</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Məsrəf Növü :</td>
+                                        <td>@Html.DropDownList("productCharge", Model.itemGroups, "", new { @class = "form-control", @id = "productCharge", @onChange = "calculateTotal()" })</td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Məsrəf Faizi :</td>
+                                        @if (Model.productionItems.Count > 0)
+                                        {
+                                            <td><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" value="@Model.productionItems[0].ProductCharges" id="chargeValue" onChange="calculateTotal()" /></td>
+                                        }
+                                        else
+                                        {
+                                            <td><input type="text" class="form-control" value="0.00" id="chargeValue" onChange="calculateTotal()" /></td>
+                                        }
+                                        <td>%</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Yekun Məbləğ :</td>
+                                        @if (Model.productionItems.Count > 0)
+                                        {
+                                            <td id="productSum" class="text-right">@Model.productionItems[0].DocTotal</td>
+                                        }
+                                        else
+                                        {
+                                            <td id="productSum" class="text-right">0.00</td>
+                                        }
+                                        <td>AZN</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary float-right" id="recipeSave">Qeyd Et</button>
                 </div>
             </div>
         </div>
@@ -190,3 +243,22 @@
         </div>
     </div>
 </div>
+@section JavaScript{
+    <script>
+        var faqs_row = @Model.productionItems.Count;
+        function addfaqs(productcode, productname, price) {
+            html = '<tr id="faqs-row' + faqs_row + '">';
+            html += '<td style="padding:0.60rem">' + productcode + '</td>';
+            html += '<td style="padding:0.60rem">' + productname + '</td>';
+            html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="' + price + '"></td>';
+            html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="0"></td>';
+            html += '<td style="padding:0.60rem">0</td>';
+            html += '<td style="padding:0.60rem;display:none">0</td>';
+            html += '<td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(this)"><i class="fa fa-trash"></i> Sil</button></td>';
+            html += '</tr>';
+            $('#faqs tbody').append(html);
+            faqs_row++;
+            Inputmask().mask(document.querySelectorAll('.inputmask'));
+        }       
+    </script>
+}

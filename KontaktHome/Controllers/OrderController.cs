@@ -1,9 +1,10 @@
 ﻿using BusinessLayer;
 using BusinessLayer.Managers;
-using BusinessLayer.Managers.LocalMAnagers;
+using BusinessLayer.Managers.LocalManagers;
 using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
+using Entities.Messages;
 using Entities.Model.LocalModels;
 using Entities.Model.MikroModels;
 using KontaktHome.Filters;
@@ -38,6 +39,7 @@ namespace KontaktHome.Controllers
         private ChangeLogManager changeLogManager = new ChangeLogManager();
         private ProductsManager productManager = new ProductsManager();
         private AdditionalChargesManager additionalChargesManager = new AdditionalChargesManager();
+        private ProductionManager productionManager = new ProductionManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -932,7 +934,7 @@ namespace KontaktHome.Controllers
 
         public ActionResult ProductionRecipe(int? visitId, int? orderId)
         {
-            ProductionRecipe prorecipe = new ProductionRecipe();
+            ProductionData prorecipe = new ProductionData();
             prorecipe.order = orderManager.Find(x => x.OrderId == orderId);
             if (prorecipe.order == null)
             {
@@ -945,7 +947,8 @@ namespace KontaktHome.Controllers
             }
             List<AdditionalCharges> charges = new List<AdditionalCharges>();
             charges = additionalChargesManager.List();
-            prorecipe.itemGroups= new SelectList(charges, "charge_value", "charge_name");
+            prorecipe.itemGroups = new SelectList(charges, "charge_value", "charge_name");
+            prorecipe.productionItems = productionManager.List(x => x.OrderId == orderId && x.VisitId == visitId);
             return View(prorecipe);
         }
         [WebMethod]
@@ -989,6 +992,83 @@ namespace KontaktHome.Controllers
             //return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
 
 
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public JsonResult SaveRecipe(SaveRecipe data)
+        {            
+            bool status = false;
+            if (data.recipe_Items.Count>0)
+            {
+                foreach (var item in data.recipe_Items)
+                {
+                    if (item.ProductTotal==0)
+                    {
+                        string[] errors = new string[1];
+                        errors[0] = "Stok siyahısında toplamı 0 olan stok mövcuddur";
+                        status = false;
+                        return Json(new { status, errors });
+                    }
+                }
+            }           
+            double faiz = 0;
+            double cem = 0;
+            double yekun = 0;
+            if (data.recipe_Items.Count > 0)
+            {
+                faiz=data.recipe_Items[0].ProductCharges;
+                foreach (var item in data.recipe_Items)
+                {
+                    cem += item.ProductTotal;
+                }
+                yekun = cem + ((cem * faiz) / 100);
+            }
+            
+            BusinessLayerResult<Production> _productionUpdate = productionManager.UpdateData(data.recipe_Items, CurrentSession.User, cem, yekun);          
+            if (_productionUpdate.Errors.Count > 0)
+            {
+                string[] errors = new string[_productionUpdate.Errors.Count];
+                for (int i = 0; i < _productionUpdate.Errors.Count; i++)
+                {
+                    errors[i] = _productionUpdate.Errors[i].Message;
+                }
+                status = false;
+                return Json(new { status, errors });
+            }
+            BusinessLayerResult<Production> _productionInsert = productionManager.InsertData(data.recipe_Items, CurrentSession.User,cem,yekun);
+            if (_productionInsert.Errors.Count > 0)
+            {
+                string[] errors = new string[_productionInsert.Errors.Count];
+                for (int i = 0; i < _productionInsert.Errors.Count; i++)
+                {
+                    errors[i] = _productionInsert.Errors[i].Message;
+                }
+                status = false;
+                return Json(new { status, errors});
+            }
+            BusinessLayerResult<Visits> _visit = visitManager.UpdatePrice(data.visit_No, yekun, CurrentSession.User);
+            if (_visit.Errors.Count > 0)
+            {
+                string[] errors = new string[_visit.Errors.Count];
+                for (int i = 0; i < _visit.Errors.Count; i++)
+                {
+                    errors[i] = _visit.Errors[i].Message;
+                }
+                status = false;
+                return Json(new { status, errors });
+            }
+            productionManager.DeleteProdData(data.deleted_items);
+            status = true;
+            string link = "?q=" + Encrypt.EncryptString("Sira=" + data.order_No);
+            return Json(new { status, link, Url = Url.Action("DesignerEdit", "Order") });
+
+        }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public JsonResult DeleteProduct(int? id)
+        {            
+            return Json(new {  });
         }
     }
 }

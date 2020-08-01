@@ -8,377 +8,400 @@
 <div class="content">
     <div class="container">
         <!-- /.left panel -->
-        <div class="col-md-9">
-            @using (Html.BeginForm("CustomerVisit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Siafriş Məlumatları</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Sifariş Nömrəsi : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.OrderId)</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Sifariş Tarixi : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CreateOn)</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Sifariş Mağazası : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.OrderStore)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Soyadı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerSurname)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Ata Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerFatherName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Tel No. 1 : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel1)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Tel No. 2 : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel2)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Ziyarət Tarixi : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitDate)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Ünvan : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Address)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Nişangah : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Location)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Sifariş Növü : </label>
-                                    @if (Model.order.OrderType1 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType1, new { @class = "text-secondary" })<label class="text-secondary">,</label>
-                                    }
-                                    @if (Model.order.OrderType2 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType2, new { @class = "text-secondary" })<label class="text-secondary">,</label>
-                                    }
-                                    @if (Model.order.OrderType3 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType3, new { @class = "text-secondary" })
-                                    }
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Sifariş Qeyd: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Note)</label>
-                                </div>                              
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Məhsul Sayı: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemCount)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Məhsul Açıqlama: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemDescription)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Satıcı Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.SellerCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Status: </label>
-                                    <label class="text-secondary">@BusinessLayer.QueryResult.Statuses.VisitorOrderStatus(Model.order.VisitorStatus)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Dizayner Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.DesignerCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Dizayner Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.DesignerName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Dizayner Status : </label>
-                                    <label class="text-secondary">@BusinessLayer.QueryResult.Statuses.DesignerStatus(Model.order.DesignerStatus)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Siafriş Status: </label>
-                                    <label class="text-secondary"> @BusinessLayer.QueryResult.Statuses.OrderStatus(Model.order.OrderStatus)</label>
-                                </div>
-                            </div>
-                        </div>
-                        <!--card body end-->
-                    </div>
-                </div>
-                @Html.AntiForgeryToken()
-                <div class="form-group col-lg-12">
-                    @Html.ValidationSummary(false)
-                </div>
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <h3 class="card-title">Məhsullar</h3>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <div class="col-md-12" id="itemSection">
-                            @for (int i = 0; i < Model.visitData.Count; i++)
-                            {
-                                @Html.HiddenFor(m => m.visitData[i].VisitID)
-                                @Html.HiddenFor(m => m.visitData[i].CreateOn)
-                                @Html.HiddenFor(m => m.visitData[i].CreateUser)
-                                @Html.HiddenFor(m => m.visitData[i].LastUpdate)
-                                @Html.HiddenFor(m => m.visitData[i].UpdateUser)
-                                @Html.HiddenFor(m => m.visitData[i].OrderId)
-                                @Html.HiddenFor(m => m.visitData[i].VisitGuid)
-                                @Html.HiddenFor(m => m.visitData[i].ProductName)
-                                <div class="card card-info collapsed-card">
-                                    <div class="card-header">
-                                        @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
-                                        <a href="#"><h3 class="card-title" data-card-widget="collapse">Məhsul @mehsulsayi </h3></a>
+        <div class="col-md-12">
 
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
-                                        </div>
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <h3 class="card-title">Siafriş Məlumatları</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <table class="table table-bordered table-form-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Müştəri Adı :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.CustomerName)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Müştəri Soyadı :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.CustomerSurname)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Müştəri Ata Adı :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.CustomerFatherName)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tel No. 1 :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.Tel1)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Tel No. 2 :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.Tel2)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ziyarət Tarixi :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.VisitDate)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ünvan :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.Address)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nişangah :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.Location)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sifariş Növü :</td>
+                                        <td class="p-1">
+                                            @if (Model.order.OrderType1 == true)
+                                            {
+                                                @Html.LabelFor(x => x.order.OrderType1)
+                                            },
+                                            @if (Model.order.OrderType2 == true)
+                                            {
+                                                @Html.LabelFor(x => x.order.OrderType2)
+                                            },
+                                            @if (Model.order.OrderType3 == true)
+                                            {
+                                                @Html.LabelFor(x => x.order.OrderType3)
+                                            }
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Sifariş Qeyd :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.Note)</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <table class="table table-bordered table-form-custom">
+                                <tbody>
+                                    <tr>
+                                        <td>Siafriş Status:</td>
+                                        @if (Model.order.OrderStatus == 1)
+                                        {
+                                            <td class="p-1">Gözləmədə</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 2)
+                                        {
+                                            <td class="p-1">Vizitor Təyin Edilib</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 3)
+                                        {
+                                            <td class="p-1">Dizayner Təyin Edilib</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="p-1"> </td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td>Satıcı Kodu :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.SellerCode)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vizitor Kodu :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.VisitorCode)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vizitor Adı :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.VisitorName)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vizitor Status:</td>
+                                        @if (Model.order.VisitorStatus == 1)
+                                        {
+                                            <td class="p-1">Gözləmədə</td>
+                                        }
+                                        else if (Model.order.VisitorStatus == 2)
+                                        {
+                                            <td class="p-1">Qəbul Edilib</td>
+                                        }
+                                        else if (Model.order.VisitorStatus == 3)
+                                        {
+                                            <td class="p-1">Vizit Edilib</td>
+                                        }
+                                        else if (Model.order.VisitorStatus == 4)
+                                        {
+                                            <td class="p-1">Vizit Tamamlanıb</td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td>Məhsul Sayı :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.ItemCount)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Məhsul Açıqlama :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.ItemDescription)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dizayner Kodu :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.DesignerCode)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dizayner Adı :</td>
+                                        <td class="p-1">@Html.DisplayFor(x => x.order.DesignerName)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Dizayner Status :</td>
+                                        @if (Model.order.DesignerStatus == 1)
+                                        {
+                                            <td class="p-1">Gözləmədə</td>
+                                        }
+                                        else if (Model.order.DesignerStatus == 2)
+                                        {
+                                            <td class="p-1">Qəbul Edilib</td>
+                                        }
+                                        else if (Model.order.DesignerStatus == 3)
+                                        {
+                                            <td class="p-1">Dizayn Edilib</td>
+                                        }
+                                        else if (Model.order.DesignerStatus == 4)
+                                        {
+                                            <td class="p-1">Dizayn Tamamlanıb</td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--card body end-->
+                </div>
+            </div>
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <h3 class="card-title">Məhsullar</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="col-md-12" id="itemSection">
+                        @for (int i = 0; i < Model.visitData.Count; i++)
+                        {                           
+                            <div class="card card-info collapsed-card">
+                                <div class="card-header">
+                                    @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
+                                    <a href="#"><h3 class="card-title" data-card-widget="collapse">Məhsul @mehsulsayi </h3></a>
+
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
                                     </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body" style="display: none;">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <label>Mebel Tipi</label>
-                                                        <div class="form-group">
-                                                            @Html.EditorFor(x => x.visitData[i].ProductCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body" style="display: none;">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <label>Mebel Tipi</label>
+                                                    <div class="form-group">
+                                                        @Html.EditorFor(x => x.visitData[i].ProductCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-12"><label>Ölçü</label></div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>En</label>
+                                                        @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...", @readonly = "readonly" } })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Uzun</label>
+                                                        @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...", @readonly = "readonly" } })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group">
+                                                        <label>Hündürlük</label>
+                                                        @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...", @readonly = "readonly" } })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-6">
+                                                    <label>Material Növü</label>
+                                                    <div class="form-group">
+                                                        @Html.EditorFor(x => x.visitData[i].MaterialType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>Material Rəngi</label>
+                                                    <div class="form-group">
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
+
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-12"><label>Ölçü</label></div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>En</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...", @readonly = "readonly" } })
-                                                        </div>
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-6">
+                                                    <label>Dəzgahlıq</label>
+                                                    <div class="form-group">
+                                                        @Html.EditorFor(x => x.visitData[i].PanelType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Uzun</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...", @readonly = "readonly" } })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Hündürlük</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...", @readonly = "readonly" } })
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>Dəzgahlıq Rəngi</label>
+                                                    <div class="form-group">
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <label>Material Növü</label>
-                                                        <div class="form-group">
-                                                            @Html.EditorFor(x => x.visitData[i].MaterialType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                                        </div>
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-6">
+                                                    <label>Qapaq</label>
+                                                    <div class="form-group">
+                                                        @Html.EditorFor(x => x.visitData[i].DoorType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                                     </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Material Rəngi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
-
-                                                            </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <label>Qapaq Rəngi</label>
+                                                    <div class="form-group">
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <label>Dəzgahlıq</label>
-                                                        <div class="form-group">
-                                                            @Html.EditorFor(x => x.visitData[i].PanelType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Dəzgahlıq Rəngi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
-                                                            </div>
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Aksesuar</label>
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <label>Qapaq</label>
-                                                        <div class="form-group">
-                                                            @Html.EditorFor(x => x.visitData[i].DoorType, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Qapaq Rəngi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
-                                                            </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Güzgü</label>
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
 
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Aksesuar</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Güzgü</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ...", @readonly = "readonly" } })
-                                                            </div>
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label>Qeyd</label>
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label>Qeyd</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3", @readonly = "readonly" } })
-                                                            </div>
+                                            </div>
+                                            <div class="row border-top border-info pt-3">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Təklif Olunan Qiymət</label>
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Təklif Olunan Qiymət</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ...", @readonly = "readonly" } })
-                                                            </div>
+                                                <div class="col-sm-12">
+                                                    <div class="custom-control custom-checkbox">
+                                                        @Html.CheckBoxFor(x => x.visitData[i].IsDeclined, new { @class = "custom-control-input", @id = "chkboxSetDecline", @onchange = "cmbIsDeclined()", @type = "checkbox", @disabled = "disabled" })
+                                                        @Html.LabelFor(x => x.visitData[i].IsDeclined, new { @for = "chkboxSetDecline", @class = "custom-control-label" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 mt-1">
+                                                    <div class="form-group">
+                                                        <label>Razılaşmama Səbəbi</label>
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].DeclineReason, new { htmlAttributes = new { @class = "form-control", id = "declinereason", placeholder = "Razılaşmama səbəbi ...", rows = "3", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-12">
-                                                        <div class="custom-control custom-checkbox">
-                                                            @Html.CheckBoxFor(x => x.visitData[i].IsDeclined, new { @class = "custom-control-input", @id = "chkboxSetDecline", @onchange = "cmbIsDeclined()", @type = "checkbox", @disabled = "disabled" })
-                                                            @Html.LabelFor(x => x.visitData[i].IsDeclined, new { @for = "chkboxSetDecline", @class = "custom-control-label" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 mt-1">
-                                                        <div class="form-group">
-                                                            <label>Razılaşmama Səbəbi</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].DeclineReason, new { htmlAttributes = new { @class = "form-control", id = "declinereason", placeholder = "Razılaşmama səbəbi ...", rows = "3", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Yekun Məbləğ</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].FinalPrice, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Qiymət ...", @readonly = "readonly" } })
-                                                            </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Yekun Məbləğ</label>
+                                                        <div class="col-form-txt">
+                                                            @Html.EditorFor(x => x.visitData[i].FinalPrice, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Qiymət ...", @readonly = "readonly" } })
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- /.row -->
                                     </div>
-                                    <!-- /.card-body -->
-                                    <div class="card-footer" style="display: none;">
-
-                                    </div>
+                                    <!-- /.row -->
                                 </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer" style="display: none;">
 
-                            }
-                        </div>
+                                </div>
+                            </div>
 
+                        }
                     </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
+
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                </div>
+            </div>
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <div class="card-title">
+                        Sifariş Şəkilləri
                     </div>
                 </div>
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <div class="card-title">
-                            Sifariş Şəkilləri
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            @foreach (var visitiamges in Model.visitImages)
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var visitiamges in Model.visitImages)
+                        {
+                            if (visitiamges.ImageType == 1)
                             {
-                                if (visitiamges.ImageType == 1)
-                                {
-                                    <div class="col-sm-2">
-                                        <a href="@Url.Content(visitiamges.ImagePath)" data-toggle="lightbox" data-title="@visitiamges.ImageName" data-gallery="gallery">
-                                            <img src="@Url.Content(visitiamges.ImagePath)" class="img-fluid mb-2" alt="@visitiamges.ImageName">
-                                        </a>
-                                    </div>
-                                }
+                                <div class="col-sm-2">
+                                    <a href="@Url.Content(visitiamges.ImagePath)" data-toggle="lightbox" data-title="@visitiamges.ImageName" data-gallery="gallery">
+                                        <img src="@Url.Content(visitiamges.ImagePath)" class="img-fluid mb-2" alt="@visitiamges.ImageName">
+                                    </a>
+                                </div>
                             }
+                        }
 
-                        </div>
                     </div>
                 </div>
-                <div class="card card-primary">
-                    <div class="card-header">
-                        <div class="card-title">
-                            Render Şəkilləri
-                        </div>
+            </div>
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <div class="card-title">
+                        Render Şəkilləri
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            @foreach (var visitiamges in Model.visitImages)
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var visitiamges in Model.visitImages)
+                        {
+                            if (visitiamges.ImageType == 2)
                             {
-                                if (visitiamges.ImageType == 2)
-                                {
-                                    <div class="col-sm-2">
-                                        <a href="@Url.Content(visitiamges.ImagePath)" data-toggle="lightbox" data-title="@visitiamges.ImageName" data-gallery="gallery">
-                                            <img src="@Url.Content(visitiamges.ImagePath)" class="img-fluid mb-2" alt="@visitiamges.ImageName">
-                                        </a>
-                                    </div>
-                                }
-
+                                <div class="col-sm-2">
+                                    <a href="@Url.Content(visitiamges.ImagePath)" data-toggle="lightbox" data-title="@visitiamges.ImageName" data-gallery="gallery">
+                                        <img src="@Url.Content(visitiamges.ImagePath)" class="img-fluid mb-2" alt="@visitiamges.ImageName">
+                                    </a>
+                                </div>
                             }
 
-                        </div>
+                        }
+
                     </div>
                 </div>
-            }
-
+            </div>
         </div>
     </div>
 </div>

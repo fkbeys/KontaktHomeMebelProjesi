@@ -7,10 +7,11 @@ using System.Web.Mvc;
 
 namespace Entities.Model.LocalModels
 {
-   public class ProductionRecipe
+   public class ProductionData
     {
         public Orders order { get; set; }
         public Visits visits { get; set; }
         public SelectList itemGroups { get; set; }
+        public List<Production> productionItems { get; set; }
     }
 }

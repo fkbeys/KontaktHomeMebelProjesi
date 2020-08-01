@@ -57,22 +57,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ManagerBaseMikro.cs" />
-    <Compile Include="Managers\LocalMAnagers\AdditionalChargesManager.cs" />
+    <Compile Include="Managers\LocalManagers\AdditionalChargesManager.cs" />
+    <Compile Include="Managers\LocalManagers\ProductionManager.cs" />
     <Compile Include="Managers\MikroManagers\AnaGrupManager.cs" />
-    <Compile Include="Managers\LocalMAnagers\ChangeLogManager.cs" />
-    <Compile Include="Managers\LocalMAnagers\UserRolesManager.cs" />
-    <Compile Include="Managers\LocalMAnagers\UserRolesMappingManager.cs" />
+    <Compile Include="Managers\LocalManagers\ChangeLogManager.cs" />
+    <Compile Include="Managers\LocalManagers\UserRolesManager.cs" />
+    <Compile Include="Managers\LocalManagers\UserRolesMappingManager.cs" />
     <Compile Include="Managers\MikroManagers\ProductsManager.cs" />
     <Compile Include="Security\Encrypt.cs" />
-    <Compile Include="Managers\LocalMAnagers\ImagesManager.cs" />
+    <Compile Include="Managers\LocalManagers\ImagesManager.cs" />
     <Compile Include="ManagerBase.cs" />
-    <Compile Include="Managers\LocalMAnagers\OrderManager.cs" />
+    <Compile Include="Managers\LocalManagers\OrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryResult\BusinessLayerResult.cs" />
     <Compile Include="QueryResult\Statuses.cs" />
-    <Compile Include="Managers\LocalMAnagers\StoresManager.cs" />
-    <Compile Include="Managers\LocalMAnagers\UserManager.cs" />
-    <Compile Include="Managers\LocalMAnagers\VisitManager.cs" />
+    <Compile Include="Managers\LocalManagers\StoresManager.cs" />
+    <Compile Include="Managers\LocalManagers\UserManager.cs" />
+    <Compile Include="Managers\LocalManagers\VisitManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">

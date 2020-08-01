@@ -7,7 +7,7 @@
 <div class="content">
     <div class="container">
         <!-- /.left panel -->
-        <div class="col-md-9">
+        <div class="col-md-12">
             @using (Html.BeginForm("DesignerEdit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.HiddenFor(x => x.order.OrderId)
@@ -18,162 +18,176 @@
                 @Html.HiddenFor(x => x.order.Address)
                 @Html.HiddenFor(x => x.order.CustomerFatherName)
                 @Html.HiddenFor(x => x.order.ItemCount)
+                @Html.AntiForgeryToken()
 
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Siafriş Məlumatları</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-6">                               
-                                <div class="col-sm-12">
-                                    <label>Müştəri Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Soyadı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerSurname)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Müştəri Ata Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.CustomerFatherName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Tel No. 1 : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel1)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Tel No. 2 : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Tel2)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Ziyarət Tarixi : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitDate)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Satıcı Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.SellerCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.VisitorName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Vizitor Status: </label>
-                                    @if (Model.order.VisitorStatus == 1)
-                                    {
-                                        <label class="text-secondary">Gözləmədə</label>
-                                    }
-                                    else if (Model.order.VisitorStatus == 2)
-                                    {
-                                        <label class="text-secondary">Qəbul Edilib</label>
-                                    }
-                                    else if (Model.order.VisitorStatus == 3)
-                                    {
-                                        <label class="text-secondary">Vizit Edilib</label>
-                                    }
-                                    else if (Model.order.VisitorStatus == 4)
-                                    {
-                                        <label class="text-secondary">Vizit Tamamlanıb</label>
-                                    }
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Siafriş Status: </label>
-                                    @if (Model.order.OrderStatus == 1)
-                                    {
-                                        <label class="text-secondary">Gözləmədə</label>
-                                    }
-                                    else if (Model.order.OrderStatus == 2)
-                                    {
-                                        <label class="text-secondary">Vizitor Təyin Edilib</label>
-                                    }
-                                    else if (Model.order.OrderStatus == 3)
-                                    {
-                                        <label class="text-secondary">Dizayner Təyin Edilib</label>
-                                    }
-                                </div>
+                            <div class="col-sm-6">
+                                <table class="table table-bordered table-form-custom">
+                                    <tbody>
+                                        <tr>
+                                            <td>Müştəri Adı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerName)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Müştəri Soyadı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerSurname)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Müştəri Ata Adı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerFatherName)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tel No. 1 :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Tel1)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tel No. 2 :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Tel2)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ziyarət Tarixi :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitDate)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Ünvan :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Address)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nişangah :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Location)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sifariş Növü :</td>
+                                            <td class="p-1">
+                                                @if (Model.order.OrderType1 == true)
+                                                {
+                                                    @Html.LabelFor(x => x.order.OrderType1)
+                                                },
+                                                @if (Model.order.OrderType2 == true)
+                                                {
+                                                    @Html.LabelFor(x => x.order.OrderType2)
+                                                },
+                                                @if (Model.order.OrderType3 == true)
+                                                {
+                                                    @Html.LabelFor(x => x.order.OrderType3)
+                                                }
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sifariş Qeyd :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.Note)</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
                             </div>
                             <div class="col-sm-6">
-                                <div class="col-sm-12">
-                                    <label>Ünvan : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Address)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Nişangah : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Location)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Sifariş Növü : </label>
-                                    @if (Model.order.OrderType1 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType1, new { @class = "text-secondary" })<label class="text-secondary">,</label>
-                                    }
-                                    @if (Model.order.OrderType2 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType2, new { @class = "text-secondary" })<label class="text-secondary">,</label>
-                                    }
-                                    @if (Model.order.OrderType3 == true)
-                                    {
-                                        @Html.LabelFor(x => x.order.OrderType3, new { @class = "text-secondary" })
-                                    }
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Sifariş Qeyd: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.Note)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Məhsul Sayı: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemCount)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Məhsul Açıqlama: </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.ItemDescription)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Dizayner Kodu : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.DesignerCode)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Dizayner Adı : </label>
-                                    <label class="text-secondary">@Html.DisplayFor(x => x.order.DesignerName)</label>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label>Dizayner Status : </label>
-                                    @if (Model.order.DesignerStatus == 1)
-                                    {
-                                        <label class="text-secondary">Gözləmədə</label>
-                                    }
-                                    else if (Model.order.DesignerStatus == 2)
-                                    {
-                                        <label class="text-secondary">Qəbul Edilib</label>
-                                    }
-                                    else if (Model.order.DesignerStatus == 3)
-                                    {
-                                        <label class="text-secondary">Dizayn Edilib</label>
-                                    }
-                                    else if (Model.order.DesignerStatus == 4)
-                                    {
-                                        <label class="text-secondary">Dizayn Tamamlanıb</label>
-                                    }
-                                </div>
+                                <table class="table table-bordered table-form-custom">
+                                    <tbody>
+                                        <tr>
+                                            <td>Siafriş Status:</td>
+                                            @if (Model.order.OrderStatus == 1)
+                                            {
+                                                <td class="p-1">Gözləmədə</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 2)
+                                            {
+                                                <td class="p-1">Vizitor Təyin Edilib</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 3)
+                                            {
+                                                <td class="p-1">Dizayner Təyin Edilib</td>
+                                            }
+                                            else
+                                            {
+                                                <td class="p-1"> </td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td>Satıcı Kodu :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.SellerCode)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vizitor Kodu :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitorCode)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vizitor Adı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitorName)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Vizitor Status:</td>
+                                            @if (Model.order.VisitorStatus == 1)
+                                            {
+                                                <td class="p-1">Gözləmədə</td>
+                                            }
+                                            else if (Model.order.VisitorStatus == 2)
+                                            {
+                                                <td class="p-1">Qəbul Edilib</td>
+                                            }
+                                            else if (Model.order.VisitorStatus == 3)
+                                            {
+                                                <td class="p-1">Vizit Edilib</td>
+                                            }
+                                            else if (Model.order.VisitorStatus == 4)
+                                            {
+                                                <td class="p-1">Vizit Tamamlanıb</td>
+                                            }
+                                        </tr>
+                                        <tr>
+                                            <td>Məhsul Sayı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.ItemCount)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Məhsul Açıqlama :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.ItemDescription)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dizayner Kodu :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.DesignerCode)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dizayner Adı :</td>
+                                            <td class="p-1">@Html.DisplayFor(x => x.order.DesignerName)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dizayner Status :</td>
+                                            @if (Model.order.DesignerStatus == 1)
+                                            {
+                                                <td class="p-1">Gözləmədə</td>
+                                            }
+                                            else if (Model.order.DesignerStatus == 2)
+                                            {
+                                                <td class="p-1">Qəbul Edilib</td>
+                                            }
+                                            else if (Model.order.DesignerStatus == 3)
+                                            {
+                                                <td class="p-1">Dizayn Edilib</td>
+                                            }
+                                            else if (Model.order.DesignerStatus == 4)
+                                            {
+                                                <td class="p-1">Dizayn Tamamlanıb</td>
+                                            }
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                         <!--card body end-->
                     </div>
                 </div>
-                @Html.AntiForgeryToken()
-                <div class="form-group col-lg-12">
+                <div class="form-group col-md-12">
                     @Html.ValidationSummary(false)
                 </div>
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Məhsullar</h3>
-                    </div>
-                    <!-- /.card-header -->
+                    </div>                   
                     <div class="card-body">
                         <div class="col-md-12" id="itemSection">
                             @for (int i = 0; i < Model.visitData.Count; i++)
@@ -199,7 +213,7 @@
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <!-- /.card-header -->
+                                   
                                     <div class="card-body" style="display: none;">
                                         <div class="row">
                                             <div class="col-sm-12">
@@ -368,9 +382,9 @@
                                         </div>
                                         <!-- /.row -->
                                     </div>
-                                    <!-- /.card-body -->
-                                    <div class="card-footer" style="display: none;">                               
-                                        @Html.ActionLink("Reçete Hesabla", "ProductionRecipe", "Order",new { visitId=Model.visitData[i].VisitID,orderId=Model.order.OrderId }, new { @class="btn btn-primary"})
+                                   
+                                    <div class="card-footer" style="display: none;">
+                                        @Html.ActionLink("Reçete Hesabla", "ProductionRecipe", "Order", new { visitId = Model.visitData[i].VisitID, orderId = Model.order.OrderId }, new { @class = "btn btn-primary" })
                                     </div>
                                 </div>
                                 <script>
@@ -394,22 +408,22 @@
                                     <div class="custom-file">
                                         @Html.TextBoxFor(x => x.orderFiles.orderFiles, "SEC", new { @type = "file", @multiple = "multiple", @id = "imageSelection", @class = "custom-file-input" })
                                         <label class="custom-file-label" for="imageSelection">Fayl seç....</label>
-                                    </div>                                   
-                                </div>                     
+                                    </div>
+                                </div>
                                 <div class="col-sm-6">
                                     @Html.ValidationMessageFor(x => x.orderFiles.orderFiles, "", new { @class = "text-danger" })
-                                </div>                               
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <!-- /.card-body -->
+                  
                     <div class="card-footer">
-                        <button type="submit" name="designCommand" value="Finish" class="btn btn-primary float-left">Dizayn Tamamla</button>
                         <button type="submit" name="designCommand" value="Save" class="btn btn-info float-right mr-2">Qeyd Et</button>
+                        <button type="submit" name="designCommand" value="Finish" class="btn btn-primary float-right mr-2">Dizayn Tamamla</button>
+
                     </div>
                 </div>
-
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <div class="card-title">
                             Sifariş Şəkilləri
@@ -431,7 +445,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card card-primary">
+                <div class="card card-secondary">
                     <div class="card-header">
                         <div class="card-title">
                             Render Şəkilləri
@@ -469,4 +483,4 @@
             bsCustomFileInput.init();
         });
     </script>
-    }
+}
