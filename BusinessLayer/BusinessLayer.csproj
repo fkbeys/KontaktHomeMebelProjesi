@@ -64,6 +64,7 @@
     <Compile Include="Managers\LocalManagers\UserRolesManager.cs" />
     <Compile Include="Managers\LocalManagers\UserRolesMappingManager.cs" />
     <Compile Include="Managers\MikroManagers\ProductsManager.cs" />
+    <Compile Include="Managers\MikroManagers\StoklarManager.cs" />
     <Compile Include="Security\Encrypt.cs" />
     <Compile Include="Managers\LocalManagers\ImagesManager.cs" />
     <Compile Include="ManagerBase.cs" />

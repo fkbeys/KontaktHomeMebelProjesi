@@ -935,13 +935,13 @@ $.fancyConfirm = function (opts) {
 //});
 function LoadProducts() {
     $('#tableProducts').DataTable({
-        "destroy": true,
+        "destroy": "true",       
         "ajax": {
             "url": "../Order/GetProducts",
+            "cache": "false",
             "type": "POST",
             "datatype": "json"
         },
-
         "columns": [
             { "data": "product_code" },
             { "data": "product_name" },
@@ -1093,4 +1093,31 @@ $('#recipeSave').click(function () {
         }
     }
 });
+
+function acceptOrder(orderId, visitId) {
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+    $.ajax({
+        url: '/Order/SaveToMikro',
+        type: "POST",
+        data: {
+            __RequestVerificationToken: token,
+            orderid: orderId,
+            visitid:visitId
+        },
+        success: function (d) {
+            if (d.status == true) {
+                Swal.fire('Qeyd Tamamlandı', '', 'success');
+                window.location.href = d.Url + d.link;
+            }
+            else {                           
+                Swal.fire('Xəta başverdi', '', 'error');
+                this.disabled = false;
+            }
+        },
+        error: function () {
+            alert('Error. Please try again.');
+        }
+    });
+}
 

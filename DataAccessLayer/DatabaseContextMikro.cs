@@ -13,5 +13,6 @@ namespace DataAccessLayer
     {
         public DbSet<STOK_ANA_GRUPLARI> StokAnaGruplar { get; set; }
         public DbSet<Products> Products { get; set; }
+        public DbSet<STOKLAR> STOKLAR { get; set; }
     }
 }

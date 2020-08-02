@@ -1642,6 +1642,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Admin\CreateStore.cshtml" />
     <Content Include="Views\Order\ProductionRecipe.cshtml" />
+    <Content Include="Views\Order\VisitInfo_old.cshtml" />
+    <Content Include="Views\Order\DesignerEdit_old.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

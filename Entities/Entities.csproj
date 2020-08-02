@@ -82,6 +82,7 @@
     <Compile Include="Model\LocalModels\LoginViewModel.cs" />
     <Compile Include="Messages\ErrorMessageCode.cs" />
     <Compile Include="Messages\ErrorMessageObj.cs" />
+    <Compile Include="Model\LocalModels\OrderData.cs" />
     <Compile Include="Model\LocalModels\OrderFileUpload.cs" />
     <Compile Include="Model\LocalModels\Orders.cs" />
     <Compile Include="Model\LocalModels\OrderSearch.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Model\LocalModels\UserRolesMapping.cs" />
     <Compile Include="Model\LocalModels\Widgets.cs" />
     <Compile Include="Model\MikroModels\Products.cs" />
+    <Compile Include="Model\MikroModels\STOKLAR.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\LocalModels\Seller.cs" />
     <Compile Include="Model\MikroModels\STOK_ANA_GRUPLARI.cs" />

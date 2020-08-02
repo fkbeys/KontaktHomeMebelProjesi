@@ -40,6 +40,7 @@ namespace KontaktHome.Controllers
         private ProductsManager productManager = new ProductsManager();
         private AdditionalChargesManager additionalChargesManager = new AdditionalChargesManager();
         private ProductionManager productionManager = new ProductionManager();
+        private StoklarManager stoklarManager = new StoklarManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -468,16 +469,12 @@ namespace KontaktHome.Controllers
             if (order == null)
             {
                 return HttpNotFound();
-            }
-            //else if (order.VisitorStatus == 0)
-            //{
-            //    return RedirectToAction("VisitorOrders");
-            //}
+            }           
             else
             {
                 List<Visits> visits = visitManager.List(x => x.OrderId == Sira).ToList();
                 OrderFileUpload uploadedFiles = new OrderFileUpload();
-                CustomerVisitData data = new CustomerVisitData();
+                OrderData data = new OrderData();
                 List<VisitImages> visitimages = new List<VisitImages>();
                 if (visits.Count > 0)
                 {
@@ -488,10 +485,9 @@ namespace KontaktHome.Controllers
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
                 data.visitImages = visitimages;
-                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
-                //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
-                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
-                //ViewBag.AnaGruplar = listanagruplar;
+                data.production = productionManager.ListQueryable().Where(x => x.OrderId == Sira).ToList();
+                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();             
+                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");            
                 return View(data);
             }
         }
@@ -577,15 +573,20 @@ namespace KontaktHome.Controllers
             List<VisitImages> visitImages = new List<VisitImages>();
             if (ModelState.IsValid)
             {
-                BusinessLayerResult<Visits> visitData = visitManager.SaveVisit(data.visitData, data.order.OrderId, CurrentSession.User);
+                BusinessLayerResult<Visits> visitData = visitManager.VisitorInsert(data.visitData, data.order.OrderId, CurrentSession.User);
                 if (visitData.Errors.Count > 0)
                 {
                     visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
                 }
+                BusinessLayerResult<Visits> visitDataUpdate = visitManager.VisitorUpdate(data.visitData, data.order.OrderId, CurrentSession.User);
+                if (visitDataUpdate.Errors.Count > 0)
+                {
+                    visitDataUpdate.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    return View(data);
+                }
                 if (data.orderFiles.orderFiles.Count() > 0)
                 {
-
                     bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
                     if (!exists)
                         Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
@@ -752,8 +753,6 @@ namespace KontaktHome.Controllers
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
                 data.visitImages = imagesManager.List(x => x.VisitGuid == visitGuid);
-                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
-                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
                 return View(data);
             }
         }
@@ -773,55 +772,46 @@ namespace KontaktHome.Controllers
                 designerstatus = 24;
             }
             data.order = orderManager.Find(x => x.OrderId == data.order.OrderId);
-            List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
-            data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
-            foreach (var item in data.visitData)
-            {
-                var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
-                item.ProductName = anagrupadi;
-            }
+            var visitGuid = data.visitData.Where(x => x.OrderId == data.order.OrderId).Select(m => m.VisitGuid).First();
+            data.visitImages = imagesManager.List(x => x.VisitGuid == visitGuid);
             List<VisitImages> visitImages = new List<VisitImages>();
-            if (ModelState.IsValid)
-            {
-                BusinessLayerResult<Visits> visitData = visitManager.SaveVisit(data.visitData, data.order.OrderId, CurrentSession.User);
-                if (visitData.Errors.Count > 0)
-                {
-                    visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
-                    return View(data);
-                }
-                if (data.orderFiles.orderFiles.Count() > 0)
-                {
 
-                    bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
-                    if (!exists)
-                        Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
-                    foreach (HttpPostedFileBase file in data.orderFiles.orderFiles)
+            BusinessLayerResult<Visits> visitData = visitManager.DesignerUpdate(data.visitData, data.order.OrderId, CurrentSession.User);
+            if (visitData.Errors.Count > 0)
+            {
+                visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                return View(data);
+            }
+            if (data.orderFiles.orderFiles.Count() > 0)
+            {
+                bool exists = Directory.Exists(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
+                if (!exists)
+                    Directory.CreateDirectory(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString()));
+                foreach (HttpPostedFileBase file in data.orderFiles.orderFiles)
+                {
+                    if (file != null)
                     {
-                        if (file != null)
+                        string fileType = file.ContentType.ToLower();
+                        if (CheckFileType.checkIfImage(fileType))
                         {
-                            string fileType = file.ContentType.ToLower();
-                            if (CheckFileType.checkIfImage(fileType))
-                            {
-                                WebImage img = new WebImage(file.InputStream);
-                                if (img.Width > 1280)
-                                    img.Resize(1280, 800);
-                                var InputFileName = Path.GetFileName(file.FileName);
-                                var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
-                                var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
-                                img.Save(ServerSavePath);
-                                visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 2 });
-                            }
+                            WebImage img = new WebImage(file.InputStream);
+                            if (img.Width > 1280)
+                                img.Resize(1280, 800);
+                            var InputFileName = Path.GetFileName(file.FileName);
+                            var ServerSavePath = Path.Combine(Server.MapPath("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/") + InputFileName);
+                            var imagePath = Path.Combine("~/UploadedFiles/" + visitData.Result.VisitGuid.ToString() + "/" + InputFileName);
+                            img.Save(ServerSavePath);
+                            visitImages.Add(new VisitImages() { VisitGuid = visitData.Result.VisitGuid, ImageName = InputFileName.ToString(), ImagePath = imagePath.ToString(), ImageType = 2 });
                         }
                     }
-                    BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
-
                 }
-                BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, designerstatus);
-                TempData["msg"] = "Qeyd Yeniləndi!";
-                TempData["typ"] = "success";
-                return RedirectToAction("DesignerOrders");
+                BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
             }
-            return View(data);
+            BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, designerstatus);
+            TempData["msg"] = "Qeyd Yeniləndi!";
+            TempData["typ"] = "success";
+            return RedirectToAction("DesignerOrders");
+
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
@@ -954,7 +944,8 @@ namespace KontaktHome.Controllers
         [WebMethod]
         public ActionResult GetProducts()
         {
-            List<Products> product = productManager.GetProducts();
+            List<Products> product = new List<Products>();
+            product = productManager.GetProducts();
             return Json(new { data = product });
             //Datatable serverside processing
             //var draw = Request.Form.GetValues("draw").FirstOrDefault();
@@ -997,13 +988,13 @@ namespace KontaktHome.Controllers
         [ValidateAntiForgeryToken]
         [HttpPost]
         public JsonResult SaveRecipe(SaveRecipe data)
-        {            
+        {
             bool status = false;
-            if (data.recipe_Items.Count>0)
+            if (data.recipe_Items.Count > 0)
             {
                 foreach (var item in data.recipe_Items)
                 {
-                    if (item.ProductTotal==0)
+                    if (item.ProductTotal == 0)
                     {
                         string[] errors = new string[1];
                         errors[0] = "Stok siyahısında toplamı 0 olan stok mövcuddur";
@@ -1011,21 +1002,21 @@ namespace KontaktHome.Controllers
                         return Json(new { status, errors });
                     }
                 }
-            }           
+            }
             double faiz = 0;
             double cem = 0;
             double yekun = 0;
             if (data.recipe_Items.Count > 0)
             {
-                faiz=data.recipe_Items[0].ProductCharges;
+                faiz = data.recipe_Items[0].ProductCharges;
                 foreach (var item in data.recipe_Items)
                 {
                     cem += item.ProductTotal;
                 }
                 yekun = cem + ((cem * faiz) / 100);
             }
-            
-            BusinessLayerResult<Production> _productionUpdate = productionManager.UpdateData(data.recipe_Items, CurrentSession.User, cem, yekun);          
+
+            BusinessLayerResult<Production> _productionUpdate = productionManager.UpdateData(data.recipe_Items, CurrentSession.User, cem, yekun);
             if (_productionUpdate.Errors.Count > 0)
             {
                 string[] errors = new string[_productionUpdate.Errors.Count];
@@ -1036,7 +1027,7 @@ namespace KontaktHome.Controllers
                 status = false;
                 return Json(new { status, errors });
             }
-            BusinessLayerResult<Production> _productionInsert = productionManager.InsertData(data.recipe_Items, CurrentSession.User,cem,yekun);
+            BusinessLayerResult<Production> _productionInsert = productionManager.InsertData(data.recipe_Items, CurrentSession.User, cem, yekun);
             if (_productionInsert.Errors.Count > 0)
             {
                 string[] errors = new string[_productionInsert.Errors.Count];
@@ -1045,7 +1036,7 @@ namespace KontaktHome.Controllers
                     errors[i] = _productionInsert.Errors[i].Message;
                 }
                 status = false;
-                return Json(new { status, errors});
+                return Json(new { status, errors });
             }
             BusinessLayerResult<Visits> _visit = visitManager.UpdatePrice(data.visit_No, yekun, CurrentSession.User);
             if (_visit.Errors.Count > 0)
@@ -1067,8 +1058,15 @@ namespace KontaktHome.Controllers
         [ValidateAntiForgeryToken]
         [HttpPost]
         public JsonResult DeleteProduct(int? id)
-        {            
-            return Json(new {  });
+        {
+            return Json(new { });
         }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public JsonResult SaveToMikro(int? orderid, int? visitid)
+        {
+            return Json(new { });
+        }
+
     }
 }

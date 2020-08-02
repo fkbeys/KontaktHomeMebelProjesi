@@ -10,14 +10,7 @@
         <div class="col-md-12">
             @using (Html.BeginForm("DesignerEdit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                @Html.HiddenFor(x => x.order.OrderId)
-                @Html.HiddenFor(x => x.order.CustomerName)
-                @Html.HiddenFor(x => x.order.CustomerSurname)
-                @Html.HiddenFor(x => x.order.Tel1)
-                @Html.HiddenFor(x => x.order.Tel2)
-                @Html.HiddenFor(x => x.order.Address)
-                @Html.HiddenFor(x => x.order.CustomerFatherName)
-                @Html.HiddenFor(x => x.order.ItemCount)
+                @Html.HiddenFor(x => x.order.OrderId)              
                 @Html.AntiForgeryToken()
 
                 <div class="card card-secondary">
@@ -31,58 +24,61 @@
                                     <tbody>
                                         <tr>
                                             <td>Müştəri Adı :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerName)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.CustomerName)</td>
                                         </tr>
                                         <tr>
                                             <td>Müştəri Soyadı :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerSurname)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.CustomerSurname)</td>
                                         </tr>
                                         <tr>
                                             <td>Müştəri Ata Adı :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.CustomerFatherName)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.CustomerFatherName)</td>
                                         </tr>
                                         <tr>
                                             <td>Tel No. 1 :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.Tel1)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Tel1)</td>
                                         </tr>
                                         <tr>
                                             <td>Tel No. 2 :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.Tel2)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Tel2)</td>
                                         </tr>
                                         <tr>
                                             <td>Ziyarət Tarixi :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitDate)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.VisitDate)</td>
                                         </tr>
                                         <tr>
                                             <td>Ünvan :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.Address)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Address)</td>
                                         </tr>
                                         <tr>
                                             <td>Nişangah :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.Location)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Location)</td>
                                         </tr>
                                         <tr>
                                             <td>Sifariş Növü :</td>
                                             <td class="p-1">
                                                 @if (Model.order.OrderType1 == true)
                                                 {
-                                                    @Html.LabelFor(x => x.order.OrderType1)
+                                                    @Html.LabelFor(x => x.order.OrderType1, new { @class = "font-weight-normal" })
                                                 },
                                                 @if (Model.order.OrderType2 == true)
                                                 {
-                                                    @Html.LabelFor(x => x.order.OrderType2)
+                                                    @Html.LabelFor(x => x.order.OrderType2, new { @class = "font-weight-normal" })
                                                 },
                                                 @if (Model.order.OrderType3 == true)
                                                 {
-                                                    @Html.LabelFor(x => x.order.OrderType3)
+                                                    @Html.LabelFor(x => x.order.OrderType3, new { @class = "font-weight-normal" })
                                                 }
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>Sifariş Qeyd :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.Note)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Note)</td>
                                         </tr>
-
+                                        <tr>
+                                            <td>Təxmini Qiymət :</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Price)</td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -93,85 +89,85 @@
                                             <td>Siafriş Status:</td>
                                             @if (Model.order.OrderStatus == 1)
                                             {
-                                                <td class="p-1">Gözləmədə</td>
+                                                <td class="p-1" style="height:32px">Gözləmədə</td>
                                             }
                                             else if (Model.order.OrderStatus == 2)
                                             {
-                                                <td class="p-1">Vizitor Təyin Edilib</td>
+                                                <td class="p-1" style="height:32px">Vizitor Təyin Edilib</td>
                                             }
                                             else if (Model.order.OrderStatus == 3)
                                             {
-                                                <td class="p-1">Dizayner Təyin Edilib</td>
+                                                <td class="p-1" style="height:32px">Dizayner Təyin Edilib</td>
                                             }
                                             else
                                             {
-                                                <td class="p-1"> </td>
+                                                <td class="p-1" style="height:32px"> </td>
                                             }
                                         </tr>
                                         <tr>
                                             <td>Satıcı Kodu :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.SellerCode)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.SellerCode)</td>
                                         </tr>
                                         <tr>
                                             <td>Vizitor Kodu :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitorCode)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.VisitorCode)</td>
                                         </tr>
                                         <tr>
                                             <td>Vizitor Adı :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.VisitorName)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.VisitorName)</td>
                                         </tr>
                                         <tr>
                                             <td>Vizitor Status:</td>
                                             @if (Model.order.VisitorStatus == 1)
                                             {
-                                                <td class="p-1">Gözləmədə</td>
+                                                <td class="p-1" style="height:32px">Gözləmədə</td>
                                             }
                                             else if (Model.order.VisitorStatus == 2)
                                             {
-                                                <td class="p-1">Qəbul Edilib</td>
+                                                <td class="p-1" style="height:32px">Qəbul Edilib</td>
                                             }
                                             else if (Model.order.VisitorStatus == 3)
                                             {
-                                                <td class="p-1">Vizit Edilib</td>
+                                                <td class="p-1" style="height:32px">Vizit Edilib</td>
                                             }
                                             else if (Model.order.VisitorStatus == 4)
                                             {
-                                                <td class="p-1">Vizit Tamamlanıb</td>
+                                                <td class="p-1" style="height:32px">Vizit Tamamlanıb</td>
                                             }
                                         </tr>
                                         <tr>
                                             <td>Məhsul Sayı :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.ItemCount)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.ItemCount)</td>
                                         </tr>
                                         <tr>
                                             <td>Məhsul Açıqlama :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.ItemDescription)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.ItemDescription)</td>
                                         </tr>
                                         <tr>
                                             <td>Dizayner Kodu :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.DesignerCode)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.DesignerCode)</td>
                                         </tr>
                                         <tr>
                                             <td>Dizayner Adı :</td>
-                                            <td class="p-1">@Html.DisplayFor(x => x.order.DesignerName)</td>
+                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.DesignerName)</td>
                                         </tr>
                                         <tr>
                                             <td>Dizayner Status :</td>
                                             @if (Model.order.DesignerStatus == 1)
                                             {
-                                                <td class="p-1">Gözləmədə</td>
+                                                <td class="p-1" style="height:32px">Gözləmədə</td>
                                             }
                                             else if (Model.order.DesignerStatus == 2)
                                             {
-                                                <td class="p-1">Qəbul Edilib</td>
+                                                <td class="p-1" style="height:32px">Qəbul Edilib</td>
                                             }
                                             else if (Model.order.DesignerStatus == 3)
                                             {
-                                                <td class="p-1">Dizayn Edilib</td>
+                                                <td class="p-1" style="height:32px">Dizayn Edilib</td>
                                             }
                                             else if (Model.order.DesignerStatus == 4)
                                             {
-                                                <td class="p-1">Dizayn Tamamlanıb</td>
+                                                <td class="p-1" style="height:32px">Dizayn Tamamlanıb</td>
                                             }
                                         </tr>
                                     </tbody>
@@ -187,23 +183,14 @@
                 <div class="card card-secondary">
                     <div class="card-header">
                         <h3 class="card-title">Məhsullar</h3>
-                    </div>                   
+                    </div>
                     <div class="card-body">
                         <div class="col-md-12" id="itemSection">
                             @for (int i = 0; i < Model.visitData.Count; i++)
                             {
                                 @Html.HiddenFor(m => m.visitData[i].VisitID)
-                                @Html.HiddenFor(m => m.visitData[i].CreateOn)
-                                @Html.HiddenFor(m => m.visitData[i].CreateUser)
-                                @Html.HiddenFor(m => m.visitData[i].LastUpdate)
-                                @Html.HiddenFor(m => m.visitData[i].UpdateUser)
                                 @Html.HiddenFor(m => m.visitData[i].OrderId)
-                                @Html.HiddenFor(m => m.visitData[i].VisitGuid)
-                                @Html.HiddenFor(m => m.visitData[i].ProductName)
-                                @Html.HiddenFor(m => m.visitData[i].ProductCode)
-                                @Html.HiddenFor(m => m.visitData[i].PanelType)
-                                @Html.HiddenFor(m => m.visitData[i].DoorType)
-                                @Html.HiddenFor(m => m.visitData[i].MaterialType)
+                                @Html.HiddenFor(m => m.visitData[i].VisitGuid)                               
                                 <div class="card card-info collapsed-card">
                                     <div class="card-header">
                                         @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }
@@ -213,145 +200,83 @@
                                             <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i></button>
                                         </div>
                                     </div>
-                                   
+
                                     <div class="card-body" style="display: none;">
                                         <div class="row">
+                                            <div class="col-md-6">
+                                                <table class="table table-bordered table-form-custom">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mebel Tipi :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].ProductCode)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>En :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DWidth)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Uzun :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DLenght)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Hündürlük :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DHeight)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Material Növü :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].MaterialType)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Material Rəngi :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].MaterialColour)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Dəzgahlıq :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].PanelType)</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <table class="table table-bordered table-form-custom">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Dəzgahlıq Rəngi :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].PanelColour)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Qapaq :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DoorType)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Qapaq Rəngi :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DoorColour)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Aksesuar :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].Accessory)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Güzgü :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].Mirror)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Qeyd :</td>
+                                                            <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].Note)</td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row">
                                             <div class="col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-sm-6">
-                                                        <label>Mebel Tipi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.DropDownListFor(m => m.visitData[i].ProductCode, Model.itemGroups, "- Seçin -", new { @class = "form-control", @id = "mainGroup" + i.ToString(), @disabled = "disabled" })
-                                                                @Html.ValidationMessageFor(m => m.visitData[i].ProductCode)
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-12"><label>Ölçü</label></div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>En</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DWidth, new { htmlAttributes = new { @class = "form-control", id = "dimensionWide", placeholder = "En ...", @readonly = "readonly" } })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Uzun</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DLenght, new { htmlAttributes = new { @class = "form-control", id = "dimensionLemght", placeholder = "Uzun ...", @readonly = "readonly" } })
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Hündürlük</label>
-                                                            @Html.EditorFor(x => x.visitData[i].DHeight, new { htmlAttributes = new { @class = "form-control", id = "dimensionHeight", placeholder = "Hündürlük ...", @readonly = "readonly" } })
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <label>Material Növü</label>
-                                                        <div class="form-group">
-                                                            <select class="form-control" id="materialType_@i.ToString()" name="visitData[@i].MaterialType" disabled>
-                                                                <option value="">- Seçin -</option>
-                                                                <option value="MDF">MDF</option>
-                                                                <option value="Laminand" selected="selected">Laminand</option>
-                                                                <option value="Membran">Membran</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Material Rəngi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].MaterialColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <label>Dəzgahlıq</label>
-                                                        <div class="form-group">
-                                                            <select class="form-control" id="panelType_@i.ToString()" name="visitData[@i].PanelType" disabled>
-                                                                <option value="">- Seçin -</option>
-                                                                <option value="Mərmər">Mərmər</option>
-                                                                <option value="Rezapal">Rezapal</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Dəzgahlıq Rəngi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].PanelColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <label>Qapaq</label>
-                                                        <div class="form-group">
-                                                            <select class="form-control" id="doorType_@i.ToString()" name="visitData[@i].DoorType" disabled>
-                                                                <option value="">- Seçin -</option>
-                                                                <option value="MDF">MDF</option>
-                                                                <option value="Laminand">Laminand</option>
-                                                                <option value="Membran">Membran</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <label>Qapaq Rəngi</label>
-                                                        <div class="form-group">
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].DoorColour, new { htmlAttributes = new { @class = "form-control", placeholder = "Rəng ...", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Aksesuar</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Accessory, new { htmlAttributes = new { @class = "form-control", placeholder = "Aksesuar ...", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Güzgü</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Mirror, new { htmlAttributes = new { @class = "form-control", placeholder = "Güzgü ...", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row border-top border-info pt-3">
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label>Qeyd</label>
-                                                            <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Note, new { htmlAttributes = new { @class = "form-control", id = "note", placeholder = "Qeyd ...", rows = "3", @readonly = "readonly" } })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <div class="row border-top border-info pt-3">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label>Təklif Olunan Qiymət</label>
                                                             <div class="col-form-txt">
-                                                                @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ..." } })
+                                                                @Html.EditorFor(x => x.visitData[i].Price, new { htmlAttributes = new { @class = "form-control", id = "orderPrice", placeholder = "Qiymət ...", @readonly = "readonly" } })
                                                             </div>
                                                         </div>
                                                     </div>
@@ -382,21 +307,11 @@
                                         </div>
                                         <!-- /.row -->
                                     </div>
-                                   
+
                                     <div class="card-footer" style="display: none;">
                                         @Html.ActionLink("Reçete Hesabla", "ProductionRecipe", "Order", new { visitId = Model.visitData[i].VisitID, orderId = Model.order.OrderId }, new { @class = "btn btn-primary" })
                                     </div>
                                 </div>
-                                <script>
-                                var groupid = "mainGroup"+'@i';
-                                document.getElementById(groupid).value = '@Model.visitData[i].ProductCode';
-                                var materialType = "materialType_" + '@i';
-                                document.getElementById(materialType).value = '@Model.visitData[i].MaterialType';
-                                var panelType = "panelType_" + '@i';
-                                document.getElementById(panelType).value = '@Model.visitData[i].PanelType';
-                                 var doorType = "doorType_" + '@i';
-                                document.getElementById(doorType).value = '@Model.visitData[i].DoorType';
-                                </script>
                             }
                         </div>
                         <div class="row ">
@@ -416,7 +331,7 @@
                             </div>
                         </div>
                     </div>
-                  
+
                     <div class="card-footer">
                         <button type="submit" name="designCommand" value="Save" class="btn btn-info float-right mr-2">Qeyd Et</button>
                         <button type="submit" name="designCommand" value="Finish" class="btn btn-primary float-right mr-2">Dizayn Tamamla</button>

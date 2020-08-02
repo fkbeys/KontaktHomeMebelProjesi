@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Model.LocalModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,6 @@ namespace Entities
         [Required]
         public List<Visits> visitData { get; set; }
         public SelectList itemGroups { get; set; }
-        public List<VisitImages> visitImages { get; set; }
+        public List<VisitImages> visitImages { get; set; }       
     }
 }
