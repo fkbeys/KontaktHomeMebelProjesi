@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="ExpressiveAnnotations, Version=2.7.4.0, Culture=neutral, PublicKeyToken=d3e372f3c1e83cec, processorArchitecture=MSIL">
       <HintPath>..\packages\ExpressiveAnnotations.2.9.6\lib\net45\ExpressiveAnnotations.dll</HintPath>
     </Reference>
@@ -47,6 +53,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -92,11 +100,34 @@
     <Compile Include="Model\LocalModels\UserRoles.cs" />
     <Compile Include="Model\LocalModels\UserRolesMapping.cs" />
     <Compile Include="Model\LocalModels\Widgets.cs" />
+    <Compile Include="Model\MikroModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MikroModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MikroModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Model\MikroModels\Products.cs" />
-    <Compile Include="Model\MikroModels\STOKLAR.cs" />
+    <Compile Include="Model\STOKLAR.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STOK_ANA_GRUPLARI.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\STOK_SATIS_FIYAT_LISTELERI.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\URUNLER.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\URUN_RECETELERI.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Model\LocalModels\Seller.cs" />
-    <Compile Include="Model\MikroModels\STOK_ANA_GRUPLARI.cs" />
     <Compile Include="Model\LocalModels\Stores.cs" />
     <Compile Include="Model\LocalModels\Users.cs" />
     <Compile Include="Model\LocalModels\VisitImages.cs" />
@@ -104,9 +135,24 @@
     <Compile Include="Model\LocalModels\Visits.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <EntityDeploy Include="Model\MikroModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MikroModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="App.Config" />
+    <None Include="Model\MikroModel.edmx.diagram">
+      <DependentUpon>MikroModel.edmx</DependentUpon>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Model\MikroModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MikroModel.edmx</DependentUpon>
+      <LastGenOutput>MikroModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

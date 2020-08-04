@@ -36,7 +36,7 @@ namespace DataAccessLayer
 
         public int Insert(T obj)
         {
-            _objectSet.Add(obj);
+            _objectSet.Add(obj);            
             return Save();
         }
         public int Update(T obj)
@@ -51,6 +51,7 @@ namespace DataAccessLayer
 
         public int Save()
         {
+            
             return contextmikro.SaveChanges();
         }
         public T Find(Expression<Func<T, bool>> where)

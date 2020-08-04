@@ -12,7 +12,9 @@
     <div class="container">
         <!-- /.left panel -->
         <div class="col-md-12">
+            <div id="errors" class="col-md-12">
 
+            </div>
             <div class="card card-secondary">
                 <div class="card-header">
                     <h3 class="card-title">Siafriş Məlumatları</h3>
@@ -343,9 +345,9 @@
                                 <div class="card-footer" style="display: none;">
                                     @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
                                     {
-                                        if (Model.order.OrderStatus == 7 && proddata.Count > 0)
+                                        if (Model.order.OrderStatus == 7 && proddata.Count > 0 && Model.visitData[i].VisitStatus == 0)
                                         {
-                                            <button type="button" class="btn btn-primary" onclick="acceptOrder(@Model.order.OrderId,@Model.visitData[i].VisitID)"> Təsdiqlə</button>
+                                            <button type="button" class="btn btn-primary" onclick="acceptOrder(@Model.order.OrderId,@Model.visitData[i].VisitID)">Təsdiqlə</button>
                                         }
                                     }
                                 </div>

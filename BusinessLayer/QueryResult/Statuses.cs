@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer.QueryResult
 {
-    public class Statuses
+    public static class Statuses
     {
         public static string VisitorOrderStatus(int status)
         {

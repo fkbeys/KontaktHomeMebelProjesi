@@ -52,7 +52,6 @@ namespace Entities
         public bool IsDeclined { get; set; }
         [DataType(DataType.MultilineText)]
         public string DeclineReason { get; set; }
-
-
+        public int VisitStatus { get; set; }
     }
 }

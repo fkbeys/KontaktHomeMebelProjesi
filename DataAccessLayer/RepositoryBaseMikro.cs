@@ -13,8 +13,8 @@ namespace DataAccessLayer
 
         protected RepositoryBaseMikro()
         {
-            contextmikro = new DatabaseContextMikro();
-            //CreateContextMikro();
+            //contextmikro = new DatabaseContextMikro();
+            CreateContextMikro();
         }
 
         private static void CreateContextMikro()

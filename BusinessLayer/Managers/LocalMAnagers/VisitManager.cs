@@ -28,7 +28,7 @@ namespace BusinessLayer
             {
                 if (item.ProductCode != null)
                 {
-                    if (item.VisitID==0)
+                    if (item.VisitID == 0)
                     {
                         item.CreateOn = tarix;
                         item.CreateUser = user.UserName;
@@ -38,11 +38,12 @@ namespace BusinessLayer
                         item.OrderId = orderId;
                         item.Price = 0;
                         item.FinalPrice = 0;
+                        item.VisitStatus = 0;
                         if (base.Insert(item) == 0)
                         {
                             _visits.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi.Qeyd Tamamlanmadı.");
                         }
-                    }                
+                    }
                 }
             }
             _visits.Result = new Visits();
@@ -51,16 +52,16 @@ namespace BusinessLayer
         }
         public BusinessLayerResult<Visits> VisitorUpdate(List<Visits> data, int orderId, Users user)
         {
-            BusinessLayerResult<Visits> visitdata = new BusinessLayerResult<Visits>();           
+            BusinessLayerResult<Visits> visitdata = new BusinessLayerResult<Visits>();
             foreach (var item in data)
             {
                 if (item.ProductCode != null)
                 {
                     if (item.VisitID > 0)
                     {
-                        visitdata.Result = Find(x => x.VisitID == item.VisitID);            
+                        visitdata.Result = Find(x => x.VisitID == item.VisitID);
                         if (visitdata.Result != null)
-                        {                          
+                        {
                             visitdata.Result.UpdateUser = item.UpdateUser;
                             visitdata.Result.LastUpdate = DateTime.Now;
                             visitdata.Result.DWidth = item.DWidth;
@@ -70,18 +71,37 @@ namespace BusinessLayer
                             visitdata.Result.Mirror = item.Mirror;
                             visitdata.Result.Note = item.Note;
                             visitdata.Result.ProductCode = item.ProductCode;
-                            visitdata.Result.ProductName = item.ProductName;                            
+                            visitdata.Result.ProductName = item.ProductName;
                             visitdata.Result.PanelType = item.PanelType;
-                            visitdata.Result.PanelColour = item.PanelColour;            
+                            visitdata.Result.PanelColour = item.PanelColour;
                             visitdata.Result.MaterialType = item.MaterialType;
-                            visitdata.Result.MaterialColour = item.MaterialColour;           
+                            visitdata.Result.MaterialColour = item.MaterialColour;
                             visitdata.Result.DoorType = item.DoorType;
-                            visitdata.Result.DoorColour = item.DoorColour;         
+                            visitdata.Result.DoorColour = item.DoorColour;
                         }
                         if (base.Update(visitdata.Result) == 0)
                         {
                             visitdata.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
                         }
+                    }
+                }
+            }
+            return visitdata;
+        }
+        public BusinessLayerResult<Visits> VisitUpdateStatus(Visits data, Users user)
+        {
+            BusinessLayerResult<Visits> visitdata = new BusinessLayerResult<Visits>();
+            if (data.ProductCode != null)
+            {
+                if (data.VisitID > 0)
+                {
+                    visitdata.Result = data;
+                    visitdata.Result.UpdateUser = data.UpdateUser;
+                    visitdata.Result.LastUpdate = DateTime.Now;
+                    visitdata.Result.VisitStatus = 1;
+                    if (base.Update(visitdata.Result) == 0)
+                    {
+                        visitdata.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
                     }
                 }
             }
@@ -249,6 +269,6 @@ namespace BusinessLayer
                 _visits.AddError(ErrorMessageCode.DataNotFound, "Xəta baş verdi.Məlumatlar mövcud deyil.");
             }
             return _visits;
-        }
+        }      
     }
 }

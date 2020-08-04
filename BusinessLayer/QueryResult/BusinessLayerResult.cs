@@ -11,6 +11,7 @@ namespace BusinessLayer.QueryResult
     {
         public List<ErrorMessageObj> Errors { get; set; }
         public T Result { get; set; }
+        public List<T> ListResult { get; set; }
 
         public BusinessLayerResult()
         {

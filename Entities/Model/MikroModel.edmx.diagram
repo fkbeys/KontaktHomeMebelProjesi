@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="158f8468ce71423685307e66c1a11aa3" Name="Diagram1" ZoomLevel="26">
+        <EntityTypeShape EntityType="MikroModel.STOKLAR" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MikroModel.STOK_SATIS_FIYAT_LISTELERI" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroModel.URUNLER" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroModel.STOK_ANA_GRUPLARI" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroModel.URUN_RECETELERI" Width="1.5" PointX="7.375" PointY="6.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

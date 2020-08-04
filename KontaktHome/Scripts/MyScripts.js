@@ -1082,7 +1082,7 @@ $('#recipeSave').click(function () {
                             errortext+=d.errors[i]+"<br>"
                         }
                         $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
-                        Swal.fire('Xəta başverdi', '', 'error');
+                        Swal.fire('Xəta başverdi', ''+errortext+'', 'error');
                         this.disabled = false;
                     }
                 },
@@ -1111,7 +1111,12 @@ function acceptOrder(orderId, visitId) {
                 window.location.href = d.Url + d.link;
             }
             else {                           
-                Swal.fire('Xəta başverdi', '', 'error');
+                var errortext = '';
+                for (var i = 0; i < d.errors.length; i++) {
+                    errortext += d.errors[i] + "<br>"
+                }
+                $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
+                Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
                 this.disabled = false;
             }
         },

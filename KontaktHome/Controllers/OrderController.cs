@@ -5,6 +5,7 @@ using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
 using Entities.Messages;
+using Entities.Model;
 using Entities.Model.LocalModels;
 using Entities.Model.MikroModels;
 using KontaktHome.Filters;
@@ -41,6 +42,9 @@ namespace KontaktHome.Controllers
         private AdditionalChargesManager additionalChargesManager = new AdditionalChargesManager();
         private ProductionManager productionManager = new ProductionManager();
         private StoklarManager stoklarManager = new StoklarManager();
+        private SatisFiyatiManager satisFiyatiManager = new SatisFiyatiManager();
+        private UrunManager urunManager = new UrunManager();
+        private UrunReceteleriManager urunReceteleriManager = new UrunReceteleriManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -1065,7 +1069,118 @@ namespace KontaktHome.Controllers
         [HttpPost]
         public JsonResult SaveToMikro(int? orderid, int? visitid)
         {
-            return Json(new { });
+            bool status = false;
+            string[] errors;
+            if (orderid!=null && visitid!=null)
+            {
+                Visits _visit = visitManager.Find(x => x.VisitID == visitid && x.OrderId == orderid);
+                Orders _order = orderManager.Find(x => x.OrderId == orderid);
+                if (_visit!=null && _order!=null)
+                {
+                    if (_visit.VisitStatus==0)
+                    {
+                        string stokKodu = _order.CustomerSurname + _order.CustomerName + "-" + _order.OrderId.ToString() + "-" + _visit.VisitID.ToString();
+                        string stokAdi= _order.CustomerSurname + _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
+                        STOKLAR stokdata = new STOKLAR();
+                        stokdata.sto_kod = stokKodu;
+                        stokdata.sto_isim = stokAdi;
+                        BusinessLayerResult<STOKLAR> _stoklar = stoklarManager.InsertData(stokdata, CurrentSession.User);
+                        if (_stoklar.Errors.Count > 0)
+                        {
+                            errors = new string[_stoklar.Errors.Count];
+                            for (int i = 0; i < _stoklar.Errors.Count; i++)
+                            {
+                                errors[i] = _stoklar.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        STOK_SATIS_FIYAT_LISTELERI satisqiymeti = new STOK_SATIS_FIYAT_LISTELERI();
+                        satisqiymeti.sfiyat_stokkod = stokKodu;
+                        satisqiymeti.sfiyat_fiyati = _visit.FinalPrice;
+                        BusinessLayerResult<STOK_SATIS_FIYAT_LISTELERI> _fiyatliste = satisFiyatiManager.InsertData(satisqiymeti, CurrentSession.User);
+                        if (_fiyatliste.Errors.Count > 0)
+                        {
+                            errors = new string[_fiyatliste.Errors.Count];
+                            for (int i = 0; i < _fiyatliste.Errors.Count; i++)
+                            {
+                                errors[i] = _fiyatliste.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        URUNLER urundata = new URUNLER();
+                        urundata.uru_stok_kod = stokKodu;
+                        BusinessLayerResult<URUNLER> _urunler = urunManager.InsertData(urundata, CurrentSession.User);
+                        if (_urunler.Errors.Count > 0)
+                        {
+                            errors = new string[_urunler.Errors.Count];
+                            for (int i = 0; i < _urunler.Errors.Count; i++)
+                            {
+                                errors[i] = _urunler.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        List<Production> production = new List<Production>();
+                        production = productionManager.List(x => x.VisitId == visitid && x.OrderId == orderid);
+                        if (production.Count>0)
+                        {
+                            BusinessLayerResult<URUN_RECETELERI> _urunreceteleri = urunReceteleriManager.InsertData(production, stokKodu, CurrentSession.User);
+                            if (_urunreceteleri.Errors.Count > 0)
+                            {
+                                errors = new string[_urunreceteleri.Errors.Count];
+                                for (int i = 0; i < _urunreceteleri.Errors.Count; i++)
+                                {
+                                    errors[i] = _urunreceteleri.Errors[i].Message;
+                                }
+                                status = false;
+                                return Json(new { status, errors });
+                            }
+                        }
+                        else
+                        {
+                            errors = new string[1];
+                            errors[0] = "Məhsul resepti mövcud deyil.";
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        BusinessLayerResult<Visits> updateVisit = visitManager.VisitUpdateStatus(_visit, CurrentSession.User);
+                        if (updateVisit.Errors.Count > 0)
+                        {
+                            errors = new string[updateVisit.Errors.Count];
+                            for (int i = 0; i < updateVisit.Errors.Count; i++)
+                            {
+                                errors[i] = updateVisit.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        status = true;
+                        string link = "?q=" + Encrypt.EncryptString("Sira=" + orderid);
+                        return Json(new { status, link, Url = Url.Action("VisitInfo", "Order") });
+                    }
+                    else
+                    {
+                        errors = new string[1];
+                        errors[0] = "Məhsul resepti mövcud deyil.";
+                        status = false;
+                        return Json(new { status, errors });
+                    }
+                }
+                else
+                {
+                    errors = new string[1];
+                    errors[0] = "Vizit məlumatı mövcud deyil.";
+                    status = false;
+                    return Json(new { status, errors });
+                }
+            }
+            errors = new string[1];
+            errors[0] = "Sifariş id və ya vizit id düzgün deyil.";
+            status = false;
+            return Json(new { status, errors });
+           
         }
 
     }
