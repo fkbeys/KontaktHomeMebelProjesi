@@ -1644,6 +1644,7 @@
     <Content Include="Views\Order\ProductionRecipe.cshtml" />
     <Content Include="Views\Order\VisitInfo_old.cshtml" />
     <Content Include="Views\Order\DesignerEdit_old.cshtml" />
+    <Content Include="Views\Admin\Charges.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

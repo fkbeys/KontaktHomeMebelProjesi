@@ -395,17 +395,91 @@
           <Property Name="uru_varsayilan_recete_tanim_kodu" Type="nvarchar" MaxLength="25" />
           <Property Name="uru_varsayilan_recete_cins" Type="tinyint" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="product_code" />
+          </Key>
+          <Property Name="product_code" Type="nvarchar" MaxLength="25" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="product_name" Type="nvarchar" MaxLength="127" />
+          <Property Name="product_price" Type="float" />
+          <Property Name="product_quantity" Type="float" />
+        </EntityType>
         <EntityContainer Name="MikroModelStoreContainer">
           <EntitySet Name="STOK_ANA_GRUPLARI" EntityType="Self.STOK_ANA_GRUPLARI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOK_SATIS_FIYAT_LISTELERI" EntityType="Self.STOK_SATIS_FIYAT_LISTELERI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOKLAR" EntityType="Self.STOKLAR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="URUN_RECETELERI" EntityType="Self.URUN_RECETELERI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="URUNLER" EntityType="Self.URUNLER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Products].[product_code] AS [product_code], 
+    [Products].[product_name] AS [product_name], 
+    [Products].[product_price] AS [product_price], 
+    [Products].[product_quantity] AS [product_quantity]
+    FROM [dbo].[Products] AS [Products]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MikroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="STOK_ANA_GRUPLARI">
+          <Key>
+            <PropertyRef Name="san_Guid" />
+          </Key>
+          <Property Name="san_Guid" Type="Guid" Nullable="false" />
+          <Property Name="san_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="san_SpecRECno" Type="Int32" />
+          <Property Name="san_iptal" Type="Boolean" />
+          <Property Name="san_fileid" Type="Int16" />
+          <Property Name="san_hidden" Type="Boolean" />
+          <Property Name="san_kilitli" Type="Boolean" />
+          <Property Name="san_degisti" Type="Boolean" />
+          <Property Name="san_checksum" Type="Int32" />
+          <Property Name="san_create_user" Type="Int16" />
+          <Property Name="san_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="san_lastup_user" Type="Int16" />
+          <Property Name="san_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="san_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="san_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="san_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="san_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="san_isim" Type="String" MaxLength="90" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="STOK_SATIS_FIYAT_LISTELERI">
+          <Key>
+            <PropertyRef Name="sfiyat_Guid" />
+          </Key>
+          <Property Name="sfiyat_Guid" Type="Guid" Nullable="false" />
+          <Property Name="sfiyat_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="sfiyat_SpecRECno" Type="Int32" />
+          <Property Name="sfiyat_iptal" Type="Boolean" />
+          <Property Name="sfiyat_fileid" Type="Int16" />
+          <Property Name="sfiyat_hidden" Type="Boolean" />
+          <Property Name="sfiyat_kilitli" Type="Boolean" />
+          <Property Name="sfiyat_degisti" Type="Boolean" />
+          <Property Name="sfiyat_checksum" Type="Int32" />
+          <Property Name="sfiyat_create_user" Type="Int16" />
+          <Property Name="sfiyat_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sfiyat_lastup_user" Type="Int16" />
+          <Property Name="sfiyat_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="sfiyat_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sfiyat_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sfiyat_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sfiyat_stokkod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sfiyat_listesirano" Type="Int32" />
+          <Property Name="sfiyat_deposirano" Type="Int32" />
+          <Property Name="sfiyat_odemeplan" Type="Int32" />
+          <Property Name="sfiyat_birim_pntr" Type="Byte" />
+          <Property Name="sfiyat_fiyati" Type="Double" />
+          <Property Name="sfiyat_doviz" Type="Byte" />
+          <Property Name="sfiyat_iskontokod" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sfiyat_deg_nedeni" Type="Byte" />
+          <Property Name="sfiyat_primyuzdesi" Type="Double" />
+          <Property Name="sfiyat_kampanyakod" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="STOKLAR">
           <Key>
             <PropertyRef Name="sto_kod" />
@@ -623,125 +697,6 @@
           <Property Name="sto_GEKAP_birim" Type="Byte" />
           <Property Name="sto_resim_url" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="MikroConnection" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="STOKLAR" EntityType="Self.STOKLAR" />
-          <EntitySet Name="STOK_SATIS_FIYAT_LISTELERI" EntityType="MikroModel.STOK_SATIS_FIYAT_LISTELERI" />
-          <EntitySet Name="URUNLER" EntityType="MikroModel.URUNLER" />
-          <EntitySet Name="STOK_ANA_GRUPLARI" EntityType="MikroModel.STOK_ANA_GRUPLARI" />
-          <EntitySet Name="URUN_RECETELERI" EntityType="MikroModel.URUN_RECETELERI" />
-        </EntityContainer>
-        <EntityType Name="STOK_SATIS_FIYAT_LISTELERI">
-          <Key>
-            <PropertyRef Name="sfiyat_Guid" />
-          </Key>
-          <Property Name="sfiyat_Guid" Type="Guid" Nullable="false" />
-          <Property Name="sfiyat_DBCno" Type="Int16" Nullable="false" />
-          <Property Name="sfiyat_SpecRECno" Type="Int32" />
-          <Property Name="sfiyat_iptal" Type="Boolean" />
-          <Property Name="sfiyat_fileid" Type="Int16" />
-          <Property Name="sfiyat_hidden" Type="Boolean" />
-          <Property Name="sfiyat_kilitli" Type="Boolean" />
-          <Property Name="sfiyat_degisti" Type="Boolean" />
-          <Property Name="sfiyat_checksum" Type="Int32" />
-          <Property Name="sfiyat_create_user" Type="Int16" />
-          <Property Name="sfiyat_create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="sfiyat_lastup_user" Type="Int16" />
-          <Property Name="sfiyat_lastup_date" Type="DateTime" Precision="3" />
-          <Property Name="sfiyat_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="sfiyat_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="sfiyat_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="sfiyat_stokkod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="sfiyat_listesirano" Type="Int32" />
-          <Property Name="sfiyat_deposirano" Type="Int32" />
-          <Property Name="sfiyat_odemeplan" Type="Int32" />
-          <Property Name="sfiyat_birim_pntr" Type="Byte" />
-          <Property Name="sfiyat_fiyati" Type="Double" />
-          <Property Name="sfiyat_doviz" Type="Byte" />
-          <Property Name="sfiyat_iskontokod" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="sfiyat_deg_nedeni" Type="Byte" />
-          <Property Name="sfiyat_primyuzdesi" Type="Double" />
-          <Property Name="sfiyat_kampanyakod" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="URUNLER">
-          <Key>
-            <PropertyRef Name="uru_Guid" />
-          </Key>
-          <Property Name="uru_Guid" Type="Guid" Nullable="false" />
-          <Property Name="uru_DBCno" Type="Int16" Nullable="false" />
-          <Property Name="uru_SpecRECno" Type="Int32" />
-          <Property Name="uru_iptal" Type="Boolean" />
-          <Property Name="uru_fileid" Type="Int16" />
-          <Property Name="uru_hidden" Type="Boolean" />
-          <Property Name="uru_kilitli" Type="Boolean" />
-          <Property Name="uru_degisti" Type="Boolean" />
-          <Property Name="uru_checksum" Type="Int32" />
-          <Property Name="uru_create_user" Type="Int16" />
-          <Property Name="uru_create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="uru_lastup_user" Type="Int16" />
-          <Property Name="uru_lastup_date" Type="DateTime" Precision="3" />
-          <Property Name="uru_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="uru_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="uru_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="uru_stok_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_gider1" Type="Double" />
-          <Property Name="uru_gider2" Type="Double" />
-          <Property Name="uru_gider3" Type="Double" />
-          <Property Name="uru_gider4" Type="Double" />
-          <Property Name="uru_gider5" Type="Double" />
-          <Property Name="uru_tip" Type="Byte" />
-          <Property Name="uru_max_fire_yuz" Type="Double" />
-          <Property Name="uru_min_fire_yuz" Type="Double" />
-          <Property Name="uru_fasonmaliyet" Type="Double" />
-          <Property Name="uru_partimiktari" Type="Double" />
-          <Property Name="uru_isemriID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="uru_uretimortakcarpani" Type="Double" />
-          <Property Name="uru_uretimsekli" Type="Byte" />
-          <Property Name="uru_formdosyaadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="uru_excdosyaadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="uru_ongorulendepo" Type="Int32" />
-          <Property Name="uru_gider6" Type="Double" />
-          <Property Name="uru_gider7" Type="Double" />
-          <Property Name="uru_gider8" Type="Double" />
-          <Property Name="uru_gider9" Type="Double" />
-          <Property Name="uru_gider10" Type="Double" />
-          <Property Name="uru_ozel_tipi" Type="Byte" />
-          <Property Name="uru_sabitmlyt_anauruncarpan" Type="Double" />
-          <Property Name="uru_masterrecete" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_SorumlulukMerkezi" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_varsayilanismerkezi" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_Muhgrup_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_masterkalip_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_recete_ismi1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="uru_recete_ismi2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="uru_recete_ismi3" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="uru_recete_ismi4" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="uru_recete_ismi5" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
-          <Property Name="uru_varsayilan_recete_tanim_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="uru_varsayilan_recete_cins" Type="Byte" />
-        </EntityType>
-        <EntityType Name="STOK_ANA_GRUPLARI">
-          <Key>
-            <PropertyRef Name="san_Guid" />
-          </Key>
-          <Property Name="san_Guid" Type="Guid" Nullable="false" />
-          <Property Name="san_DBCno" Type="Int16" Nullable="false" />
-          <Property Name="san_SpecRECno" Type="Int32" />
-          <Property Name="san_iptal" Type="Boolean" />
-          <Property Name="san_fileid" Type="Int16" />
-          <Property Name="san_hidden" Type="Boolean" />
-          <Property Name="san_kilitli" Type="Boolean" />
-          <Property Name="san_degisti" Type="Boolean" />
-          <Property Name="san_checksum" Type="Int32" />
-          <Property Name="san_create_user" Type="Int16" />
-          <Property Name="san_create_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="san_lastup_user" Type="Int16" />
-          <Property Name="san_lastup_date" Type="DateTime" Precision="3" />
-          <Property Name="san_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="san_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="san_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="san_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="san_isim" Type="String" MaxLength="90" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="URUN_RECETELERI">
           <Key>
             <PropertyRef Name="rec_Guid" />
@@ -803,12 +758,143 @@
           <Property Name="rec_eklenme_sarti" Type="Byte" />
           <Property Name="rec_miktar_fonksiyon_adi" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="URUNLER">
+          <Key>
+            <PropertyRef Name="uru_Guid" />
+          </Key>
+          <Property Name="uru_Guid" Type="Guid" Nullable="false" />
+          <Property Name="uru_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="uru_SpecRECno" Type="Int32" />
+          <Property Name="uru_iptal" Type="Boolean" />
+          <Property Name="uru_fileid" Type="Int16" />
+          <Property Name="uru_hidden" Type="Boolean" />
+          <Property Name="uru_kilitli" Type="Boolean" />
+          <Property Name="uru_degisti" Type="Boolean" />
+          <Property Name="uru_checksum" Type="Int32" />
+          <Property Name="uru_create_user" Type="Int16" />
+          <Property Name="uru_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="uru_lastup_user" Type="Int16" />
+          <Property Name="uru_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="uru_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="uru_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="uru_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="uru_stok_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_gider1" Type="Double" />
+          <Property Name="uru_gider2" Type="Double" />
+          <Property Name="uru_gider3" Type="Double" />
+          <Property Name="uru_gider4" Type="Double" />
+          <Property Name="uru_gider5" Type="Double" />
+          <Property Name="uru_tip" Type="Byte" />
+          <Property Name="uru_max_fire_yuz" Type="Double" />
+          <Property Name="uru_min_fire_yuz" Type="Double" />
+          <Property Name="uru_fasonmaliyet" Type="Double" />
+          <Property Name="uru_partimiktari" Type="Double" />
+          <Property Name="uru_isemriID" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="uru_uretimortakcarpani" Type="Double" />
+          <Property Name="uru_uretimsekli" Type="Byte" />
+          <Property Name="uru_formdosyaadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uru_excdosyaadi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uru_ongorulendepo" Type="Int32" />
+          <Property Name="uru_gider6" Type="Double" />
+          <Property Name="uru_gider7" Type="Double" />
+          <Property Name="uru_gider8" Type="Double" />
+          <Property Name="uru_gider9" Type="Double" />
+          <Property Name="uru_gider10" Type="Double" />
+          <Property Name="uru_ozel_tipi" Type="Byte" />
+          <Property Name="uru_sabitmlyt_anauruncarpan" Type="Double" />
+          <Property Name="uru_masterrecete" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_SorumlulukMerkezi" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_varsayilanismerkezi" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_Muhgrup_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_masterkalip_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_recete_ismi1" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="uru_recete_ismi2" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="uru_recete_ismi3" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="uru_recete_ismi4" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="uru_recete_ismi5" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="uru_varsayilan_recete_tanim_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="uru_varsayilan_recete_cins" Type="Byte" />
+        </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="STOK_ANA_GRUPLARI" EntityType="Self.STOK_ANA_GRUPLARI" />
+          <EntitySet Name="STOK_SATIS_FIYAT_LISTELERI" EntityType="Self.STOK_SATIS_FIYAT_LISTELERI" />
+          <EntitySet Name="STOKLAR" EntityType="Self.STOKLAR" />
+          <EntitySet Name="URUN_RECETELERI" EntityType="Self.URUN_RECETELERI" />
+          <EntitySet Name="URUNLER" EntityType="Self.URUNLER" />
+          <EntitySet Name="Products" EntityType="MikroModel.Products" />
+        </EntityContainer>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="product_code" />
+          </Key>
+          <Property Name="product_code" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="true" annotation:StoreGeneratedPattern="None" />
+          <Property Name="product_name" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="product_price" Type="Double" />
+          <Property Name="product_quantity" Type="Double" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="MikroModelStoreContainer" CdmEntityContainer="MikroConnection">
+        <EntityContainerMapping StorageEntityContainer="MikroModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="STOK_ANA_GRUPLARI">
+            <EntityTypeMapping TypeName="MikroModel.STOK_ANA_GRUPLARI">
+              <MappingFragment StoreEntitySet="STOK_ANA_GRUPLARI">
+                <ScalarProperty Name="san_Guid" ColumnName="san_Guid" />
+                <ScalarProperty Name="san_DBCno" ColumnName="san_DBCno" />
+                <ScalarProperty Name="san_SpecRECno" ColumnName="san_SpecRECno" />
+                <ScalarProperty Name="san_iptal" ColumnName="san_iptal" />
+                <ScalarProperty Name="san_fileid" ColumnName="san_fileid" />
+                <ScalarProperty Name="san_hidden" ColumnName="san_hidden" />
+                <ScalarProperty Name="san_kilitli" ColumnName="san_kilitli" />
+                <ScalarProperty Name="san_degisti" ColumnName="san_degisti" />
+                <ScalarProperty Name="san_checksum" ColumnName="san_checksum" />
+                <ScalarProperty Name="san_create_user" ColumnName="san_create_user" />
+                <ScalarProperty Name="san_create_date" ColumnName="san_create_date" />
+                <ScalarProperty Name="san_lastup_user" ColumnName="san_lastup_user" />
+                <ScalarProperty Name="san_lastup_date" ColumnName="san_lastup_date" />
+                <ScalarProperty Name="san_special1" ColumnName="san_special1" />
+                <ScalarProperty Name="san_special2" ColumnName="san_special2" />
+                <ScalarProperty Name="san_special3" ColumnName="san_special3" />
+                <ScalarProperty Name="san_kod" ColumnName="san_kod" />
+                <ScalarProperty Name="san_isim" ColumnName="san_isim" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="STOK_SATIS_FIYAT_LISTELERI">
+            <EntityTypeMapping TypeName="MikroModel.STOK_SATIS_FIYAT_LISTELERI">
+              <MappingFragment StoreEntitySet="STOK_SATIS_FIYAT_LISTELERI">
+                <ScalarProperty Name="sfiyat_Guid" ColumnName="sfiyat_Guid" />
+                <ScalarProperty Name="sfiyat_DBCno" ColumnName="sfiyat_DBCno" />
+                <ScalarProperty Name="sfiyat_SpecRECno" ColumnName="sfiyat_SpecRECno" />
+                <ScalarProperty Name="sfiyat_iptal" ColumnName="sfiyat_iptal" />
+                <ScalarProperty Name="sfiyat_fileid" ColumnName="sfiyat_fileid" />
+                <ScalarProperty Name="sfiyat_hidden" ColumnName="sfiyat_hidden" />
+                <ScalarProperty Name="sfiyat_kilitli" ColumnName="sfiyat_kilitli" />
+                <ScalarProperty Name="sfiyat_degisti" ColumnName="sfiyat_degisti" />
+                <ScalarProperty Name="sfiyat_checksum" ColumnName="sfiyat_checksum" />
+                <ScalarProperty Name="sfiyat_create_user" ColumnName="sfiyat_create_user" />
+                <ScalarProperty Name="sfiyat_create_date" ColumnName="sfiyat_create_date" />
+                <ScalarProperty Name="sfiyat_lastup_user" ColumnName="sfiyat_lastup_user" />
+                <ScalarProperty Name="sfiyat_lastup_date" ColumnName="sfiyat_lastup_date" />
+                <ScalarProperty Name="sfiyat_special1" ColumnName="sfiyat_special1" />
+                <ScalarProperty Name="sfiyat_special2" ColumnName="sfiyat_special2" />
+                <ScalarProperty Name="sfiyat_special3" ColumnName="sfiyat_special3" />
+                <ScalarProperty Name="sfiyat_stokkod" ColumnName="sfiyat_stokkod" />
+                <ScalarProperty Name="sfiyat_listesirano" ColumnName="sfiyat_listesirano" />
+                <ScalarProperty Name="sfiyat_deposirano" ColumnName="sfiyat_deposirano" />
+                <ScalarProperty Name="sfiyat_odemeplan" ColumnName="sfiyat_odemeplan" />
+                <ScalarProperty Name="sfiyat_birim_pntr" ColumnName="sfiyat_birim_pntr" />
+                <ScalarProperty Name="sfiyat_fiyati" ColumnName="sfiyat_fiyati" />
+                <ScalarProperty Name="sfiyat_doviz" ColumnName="sfiyat_doviz" />
+                <ScalarProperty Name="sfiyat_iskontokod" ColumnName="sfiyat_iskontokod" />
+                <ScalarProperty Name="sfiyat_deg_nedeni" ColumnName="sfiyat_deg_nedeni" />
+                <ScalarProperty Name="sfiyat_primyuzdesi" ColumnName="sfiyat_primyuzdesi" />
+                <ScalarProperty Name="sfiyat_kampanyakod" ColumnName="sfiyat_kampanyakod" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="STOKLAR">
             <EntityTypeMapping TypeName="MikroModel.STOKLAR">
               <MappingFragment StoreEntitySet="STOKLAR">
@@ -1027,180 +1113,133 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="STOK_SATIS_FIYAT_LISTELERI">
-            <EntityTypeMapping TypeName="MikroModel.STOK_SATIS_FIYAT_LISTELERI">
-              <MappingFragment StoreEntitySet="STOK_SATIS_FIYAT_LISTELERI">
-                <ScalarProperty Name="sfiyat_kampanyakod" ColumnName="sfiyat_kampanyakod" />
-                <ScalarProperty Name="sfiyat_primyuzdesi" ColumnName="sfiyat_primyuzdesi" />
-                <ScalarProperty Name="sfiyat_deg_nedeni" ColumnName="sfiyat_deg_nedeni" />
-                <ScalarProperty Name="sfiyat_iskontokod" ColumnName="sfiyat_iskontokod" />
-                <ScalarProperty Name="sfiyat_doviz" ColumnName="sfiyat_doviz" />
-                <ScalarProperty Name="sfiyat_fiyati" ColumnName="sfiyat_fiyati" />
-                <ScalarProperty Name="sfiyat_birim_pntr" ColumnName="sfiyat_birim_pntr" />
-                <ScalarProperty Name="sfiyat_odemeplan" ColumnName="sfiyat_odemeplan" />
-                <ScalarProperty Name="sfiyat_deposirano" ColumnName="sfiyat_deposirano" />
-                <ScalarProperty Name="sfiyat_listesirano" ColumnName="sfiyat_listesirano" />
-                <ScalarProperty Name="sfiyat_stokkod" ColumnName="sfiyat_stokkod" />
-                <ScalarProperty Name="sfiyat_special3" ColumnName="sfiyat_special3" />
-                <ScalarProperty Name="sfiyat_special2" ColumnName="sfiyat_special2" />
-                <ScalarProperty Name="sfiyat_special1" ColumnName="sfiyat_special1" />
-                <ScalarProperty Name="sfiyat_lastup_date" ColumnName="sfiyat_lastup_date" />
-                <ScalarProperty Name="sfiyat_lastup_user" ColumnName="sfiyat_lastup_user" />
-                <ScalarProperty Name="sfiyat_create_date" ColumnName="sfiyat_create_date" />
-                <ScalarProperty Name="sfiyat_create_user" ColumnName="sfiyat_create_user" />
-                <ScalarProperty Name="sfiyat_checksum" ColumnName="sfiyat_checksum" />
-                <ScalarProperty Name="sfiyat_degisti" ColumnName="sfiyat_degisti" />
-                <ScalarProperty Name="sfiyat_kilitli" ColumnName="sfiyat_kilitli" />
-                <ScalarProperty Name="sfiyat_hidden" ColumnName="sfiyat_hidden" />
-                <ScalarProperty Name="sfiyat_fileid" ColumnName="sfiyat_fileid" />
-                <ScalarProperty Name="sfiyat_iptal" ColumnName="sfiyat_iptal" />
-                <ScalarProperty Name="sfiyat_SpecRECno" ColumnName="sfiyat_SpecRECno" />
-                <ScalarProperty Name="sfiyat_DBCno" ColumnName="sfiyat_DBCno" />
-                <ScalarProperty Name="sfiyat_Guid" ColumnName="sfiyat_Guid" />
+          <EntitySetMapping Name="URUN_RECETELERI">
+            <EntityTypeMapping TypeName="MikroModel.URUN_RECETELERI">
+              <MappingFragment StoreEntitySet="URUN_RECETELERI">
+                <ScalarProperty Name="rec_Guid" ColumnName="rec_Guid" />
+                <ScalarProperty Name="rec_DBCno" ColumnName="rec_DBCno" />
+                <ScalarProperty Name="rec_SpecRECno" ColumnName="rec_SpecRECno" />
+                <ScalarProperty Name="rec_iptal" ColumnName="rec_iptal" />
+                <ScalarProperty Name="rec_fileid" ColumnName="rec_fileid" />
+                <ScalarProperty Name="rec_hidden" ColumnName="rec_hidden" />
+                <ScalarProperty Name="rec_kilitli" ColumnName="rec_kilitli" />
+                <ScalarProperty Name="rec_degisti" ColumnName="rec_degisti" />
+                <ScalarProperty Name="rec_checksum" ColumnName="rec_checksum" />
+                <ScalarProperty Name="rec_create_user" ColumnName="rec_create_user" />
+                <ScalarProperty Name="rec_create_date" ColumnName="rec_create_date" />
+                <ScalarProperty Name="rec_lastup_user" ColumnName="rec_lastup_user" />
+                <ScalarProperty Name="rec_lastup_date" ColumnName="rec_lastup_date" />
+                <ScalarProperty Name="rec_special1" ColumnName="rec_special1" />
+                <ScalarProperty Name="rec_special2" ColumnName="rec_special2" />
+                <ScalarProperty Name="rec_special3" ColumnName="rec_special3" />
+                <ScalarProperty Name="rec_anatipi" ColumnName="rec_anatipi" />
+                <ScalarProperty Name="rec_anakod" ColumnName="rec_anakod" />
+                <ScalarProperty Name="rec_tanimkod" ColumnName="rec_tanimkod" />
+                <ScalarProperty Name="rec_cinsi" ColumnName="rec_cinsi" />
+                <ScalarProperty Name="rec_tarih" ColumnName="rec_tarih" />
+                <ScalarProperty Name="rec_aciklama" ColumnName="rec_aciklama" />
+                <ScalarProperty Name="rec_anabirim" ColumnName="rec_anabirim" />
+                <ScalarProperty Name="rec_anamiktar" ColumnName="rec_anamiktar" />
+                <ScalarProperty Name="rec_tuketim_tur" ColumnName="rec_tuketim_tur" />
+                <ScalarProperty Name="rec_tuketim_kod" ColumnName="rec_tuketim_kod" />
+                <ScalarProperty Name="rec_tuketim_tanim_kodu" ColumnName="rec_tuketim_tanim_kodu" />
+                <ScalarProperty Name="rec_tuketim_recete_cinsi" ColumnName="rec_tuketim_recete_cinsi" />
+                <ScalarProperty Name="rec_tuketim_miktar" ColumnName="rec_tuketim_miktar" />
+                <ScalarProperty Name="rec_tuketim_birim" ColumnName="rec_tuketim_birim" />
+                <ScalarProperty Name="rec_uretim_tuketim" ColumnName="rec_uretim_tuketim" />
+                <ScalarProperty Name="rec_satirno" ColumnName="rec_satirno" />
+                <ScalarProperty Name="rec_satir_acik" ColumnName="rec_satir_acik" />
+                <ScalarProperty Name="rec_depono" ColumnName="rec_depono" />
+                <ScalarProperty Name="rec_fireyuzde" ColumnName="rec_fireyuzde" />
+                <ScalarProperty Name="rec_baslama_tarihi" ColumnName="rec_baslama_tarihi" />
+                <ScalarProperty Name="rec_bitis_tarihi" ColumnName="rec_bitis_tarihi" />
+                <ScalarProperty Name="rec_alt_tukkod1" ColumnName="rec_alt_tukkod1" />
+                <ScalarProperty Name="rec_alt_1_katsayi" ColumnName="rec_alt_1_katsayi" />
+                <ScalarProperty Name="rec_alt_tukkod2" ColumnName="rec_alt_tukkod2" />
+                <ScalarProperty Name="rec_alt_2_katsayi" ColumnName="rec_alt_2_katsayi" />
+                <ScalarProperty Name="rec_alt_tukkod3" ColumnName="rec_alt_tukkod3" />
+                <ScalarProperty Name="rec_alt_3_katsayi" ColumnName="rec_alt_3_katsayi" />
+                <ScalarProperty Name="rec_alt_tukkod4" ColumnName="rec_alt_tukkod4" />
+                <ScalarProperty Name="rec_alt_4_katsayi" ColumnName="rec_alt_4_katsayi" />
+                <ScalarProperty Name="rec_alt_tukkod5" ColumnName="rec_alt_tukkod5" />
+                <ScalarProperty Name="rec_alt_5_katsayi" ColumnName="rec_alt_5_katsayi" />
+                <ScalarProperty Name="rec_safha_no" ColumnName="rec_safha_no" />
+                <ScalarProperty Name="rec_safha_turu" ColumnName="rec_safha_turu" />
+                <ScalarProperty Name="rec_ana_renk_no" ColumnName="rec_ana_renk_no" />
+                <ScalarProperty Name="rec_ana_beden_no" ColumnName="rec_ana_beden_no" />
+                <ScalarProperty Name="rec_tuketim_renk_no" ColumnName="rec_tuketim_renk_no" />
+                <ScalarProperty Name="rec_tuketim_beden_no" ColumnName="rec_tuketim_beden_no" />
+                <ScalarProperty Name="rec_PlanlamaTipi" ColumnName="rec_PlanlamaTipi" />
+                <ScalarProperty Name="rec_eklenme_sarti" ColumnName="rec_eklenme_sarti" />
+                <ScalarProperty Name="rec_miktar_fonksiyon_adi" ColumnName="rec_miktar_fonksiyon_adi" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="URUNLER">
             <EntityTypeMapping TypeName="MikroModel.URUNLER">
               <MappingFragment StoreEntitySet="URUNLER">
-                <ScalarProperty Name="uru_varsayilan_recete_cins" ColumnName="uru_varsayilan_recete_cins" />
-                <ScalarProperty Name="uru_varsayilan_recete_tanim_kodu" ColumnName="uru_varsayilan_recete_tanim_kodu" />
-                <ScalarProperty Name="uru_recete_ismi5" ColumnName="uru_recete_ismi5" />
-                <ScalarProperty Name="uru_recete_ismi4" ColumnName="uru_recete_ismi4" />
-                <ScalarProperty Name="uru_recete_ismi3" ColumnName="uru_recete_ismi3" />
-                <ScalarProperty Name="uru_recete_ismi2" ColumnName="uru_recete_ismi2" />
-                <ScalarProperty Name="uru_recete_ismi1" ColumnName="uru_recete_ismi1" />
-                <ScalarProperty Name="uru_masterkalip_kodu" ColumnName="uru_masterkalip_kodu" />
-                <ScalarProperty Name="uru_Muhgrup_kodu" ColumnName="uru_Muhgrup_kodu" />
-                <ScalarProperty Name="uru_varsayilanismerkezi" ColumnName="uru_varsayilanismerkezi" />
-                <ScalarProperty Name="uru_SorumlulukMerkezi" ColumnName="uru_SorumlulukMerkezi" />
-                <ScalarProperty Name="uru_masterrecete" ColumnName="uru_masterrecete" />
-                <ScalarProperty Name="uru_sabitmlyt_anauruncarpan" ColumnName="uru_sabitmlyt_anauruncarpan" />
-                <ScalarProperty Name="uru_ozel_tipi" ColumnName="uru_ozel_tipi" />
-                <ScalarProperty Name="uru_gider10" ColumnName="uru_gider10" />
-                <ScalarProperty Name="uru_gider9" ColumnName="uru_gider9" />
-                <ScalarProperty Name="uru_gider8" ColumnName="uru_gider8" />
-                <ScalarProperty Name="uru_gider7" ColumnName="uru_gider7" />
-                <ScalarProperty Name="uru_gider6" ColumnName="uru_gider6" />
-                <ScalarProperty Name="uru_ongorulendepo" ColumnName="uru_ongorulendepo" />
-                <ScalarProperty Name="uru_excdosyaadi" ColumnName="uru_excdosyaadi" />
-                <ScalarProperty Name="uru_formdosyaadi" ColumnName="uru_formdosyaadi" />
-                <ScalarProperty Name="uru_uretimsekli" ColumnName="uru_uretimsekli" />
-                <ScalarProperty Name="uru_uretimortakcarpani" ColumnName="uru_uretimortakcarpani" />
-                <ScalarProperty Name="uru_isemriID" ColumnName="uru_isemriID" />
-                <ScalarProperty Name="uru_partimiktari" ColumnName="uru_partimiktari" />
-                <ScalarProperty Name="uru_fasonmaliyet" ColumnName="uru_fasonmaliyet" />
-                <ScalarProperty Name="uru_min_fire_yuz" ColumnName="uru_min_fire_yuz" />
-                <ScalarProperty Name="uru_max_fire_yuz" ColumnName="uru_max_fire_yuz" />
-                <ScalarProperty Name="uru_tip" ColumnName="uru_tip" />
-                <ScalarProperty Name="uru_gider5" ColumnName="uru_gider5" />
-                <ScalarProperty Name="uru_gider4" ColumnName="uru_gider4" />
-                <ScalarProperty Name="uru_gider3" ColumnName="uru_gider3" />
-                <ScalarProperty Name="uru_gider2" ColumnName="uru_gider2" />
-                <ScalarProperty Name="uru_gider1" ColumnName="uru_gider1" />
-                <ScalarProperty Name="uru_stok_kod" ColumnName="uru_stok_kod" />
-                <ScalarProperty Name="uru_special3" ColumnName="uru_special3" />
-                <ScalarProperty Name="uru_special2" ColumnName="uru_special2" />
-                <ScalarProperty Name="uru_special1" ColumnName="uru_special1" />
-                <ScalarProperty Name="uru_lastup_date" ColumnName="uru_lastup_date" />
-                <ScalarProperty Name="uru_lastup_user" ColumnName="uru_lastup_user" />
-                <ScalarProperty Name="uru_create_date" ColumnName="uru_create_date" />
-                <ScalarProperty Name="uru_create_user" ColumnName="uru_create_user" />
-                <ScalarProperty Name="uru_checksum" ColumnName="uru_checksum" />
-                <ScalarProperty Name="uru_degisti" ColumnName="uru_degisti" />
-                <ScalarProperty Name="uru_kilitli" ColumnName="uru_kilitli" />
-                <ScalarProperty Name="uru_hidden" ColumnName="uru_hidden" />
-                <ScalarProperty Name="uru_fileid" ColumnName="uru_fileid" />
-                <ScalarProperty Name="uru_iptal" ColumnName="uru_iptal" />
-                <ScalarProperty Name="uru_SpecRECno" ColumnName="uru_SpecRECno" />
-                <ScalarProperty Name="uru_DBCno" ColumnName="uru_DBCno" />
                 <ScalarProperty Name="uru_Guid" ColumnName="uru_Guid" />
+                <ScalarProperty Name="uru_DBCno" ColumnName="uru_DBCno" />
+                <ScalarProperty Name="uru_SpecRECno" ColumnName="uru_SpecRECno" />
+                <ScalarProperty Name="uru_iptal" ColumnName="uru_iptal" />
+                <ScalarProperty Name="uru_fileid" ColumnName="uru_fileid" />
+                <ScalarProperty Name="uru_hidden" ColumnName="uru_hidden" />
+                <ScalarProperty Name="uru_kilitli" ColumnName="uru_kilitli" />
+                <ScalarProperty Name="uru_degisti" ColumnName="uru_degisti" />
+                <ScalarProperty Name="uru_checksum" ColumnName="uru_checksum" />
+                <ScalarProperty Name="uru_create_user" ColumnName="uru_create_user" />
+                <ScalarProperty Name="uru_create_date" ColumnName="uru_create_date" />
+                <ScalarProperty Name="uru_lastup_user" ColumnName="uru_lastup_user" />
+                <ScalarProperty Name="uru_lastup_date" ColumnName="uru_lastup_date" />
+                <ScalarProperty Name="uru_special1" ColumnName="uru_special1" />
+                <ScalarProperty Name="uru_special2" ColumnName="uru_special2" />
+                <ScalarProperty Name="uru_special3" ColumnName="uru_special3" />
+                <ScalarProperty Name="uru_stok_kod" ColumnName="uru_stok_kod" />
+                <ScalarProperty Name="uru_gider1" ColumnName="uru_gider1" />
+                <ScalarProperty Name="uru_gider2" ColumnName="uru_gider2" />
+                <ScalarProperty Name="uru_gider3" ColumnName="uru_gider3" />
+                <ScalarProperty Name="uru_gider4" ColumnName="uru_gider4" />
+                <ScalarProperty Name="uru_gider5" ColumnName="uru_gider5" />
+                <ScalarProperty Name="uru_tip" ColumnName="uru_tip" />
+                <ScalarProperty Name="uru_max_fire_yuz" ColumnName="uru_max_fire_yuz" />
+                <ScalarProperty Name="uru_min_fire_yuz" ColumnName="uru_min_fire_yuz" />
+                <ScalarProperty Name="uru_fasonmaliyet" ColumnName="uru_fasonmaliyet" />
+                <ScalarProperty Name="uru_partimiktari" ColumnName="uru_partimiktari" />
+                <ScalarProperty Name="uru_isemriID" ColumnName="uru_isemriID" />
+                <ScalarProperty Name="uru_uretimortakcarpani" ColumnName="uru_uretimortakcarpani" />
+                <ScalarProperty Name="uru_uretimsekli" ColumnName="uru_uretimsekli" />
+                <ScalarProperty Name="uru_formdosyaadi" ColumnName="uru_formdosyaadi" />
+                <ScalarProperty Name="uru_excdosyaadi" ColumnName="uru_excdosyaadi" />
+                <ScalarProperty Name="uru_ongorulendepo" ColumnName="uru_ongorulendepo" />
+                <ScalarProperty Name="uru_gider6" ColumnName="uru_gider6" />
+                <ScalarProperty Name="uru_gider7" ColumnName="uru_gider7" />
+                <ScalarProperty Name="uru_gider8" ColumnName="uru_gider8" />
+                <ScalarProperty Name="uru_gider9" ColumnName="uru_gider9" />
+                <ScalarProperty Name="uru_gider10" ColumnName="uru_gider10" />
+                <ScalarProperty Name="uru_ozel_tipi" ColumnName="uru_ozel_tipi" />
+                <ScalarProperty Name="uru_sabitmlyt_anauruncarpan" ColumnName="uru_sabitmlyt_anauruncarpan" />
+                <ScalarProperty Name="uru_masterrecete" ColumnName="uru_masterrecete" />
+                <ScalarProperty Name="uru_SorumlulukMerkezi" ColumnName="uru_SorumlulukMerkezi" />
+                <ScalarProperty Name="uru_varsayilanismerkezi" ColumnName="uru_varsayilanismerkezi" />
+                <ScalarProperty Name="uru_Muhgrup_kodu" ColumnName="uru_Muhgrup_kodu" />
+                <ScalarProperty Name="uru_masterkalip_kodu" ColumnName="uru_masterkalip_kodu" />
+                <ScalarProperty Name="uru_recete_ismi1" ColumnName="uru_recete_ismi1" />
+                <ScalarProperty Name="uru_recete_ismi2" ColumnName="uru_recete_ismi2" />
+                <ScalarProperty Name="uru_recete_ismi3" ColumnName="uru_recete_ismi3" />
+                <ScalarProperty Name="uru_recete_ismi4" ColumnName="uru_recete_ismi4" />
+                <ScalarProperty Name="uru_recete_ismi5" ColumnName="uru_recete_ismi5" />
+                <ScalarProperty Name="uru_varsayilan_recete_tanim_kodu" ColumnName="uru_varsayilan_recete_tanim_kodu" />
+                <ScalarProperty Name="uru_varsayilan_recete_cins" ColumnName="uru_varsayilan_recete_cins" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="STOK_ANA_GRUPLARI">
-            <EntityTypeMapping TypeName="MikroModel.STOK_ANA_GRUPLARI">
-              <MappingFragment StoreEntitySet="STOK_ANA_GRUPLARI">
-                <ScalarProperty Name="san_isim" ColumnName="san_isim" />
-                <ScalarProperty Name="san_kod" ColumnName="san_kod" />
-                <ScalarProperty Name="san_special3" ColumnName="san_special3" />
-                <ScalarProperty Name="san_special2" ColumnName="san_special2" />
-                <ScalarProperty Name="san_special1" ColumnName="san_special1" />
-                <ScalarProperty Name="san_lastup_date" ColumnName="san_lastup_date" />
-                <ScalarProperty Name="san_lastup_user" ColumnName="san_lastup_user" />
-                <ScalarProperty Name="san_create_date" ColumnName="san_create_date" />
-                <ScalarProperty Name="san_create_user" ColumnName="san_create_user" />
-                <ScalarProperty Name="san_checksum" ColumnName="san_checksum" />
-                <ScalarProperty Name="san_degisti" ColumnName="san_degisti" />
-                <ScalarProperty Name="san_kilitli" ColumnName="san_kilitli" />
-                <ScalarProperty Name="san_hidden" ColumnName="san_hidden" />
-                <ScalarProperty Name="san_fileid" ColumnName="san_fileid" />
-                <ScalarProperty Name="san_iptal" ColumnName="san_iptal" />
-                <ScalarProperty Name="san_SpecRECno" ColumnName="san_SpecRECno" />
-                <ScalarProperty Name="san_DBCno" ColumnName="san_DBCno" />
-                <ScalarProperty Name="san_Guid" ColumnName="san_Guid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="URUN_RECETELERI">
-            <EntityTypeMapping TypeName="MikroModel.URUN_RECETELERI">
-              <MappingFragment StoreEntitySet="URUN_RECETELERI">
-                <ScalarProperty Name="rec_miktar_fonksiyon_adi" ColumnName="rec_miktar_fonksiyon_adi" />
-                <ScalarProperty Name="rec_eklenme_sarti" ColumnName="rec_eklenme_sarti" />
-                <ScalarProperty Name="rec_PlanlamaTipi" ColumnName="rec_PlanlamaTipi" />
-                <ScalarProperty Name="rec_tuketim_beden_no" ColumnName="rec_tuketim_beden_no" />
-                <ScalarProperty Name="rec_tuketim_renk_no" ColumnName="rec_tuketim_renk_no" />
-                <ScalarProperty Name="rec_ana_beden_no" ColumnName="rec_ana_beden_no" />
-                <ScalarProperty Name="rec_ana_renk_no" ColumnName="rec_ana_renk_no" />
-                <ScalarProperty Name="rec_safha_turu" ColumnName="rec_safha_turu" />
-                <ScalarProperty Name="rec_safha_no" ColumnName="rec_safha_no" />
-                <ScalarProperty Name="rec_alt_5_katsayi" ColumnName="rec_alt_5_katsayi" />
-                <ScalarProperty Name="rec_alt_tukkod5" ColumnName="rec_alt_tukkod5" />
-                <ScalarProperty Name="rec_alt_4_katsayi" ColumnName="rec_alt_4_katsayi" />
-                <ScalarProperty Name="rec_alt_tukkod4" ColumnName="rec_alt_tukkod4" />
-                <ScalarProperty Name="rec_alt_3_katsayi" ColumnName="rec_alt_3_katsayi" />
-                <ScalarProperty Name="rec_alt_tukkod3" ColumnName="rec_alt_tukkod3" />
-                <ScalarProperty Name="rec_alt_2_katsayi" ColumnName="rec_alt_2_katsayi" />
-                <ScalarProperty Name="rec_alt_tukkod2" ColumnName="rec_alt_tukkod2" />
-                <ScalarProperty Name="rec_alt_1_katsayi" ColumnName="rec_alt_1_katsayi" />
-                <ScalarProperty Name="rec_alt_tukkod1" ColumnName="rec_alt_tukkod1" />
-                <ScalarProperty Name="rec_bitis_tarihi" ColumnName="rec_bitis_tarihi" />
-                <ScalarProperty Name="rec_baslama_tarihi" ColumnName="rec_baslama_tarihi" />
-                <ScalarProperty Name="rec_fireyuzde" ColumnName="rec_fireyuzde" />
-                <ScalarProperty Name="rec_depono" ColumnName="rec_depono" />
-                <ScalarProperty Name="rec_satir_acik" ColumnName="rec_satir_acik" />
-                <ScalarProperty Name="rec_satirno" ColumnName="rec_satirno" />
-                <ScalarProperty Name="rec_uretim_tuketim" ColumnName="rec_uretim_tuketim" />
-                <ScalarProperty Name="rec_tuketim_birim" ColumnName="rec_tuketim_birim" />
-                <ScalarProperty Name="rec_tuketim_miktar" ColumnName="rec_tuketim_miktar" />
-                <ScalarProperty Name="rec_tuketim_recete_cinsi" ColumnName="rec_tuketim_recete_cinsi" />
-                <ScalarProperty Name="rec_tuketim_tanim_kodu" ColumnName="rec_tuketim_tanim_kodu" />
-                <ScalarProperty Name="rec_tuketim_kod" ColumnName="rec_tuketim_kod" />
-                <ScalarProperty Name="rec_tuketim_tur" ColumnName="rec_tuketim_tur" />
-                <ScalarProperty Name="rec_anamiktar" ColumnName="rec_anamiktar" />
-                <ScalarProperty Name="rec_anabirim" ColumnName="rec_anabirim" />
-                <ScalarProperty Name="rec_aciklama" ColumnName="rec_aciklama" />
-                <ScalarProperty Name="rec_tarih" ColumnName="rec_tarih" />
-                <ScalarProperty Name="rec_cinsi" ColumnName="rec_cinsi" />
-                <ScalarProperty Name="rec_tanimkod" ColumnName="rec_tanimkod" />
-                <ScalarProperty Name="rec_anakod" ColumnName="rec_anakod" />
-                <ScalarProperty Name="rec_anatipi" ColumnName="rec_anatipi" />
-                <ScalarProperty Name="rec_special3" ColumnName="rec_special3" />
-                <ScalarProperty Name="rec_special2" ColumnName="rec_special2" />
-                <ScalarProperty Name="rec_special1" ColumnName="rec_special1" />
-                <ScalarProperty Name="rec_lastup_date" ColumnName="rec_lastup_date" />
-                <ScalarProperty Name="rec_lastup_user" ColumnName="rec_lastup_user" />
-                <ScalarProperty Name="rec_create_date" ColumnName="rec_create_date" />
-                <ScalarProperty Name="rec_create_user" ColumnName="rec_create_user" />
-                <ScalarProperty Name="rec_checksum" ColumnName="rec_checksum" />
-                <ScalarProperty Name="rec_degisti" ColumnName="rec_degisti" />
-                <ScalarProperty Name="rec_kilitli" ColumnName="rec_kilitli" />
-                <ScalarProperty Name="rec_hidden" ColumnName="rec_hidden" />
-                <ScalarProperty Name="rec_fileid" ColumnName="rec_fileid" />
-                <ScalarProperty Name="rec_iptal" ColumnName="rec_iptal" />
-                <ScalarProperty Name="rec_SpecRECno" ColumnName="rec_SpecRECno" />
-                <ScalarProperty Name="rec_DBCno" ColumnName="rec_DBCno" />
-                <ScalarProperty Name="rec_Guid" ColumnName="rec_Guid" />
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="MikroModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="product_quantity" ColumnName="product_quantity" />
+                <ScalarProperty Name="product_price" ColumnName="product_price" />
+                <ScalarProperty Name="product_name" ColumnName="product_name" />
+                <ScalarProperty Name="product_code" ColumnName="product_code" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1219,7 +1258,7 @@
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="false" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

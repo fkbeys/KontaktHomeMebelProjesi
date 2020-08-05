@@ -1,8 +1,10 @@
 ﻿using BusinessLayer;
 using BusinessLayer.Managers;
+using BusinessLayer.Managers.LocalManagers;
 using BusinessLayer.QueryResult;
 using Entities;
 using Entities.Model;
+using Entities.Model.LocalModels;
 using KontaktHome.Filters;
 using System;
 using System.Collections.Generic;
@@ -27,6 +29,7 @@ namespace KontaktHome.Controllers
         private UserRolesManager userRolesManager = new UserRolesManager();
         private UserRolesMappingManager userRoleMappingManager = new UserRolesMappingManager();
         private StoresManager storesManager = new StoresManager();
+        private AdditionalChargesManager chargesManager = new AdditionalChargesManager();
         public ActionResult Index()
         {
             return View();
@@ -307,6 +310,12 @@ namespace KontaktHome.Controllers
             TempData["typ"] = "success";
             return RedirectToAction("CreateStore");
 
+        }
+
+        public ActionResult Charges()
+        {
+            List<AdditionalCharges> _charges = chargesManager.List();
+            return View(_charges);
         }
     }
 

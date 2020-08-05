@@ -358,6 +358,13 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
+                    @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+                    {
+                        if (Model.order.OrderStatus == 7)
+                        {
+                            <button type="button" class="btn btn-primary" onclick="finishOrder(@Model.order.OrderId)">Siafrişi Tamamla</button>
+                        }
+                    }
                 </div>
             </div>
             <div class="card card-secondary">

@@ -1,0 +1,55 @@
+﻿@using Entities.Model.LocalModels
+@model List<AdditionalCharges>
+@{
+    ViewBag.Title = "Charges";
+}
+
+<div class="content ">
+    <div class="container col-md-6">
+        <div class="col-md-12">
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <h3 class="card-title">Məsrəflər</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Məsrəf Adı</th>
+                                        <th>Məsrəf Faizi</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.ID</td>
+                                            <td>@item.charge_name</td>
+                                            <td>@item.charge_value</td>
+                                            <td><button type="button" class="btn btn-secondary btn-sm">Düzəliş</button></td>
+                                            <td><button type="button" class="btn btn-danger btn-sm">Sil</button></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu2_1').className = 'nav-link active';
+        document.getElementById('newCharges').className = 'nav-link active';
+    </script>
+}

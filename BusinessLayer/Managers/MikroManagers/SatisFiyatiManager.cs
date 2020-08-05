@@ -51,8 +51,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _satisfiyati.Result.sfiyat_listesirano = 1;
                 _satisfiyati.Result.sfiyat_deposirano = 0;
                 _satisfiyati.Result.sfiyat_odemeplan = 0;
-                _satisfiyati.Result.sfiyat_birim_pntr = 1;
-                _satisfiyati.Result.sfiyat_fiyati = 5;
+                _satisfiyati.Result.sfiyat_birim_pntr = 1;               
                 _satisfiyati.Result.sfiyat_doviz = 0;
                 _satisfiyati.Result.sfiyat_iskontokod = "";
                 _satisfiyati.Result.sfiyat_deg_nedeni = 0;

@@ -19,7 +19,7 @@ namespace BusinessLayer.Managers.MikroManagers
             _urunler.Result = Find(x => x.uru_stok_kod == data.uru_stok_kod);
             if (_urunler.Result!=null)
             {
-                _urunler.AddError(ErrorMessageCode.DataAlreadyExists, "xəta baş verdi. Məhsul mövcuddur");
+                //_urunler.AddError(ErrorMessageCode.DataAlreadyExists, "xəta baş verdi. Məhsul mövcuddur");
             }
             else
             {

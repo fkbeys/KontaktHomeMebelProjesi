@@ -5,6 +5,7 @@ using Entities.Messages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -131,12 +132,14 @@ namespace BusinessLayer
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
-                orders.Result = Find(x => x.OrderId == data.OrderId);
+                orders.Result = getOrder;
                 orders.Result.LastUpdate = data.LastUpdate;
                 orders.Result.UpdateUser = data.UpdateUser;
                 orders.Result.IsActive = false;
                 orders.Result.CloseReason = data.CloseReason;
-
+                orders.Result.OrderStatus = data.OrderStatus;
+                orders.Result.IsCompleted = data.IsCompleted;
+              
                 if (base.Update(orders.Result) == 0)
                 {
                     orders.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Sifariş bağlanmadı");
@@ -148,6 +151,28 @@ namespace BusinessLayer
             }
             return orders;
 
+        }
+        public BusinessLayerResult<Orders> FinishOrder(int orderid,Users user)
+        {
+            BusinessLayerResult<Orders> _orders = new BusinessLayerResult<Orders>();
+            _orders.Result = Find(x => x.OrderId == orderid);
+            if (_orders.Result!=null)
+            {
+                _orders.Result.LastUpdate = DateTime.Now;
+                _orders.Result.IsActive = false;
+                _orders.Result.OrderStatus = 8;
+                _orders.Result.UpdateUser = user.UserName;
+                if (base.Update(_orders.Result)==0)
+                {
+                    _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş yenilənmədi tapılmadı");
+                }
+
+            }
+            else
+            {
+                _orders.AddError(ErrorMessageCode.DataNotFound, "Sifariş tapılmadı");
+            }
+            return _orders;
         }
         public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data, string sellerName)
         {

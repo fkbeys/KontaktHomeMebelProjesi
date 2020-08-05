@@ -142,7 +142,8 @@ namespace KontaktHome.Controllers
             {
                 string orderStatus = Statuses.OrderStatus(item.OrderStatus);
                 string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
-                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                //string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                string link = "?Sira=" + item.OrderId.ToString();
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
 
                 UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
@@ -170,7 +171,7 @@ namespace KontaktHome.Controllers
                 {
                     string orderStatus = Statuses.OrderStatus(item.OrderStatus);
                     string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
-                    string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                    string link = "?Sira=" + item.OrderId.ToString();
                     string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
 
                     UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
@@ -187,7 +188,7 @@ namespace KontaktHome.Controllers
 
         //All
         [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
-        [EncryptedActionParameter]
+
         public ActionResult EditOrder(int? Sira)
         {
             if (Sira == null)
@@ -217,7 +218,7 @@ namespace KontaktHome.Controllers
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
-            ViewBag.Link = "/Order/VisitInfo?q=" + Encrypt.EncryptString("Sira=" + order.OrderId.ToString());
+            ViewBag.Link = "/Order/VisitInfo?Sira=" + order.OrderId.ToString();
             if (order == null)
             {
                 return HttpNotFound();
@@ -348,7 +349,7 @@ namespace KontaktHome.Controllers
             var listdesigner = designers1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
-            ViewBag.Link = "/Order/VisitInfo?q=" + Encrypt.EncryptString("Sira=" + data.OrderId.ToString());
+            ViewBag.Link = "/Order/VisitInfo?Sira=" + data.OrderId.ToString();
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Orders> order = orderManager.UpdateOrder(data);
@@ -365,7 +366,7 @@ namespace KontaktHome.Controllers
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
-        [EncryptedActionParameter]
+
         public ActionResult OrderInfo(int? Sira)
         {
             if (Sira == null)
@@ -421,7 +422,7 @@ namespace KontaktHome.Controllers
             foreach (var item in fakturalar)
             {
                 string orderStatus = Statuses.VisitorOrderStatus(item.VisitorStatus);
-                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                string link = "?Sira=" + item.OrderId.ToString();
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
                 UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.VisitorStatus };
                 j++;
@@ -452,7 +453,7 @@ namespace KontaktHome.Controllers
             foreach (var item in fakturalar)
             {
                 string orderStatus = Statuses.VisitorOrderStatus(item.VisitorStatus);
-                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                string link = "?Sira=" + item.OrderId.ToString();
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
                 UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.VisitorStatus };
                 j++;
@@ -462,7 +463,7 @@ namespace KontaktHome.Controllers
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
-        [EncryptedActionParameter]
+        //[EncryptedActionParameter]
         public ActionResult VisitInfo(int? Sira)
         {
             if (Sira == null)
@@ -473,7 +474,7 @@ namespace KontaktHome.Controllers
             if (order == null)
             {
                 return HttpNotFound();
-            }           
+            }
             else
             {
                 List<Visits> visits = visitManager.List(x => x.OrderId == Sira).ToList();
@@ -490,14 +491,14 @@ namespace KontaktHome.Controllers
                 data.visitData = visits;
                 data.visitImages = visitimages;
                 data.production = productionManager.ListQueryable().Where(x => x.OrderId == Sira).ToList();
-                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();             
-                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");            
+                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
+                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
                 return View(data);
             }
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
-        [EncryptedActionParameter]
+
         public ActionResult CustomerVisit(int? Sira)
         {
             if (Sira == null)
@@ -629,7 +630,7 @@ namespace KontaktHome.Controllers
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
-        [EncryptedActionParameter]
+
         public ActionResult AcceptOrder(int? Sira)
         {
             if (Sira == null)
@@ -668,7 +669,7 @@ namespace KontaktHome.Controllers
 
         //Designer
         [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
-        [EncryptedActionParameter]
+
         public ActionResult AcceptDesignerOrder(int? Sira)
         {
             if (Sira == null)
@@ -718,7 +719,7 @@ namespace KontaktHome.Controllers
             foreach (var item in fakturalar)
             {
                 string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);
-                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                string link = "?Sira=" + item.OrderId.ToString();
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
                 UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
                 j++;
@@ -728,7 +729,7 @@ namespace KontaktHome.Controllers
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
-        [EncryptedActionParameter]
+
         public ActionResult DesignerEdit(int? Sira)
         {
             if (Sira == null)
@@ -840,7 +841,7 @@ namespace KontaktHome.Controllers
             foreach (var item in fakturalar)
             {
                 string orderStatus = Statuses.DesignerStatus(item.DesignerStatus);
-                string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
+                string link = "?Sira=" + item.OrderId.ToString();
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
                 UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.DesignerStatus };
                 j++;
@@ -851,7 +852,7 @@ namespace KontaktHome.Controllers
 
         //Cordinator
         [CustomAuthorize(Roles = "Admin,Kordinator")]
-        [EncryptedActionParameter]
+
         public ActionResult CloseOrder(int? Sira)
         {
             if (User.IsInRole("Kordinator") || User.IsInRole("Admin")) /*(CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)*/
@@ -1055,7 +1056,7 @@ namespace KontaktHome.Controllers
             }
             productionManager.DeleteProdData(data.deleted_items);
             status = true;
-            string link = "?q=" + Encrypt.EncryptString("Sira=" + data.order_No);
+            string link = "?Sira=" + data.order_No.ToString();
             return Json(new { status, link, Url = Url.Action("DesignerEdit", "Order") });
 
         }
@@ -1071,16 +1072,16 @@ namespace KontaktHome.Controllers
         {
             bool status = false;
             string[] errors;
-            if (orderid!=null && visitid!=null)
+            if (orderid != null && visitid != null)
             {
                 Visits _visit = visitManager.Find(x => x.VisitID == visitid && x.OrderId == orderid);
                 Orders _order = orderManager.Find(x => x.OrderId == orderid);
-                if (_visit!=null && _order!=null)
+                if (_visit != null && _order != null)
                 {
-                    if (_visit.VisitStatus==0)
+                    if (_visit.VisitStatus == 0)
                     {
                         string stokKodu = _order.CustomerSurname + _order.CustomerName + "-" + _order.OrderId.ToString() + "-" + _visit.VisitID.ToString();
-                        string stokAdi= _order.CustomerSurname + _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
+                        string stokAdi = _order.CustomerSurname + _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
                         STOKLAR stokdata = new STOKLAR();
                         stokdata.sto_kod = stokKodu;
                         stokdata.sto_isim = stokAdi;
@@ -1124,7 +1125,7 @@ namespace KontaktHome.Controllers
                         }
                         List<Production> production = new List<Production>();
                         production = productionManager.List(x => x.VisitId == visitid && x.OrderId == orderid);
-                        if (production.Count>0)
+                        if (production.Count > 0)
                         {
                             BusinessLayerResult<URUN_RECETELERI> _urunreceteleri = urunReceteleriManager.InsertData(production, stokKodu, CurrentSession.User);
                             if (_urunreceteleri.Errors.Count > 0)
@@ -1157,7 +1158,7 @@ namespace KontaktHome.Controllers
                             return Json(new { status, errors });
                         }
                         status = true;
-                        string link = "?q=" + Encrypt.EncryptString("Sira=" + orderid);
+                        string link = "?Sira=" + orderid.ToString();
                         return Json(new { status, link, Url = Url.Action("VisitInfo", "Order") });
                     }
                     else
@@ -1180,8 +1181,36 @@ namespace KontaktHome.Controllers
             errors[0] = "Sifariş id və ya vizit id düzgün deyil.";
             status = false;
             return Json(new { status, errors });
-           
-        }
 
+        }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public JsonResult FinishOrder(int? orderid)
+        {
+            bool status = false;
+            string[] errors;
+            if (orderid != null)
+            {           
+                BusinessLayerResult<Orders> orderresult = orderManager.FinishOrder(Convert.ToInt32(orderid),CurrentSession.User);
+                if (orderresult.Errors.Count > 0)
+                {
+                    errors = new string[orderresult.Errors.Count];
+                    for (int i = 0; i < orderresult.Errors.Count; i++)
+                    {
+                        errors[i] = orderresult.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("ActiveOrders", "Order") });
+
+            }
+            errors = new string[1];
+            errors[0] = "Sifariş id düzgün deyil.";
+            status = false;
+            return Json(new { status, errors });
+
+        }
     }
 }

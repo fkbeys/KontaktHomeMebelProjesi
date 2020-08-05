@@ -14,6 +14,8 @@
             {
                 @Html.HiddenFor(model => model.OrderId)
                 @Html.HiddenFor(model => model.CreateOn)
+                @Html.HiddenFor(model=>model.IsCompleted)
+                @Html.HiddenFor(model=>model.OrderStatus)
                 @Html.AntiForgeryToken()
                 <div class="form-group col-md-12">
                     @Html.ValidationSummary(false)

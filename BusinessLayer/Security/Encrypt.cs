@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BusinessLayer
 {
-    public class Encrypt
+    public static class Encrypt
     {
         public static string EncryptString(string plainText)
         {

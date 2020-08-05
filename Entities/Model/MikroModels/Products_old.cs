@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entities.Model.MikroModels
 {
-    public class Products
+    public class Products_old
     {
         [Key]
         public string product_code { get; set; }

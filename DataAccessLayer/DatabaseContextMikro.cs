@@ -14,12 +14,12 @@ namespace DataAccessLayer
 {
     public class DatabaseContextMikro:DbContext
     {
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-        public DbSet<STOK_ANA_GRUPLARI> StokAnaGruplar { get; set; }
-        public DbSet<Products> Products { get; set; }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    throw new UnintentionalCodeFirstException();
+        //}
+        public virtual DbSet<STOK_ANA_GRUPLARI> StokAnaGruplar { get; set; }
+        public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<STOKLAR> STOKLAR { get; set; }
         public virtual DbSet<STOK_SATIS_FIYAT_LISTELERI> STOK_SATIS_FIYAT_LISTELERI { get; set; }
         public virtual DbSet<URUNLER> URUNLER { get; set; }

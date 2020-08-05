@@ -25,10 +25,10 @@ namespace BusinessLayer.Managers.MikroManagers
             else
             {
                 if (data.Count>0)
-                {
-                    Guid _guid = Guid.NewGuid();                   
+                {                                       
                     for (int i = 0; i < data.Count; i++)                   
                     {
+                        Guid _guid = Guid.NewGuid();
                         DateTime tarix = DateTime.Now;
                         _urunreceteleri.Result = new URUN_RECETELERI();
                         _urunreceteleri.Result.rec_Guid = _guid;

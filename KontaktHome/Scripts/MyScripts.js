@@ -1126,3 +1126,34 @@ function acceptOrder(orderId, visitId) {
     });
 }
 
+function finishOrder(orderId) {
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();
+    $.ajax({
+        url: '/Order/FinishOrder',
+        type: "POST",
+        data: {
+            __RequestVerificationToken: token,
+            orderid: orderId          
+        },
+        success: function (d) {
+            if (d.status == true) {
+                Swal.fire('Siafriş Tamamlandı', '', 'success');
+                window.location.href = d.Url;
+            }
+            else {
+                var errortext = '';
+                for (var i = 0; i < d.errors.length; i++) {
+                    errortext += d.errors[i] + "<br>"
+                }
+                $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
+                Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
+                this.disabled = false;
+            }
+        },
+        error: function () {
+            alert('Error. Please try again.');
+        }
+    });
+}
+
