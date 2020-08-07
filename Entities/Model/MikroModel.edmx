@@ -5,6 +5,328 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="MikroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CARI_HESAPLAR">
+          <Key>
+            <PropertyRef Name="cari_Guid" />
+          </Key>
+          <Property Name="cari_Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="cari_DBCno" Type="smallint" Nullable="false" />
+          <Property Name="cari_SpecRECno" Type="int" />
+          <Property Name="cari_iptal" Type="bit" />
+          <Property Name="cari_fileid" Type="smallint" />
+          <Property Name="cari_hidden" Type="bit" />
+          <Property Name="cari_kilitli" Type="bit" />
+          <Property Name="cari_degisti" Type="bit" />
+          <Property Name="cari_checksum" Type="int" />
+          <Property Name="cari_create_user" Type="smallint" />
+          <Property Name="cari_create_date" Type="datetime" Nullable="false" />
+          <Property Name="cari_lastup_user" Type="smallint" />
+          <Property Name="cari_lastup_date" Type="datetime" />
+          <Property Name="cari_special1" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_special2" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_special3" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_unvan1" Type="nvarchar" MaxLength="127" />
+          <Property Name="cari_unvan2" Type="nvarchar" MaxLength="127" />
+          <Property Name="cari_hareket_tipi" Type="tinyint" />
+          <Property Name="cari_baglanti_tipi" Type="tinyint" />
+          <Property Name="cari_stok_alim_cinsi" Type="tinyint" />
+          <Property Name="cari_stok_satim_cinsi" Type="tinyint" />
+          <Property Name="cari_muh_kod" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_muh_kod1" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_muh_kod2" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_doviz_cinsi" Type="tinyint" />
+          <Property Name="cari_doviz_cinsi1" Type="tinyint" />
+          <Property Name="cari_doviz_cinsi2" Type="tinyint" />
+          <Property Name="cari_vade_fark_yuz" Type="float" />
+          <Property Name="cari_vade_fark_yuz1" Type="float" />
+          <Property Name="cari_vade_fark_yuz2" Type="float" />
+          <Property Name="cari_KurHesapSekli" Type="tinyint" />
+          <Property Name="cari_vdaire_adi" Type="nvarchar" MaxLength="50" />
+          <Property Name="cari_vdaire_no" Type="nvarchar" MaxLength="15" />
+          <Property Name="cari_sicil_no" Type="nvarchar" MaxLength="15" />
+          <Property Name="cari_VergiKimlikNo" Type="nvarchar" MaxLength="10" />
+          <Property Name="cari_satis_fk" Type="int" />
+          <Property Name="cari_odeme_cinsi" Type="tinyint" />
+          <Property Name="cari_odeme_gunu" Type="tinyint" />
+          <Property Name="cari_odemeplan_no" Type="int" />
+          <Property Name="cari_opsiyon_gun" Type="int" />
+          <Property Name="cari_cariodemetercihi" Type="tinyint" />
+          <Property Name="cari_fatura_adres_no" Type="int" />
+          <Property Name="cari_sevk_adres_no" Type="int" />
+          <Property Name="cari_banka_tcmb_kod1" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod1" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod1" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno1" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu1" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod2" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod2" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod2" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno2" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu2" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod3" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod3" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod3" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno3" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu3" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod4" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod4" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod4" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno4" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu4" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod5" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod5" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod5" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno5" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu5" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod6" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod6" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod6" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno6" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu6" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod7" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod7" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod7" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno7" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu7" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod8" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod8" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod8" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno8" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu8" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod9" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod9" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod9" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno9" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu9" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_banka_tcmb_kod10" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_banka_tcmb_subekod10" Type="nvarchar" MaxLength="8" />
+          <Property Name="cari_banka_tcmb_ilkod10" Type="nvarchar" MaxLength="3" />
+          <Property Name="cari_banka_hesapno10" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_banka_swiftkodu10" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_EftHesapNum" Type="tinyint" />
+          <Property Name="cari_Ana_cari_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_satis_isk_kod" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_sektor_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_bolge_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_grup_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_temsilci_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_muhartikeli" Type="nvarchar" MaxLength="10" />
+          <Property Name="cari_firma_acik_kapal" Type="bit" />
+          <Property Name="cari_BUV_tabi_fl" Type="bit" />
+          <Property Name="cari_cari_kilitli_flg" Type="bit" />
+          <Property Name="cari_etiket_bas_fl" Type="bit" />
+          <Property Name="cari_Detay_incele_flg" Type="bit" />
+          <Property Name="cari_efatura_fl" Type="bit" />
+          <Property Name="cari_POS_ongpesyuzde" Type="float" />
+          <Property Name="cari_POS_ongtaksayi" Type="float" />
+          <Property Name="cari_POS_ongIskOran" Type="float" />
+          <Property Name="cari_kaydagiristarihi" Type="datetime" />
+          <Property Name="cari_KabEdFCekTutar" Type="float" />
+          <Property Name="cari_hal_caritip" Type="tinyint" />
+          <Property Name="cari_HalKomYuzdesi" Type="float" />
+          <Property Name="cari_TeslimSuresi" Type="smallint" />
+          <Property Name="cari_wwwadresi" Type="nvarchar" MaxLength="30" />
+          <Property Name="cari_EMail" Type="nvarchar" MaxLength="127" />
+          <Property Name="cari_CepTel" Type="nvarchar" MaxLength="20" />
+          <Property Name="cari_VarsayilanGirisDepo" Type="int" />
+          <Property Name="cari_VarsayilanCikisDepo" Type="int" />
+          <Property Name="cari_Portal_Enabled" Type="bit" />
+          <Property Name="cari_Portal_PW" Type="nvarchar" MaxLength="127" />
+          <Property Name="cari_BagliOrtaklisa_Firma" Type="int" />
+          <Property Name="cari_kampanyakodu" Type="nvarchar" MaxLength="4" />
+          <Property Name="cari_b_bakiye_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="cari_a_bakiye_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="cari_b_irsbakiye_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="cari_a_irsbakiye_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="cari_b_sipbakiye_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="cari_a_sipbakiye_degerlendirilmesin_fl" Type="bit" />
+          <Property Name="cari_AvmBilgileri1KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri1TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri2KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri2TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri3KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri3TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri4KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri4TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri5KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri5TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri6KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri6TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri7KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri7TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri8KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri8TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri9KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri9TebligatSekli" Type="tinyint" />
+          <Property Name="cari_AvmBilgileri10KiraKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_AvmBilgileri10TebligatSekli" Type="tinyint" />
+          <Property Name="cari_KrediRiskTakibiVar_flg" Type="bit" />
+          <Property Name="cari_ufrs_fark_muh_kod" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_ufrs_fark_muh_kod1" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_ufrs_fark_muh_kod2" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_odeme_sekli" Type="tinyint" />
+          <Property Name="cari_TeminatMekAlacakMuhKodu" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_TeminatMekAlacakMuhKodu1" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_TeminatMekAlacakMuhKodu2" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_TeminatMekBorcMuhKodu" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_TeminatMekBorcMuhKodu1" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_TeminatMekBorcMuhKodu2" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_VerilenDepozitoTeminatMuhKodu" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_VerilenDepozitoTeminatMuhKodu1" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_VerilenDepozitoTeminatMuhKodu2" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_AlinanDepozitoTeminatMuhKodu" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_AlinanDepozitoTeminatMuhKodu1" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_AlinanDepozitoTeminatMuhKodu2" Type="nvarchar" MaxLength="40" />
+          <Property Name="cari_def_efatura_cinsi" Type="tinyint" />
+          <Property Name="cari_otv_tevkifatina_tabii_fl" Type="bit" />
+          <Property Name="cari_KEP_adresi" Type="nvarchar" MaxLength="80" />
+          <Property Name="cari_efatura_baslangic_tarihi" Type="datetime" />
+          <Property Name="cari_mutabakat_mail_adresi" Type="nvarchar" MaxLength="80" />
+          <Property Name="cari_mersis_no" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_istasyon_cari_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="cari_gonderionayi_sms" Type="bit" />
+          <Property Name="cari_gonderionayi_email" Type="bit" />
+          <Property Name="cari_eirsaliye_fl" Type="bit" />
+          <Property Name="cari_eirsaliye_baslangic_tarihi" Type="datetime" />
+          <Property Name="cari_vergidairekodu" Type="nvarchar" MaxLength="10" />
+          <Property Name="cari_CRM_sistemine_aktar_fl" Type="bit" />
+          <Property Name="cari_efatura_xslt_dosya" Type="nvarchar" MaxLength="127" />
+          <Property Name="cari_pasaport_no" Type="nvarchar" MaxLength="20" />
+          <Property Name="cari_kisi_kimlik_bilgisi_aciklama_turu" Type="tinyint" />
+          <Property Name="cari_kisi_kimlik_bilgisi_diger_aciklama" Type="nvarchar" MaxLength="50" />
+          <Property Name="cari_uts_kurum_no" Type="nvarchar" MaxLength="15" />
+          <Property Name="cari_kamu_kurumu_fl" Type="bit" />
+          <Property Name="cari_earsiv_xslt_dosya" Type="nvarchar" MaxLength="127" />
+          <Property Name="cari_Perakende_fl" Type="bit" />
+        </EntityType>
+        <EntityType Name="SIPARISLER">
+          <Key>
+            <PropertyRef Name="sip_Guid" />
+          </Key>
+          <Property Name="sip_Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="sip_DBCno" Type="smallint" Nullable="false" />
+          <Property Name="sip_SpecRECno" Type="int" />
+          <Property Name="sip_iptal" Type="bit" />
+          <Property Name="sip_fileid" Type="smallint" />
+          <Property Name="sip_hidden" Type="bit" />
+          <Property Name="sip_kilitli" Type="bit" />
+          <Property Name="sip_degisti" Type="bit" />
+          <Property Name="sip_checksum" Type="int" />
+          <Property Name="sip_create_user" Type="smallint" />
+          <Property Name="sip_create_date" Type="datetime" Nullable="false" />
+          <Property Name="sip_lastup_user" Type="smallint" />
+          <Property Name="sip_lastup_date" Type="datetime" />
+          <Property Name="sip_special1" Type="nvarchar" MaxLength="4" />
+          <Property Name="sip_special2" Type="nvarchar" MaxLength="4" />
+          <Property Name="sip_special3" Type="nvarchar" MaxLength="4" />
+          <Property Name="sip_firmano" Type="int" />
+          <Property Name="sip_subeno" Type="int" />
+          <Property Name="sip_tarih" Type="datetime" />
+          <Property Name="sip_teslim_tarih" Type="datetime" />
+          <Property Name="sip_tip" Type="tinyint" />
+          <Property Name="sip_cins" Type="tinyint" />
+          <Property Name="sip_evrakno_seri" Type="nvarchar" MaxLength="20" />
+          <Property Name="sip_evrakno_sira" Type="int" />
+          <Property Name="sip_satirno" Type="int" />
+          <Property Name="sip_belgeno" Type="nvarchar" MaxLength="50" />
+          <Property Name="sip_belge_tarih" Type="datetime" />
+          <Property Name="sip_satici_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_musteri_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_stok_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_b_fiyat" Type="float" />
+          <Property Name="sip_miktar" Type="float" />
+          <Property Name="sip_birim_pntr" Type="tinyint" />
+          <Property Name="sip_teslim_miktar" Type="float" />
+          <Property Name="sip_tutar" Type="float" />
+          <Property Name="sip_iskonto_1" Type="float" />
+          <Property Name="sip_iskonto_2" Type="float" />
+          <Property Name="sip_iskonto_3" Type="float" />
+          <Property Name="sip_iskonto_4" Type="float" />
+          <Property Name="sip_iskonto_5" Type="float" />
+          <Property Name="sip_iskonto_6" Type="float" />
+          <Property Name="sip_masraf_1" Type="float" />
+          <Property Name="sip_masraf_2" Type="float" />
+          <Property Name="sip_masraf_3" Type="float" />
+          <Property Name="sip_masraf_4" Type="float" />
+          <Property Name="sip_vergi_pntr" Type="tinyint" />
+          <Property Name="sip_vergi" Type="float" />
+          <Property Name="sip_masvergi_pntr" Type="tinyint" />
+          <Property Name="sip_masvergi" Type="float" />
+          <Property Name="sip_opno" Type="int" />
+          <Property Name="sip_aciklama" Type="nvarchar" MaxLength="50" />
+          <Property Name="sip_aciklama2" Type="nvarchar" MaxLength="50" />
+          <Property Name="sip_depono" Type="int" />
+          <Property Name="sip_OnaylayanKulNo" Type="smallint" />
+          <Property Name="sip_vergisiz_fl" Type="bit" />
+          <Property Name="sip_kapat_fl" Type="bit" />
+          <Property Name="sip_promosyon_fl" Type="bit" />
+          <Property Name="sip_cari_sormerk" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_stok_sormerk" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_cari_grupno" Type="tinyint" />
+          <Property Name="sip_doviz_cinsi" Type="tinyint" />
+          <Property Name="sip_doviz_kuru" Type="float" />
+          <Property Name="sip_alt_doviz_kuru" Type="float" />
+          <Property Name="sip_adresno" Type="int" />
+          <Property Name="sip_teslimturu" Type="nvarchar" MaxLength="4" />
+          <Property Name="sip_cagrilabilir_fl" Type="bit" />
+          <Property Name="sip_prosip_uid" Type="uniqueidentifier" />
+          <Property Name="sip_iskonto1" Type="tinyint" />
+          <Property Name="sip_iskonto2" Type="tinyint" />
+          <Property Name="sip_iskonto3" Type="tinyint" />
+          <Property Name="sip_iskonto4" Type="tinyint" />
+          <Property Name="sip_iskonto5" Type="tinyint" />
+          <Property Name="sip_iskonto6" Type="tinyint" />
+          <Property Name="sip_masraf1" Type="tinyint" />
+          <Property Name="sip_masraf2" Type="tinyint" />
+          <Property Name="sip_masraf3" Type="tinyint" />
+          <Property Name="sip_masraf4" Type="tinyint" />
+          <Property Name="sip_isk1" Type="bit" />
+          <Property Name="sip_isk2" Type="bit" />
+          <Property Name="sip_isk3" Type="bit" />
+          <Property Name="sip_isk4" Type="bit" />
+          <Property Name="sip_isk5" Type="bit" />
+          <Property Name="sip_isk6" Type="bit" />
+          <Property Name="sip_mas1" Type="bit" />
+          <Property Name="sip_mas2" Type="bit" />
+          <Property Name="sip_mas3" Type="bit" />
+          <Property Name="sip_mas4" Type="bit" />
+          <Property Name="sip_Exp_Imp_Kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_kar_orani" Type="float" />
+          <Property Name="sip_durumu" Type="tinyint" />
+          <Property Name="sip_stal_uid" Type="uniqueidentifier" />
+          <Property Name="sip_planlananmiktar" Type="float" />
+          <Property Name="sip_teklif_uid" Type="uniqueidentifier" />
+          <Property Name="sip_parti_kodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_lot_no" Type="int" />
+          <Property Name="sip_projekodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_fiyat_liste_no" Type="int" />
+          <Property Name="sip_Otv_Pntr" Type="tinyint" />
+          <Property Name="sip_Otv_Vergi" Type="float" />
+          <Property Name="sip_otvtutari" Type="float" />
+          <Property Name="sip_OtvVergisiz_Fl" Type="tinyint" />
+          <Property Name="sip_paket_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_Rez_uid" Type="uniqueidentifier" />
+          <Property Name="sip_harekettipi" Type="tinyint" />
+          <Property Name="sip_yetkili_uid" Type="uniqueidentifier" />
+          <Property Name="sip_kapatmanedenkod" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_gecerlilik_tarihi" Type="datetime" />
+          <Property Name="sip_onodeme_evrak_tip" Type="tinyint" />
+          <Property Name="sip_onodeme_evrak_seri" Type="nvarchar" MaxLength="20" />
+          <Property Name="sip_onodeme_evrak_sira" Type="int" />
+          <Property Name="sip_rezervasyon_miktari" Type="float" />
+          <Property Name="sip_rezerveden_teslim_edilen" Type="float" />
+          <Property Name="sip_HareketGrupKodu1" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_HareketGrupKodu2" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_HareketGrupKodu3" Type="nvarchar" MaxLength="25" />
+          <Property Name="sip_Olcu1" Type="float" />
+          <Property Name="sip_Olcu2" Type="float" />
+          <Property Name="sip_Olcu3" Type="float" />
+          <Property Name="sip_Olcu4" Type="float" />
+          <Property Name="sip_Olcu5" Type="float" />
+          <Property Name="sip_FormulMiktarNo" Type="tinyint" />
+          <Property Name="sip_FormulMiktar" Type="float" />
+        </EntityType>
         <EntityType Name="STOK_ANA_GRUPLARI">
           <Key>
             <PropertyRef Name="san_Guid" />
@@ -401,12 +723,14 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
           <Key>
             <PropertyRef Name="product_code" />
           </Key>
-          <Property Name="product_code" Type="nvarchar" MaxLength="25" Nullable="false" StoreGeneratedPattern="None" />
+          <Property Name="product_code" Type="nvarchar" MaxLength="25" Nullable="false" />
           <Property Name="product_name" Type="nvarchar" MaxLength="127" />
           <Property Name="product_price" Type="float" />
           <Property Name="product_quantity" Type="float" />
         </EntityType>
         <EntityContainer Name="MikroModelStoreContainer">
+          <EntitySet Name="CARI_HESAPLAR" EntityType="Self.CARI_HESAPLAR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SIPARISLER" EntityType="Self.SIPARISLER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOK_ANA_GRUPLARI" EntityType="Self.STOK_ANA_GRUPLARI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOK_SATIS_FIYAT_LISTELERI" EntityType="Self.STOK_SATIS_FIYAT_LISTELERI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOKLAR" EntityType="Self.STOKLAR" Schema="dbo" store:Type="Tables" />
@@ -822,6 +1146,8 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
           <EntitySet Name="URUN_RECETELERI" EntityType="Self.URUN_RECETELERI" />
           <EntitySet Name="URUNLER" EntityType="Self.URUNLER" />
           <EntitySet Name="Products" EntityType="MikroModel.Products" />
+          <EntitySet Name="CARI_HESAPLAR" EntityType="MikroModel.CARI_HESAPLAR" />
+          <EntitySet Name="SIPARISLER" EntityType="MikroModel.SIPARISLER" />
         </EntityContainer>
         <EntityType Name="Products">
           <Key>
@@ -831,6 +1157,328 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
           <Property Name="product_name" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
           <Property Name="product_price" Type="Double" />
           <Property Name="product_quantity" Type="Double" />
+        </EntityType>
+        <EntityType Name="CARI_HESAPLAR">
+          <Key>
+            <PropertyRef Name="cari_Guid" />
+          </Key>
+          <Property Name="cari_Guid" Type="Guid" Nullable="false" />
+          <Property Name="cari_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="cari_SpecRECno" Type="Int32" />
+          <Property Name="cari_iptal" Type="Boolean" />
+          <Property Name="cari_fileid" Type="Int16" />
+          <Property Name="cari_hidden" Type="Boolean" />
+          <Property Name="cari_kilitli" Type="Boolean" />
+          <Property Name="cari_degisti" Type="Boolean" />
+          <Property Name="cari_checksum" Type="Int32" />
+          <Property Name="cari_create_user" Type="Int16" />
+          <Property Name="cari_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="cari_lastup_user" Type="Int16" />
+          <Property Name="cari_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="cari_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_unvan1" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="cari_unvan2" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="cari_hareket_tipi" Type="Byte" />
+          <Property Name="cari_baglanti_tipi" Type="Byte" />
+          <Property Name="cari_stok_alim_cinsi" Type="Byte" />
+          <Property Name="cari_stok_satim_cinsi" Type="Byte" />
+          <Property Name="cari_muh_kod" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_muh_kod1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_muh_kod2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_doviz_cinsi" Type="Byte" />
+          <Property Name="cari_doviz_cinsi1" Type="Byte" />
+          <Property Name="cari_doviz_cinsi2" Type="Byte" />
+          <Property Name="cari_vade_fark_yuz" Type="Double" />
+          <Property Name="cari_vade_fark_yuz1" Type="Double" />
+          <Property Name="cari_vade_fark_yuz2" Type="Double" />
+          <Property Name="cari_KurHesapSekli" Type="Byte" />
+          <Property Name="cari_vdaire_adi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cari_vdaire_no" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="cari_sicil_no" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="cari_VergiKimlikNo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="cari_satis_fk" Type="Int32" />
+          <Property Name="cari_odeme_cinsi" Type="Byte" />
+          <Property Name="cari_odeme_gunu" Type="Byte" />
+          <Property Name="cari_odemeplan_no" Type="Int32" />
+          <Property Name="cari_opsiyon_gun" Type="Int32" />
+          <Property Name="cari_cariodemetercihi" Type="Byte" />
+          <Property Name="cari_fatura_adres_no" Type="Int32" />
+          <Property Name="cari_sevk_adres_no" Type="Int32" />
+          <Property Name="cari_banka_tcmb_kod1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod1" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod1" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno1" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod2" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod2" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno2" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu2" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod3" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod3" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno3" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu3" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod4" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod4" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod4" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno4" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu4" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod5" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod5" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod5" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno5" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu5" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod6" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod6" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod6" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno6" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu6" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod7" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod7" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod7" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno7" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu7" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod8" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod8" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod8" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno8" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu8" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod9" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod9" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod9" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno9" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu9" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_kod10" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_subekod10" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_tcmb_ilkod10" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_hesapno10" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_banka_swiftkodu10" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_EftHesapNum" Type="Byte" />
+          <Property Name="cari_Ana_cari_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_satis_isk_kod" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_sektor_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_bolge_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_grup_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_temsilci_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_muhartikeli" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="cari_firma_acik_kapal" Type="Boolean" />
+          <Property Name="cari_BUV_tabi_fl" Type="Boolean" />
+          <Property Name="cari_cari_kilitli_flg" Type="Boolean" />
+          <Property Name="cari_etiket_bas_fl" Type="Boolean" />
+          <Property Name="cari_Detay_incele_flg" Type="Boolean" />
+          <Property Name="cari_efatura_fl" Type="Boolean" />
+          <Property Name="cari_POS_ongpesyuzde" Type="Double" />
+          <Property Name="cari_POS_ongtaksayi" Type="Double" />
+          <Property Name="cari_POS_ongIskOran" Type="Double" />
+          <Property Name="cari_kaydagiristarihi" Type="DateTime" Precision="3" />
+          <Property Name="cari_KabEdFCekTutar" Type="Double" />
+          <Property Name="cari_hal_caritip" Type="Byte" />
+          <Property Name="cari_HalKomYuzdesi" Type="Double" />
+          <Property Name="cari_TeslimSuresi" Type="Int16" />
+          <Property Name="cari_wwwadresi" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="cari_EMail" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="cari_CepTel" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="cari_VarsayilanGirisDepo" Type="Int32" />
+          <Property Name="cari_VarsayilanCikisDepo" Type="Int32" />
+          <Property Name="cari_Portal_Enabled" Type="Boolean" />
+          <Property Name="cari_Portal_PW" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="cari_BagliOrtaklisa_Firma" Type="Int32" />
+          <Property Name="cari_kampanyakodu" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="cari_b_bakiye_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="cari_a_bakiye_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="cari_b_irsbakiye_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="cari_a_irsbakiye_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="cari_b_sipbakiye_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="cari_a_sipbakiye_degerlendirilmesin_fl" Type="Boolean" />
+          <Property Name="cari_AvmBilgileri1KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri1TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri2KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri2TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri3KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri3TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri4KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri4TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri5KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri5TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri6KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri6TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri7KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri7TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri8KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri8TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri9KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri9TebligatSekli" Type="Byte" />
+          <Property Name="cari_AvmBilgileri10KiraKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AvmBilgileri10TebligatSekli" Type="Byte" />
+          <Property Name="cari_KrediRiskTakibiVar_flg" Type="Boolean" />
+          <Property Name="cari_ufrs_fark_muh_kod" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_ufrs_fark_muh_kod1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_ufrs_fark_muh_kod2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_odeme_sekli" Type="Byte" />
+          <Property Name="cari_TeminatMekAlacakMuhKodu" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_TeminatMekAlacakMuhKodu1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_TeminatMekAlacakMuhKodu2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_TeminatMekBorcMuhKodu" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_TeminatMekBorcMuhKodu1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_TeminatMekBorcMuhKodu2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_VerilenDepozitoTeminatMuhKodu" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_VerilenDepozitoTeminatMuhKodu1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_VerilenDepozitoTeminatMuhKodu2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AlinanDepozitoTeminatMuhKodu" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AlinanDepozitoTeminatMuhKodu1" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_AlinanDepozitoTeminatMuhKodu2" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="cari_def_efatura_cinsi" Type="Byte" />
+          <Property Name="cari_otv_tevkifatina_tabii_fl" Type="Boolean" />
+          <Property Name="cari_KEP_adresi" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="cari_efatura_baslangic_tarihi" Type="DateTime" Precision="3" />
+          <Property Name="cari_mutabakat_mail_adresi" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="cari_mersis_no" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_istasyon_cari_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="cari_gonderionayi_sms" Type="Boolean" />
+          <Property Name="cari_gonderionayi_email" Type="Boolean" />
+          <Property Name="cari_eirsaliye_fl" Type="Boolean" />
+          <Property Name="cari_eirsaliye_baslangic_tarihi" Type="DateTime" Precision="3" />
+          <Property Name="cari_vergidairekodu" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="cari_CRM_sistemine_aktar_fl" Type="Boolean" />
+          <Property Name="cari_efatura_xslt_dosya" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="cari_pasaport_no" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="cari_kisi_kimlik_bilgisi_aciklama_turu" Type="Byte" />
+          <Property Name="cari_kisi_kimlik_bilgisi_diger_aciklama" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cari_uts_kurum_no" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Name="cari_kamu_kurumu_fl" Type="Boolean" />
+          <Property Name="cari_earsiv_xslt_dosya" Type="String" MaxLength="127" FixedLength="false" Unicode="true" />
+          <Property Name="cari_Perakende_fl" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="SIPARISLER">
+          <Key>
+            <PropertyRef Name="sip_Guid" />
+          </Key>
+          <Property Name="sip_Guid" Type="Guid" Nullable="false" />
+          <Property Name="sip_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="sip_SpecRECno" Type="Int32" />
+          <Property Name="sip_iptal" Type="Boolean" />
+          <Property Name="sip_fileid" Type="Int16" />
+          <Property Name="sip_hidden" Type="Boolean" />
+          <Property Name="sip_kilitli" Type="Boolean" />
+          <Property Name="sip_degisti" Type="Boolean" />
+          <Property Name="sip_checksum" Type="Int32" />
+          <Property Name="sip_create_user" Type="Int16" />
+          <Property Name="sip_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sip_lastup_user" Type="Int16" />
+          <Property Name="sip_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="sip_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sip_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sip_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sip_firmano" Type="Int32" />
+          <Property Name="sip_subeno" Type="Int32" />
+          <Property Name="sip_tarih" Type="DateTime" Precision="3" />
+          <Property Name="sip_teslim_tarih" Type="DateTime" Precision="3" />
+          <Property Name="sip_tip" Type="Byte" />
+          <Property Name="sip_cins" Type="Byte" />
+          <Property Name="sip_evrakno_seri" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="sip_evrakno_sira" Type="Int32" />
+          <Property Name="sip_satirno" Type="Int32" />
+          <Property Name="sip_belgeno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sip_belge_tarih" Type="DateTime" Precision="3" />
+          <Property Name="sip_satici_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_musteri_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_stok_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_b_fiyat" Type="Double" />
+          <Property Name="sip_miktar" Type="Double" />
+          <Property Name="sip_birim_pntr" Type="Byte" />
+          <Property Name="sip_teslim_miktar" Type="Double" />
+          <Property Name="sip_tutar" Type="Double" />
+          <Property Name="sip_iskonto_1" Type="Double" />
+          <Property Name="sip_iskonto_2" Type="Double" />
+          <Property Name="sip_iskonto_3" Type="Double" />
+          <Property Name="sip_iskonto_4" Type="Double" />
+          <Property Name="sip_iskonto_5" Type="Double" />
+          <Property Name="sip_iskonto_6" Type="Double" />
+          <Property Name="sip_masraf_1" Type="Double" />
+          <Property Name="sip_masraf_2" Type="Double" />
+          <Property Name="sip_masraf_3" Type="Double" />
+          <Property Name="sip_masraf_4" Type="Double" />
+          <Property Name="sip_vergi_pntr" Type="Byte" />
+          <Property Name="sip_vergi" Type="Double" />
+          <Property Name="sip_masvergi_pntr" Type="Byte" />
+          <Property Name="sip_masvergi" Type="Double" />
+          <Property Name="sip_opno" Type="Int32" />
+          <Property Name="sip_aciklama" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sip_aciklama2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sip_depono" Type="Int32" />
+          <Property Name="sip_OnaylayanKulNo" Type="Int16" />
+          <Property Name="sip_vergisiz_fl" Type="Boolean" />
+          <Property Name="sip_kapat_fl" Type="Boolean" />
+          <Property Name="sip_promosyon_fl" Type="Boolean" />
+          <Property Name="sip_cari_sormerk" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_stok_sormerk" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_cari_grupno" Type="Byte" />
+          <Property Name="sip_doviz_cinsi" Type="Byte" />
+          <Property Name="sip_doviz_kuru" Type="Double" />
+          <Property Name="sip_alt_doviz_kuru" Type="Double" />
+          <Property Name="sip_adresno" Type="Int32" />
+          <Property Name="sip_teslimturu" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="sip_cagrilabilir_fl" Type="Boolean" />
+          <Property Name="sip_prosip_uid" Type="Guid" />
+          <Property Name="sip_iskonto1" Type="Byte" />
+          <Property Name="sip_iskonto2" Type="Byte" />
+          <Property Name="sip_iskonto3" Type="Byte" />
+          <Property Name="sip_iskonto4" Type="Byte" />
+          <Property Name="sip_iskonto5" Type="Byte" />
+          <Property Name="sip_iskonto6" Type="Byte" />
+          <Property Name="sip_masraf1" Type="Byte" />
+          <Property Name="sip_masraf2" Type="Byte" />
+          <Property Name="sip_masraf3" Type="Byte" />
+          <Property Name="sip_masraf4" Type="Byte" />
+          <Property Name="sip_isk1" Type="Boolean" />
+          <Property Name="sip_isk2" Type="Boolean" />
+          <Property Name="sip_isk3" Type="Boolean" />
+          <Property Name="sip_isk4" Type="Boolean" />
+          <Property Name="sip_isk5" Type="Boolean" />
+          <Property Name="sip_isk6" Type="Boolean" />
+          <Property Name="sip_mas1" Type="Boolean" />
+          <Property Name="sip_mas2" Type="Boolean" />
+          <Property Name="sip_mas3" Type="Boolean" />
+          <Property Name="sip_mas4" Type="Boolean" />
+          <Property Name="sip_Exp_Imp_Kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_kar_orani" Type="Double" />
+          <Property Name="sip_durumu" Type="Byte" />
+          <Property Name="sip_stal_uid" Type="Guid" />
+          <Property Name="sip_planlananmiktar" Type="Double" />
+          <Property Name="sip_teklif_uid" Type="Guid" />
+          <Property Name="sip_parti_kodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_lot_no" Type="Int32" />
+          <Property Name="sip_projekodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_fiyat_liste_no" Type="Int32" />
+          <Property Name="sip_Otv_Pntr" Type="Byte" />
+          <Property Name="sip_Otv_Vergi" Type="Double" />
+          <Property Name="sip_otvtutari" Type="Double" />
+          <Property Name="sip_OtvVergisiz_Fl" Type="Byte" />
+          <Property Name="sip_paket_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_Rez_uid" Type="Guid" />
+          <Property Name="sip_harekettipi" Type="Byte" />
+          <Property Name="sip_yetkili_uid" Type="Guid" />
+          <Property Name="sip_kapatmanedenkod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_gecerlilik_tarihi" Type="DateTime" Precision="3" />
+          <Property Name="sip_onodeme_evrak_tip" Type="Byte" />
+          <Property Name="sip_onodeme_evrak_seri" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="sip_onodeme_evrak_sira" Type="Int32" />
+          <Property Name="sip_rezervasyon_miktari" Type="Double" />
+          <Property Name="sip_rezerveden_teslim_edilen" Type="Double" />
+          <Property Name="sip_HareketGrupKodu1" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_HareketGrupKodu2" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_HareketGrupKodu3" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="sip_Olcu1" Type="Double" />
+          <Property Name="sip_Olcu2" Type="Double" />
+          <Property Name="sip_Olcu3" Type="Double" />
+          <Property Name="sip_Olcu4" Type="Double" />
+          <Property Name="sip_Olcu5" Type="Double" />
+          <Property Name="sip_FormulMiktarNo" Type="Byte" />
+          <Property Name="sip_FormulMiktar" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1240,6 +1888,330 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
                 <ScalarProperty Name="product_price" ColumnName="product_price" />
                 <ScalarProperty Name="product_name" ColumnName="product_name" />
                 <ScalarProperty Name="product_code" ColumnName="product_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CARI_HESAPLAR">
+            <EntityTypeMapping TypeName="MikroModel.CARI_HESAPLAR">
+              <MappingFragment StoreEntitySet="CARI_HESAPLAR">
+                <ScalarProperty Name="cari_Perakende_fl" ColumnName="cari_Perakende_fl" />
+                <ScalarProperty Name="cari_earsiv_xslt_dosya" ColumnName="cari_earsiv_xslt_dosya" />
+                <ScalarProperty Name="cari_kamu_kurumu_fl" ColumnName="cari_kamu_kurumu_fl" />
+                <ScalarProperty Name="cari_uts_kurum_no" ColumnName="cari_uts_kurum_no" />
+                <ScalarProperty Name="cari_kisi_kimlik_bilgisi_diger_aciklama" ColumnName="cari_kisi_kimlik_bilgisi_diger_aciklama" />
+                <ScalarProperty Name="cari_kisi_kimlik_bilgisi_aciklama_turu" ColumnName="cari_kisi_kimlik_bilgisi_aciklama_turu" />
+                <ScalarProperty Name="cari_pasaport_no" ColumnName="cari_pasaport_no" />
+                <ScalarProperty Name="cari_efatura_xslt_dosya" ColumnName="cari_efatura_xslt_dosya" />
+                <ScalarProperty Name="cari_CRM_sistemine_aktar_fl" ColumnName="cari_CRM_sistemine_aktar_fl" />
+                <ScalarProperty Name="cari_vergidairekodu" ColumnName="cari_vergidairekodu" />
+                <ScalarProperty Name="cari_eirsaliye_baslangic_tarihi" ColumnName="cari_eirsaliye_baslangic_tarihi" />
+                <ScalarProperty Name="cari_eirsaliye_fl" ColumnName="cari_eirsaliye_fl" />
+                <ScalarProperty Name="cari_gonderionayi_email" ColumnName="cari_gonderionayi_email" />
+                <ScalarProperty Name="cari_gonderionayi_sms" ColumnName="cari_gonderionayi_sms" />
+                <ScalarProperty Name="cari_istasyon_cari_kodu" ColumnName="cari_istasyon_cari_kodu" />
+                <ScalarProperty Name="cari_mersis_no" ColumnName="cari_mersis_no" />
+                <ScalarProperty Name="cari_mutabakat_mail_adresi" ColumnName="cari_mutabakat_mail_adresi" />
+                <ScalarProperty Name="cari_efatura_baslangic_tarihi" ColumnName="cari_efatura_baslangic_tarihi" />
+                <ScalarProperty Name="cari_KEP_adresi" ColumnName="cari_KEP_adresi" />
+                <ScalarProperty Name="cari_otv_tevkifatina_tabii_fl" ColumnName="cari_otv_tevkifatina_tabii_fl" />
+                <ScalarProperty Name="cari_def_efatura_cinsi" ColumnName="cari_def_efatura_cinsi" />
+                <ScalarProperty Name="cari_AlinanDepozitoTeminatMuhKodu2" ColumnName="cari_AlinanDepozitoTeminatMuhKodu2" />
+                <ScalarProperty Name="cari_AlinanDepozitoTeminatMuhKodu1" ColumnName="cari_AlinanDepozitoTeminatMuhKodu1" />
+                <ScalarProperty Name="cari_AlinanDepozitoTeminatMuhKodu" ColumnName="cari_AlinanDepozitoTeminatMuhKodu" />
+                <ScalarProperty Name="cari_VerilenDepozitoTeminatMuhKodu2" ColumnName="cari_VerilenDepozitoTeminatMuhKodu2" />
+                <ScalarProperty Name="cari_VerilenDepozitoTeminatMuhKodu1" ColumnName="cari_VerilenDepozitoTeminatMuhKodu1" />
+                <ScalarProperty Name="cari_VerilenDepozitoTeminatMuhKodu" ColumnName="cari_VerilenDepozitoTeminatMuhKodu" />
+                <ScalarProperty Name="cari_TeminatMekBorcMuhKodu2" ColumnName="cari_TeminatMekBorcMuhKodu2" />
+                <ScalarProperty Name="cari_TeminatMekBorcMuhKodu1" ColumnName="cari_TeminatMekBorcMuhKodu1" />
+                <ScalarProperty Name="cari_TeminatMekBorcMuhKodu" ColumnName="cari_TeminatMekBorcMuhKodu" />
+                <ScalarProperty Name="cari_TeminatMekAlacakMuhKodu2" ColumnName="cari_TeminatMekAlacakMuhKodu2" />
+                <ScalarProperty Name="cari_TeminatMekAlacakMuhKodu1" ColumnName="cari_TeminatMekAlacakMuhKodu1" />
+                <ScalarProperty Name="cari_TeminatMekAlacakMuhKodu" ColumnName="cari_TeminatMekAlacakMuhKodu" />
+                <ScalarProperty Name="cari_odeme_sekli" ColumnName="cari_odeme_sekli" />
+                <ScalarProperty Name="cari_ufrs_fark_muh_kod2" ColumnName="cari_ufrs_fark_muh_kod2" />
+                <ScalarProperty Name="cari_ufrs_fark_muh_kod1" ColumnName="cari_ufrs_fark_muh_kod1" />
+                <ScalarProperty Name="cari_ufrs_fark_muh_kod" ColumnName="cari_ufrs_fark_muh_kod" />
+                <ScalarProperty Name="cari_KrediRiskTakibiVar_flg" ColumnName="cari_KrediRiskTakibiVar_flg" />
+                <ScalarProperty Name="cari_AvmBilgileri10TebligatSekli" ColumnName="cari_AvmBilgileri10TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri10KiraKodu" ColumnName="cari_AvmBilgileri10KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri9TebligatSekli" ColumnName="cari_AvmBilgileri9TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri9KiraKodu" ColumnName="cari_AvmBilgileri9KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri8TebligatSekli" ColumnName="cari_AvmBilgileri8TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri8KiraKodu" ColumnName="cari_AvmBilgileri8KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri7TebligatSekli" ColumnName="cari_AvmBilgileri7TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri7KiraKodu" ColumnName="cari_AvmBilgileri7KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri6TebligatSekli" ColumnName="cari_AvmBilgileri6TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri6KiraKodu" ColumnName="cari_AvmBilgileri6KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri5TebligatSekli" ColumnName="cari_AvmBilgileri5TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri5KiraKodu" ColumnName="cari_AvmBilgileri5KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri4TebligatSekli" ColumnName="cari_AvmBilgileri4TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri4KiraKodu" ColumnName="cari_AvmBilgileri4KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri3TebligatSekli" ColumnName="cari_AvmBilgileri3TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri3KiraKodu" ColumnName="cari_AvmBilgileri3KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri2TebligatSekli" ColumnName="cari_AvmBilgileri2TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri2KiraKodu" ColumnName="cari_AvmBilgileri2KiraKodu" />
+                <ScalarProperty Name="cari_AvmBilgileri1TebligatSekli" ColumnName="cari_AvmBilgileri1TebligatSekli" />
+                <ScalarProperty Name="cari_AvmBilgileri1KiraKodu" ColumnName="cari_AvmBilgileri1KiraKodu" />
+                <ScalarProperty Name="cari_a_sipbakiye_degerlendirilmesin_fl" ColumnName="cari_a_sipbakiye_degerlendirilmesin_fl" />
+                <ScalarProperty Name="cari_b_sipbakiye_degerlendirilmesin_fl" ColumnName="cari_b_sipbakiye_degerlendirilmesin_fl" />
+                <ScalarProperty Name="cari_a_irsbakiye_degerlendirilmesin_fl" ColumnName="cari_a_irsbakiye_degerlendirilmesin_fl" />
+                <ScalarProperty Name="cari_b_irsbakiye_degerlendirilmesin_fl" ColumnName="cari_b_irsbakiye_degerlendirilmesin_fl" />
+                <ScalarProperty Name="cari_a_bakiye_degerlendirilmesin_fl" ColumnName="cari_a_bakiye_degerlendirilmesin_fl" />
+                <ScalarProperty Name="cari_b_bakiye_degerlendirilmesin_fl" ColumnName="cari_b_bakiye_degerlendirilmesin_fl" />
+                <ScalarProperty Name="cari_kampanyakodu" ColumnName="cari_kampanyakodu" />
+                <ScalarProperty Name="cari_BagliOrtaklisa_Firma" ColumnName="cari_BagliOrtaklisa_Firma" />
+                <ScalarProperty Name="cari_Portal_PW" ColumnName="cari_Portal_PW" />
+                <ScalarProperty Name="cari_Portal_Enabled" ColumnName="cari_Portal_Enabled" />
+                <ScalarProperty Name="cari_VarsayilanCikisDepo" ColumnName="cari_VarsayilanCikisDepo" />
+                <ScalarProperty Name="cari_VarsayilanGirisDepo" ColumnName="cari_VarsayilanGirisDepo" />
+                <ScalarProperty Name="cari_CepTel" ColumnName="cari_CepTel" />
+                <ScalarProperty Name="cari_EMail" ColumnName="cari_EMail" />
+                <ScalarProperty Name="cari_wwwadresi" ColumnName="cari_wwwadresi" />
+                <ScalarProperty Name="cari_TeslimSuresi" ColumnName="cari_TeslimSuresi" />
+                <ScalarProperty Name="cari_HalKomYuzdesi" ColumnName="cari_HalKomYuzdesi" />
+                <ScalarProperty Name="cari_hal_caritip" ColumnName="cari_hal_caritip" />
+                <ScalarProperty Name="cari_KabEdFCekTutar" ColumnName="cari_KabEdFCekTutar" />
+                <ScalarProperty Name="cari_kaydagiristarihi" ColumnName="cari_kaydagiristarihi" />
+                <ScalarProperty Name="cari_POS_ongIskOran" ColumnName="cari_POS_ongIskOran" />
+                <ScalarProperty Name="cari_POS_ongtaksayi" ColumnName="cari_POS_ongtaksayi" />
+                <ScalarProperty Name="cari_POS_ongpesyuzde" ColumnName="cari_POS_ongpesyuzde" />
+                <ScalarProperty Name="cari_efatura_fl" ColumnName="cari_efatura_fl" />
+                <ScalarProperty Name="cari_Detay_incele_flg" ColumnName="cari_Detay_incele_flg" />
+                <ScalarProperty Name="cari_etiket_bas_fl" ColumnName="cari_etiket_bas_fl" />
+                <ScalarProperty Name="cari_cari_kilitli_flg" ColumnName="cari_cari_kilitli_flg" />
+                <ScalarProperty Name="cari_BUV_tabi_fl" ColumnName="cari_BUV_tabi_fl" />
+                <ScalarProperty Name="cari_firma_acik_kapal" ColumnName="cari_firma_acik_kapal" />
+                <ScalarProperty Name="cari_muhartikeli" ColumnName="cari_muhartikeli" />
+                <ScalarProperty Name="cari_temsilci_kodu" ColumnName="cari_temsilci_kodu" />
+                <ScalarProperty Name="cari_grup_kodu" ColumnName="cari_grup_kodu" />
+                <ScalarProperty Name="cari_bolge_kodu" ColumnName="cari_bolge_kodu" />
+                <ScalarProperty Name="cari_sektor_kodu" ColumnName="cari_sektor_kodu" />
+                <ScalarProperty Name="cari_satis_isk_kod" ColumnName="cari_satis_isk_kod" />
+                <ScalarProperty Name="cari_Ana_cari_kodu" ColumnName="cari_Ana_cari_kodu" />
+                <ScalarProperty Name="cari_EftHesapNum" ColumnName="cari_EftHesapNum" />
+                <ScalarProperty Name="cari_banka_swiftkodu10" ColumnName="cari_banka_swiftkodu10" />
+                <ScalarProperty Name="cari_banka_hesapno10" ColumnName="cari_banka_hesapno10" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod10" ColumnName="cari_banka_tcmb_ilkod10" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod10" ColumnName="cari_banka_tcmb_subekod10" />
+                <ScalarProperty Name="cari_banka_tcmb_kod10" ColumnName="cari_banka_tcmb_kod10" />
+                <ScalarProperty Name="cari_banka_swiftkodu9" ColumnName="cari_banka_swiftkodu9" />
+                <ScalarProperty Name="cari_banka_hesapno9" ColumnName="cari_banka_hesapno9" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod9" ColumnName="cari_banka_tcmb_ilkod9" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod9" ColumnName="cari_banka_tcmb_subekod9" />
+                <ScalarProperty Name="cari_banka_tcmb_kod9" ColumnName="cari_banka_tcmb_kod9" />
+                <ScalarProperty Name="cari_banka_swiftkodu8" ColumnName="cari_banka_swiftkodu8" />
+                <ScalarProperty Name="cari_banka_hesapno8" ColumnName="cari_banka_hesapno8" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod8" ColumnName="cari_banka_tcmb_ilkod8" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod8" ColumnName="cari_banka_tcmb_subekod8" />
+                <ScalarProperty Name="cari_banka_tcmb_kod8" ColumnName="cari_banka_tcmb_kod8" />
+                <ScalarProperty Name="cari_banka_swiftkodu7" ColumnName="cari_banka_swiftkodu7" />
+                <ScalarProperty Name="cari_banka_hesapno7" ColumnName="cari_banka_hesapno7" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod7" ColumnName="cari_banka_tcmb_ilkod7" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod7" ColumnName="cari_banka_tcmb_subekod7" />
+                <ScalarProperty Name="cari_banka_tcmb_kod7" ColumnName="cari_banka_tcmb_kod7" />
+                <ScalarProperty Name="cari_banka_swiftkodu6" ColumnName="cari_banka_swiftkodu6" />
+                <ScalarProperty Name="cari_banka_hesapno6" ColumnName="cari_banka_hesapno6" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod6" ColumnName="cari_banka_tcmb_ilkod6" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod6" ColumnName="cari_banka_tcmb_subekod6" />
+                <ScalarProperty Name="cari_banka_tcmb_kod6" ColumnName="cari_banka_tcmb_kod6" />
+                <ScalarProperty Name="cari_banka_swiftkodu5" ColumnName="cari_banka_swiftkodu5" />
+                <ScalarProperty Name="cari_banka_hesapno5" ColumnName="cari_banka_hesapno5" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod5" ColumnName="cari_banka_tcmb_ilkod5" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod5" ColumnName="cari_banka_tcmb_subekod5" />
+                <ScalarProperty Name="cari_banka_tcmb_kod5" ColumnName="cari_banka_tcmb_kod5" />
+                <ScalarProperty Name="cari_banka_swiftkodu4" ColumnName="cari_banka_swiftkodu4" />
+                <ScalarProperty Name="cari_banka_hesapno4" ColumnName="cari_banka_hesapno4" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod4" ColumnName="cari_banka_tcmb_ilkod4" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod4" ColumnName="cari_banka_tcmb_subekod4" />
+                <ScalarProperty Name="cari_banka_tcmb_kod4" ColumnName="cari_banka_tcmb_kod4" />
+                <ScalarProperty Name="cari_banka_swiftkodu3" ColumnName="cari_banka_swiftkodu3" />
+                <ScalarProperty Name="cari_banka_hesapno3" ColumnName="cari_banka_hesapno3" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod3" ColumnName="cari_banka_tcmb_ilkod3" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod3" ColumnName="cari_banka_tcmb_subekod3" />
+                <ScalarProperty Name="cari_banka_tcmb_kod3" ColumnName="cari_banka_tcmb_kod3" />
+                <ScalarProperty Name="cari_banka_swiftkodu2" ColumnName="cari_banka_swiftkodu2" />
+                <ScalarProperty Name="cari_banka_hesapno2" ColumnName="cari_banka_hesapno2" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod2" ColumnName="cari_banka_tcmb_ilkod2" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod2" ColumnName="cari_banka_tcmb_subekod2" />
+                <ScalarProperty Name="cari_banka_tcmb_kod2" ColumnName="cari_banka_tcmb_kod2" />
+                <ScalarProperty Name="cari_banka_swiftkodu1" ColumnName="cari_banka_swiftkodu1" />
+                <ScalarProperty Name="cari_banka_hesapno1" ColumnName="cari_banka_hesapno1" />
+                <ScalarProperty Name="cari_banka_tcmb_ilkod1" ColumnName="cari_banka_tcmb_ilkod1" />
+                <ScalarProperty Name="cari_banka_tcmb_subekod1" ColumnName="cari_banka_tcmb_subekod1" />
+                <ScalarProperty Name="cari_banka_tcmb_kod1" ColumnName="cari_banka_tcmb_kod1" />
+                <ScalarProperty Name="cari_sevk_adres_no" ColumnName="cari_sevk_adres_no" />
+                <ScalarProperty Name="cari_fatura_adres_no" ColumnName="cari_fatura_adres_no" />
+                <ScalarProperty Name="cari_cariodemetercihi" ColumnName="cari_cariodemetercihi" />
+                <ScalarProperty Name="cari_opsiyon_gun" ColumnName="cari_opsiyon_gun" />
+                <ScalarProperty Name="cari_odemeplan_no" ColumnName="cari_odemeplan_no" />
+                <ScalarProperty Name="cari_odeme_gunu" ColumnName="cari_odeme_gunu" />
+                <ScalarProperty Name="cari_odeme_cinsi" ColumnName="cari_odeme_cinsi" />
+                <ScalarProperty Name="cari_satis_fk" ColumnName="cari_satis_fk" />
+                <ScalarProperty Name="cari_VergiKimlikNo" ColumnName="cari_VergiKimlikNo" />
+                <ScalarProperty Name="cari_sicil_no" ColumnName="cari_sicil_no" />
+                <ScalarProperty Name="cari_vdaire_no" ColumnName="cari_vdaire_no" />
+                <ScalarProperty Name="cari_vdaire_adi" ColumnName="cari_vdaire_adi" />
+                <ScalarProperty Name="cari_KurHesapSekli" ColumnName="cari_KurHesapSekli" />
+                <ScalarProperty Name="cari_vade_fark_yuz2" ColumnName="cari_vade_fark_yuz2" />
+                <ScalarProperty Name="cari_vade_fark_yuz1" ColumnName="cari_vade_fark_yuz1" />
+                <ScalarProperty Name="cari_vade_fark_yuz" ColumnName="cari_vade_fark_yuz" />
+                <ScalarProperty Name="cari_doviz_cinsi2" ColumnName="cari_doviz_cinsi2" />
+                <ScalarProperty Name="cari_doviz_cinsi1" ColumnName="cari_doviz_cinsi1" />
+                <ScalarProperty Name="cari_doviz_cinsi" ColumnName="cari_doviz_cinsi" />
+                <ScalarProperty Name="cari_muh_kod2" ColumnName="cari_muh_kod2" />
+                <ScalarProperty Name="cari_muh_kod1" ColumnName="cari_muh_kod1" />
+                <ScalarProperty Name="cari_muh_kod" ColumnName="cari_muh_kod" />
+                <ScalarProperty Name="cari_stok_satim_cinsi" ColumnName="cari_stok_satim_cinsi" />
+                <ScalarProperty Name="cari_stok_alim_cinsi" ColumnName="cari_stok_alim_cinsi" />
+                <ScalarProperty Name="cari_baglanti_tipi" ColumnName="cari_baglanti_tipi" />
+                <ScalarProperty Name="cari_hareket_tipi" ColumnName="cari_hareket_tipi" />
+                <ScalarProperty Name="cari_unvan2" ColumnName="cari_unvan2" />
+                <ScalarProperty Name="cari_unvan1" ColumnName="cari_unvan1" />
+                <ScalarProperty Name="cari_kod" ColumnName="cari_kod" />
+                <ScalarProperty Name="cari_special3" ColumnName="cari_special3" />
+                <ScalarProperty Name="cari_special2" ColumnName="cari_special2" />
+                <ScalarProperty Name="cari_special1" ColumnName="cari_special1" />
+                <ScalarProperty Name="cari_lastup_date" ColumnName="cari_lastup_date" />
+                <ScalarProperty Name="cari_lastup_user" ColumnName="cari_lastup_user" />
+                <ScalarProperty Name="cari_create_date" ColumnName="cari_create_date" />
+                <ScalarProperty Name="cari_create_user" ColumnName="cari_create_user" />
+                <ScalarProperty Name="cari_checksum" ColumnName="cari_checksum" />
+                <ScalarProperty Name="cari_degisti" ColumnName="cari_degisti" />
+                <ScalarProperty Name="cari_kilitli" ColumnName="cari_kilitli" />
+                <ScalarProperty Name="cari_hidden" ColumnName="cari_hidden" />
+                <ScalarProperty Name="cari_fileid" ColumnName="cari_fileid" />
+                <ScalarProperty Name="cari_iptal" ColumnName="cari_iptal" />
+                <ScalarProperty Name="cari_SpecRECno" ColumnName="cari_SpecRECno" />
+                <ScalarProperty Name="cari_DBCno" ColumnName="cari_DBCno" />
+                <ScalarProperty Name="cari_Guid" ColumnName="cari_Guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SIPARISLER">
+            <EntityTypeMapping TypeName="MikroModel.SIPARISLER">
+              <MappingFragment StoreEntitySet="SIPARISLER">
+                <ScalarProperty Name="sip_FormulMiktar" ColumnName="sip_FormulMiktar" />
+                <ScalarProperty Name="sip_FormulMiktarNo" ColumnName="sip_FormulMiktarNo" />
+                <ScalarProperty Name="sip_Olcu5" ColumnName="sip_Olcu5" />
+                <ScalarProperty Name="sip_Olcu4" ColumnName="sip_Olcu4" />
+                <ScalarProperty Name="sip_Olcu3" ColumnName="sip_Olcu3" />
+                <ScalarProperty Name="sip_Olcu2" ColumnName="sip_Olcu2" />
+                <ScalarProperty Name="sip_Olcu1" ColumnName="sip_Olcu1" />
+                <ScalarProperty Name="sip_HareketGrupKodu3" ColumnName="sip_HareketGrupKodu3" />
+                <ScalarProperty Name="sip_HareketGrupKodu2" ColumnName="sip_HareketGrupKodu2" />
+                <ScalarProperty Name="sip_HareketGrupKodu1" ColumnName="sip_HareketGrupKodu1" />
+                <ScalarProperty Name="sip_rezerveden_teslim_edilen" ColumnName="sip_rezerveden_teslim_edilen" />
+                <ScalarProperty Name="sip_rezervasyon_miktari" ColumnName="sip_rezervasyon_miktari" />
+                <ScalarProperty Name="sip_onodeme_evrak_sira" ColumnName="sip_onodeme_evrak_sira" />
+                <ScalarProperty Name="sip_onodeme_evrak_seri" ColumnName="sip_onodeme_evrak_seri" />
+                <ScalarProperty Name="sip_onodeme_evrak_tip" ColumnName="sip_onodeme_evrak_tip" />
+                <ScalarProperty Name="sip_gecerlilik_tarihi" ColumnName="sip_gecerlilik_tarihi" />
+                <ScalarProperty Name="sip_kapatmanedenkod" ColumnName="sip_kapatmanedenkod" />
+                <ScalarProperty Name="sip_yetkili_uid" ColumnName="sip_yetkili_uid" />
+                <ScalarProperty Name="sip_harekettipi" ColumnName="sip_harekettipi" />
+                <ScalarProperty Name="sip_Rez_uid" ColumnName="sip_Rez_uid" />
+                <ScalarProperty Name="sip_paket_kod" ColumnName="sip_paket_kod" />
+                <ScalarProperty Name="sip_OtvVergisiz_Fl" ColumnName="sip_OtvVergisiz_Fl" />
+                <ScalarProperty Name="sip_otvtutari" ColumnName="sip_otvtutari" />
+                <ScalarProperty Name="sip_Otv_Vergi" ColumnName="sip_Otv_Vergi" />
+                <ScalarProperty Name="sip_Otv_Pntr" ColumnName="sip_Otv_Pntr" />
+                <ScalarProperty Name="sip_fiyat_liste_no" ColumnName="sip_fiyat_liste_no" />
+                <ScalarProperty Name="sip_projekodu" ColumnName="sip_projekodu" />
+                <ScalarProperty Name="sip_lot_no" ColumnName="sip_lot_no" />
+                <ScalarProperty Name="sip_parti_kodu" ColumnName="sip_parti_kodu" />
+                <ScalarProperty Name="sip_teklif_uid" ColumnName="sip_teklif_uid" />
+                <ScalarProperty Name="sip_planlananmiktar" ColumnName="sip_planlananmiktar" />
+                <ScalarProperty Name="sip_stal_uid" ColumnName="sip_stal_uid" />
+                <ScalarProperty Name="sip_durumu" ColumnName="sip_durumu" />
+                <ScalarProperty Name="sip_kar_orani" ColumnName="sip_kar_orani" />
+                <ScalarProperty Name="sip_Exp_Imp_Kodu" ColumnName="sip_Exp_Imp_Kodu" />
+                <ScalarProperty Name="sip_mas4" ColumnName="sip_mas4" />
+                <ScalarProperty Name="sip_mas3" ColumnName="sip_mas3" />
+                <ScalarProperty Name="sip_mas2" ColumnName="sip_mas2" />
+                <ScalarProperty Name="sip_mas1" ColumnName="sip_mas1" />
+                <ScalarProperty Name="sip_isk6" ColumnName="sip_isk6" />
+                <ScalarProperty Name="sip_isk5" ColumnName="sip_isk5" />
+                <ScalarProperty Name="sip_isk4" ColumnName="sip_isk4" />
+                <ScalarProperty Name="sip_isk3" ColumnName="sip_isk3" />
+                <ScalarProperty Name="sip_isk2" ColumnName="sip_isk2" />
+                <ScalarProperty Name="sip_isk1" ColumnName="sip_isk1" />
+                <ScalarProperty Name="sip_masraf4" ColumnName="sip_masraf4" />
+                <ScalarProperty Name="sip_masraf3" ColumnName="sip_masraf3" />
+                <ScalarProperty Name="sip_masraf2" ColumnName="sip_masraf2" />
+                <ScalarProperty Name="sip_masraf1" ColumnName="sip_masraf1" />
+                <ScalarProperty Name="sip_iskonto6" ColumnName="sip_iskonto6" />
+                <ScalarProperty Name="sip_iskonto5" ColumnName="sip_iskonto5" />
+                <ScalarProperty Name="sip_iskonto4" ColumnName="sip_iskonto4" />
+                <ScalarProperty Name="sip_iskonto3" ColumnName="sip_iskonto3" />
+                <ScalarProperty Name="sip_iskonto2" ColumnName="sip_iskonto2" />
+                <ScalarProperty Name="sip_iskonto1" ColumnName="sip_iskonto1" />
+                <ScalarProperty Name="sip_prosip_uid" ColumnName="sip_prosip_uid" />
+                <ScalarProperty Name="sip_cagrilabilir_fl" ColumnName="sip_cagrilabilir_fl" />
+                <ScalarProperty Name="sip_teslimturu" ColumnName="sip_teslimturu" />
+                <ScalarProperty Name="sip_adresno" ColumnName="sip_adresno" />
+                <ScalarProperty Name="sip_alt_doviz_kuru" ColumnName="sip_alt_doviz_kuru" />
+                <ScalarProperty Name="sip_doviz_kuru" ColumnName="sip_doviz_kuru" />
+                <ScalarProperty Name="sip_doviz_cinsi" ColumnName="sip_doviz_cinsi" />
+                <ScalarProperty Name="sip_cari_grupno" ColumnName="sip_cari_grupno" />
+                <ScalarProperty Name="sip_stok_sormerk" ColumnName="sip_stok_sormerk" />
+                <ScalarProperty Name="sip_cari_sormerk" ColumnName="sip_cari_sormerk" />
+                <ScalarProperty Name="sip_promosyon_fl" ColumnName="sip_promosyon_fl" />
+                <ScalarProperty Name="sip_kapat_fl" ColumnName="sip_kapat_fl" />
+                <ScalarProperty Name="sip_vergisiz_fl" ColumnName="sip_vergisiz_fl" />
+                <ScalarProperty Name="sip_OnaylayanKulNo" ColumnName="sip_OnaylayanKulNo" />
+                <ScalarProperty Name="sip_depono" ColumnName="sip_depono" />
+                <ScalarProperty Name="sip_aciklama2" ColumnName="sip_aciklama2" />
+                <ScalarProperty Name="sip_aciklama" ColumnName="sip_aciklama" />
+                <ScalarProperty Name="sip_opno" ColumnName="sip_opno" />
+                <ScalarProperty Name="sip_masvergi" ColumnName="sip_masvergi" />
+                <ScalarProperty Name="sip_masvergi_pntr" ColumnName="sip_masvergi_pntr" />
+                <ScalarProperty Name="sip_vergi" ColumnName="sip_vergi" />
+                <ScalarProperty Name="sip_vergi_pntr" ColumnName="sip_vergi_pntr" />
+                <ScalarProperty Name="sip_masraf_4" ColumnName="sip_masraf_4" />
+                <ScalarProperty Name="sip_masraf_3" ColumnName="sip_masraf_3" />
+                <ScalarProperty Name="sip_masraf_2" ColumnName="sip_masraf_2" />
+                <ScalarProperty Name="sip_masraf_1" ColumnName="sip_masraf_1" />
+                <ScalarProperty Name="sip_iskonto_6" ColumnName="sip_iskonto_6" />
+                <ScalarProperty Name="sip_iskonto_5" ColumnName="sip_iskonto_5" />
+                <ScalarProperty Name="sip_iskonto_4" ColumnName="sip_iskonto_4" />
+                <ScalarProperty Name="sip_iskonto_3" ColumnName="sip_iskonto_3" />
+                <ScalarProperty Name="sip_iskonto_2" ColumnName="sip_iskonto_2" />
+                <ScalarProperty Name="sip_iskonto_1" ColumnName="sip_iskonto_1" />
+                <ScalarProperty Name="sip_tutar" ColumnName="sip_tutar" />
+                <ScalarProperty Name="sip_teslim_miktar" ColumnName="sip_teslim_miktar" />
+                <ScalarProperty Name="sip_birim_pntr" ColumnName="sip_birim_pntr" />
+                <ScalarProperty Name="sip_miktar" ColumnName="sip_miktar" />
+                <ScalarProperty Name="sip_b_fiyat" ColumnName="sip_b_fiyat" />
+                <ScalarProperty Name="sip_stok_kod" ColumnName="sip_stok_kod" />
+                <ScalarProperty Name="sip_musteri_kod" ColumnName="sip_musteri_kod" />
+                <ScalarProperty Name="sip_satici_kod" ColumnName="sip_satici_kod" />
+                <ScalarProperty Name="sip_belge_tarih" ColumnName="sip_belge_tarih" />
+                <ScalarProperty Name="sip_belgeno" ColumnName="sip_belgeno" />
+                <ScalarProperty Name="sip_satirno" ColumnName="sip_satirno" />
+                <ScalarProperty Name="sip_evrakno_sira" ColumnName="sip_evrakno_sira" />
+                <ScalarProperty Name="sip_evrakno_seri" ColumnName="sip_evrakno_seri" />
+                <ScalarProperty Name="sip_cins" ColumnName="sip_cins" />
+                <ScalarProperty Name="sip_tip" ColumnName="sip_tip" />
+                <ScalarProperty Name="sip_teslim_tarih" ColumnName="sip_teslim_tarih" />
+                <ScalarProperty Name="sip_tarih" ColumnName="sip_tarih" />
+                <ScalarProperty Name="sip_subeno" ColumnName="sip_subeno" />
+                <ScalarProperty Name="sip_firmano" ColumnName="sip_firmano" />
+                <ScalarProperty Name="sip_special3" ColumnName="sip_special3" />
+                <ScalarProperty Name="sip_special2" ColumnName="sip_special2" />
+                <ScalarProperty Name="sip_special1" ColumnName="sip_special1" />
+                <ScalarProperty Name="sip_lastup_date" ColumnName="sip_lastup_date" />
+                <ScalarProperty Name="sip_lastup_user" ColumnName="sip_lastup_user" />
+                <ScalarProperty Name="sip_create_date" ColumnName="sip_create_date" />
+                <ScalarProperty Name="sip_create_user" ColumnName="sip_create_user" />
+                <ScalarProperty Name="sip_checksum" ColumnName="sip_checksum" />
+                <ScalarProperty Name="sip_degisti" ColumnName="sip_degisti" />
+                <ScalarProperty Name="sip_kilitli" ColumnName="sip_kilitli" />
+                <ScalarProperty Name="sip_hidden" ColumnName="sip_hidden" />
+                <ScalarProperty Name="sip_fileid" ColumnName="sip_fileid" />
+                <ScalarProperty Name="sip_iptal" ColumnName="sip_iptal" />
+                <ScalarProperty Name="sip_SpecRECno" ColumnName="sip_SpecRECno" />
+                <ScalarProperty Name="sip_DBCno" ColumnName="sip_DBCno" />
+                <ScalarProperty Name="sip_Guid" ColumnName="sip_Guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

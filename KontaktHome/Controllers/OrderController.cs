@@ -4,6 +4,7 @@ using BusinessLayer.Managers.LocalManagers;
 using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
+using Entities.Helper;
 using Entities.Messages;
 using Entities.Model;
 using Entities.Model.LocalModels;
@@ -45,6 +46,8 @@ namespace KontaktHome.Controllers
         private SatisFiyatiManager satisFiyatiManager = new SatisFiyatiManager();
         private UrunManager urunManager = new UrunManager();
         private UrunReceteleriManager urunReceteleriManager = new UrunReceteleriManager();
+        private CariManager cariManager = new CariManager();
+        private SifarisManager sifarisManager = new SifarisManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -1119,6 +1122,34 @@ namespace KontaktHome.Controllers
                             for (int i = 0; i < _urunler.Errors.Count; i++)
                             {
                                 errors[i] = _urunler.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        string carikod = _order.CustomerSurname + _order.CustomerName + "-" + _order.OrderId.ToString();
+                        CARI_HESAPLAR carihesaplar = new CARI_HESAPLAR();
+                        carihesaplar.cari_kod = carikod;
+                        carihesaplar.cari_unvan1 = _order.CustomerSurname;
+                        carihesaplar.cari_unvan2 = _order.CustomerName;
+                        carihesaplar.cari_CepTel= RemoveCharacters.TelephoneClean(_order.Tel1);
+                        BusinessLayerResult<CARI_HESAPLAR> _carihesaplar = cariManager.InsertData(carihesaplar, CurrentSession.User);
+                        if (_carihesaplar.Errors.Count > 0)
+                        {
+                            errors = new string[_carihesaplar.Errors.Count];
+                            for (int i = 0; i < _carihesaplar.Errors.Count; i++)
+                            {
+                                errors[i] = _carihesaplar.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
+                        BusinessLayerResult<SIPARISLER> _sifarisler = sifarisManager.InsertData(stokKodu, _visit.FinalPrice, carikod, CurrentSession.User);
+                        if (_sifarisler.Errors.Count > 0)
+                        {
+                            errors = new string[_sifarisler.Errors.Count];
+                            for (int i = 0; i < _sifarisler.Errors.Count; i++)
+                            {
+                                errors[i] = _sifarisler.Errors[i].Message;
                             }
                             status = false;
                             return Json(new { status, errors });

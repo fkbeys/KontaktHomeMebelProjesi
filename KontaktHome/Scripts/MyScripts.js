@@ -1097,6 +1097,7 @@ $('#recipeSave').click(function () {
 function acceptOrder(orderId, visitId) {
     var form = $('#__AjaxAntiForgeryForm');
     var token = $('input[name="__RequestVerificationToken"]', form).val();
+    $('#saveModal').modal('show');
     $.ajax({
         url: '/Order/SaveToMikro',
         type: "POST",
@@ -1107,10 +1108,12 @@ function acceptOrder(orderId, visitId) {
         },
         success: function (d) {
             if (d.status == true) {
+                $('#saveModal').modal('hide');
                 Swal.fire('Qeyd Tamamlandı', '', 'success');
                 window.location.href = d.Url + d.link;
             }
-            else {                           
+            else { 
+                $('#saveModal').modal('hide');
                 var errortext = '';
                 for (var i = 0; i < d.errors.length; i++) {
                     errortext += d.errors[i] + "<br>"
@@ -1121,6 +1124,7 @@ function acceptOrder(orderId, visitId) {
             }
         },
         error: function () {
+            $('#saveModal').modal('hide');
             alert('Error. Please try again.');
         }
     });
@@ -1129,6 +1133,7 @@ function acceptOrder(orderId, visitId) {
 function finishOrder(orderId) {
     var form = $('#__AjaxAntiForgeryForm');
     var token = $('input[name="__RequestVerificationToken"]', form).val();
+    $('#saveModal').modal('show');
     $.ajax({
         url: '/Order/FinishOrder',
         type: "POST",
@@ -1138,10 +1143,13 @@ function finishOrder(orderId) {
         },
         success: function (d) {
             if (d.status == true) {
+                $('#saveModal').modal('hide');
                 Swal.fire('Siafriş Tamamlandı', '', 'success');
                 window.location.href = d.Url;
+                
             }
             else {
+                $('#saveModal').modal('hide');
                 var errortext = '';
                 for (var i = 0; i < d.errors.length; i++) {
                     errortext += d.errors[i] + "<br>"
@@ -1152,6 +1160,7 @@ function finishOrder(orderId) {
             }
         },
         error: function () {
+            $('#saveModal').modal('hide');
             alert('Error. Please try again.');
         }
     });

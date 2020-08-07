@@ -10,7 +10,9 @@
         <EntityTypeShape EntityType="MikroModel.STOKLAR" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MikroModel.URUN_RECETELERI" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="MikroModel.URUNLER" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="MikroModel.Products" Width="1.5" PointX="9.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroModel.Products" Width="1.5" PointX="8.5" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroModel.CARI_HESAPLAR" Width="1.5" PointX="8.5" PointY="3.5" />
+        <EntityTypeShape EntityType="MikroModel.SIPARISLER" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

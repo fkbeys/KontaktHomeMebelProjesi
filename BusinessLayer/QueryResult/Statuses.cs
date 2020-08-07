@@ -63,7 +63,7 @@ namespace BusinessLayer.QueryResult
             }
             else if (status == 8)
             {
-                return "Sifariş Fakturalaşıb";
+                return "Sifariş Yekunlaşıb";
             }
             else
             {

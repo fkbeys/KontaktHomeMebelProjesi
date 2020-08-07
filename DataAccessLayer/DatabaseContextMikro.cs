@@ -23,6 +23,8 @@ namespace DataAccessLayer
         public virtual DbSet<STOKLAR> STOKLAR { get; set; }
         public virtual DbSet<STOK_SATIS_FIYAT_LISTELERI> STOK_SATIS_FIYAT_LISTELERI { get; set; }
         public virtual DbSet<URUNLER> URUNLER { get; set; }
-        public virtual DbSet<URUN_RECETELERI> URUN_RECETELERI { get; set; }       
+        public virtual DbSet<URUN_RECETELERI> URUN_RECETELERI { get; set; }
+        public virtual DbSet<CARI_HESAPLAR> CARI_HESAPLAR { get; set; }
+        public virtual DbSet<SIPARISLER> SIPARISLER { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer;
+using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
 using Entities.Model;
@@ -18,10 +19,11 @@ namespace KontaktHome.Controllers
     {
         private UserManager userManager = new UserManager();
         private OrderManager orderManager = new OrderManager();
+       
         // GET: Home
         [Auth]
         public ActionResult Index()
-        {
+        {            
             int[] orderstatuses = new int[] { 2,3,4,5,6 };
             Widgets widgets = new Widgets();
             widgets.WaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 1).Count();

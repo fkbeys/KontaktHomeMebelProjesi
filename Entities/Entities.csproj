@@ -84,6 +84,10 @@
   <ItemGroup>
     <Compile Include="Helper\AllowFileSize.cs" />
     <Compile Include="Helper\CustomValidation.cs" />
+    <Compile Include="Helper\RemoveCharacters.cs" />
+    <Compile Include="Model\CARI_HESAPLAR.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\LocalModels\AdditionalCharges.cs" />
     <Compile Include="Model\LocalModels\ChangeLog.cs" />
     <Compile Include="Model\LocalModels\CustomerVisitData.cs" />
@@ -127,6 +131,9 @@
       <DependentUpon>MikroModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Model\Products.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SIPARISLER.cs">
       <DependentUpon>MikroModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\STOKLAR.cs">
