@@ -1243,5 +1243,34 @@ namespace KontaktHome.Controllers
             return Json(new { status, errors });
 
         }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public JsonResult ActivateOrder(int? orderid)
+        {
+            bool status = false;
+            string[] errors;
+            if (orderid != null)
+            {
+                BusinessLayerResult<Orders> orderresult = orderManager.ActivateOrder(Convert.ToInt32(orderid), CurrentSession.User);
+                if (orderresult.Errors.Count > 0)
+                {
+                    errors = new string[orderresult.Errors.Count];
+                    for (int i = 0; i < orderresult.Errors.Count; i++)
+                    {
+                        errors[i] = orderresult.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("ActiveOrders", "Order") });
+
+            }
+            errors = new string[1];
+            errors[0] = "Sifariş id düzgün deyil.";
+            status = false;
+            return Json(new { status, errors });
+
+        }
     }
 }

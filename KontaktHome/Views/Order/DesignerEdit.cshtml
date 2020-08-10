@@ -10,7 +10,7 @@
         <div class="col-md-12">
             @using (Html.BeginForm("DesignerEdit", "Order", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
-                @Html.HiddenFor(x => x.order.OrderId)              
+                @Html.HiddenFor(x => x.order.OrderId)
                 @Html.AntiForgeryToken()
 
                 <div class="card card-secondary">
@@ -97,7 +97,27 @@
                                             }
                                             else if (Model.order.OrderStatus == 3)
                                             {
+                                                <td class="p-1" style="height:32px">Vizitor Təyin Edilib</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 4)
+                                            {
+                                                <td class="p-1" style="height:32px">Vizit Tamamlanıb</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 5)
+                                            {
                                                 <td class="p-1" style="height:32px">Dizayner Təyin Edilib</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 6)
+                                            {
+                                                <td class="p-1" style="height:32px">Dizayner Qəbul Edib</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 7)
+                                            {
+                                                <td class="p-1" style="height:32px">Dizayn Tamamlanıb</td>
+                                            }
+                                            else if (Model.order.OrderStatus == 8)
+                                            {
+                                                <td class="p-1" style="height:32px">Sifariş Yekunlaşıb</td>
                                             }
                                             else
                                             {
@@ -190,7 +210,7 @@
                             {
                                 @Html.HiddenFor(m => m.visitData[i].VisitID)
                                 @Html.HiddenFor(m => m.visitData[i].OrderId)
-                                @Html.HiddenFor(m => m.visitData[i].VisitGuid)                               
+                                @Html.HiddenFor(m => m.visitData[i].VisitGuid)
                                 <div class="card card-info collapsed-card">
                                     <div class="card-header">
                                         @{int mehsulsayi = i; mehsulsayi = mehsulsayi + 1; }

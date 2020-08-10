@@ -96,7 +96,27 @@
                                         }
                                         else if (Model.order.OrderStatus == 3)
                                         {
+                                            <td class="p-1" style="height:32px">Vizitor Təyin Edilib</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 4)
+                                        {
+                                            <td class="p-1" style="height:32px">Vizit Tamamlanıb</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 5)
+                                        {
                                             <td class="p-1" style="height:32px">Dizayner Təyin Edilib</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 6)
+                                        {
+                                            <td class="p-1" style="height:32px">Dizayner Qəbul Edib</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 7)
+                                        {
+                                            <td class="p-1" style="height:32px">Dizayn Tamamlanıb</td>
+                                        }
+                                        else if (Model.order.OrderStatus == 8)
+                                        {
+                                            <td class="p-1" style="height:32px">Sifariş Yekunlaşıb</td>
                                         }
                                         else
                                         {
@@ -168,12 +188,25 @@
                                         {
                                             <td class="p-1" style="height:32px">Dizayn Tamamlanıb</td>
                                         }
-                                    </tr>
+                                        else
+                                        {
+                                            <td class="p-1" style="height:32px"></td>
+                                        }
+                                    </tr>                                   
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!--card body end-->
+                </div>
+                <!--card body end-->
+                <div class="card-footer">
+                    @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+                    {
+                        if (Model.order.IsActive == false && Model.order.OrderStatus<8)
+                        {
+                            <button type="button" class="btn btn-primary" onclick="activateOrder(@Model.order.OrderId)">Aktiv Et</button>
+                        }
+                    }
                 </div>
             </div>
             <div class="card card-secondary">
@@ -275,6 +308,17 @@
                                                         <td>Yekun Məbləğ :</td>
                                                         <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].FinalPrice)</td>
                                                     </tr>
+                                                    <tr>
+                                                        <td>Məhsul Statusu :</td>
+                                                        @if (Model.visitData[i].VisitStatus == 0)
+                                                        {
+                                                            <td class="p-1" style="height:32px">Gözləmədə</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="p-1" style="height:32px">Mikroya Göndərilib</td>
+                                                        }
+                                                    </tr>
                                                 </tbody>
                                             </table>
                                         </div>
@@ -338,7 +382,6 @@
                                             </div>
                                         }
                                     }
-
                                     <!-- /.row -->
                                 </div>
                                 <!-- /.card-body -->

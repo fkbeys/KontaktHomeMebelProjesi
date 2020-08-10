@@ -1166,3 +1166,47 @@ function finishOrder(orderId) {
     });
 }
 
+function activateOrder(orderId) {
+    Swal.fire({
+        title: 'Sifariş aktiv ediləcək',
+        text: "Davam etmək istəyirsinizmi?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        cancelButtonText: 'Ləğv Et',
+        confirmButtonText: 'Davam Et'
+    }).then((result) => {
+        if (result.value) {
+            var form = $('#__AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();           
+            $.ajax({
+                url: '/Order/ActivateOrder',
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: token,
+                    orderid: orderId
+                },
+                success: function (d) {
+                    if (d.status == true) {                       
+                        Swal.fire('Siafriş Aktiv Edildi', '', 'success');
+                        window.location.href = d.Url;
+                    }
+                    else {                       
+                        var errortext = '';
+                        for (var i = 0; i < d.errors.length; i++) {
+                            errortext += d.errors[i] + "<br>"
+                        }
+                        $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
+                        Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
+                        this.disabled = false;
+                    }
+                },
+                error: function () {                   
+                    alert('Error. Please try again.');
+                }
+            });
+        }
+    })
+}
+

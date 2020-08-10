@@ -164,7 +164,28 @@ namespace BusinessLayer
                 _orders.Result.UpdateUser = user.UserName;
                 if (base.Update(_orders.Result)==0)
                 {
-                    _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş yenilənmədi tapılmadı");
+                    _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş tamamlanmad;");
+                }
+
+            }
+            else
+            {
+                _orders.AddError(ErrorMessageCode.DataNotFound, "Sifariş tapılmadı");
+            }
+            return _orders;
+        }
+        public BusinessLayerResult<Orders> ActivateOrder(int orderid, Users user)
+        {
+            BusinessLayerResult<Orders> _orders = new BusinessLayerResult<Orders>();
+            _orders.Result = Find(x => x.OrderId == orderid);
+            if (_orders.Result != null)
+            {
+                _orders.Result.LastUpdate = DateTime.Now;
+                _orders.Result.IsActive = true;               
+                _orders.Result.UpdateUser = user.UserName;
+                if (base.Update(_orders.Result) == 0)
+                {
+                    _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş aktiv edilmədi");
                 }
 
             }
