@@ -13,7 +13,9 @@ namespace Entities.Model.LocalModels
     {
         [Key]
         public int ID { get; set; }
+        [Required]
         public string  charge_name { get; set; }
+        [Required]
         public double charge_value { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-$("#sandbox-container input").datepicker({
+﻿$("#sandbox-container input").datepicker({
     language: 'az',
     todayBtn: "linked",
     clearBtn: true,
@@ -899,7 +898,6 @@ $.fancyConfirm = function (opts) {
         }
     });
 }
-
 //datattable serverside processing
 //$("#tableProducts").DataTable({   
 //    "serverSide": true, // for process server side  
@@ -956,8 +954,6 @@ function LoadProducts() {
         }
     });
 }
-
-
 function calculateProduct(obj) {
     var currow = $(obj).closest('tr');   
     var price = currow.find('td:eq(2) input[type="text"]').val();
@@ -1210,3 +1206,33 @@ function activateOrder(orderId) {
     })
 }
 
+$('#btnChargesSave').click(function () {
+    var form = $('#__AjaxAntiForgeryForm');
+    var token = $('input[name="__RequestVerificationToken"]', form).val();   
+    var chargesFormData = $("#formCharges").serialize();   
+  
+    $.ajax({
+        url: '/Admin/SaveCharges',
+        type: "POST",
+        dataType: 'json',
+        contentType: 'application/x-www-form-urlencoded; charset=UTF-8', 
+        data: chargesFormData,
+        success: function (d) {
+            if (d.status == true) {               
+                window.location.href = d.Url;
+            }
+            else {
+                var errortext = '';
+                for (var i = 0; i < d.errors.length; i++) {
+                    errortext += d.errors[i] + "<br>"
+                }
+                $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
+                Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
+                this.disabled = false;
+            }
+        },
+        error: function () {
+            alert('Error. Please try again.');
+        }
+    });
+});

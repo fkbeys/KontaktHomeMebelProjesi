@@ -266,7 +266,7 @@ namespace KontaktHome.Controllers
             foreach (var item in magazalar)
             {
                 string status = "";
-                if (item.IsActive==true)
+                if (item.IsActive == true)
                 {
                     status = "Aktiv";
                 }
@@ -274,18 +274,18 @@ namespace KontaktHome.Controllers
                 {
                     status = "Dekativ";
                 }
-                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName,status };
+                UserData[j] = new object[] { item.StoreID, item.StoreCode, item.StoreName, status };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
         }
         public ActionResult DeaktivateStore(int? storeid)
         {
-            BusinessLayerResult<Stores> store = storesManager.DeactivateActivateStore(storeid,false);
+            BusinessLayerResult<Stores> store = storesManager.DeactivateActivateStore(storeid, false);
             if (store.Errors.Count > 0)
             {
                 string storeerror = "";
-                store.Errors.ForEach(x => storeerror=x.Message);
+                store.Errors.ForEach(x => storeerror = x.Message);
                 TempData["msg"] = storeerror;
                 TempData["typ"] = "error";
                 return RedirectToAction("CreateStore");
@@ -297,7 +297,7 @@ namespace KontaktHome.Controllers
         }
         public ActionResult ActivateStore(int? storeid)
         {
-            BusinessLayerResult<Stores> store = storesManager.DeactivateActivateStore(storeid,true);
+            BusinessLayerResult<Stores> store = storesManager.DeactivateActivateStore(storeid, true);
             if (store.Errors.Count > 0)
             {
                 string storeerror = "";
@@ -315,10 +315,71 @@ namespace KontaktHome.Controllers
         public ActionResult Charges()
         {
             List<AdditionalCharges> _charges = chargesManager.List();
-            return View(_charges);
+            ViewBag.Charges = _charges;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SaveCharges(AdditionalCharges charges)
+        {
+            bool status = false;
+            string[] errors;
+            if (ModelState.IsValid)
+            {
+                BusinessLayerResult<AdditionalCharges> _charges = chargesManager.InsertData(charges);
+                if (_charges.Errors.Count > 0)
+                {
+                    errors = new string[_charges.Errors.Count];
+                    for (int i = 0; i < _charges.Errors.Count; i++)
+                    {
+                        errors[i] = _charges.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("Charges", "Admin") });
+            }
+            errors = new string[1];
+            errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+            status = false;
+            return Json(new { status, errors });
+        }
+        public ActionResult EditCharges(int? id)
+        {
+            if (id != null)
+            {
+                AdditionalCharges _charges = chargesManager.Find(x => x.ID == id);
+                return View(_charges);
+            }
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditCharges(AdditionalCharges data)
+        {
+            bool status = false;
+            string[] errors;
+            if (ModelState.IsValid)
+            {
+                BusinessLayerResult<AdditionalCharges> _charges = chargesManager.UpdateData(data);
+                if (_charges.Errors.Count > 0)
+                {
+                    errors = new string[_charges.Errors.Count];
+                    for (int i = 0; i < _charges.Errors.Count; i++)
+                    {
+                        errors[i] = _charges.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors, Url = Url.Action("Charges", "Admin") });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("Charges", "Admin") });
+            }
+            errors = new string[1];
+            errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+            status = false;
+            return Json(new { status, errors , Url = Url.Action("Charges", "Admin") });
         }
     }
-
-
-
 }
