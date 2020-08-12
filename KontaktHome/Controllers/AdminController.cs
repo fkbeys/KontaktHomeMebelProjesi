@@ -381,5 +381,32 @@ namespace KontaktHome.Controllers
             status = false;
             return Json(new { status, errors , Url = Url.Action("Charges", "Admin") });
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteCharge(int? id)
+        {
+            bool status = false;
+            string[] errors;
+            if (id!=null)
+            {
+                BusinessLayerResult<AdditionalCharges> _charges = chargesManager.DeleteData(id);
+                if (_charges.Errors.Count > 0)
+                {
+                    errors = new string[_charges.Errors.Count];
+                    for (int i = 0; i < _charges.Errors.Count; i++)
+                    {
+                        errors[i] = _charges.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors, Url = Url.Action("Charges", "Admin") });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("Charges", "Admin") });
+            }
+            errors = new string[1];
+            errors[0] = "Qeyd düzgün deyil.";
+            status = false;
+            return Json(new { status, errors, Url = Url.Action("Charges", "Admin") });
+        }
     }
 }

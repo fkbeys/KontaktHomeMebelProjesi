@@ -40,13 +40,30 @@ namespace BusinessLayer.Managers.LocalManagers
                
                 if (base.Update(_charges.Result)==0)
                 {
-                    _charges.AddError(ErrorMessageCode.DataUpdateError, "Xəta baş verdi. Qeyd yenuilənmədi.");
+                    _charges.AddError(ErrorMessageCode.DataUpdateError, "Xəta baş verdi. Qeyd yenilənmədi.");
                 } 
                
             }
             else
             {
                 _charges.AddError(ErrorMessageCode.DataNotFound, "Xəta baş verdi. Qeyd mövcud deyil");
+            }
+            return _charges;
+        }
+        public BusinessLayerResult<AdditionalCharges> DeleteData(int? id)
+        {
+            BusinessLayerResult<AdditionalCharges> _charges = new BusinessLayerResult<AdditionalCharges>();
+            _charges.Result = Find(x => x.ID == id);
+            if (_charges.Result!=null)
+            {
+                if (base.Delete(_charges.Result)==0)
+                {
+                    _charges.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd silinmədi");
+                }
+            }
+            else
+            {
+                _charges.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Qeyd mövcud deyil");
             }
             return _charges;
         }

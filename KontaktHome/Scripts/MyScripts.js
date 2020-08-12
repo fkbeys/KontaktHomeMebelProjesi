@@ -1236,3 +1236,46 @@ $('#btnChargesSave').click(function () {
         }
     });
 });
+
+function deleteCharge(Id) {
+    Swal.fire({
+        title: 'Qeyd silinəcək?',
+        text: "Davam etmək istəyirsinizmi?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Davam Et',
+        cancelButtonText:'Ləğv Et'
+    }).then((result) => {
+        if (result.value) {
+            var form = $('#__AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();           
+            $.ajax({
+                url: '/Admin/DeleteCharge',
+                type: "POST",
+                data: {
+                    __RequestVerificationToken: token,
+                    id: Id
+                },
+                success: function (d) {
+                    if (d.status == true) {                    
+                        
+                        window.location.href = d.Url;
+                    }
+                    else {                        
+                        var errortext = '';
+                        for (var i = 0; i < d.errors.length; i++) {
+                            errortext += d.errors[i] + "<br>"
+                        }                       
+                        Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
+                        this.disabled = false;
+                    }
+                },
+                error: function () {                   
+                    alert('Error. Please try again.');
+                }
+            });           
+        }
+    })
+}
