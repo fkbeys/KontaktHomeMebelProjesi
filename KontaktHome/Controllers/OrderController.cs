@@ -1069,6 +1069,7 @@ namespace KontaktHome.Controllers
         {
             return Json(new { });
         }
+        [CustomAuthorize(Roles = "Admin,Kordinator")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public JsonResult SaveToMikro(int? orderid, int? visitid)
@@ -1214,6 +1215,7 @@ namespace KontaktHome.Controllers
             return Json(new { status, errors });
 
         }
+        [CustomAuthorize(Roles = "Admin,Kordinator")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public JsonResult FinishOrder(int? orderid)
@@ -1243,6 +1245,7 @@ namespace KontaktHome.Controllers
             return Json(new { status, errors });
 
         }
+        [CustomAuthorize(Roles = "Admin,Kordinator")]
         [ValidateAntiForgeryToken]
         [HttpPost]
         public JsonResult ActivateOrder(int? orderid)

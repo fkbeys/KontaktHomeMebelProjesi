@@ -1646,6 +1646,7 @@
     <Content Include="Views\Order\DesignerEdit_old.cshtml" />
     <Content Include="Views\Admin\Charges.cshtml" />
     <Content Include="Views\Admin\EditCharges.cshtml" />
+    <Content Include="Scripts\MyScripts.min.js" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
