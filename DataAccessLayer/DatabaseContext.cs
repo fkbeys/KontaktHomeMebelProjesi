@@ -10,7 +10,7 @@ using System.Web;
 namespace DataAccessLayer
 {
     public class DatabaseContext : DbContext
-    {
+    {       
         public DbSet<Orders> Orders { get; set; }
         public DbSet<Users> Users { get; set; }    
         public DbSet<Visits> Visits { get; set; }
@@ -66,5 +66,17 @@ namespace DataAccessLayer
             var objectStateEntry = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
             return objectStateEntry.EntityKey.EntityKeyValues[0].Value;
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // one-to-many relationship
+            modelBuilder.Entity<UserRolesMapping>().HasRequired<Users>(s=>s.User).WithMany(g=>g.UserRolesMappings).HasForeignKey<int>(s => s.UserID);
+            modelBuilder.Entity<UserRolesMapping>().HasRequired<UserRoles>(s => s.UserRole).WithMany(g => g.UserRolesMappings).HasForeignKey<int>(s => s.RoleID);
+        }
+
+        public DatabaseContext()
+        {
+            Database.SetInitializer(new CustomInitializer());
+        }
+        
     }
 }

@@ -1,3 +1,4 @@
+using Entities.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,9 @@ namespace KontaktHome
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 			DataAnnotationsModelValidatorProvider.RegisterAdapter(typeof(RequiredIfAttribute), typeof(RequiredAttributeAdapter));
+			ModelBinders.Binders.DefaultBinder = new TrimModelBinder();
 		}
-	
+		
 		//protected void Application_BeginRequest(Object sender, EventArgs e)
 		//{
 		//	HttpRuntimeSection runTime = (HttpRuntimeSection)WebConfigurationManager.GetSection("system.web/httpRuntime");

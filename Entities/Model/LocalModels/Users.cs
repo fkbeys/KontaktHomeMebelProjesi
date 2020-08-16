@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -31,5 +32,7 @@ namespace Entities
         public int EditDate { get; set; }
 
         public IEnumerable<SelectListItem> myADUsers { get; set; }
+
+        public List<UserRolesMapping> UserRolesMappings { get; set; }
     }
 }

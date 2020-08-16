@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomInitializer.cs" />
     <Compile Include="DatabaseContext.cs" />
     <Compile Include="DatabaseContextMikro.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

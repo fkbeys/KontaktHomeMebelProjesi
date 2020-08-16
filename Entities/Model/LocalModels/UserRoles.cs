@@ -14,5 +14,7 @@ namespace Entities.Model
         [Key]
         public int ID { get; set; }
         public string RoleName { get; set; }
+
+        public List<UserRolesMapping> UserRolesMappings { get; set; }
     }
 }

@@ -83,6 +83,9 @@ namespace KontaktHome.Controllers
             data.SellerCode = CurrentSession.User.UserName;
             if (ModelState.IsValid)
             {
+                data.CustomerName = TextHelpers.CapitalizeFirstLetter(data.CustomerName.Trim());
+                data.CustomerSurname = TextHelpers.CapitalizeFirstLetter(data.CustomerSurname.Trim());
+                data.CustomerFatherName = TextHelpers.CapitalizeFirstLetter(data.CustomerFatherName.Trim());               
                 BusinessLayerResult<Orders> order = orderManager.SaveOrder(data);
                 if (order.Errors.Count > 0)
                 {
@@ -1132,7 +1135,7 @@ namespace KontaktHome.Controllers
                         carihesaplar.cari_kod = carikod;
                         carihesaplar.cari_unvan1 = _order.CustomerSurname;
                         carihesaplar.cari_unvan2 = _order.CustomerName;
-                        carihesaplar.cari_CepTel= RemoveCharacters.TelephoneClean(_order.Tel1);
+                        carihesaplar.cari_CepTel = RemoveCharacters.TelephoneClean(_order.Tel1);
                         BusinessLayerResult<CARI_HESAPLAR> _carihesaplar = cariManager.InsertData(carihesaplar, CurrentSession.User);
                         if (_carihesaplar.Errors.Count > 0)
                         {
@@ -1223,8 +1226,8 @@ namespace KontaktHome.Controllers
             bool status = false;
             string[] errors;
             if (orderid != null)
-            {           
-                BusinessLayerResult<Orders> orderresult = orderManager.FinishOrder(Convert.ToInt32(orderid),CurrentSession.User);
+            {
+                BusinessLayerResult<Orders> orderresult = orderManager.FinishOrder(Convert.ToInt32(orderid), CurrentSession.User);
                 if (orderresult.Errors.Count > 0)
                 {
                     errors = new string[orderresult.Errors.Count];

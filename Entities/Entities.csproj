@@ -83,8 +83,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\AllowFileSize.cs" />
+    <Compile Include="Helper\TextHelpers.cs" />
     <Compile Include="Helper\CustomValidation.cs" />
     <Compile Include="Helper\RemoveCharacters.cs" />
+    <Compile Include="Helper\TrimModelBinder.cs" />
     <Compile Include="Model\CARI_HESAPLAR.cs">
       <DependentUpon>MikroModel.tt</DependentUpon>
     </Compile>
@@ -160,7 +162,6 @@
     <Compile Include="Model\LocalModels\Visits.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
     <EntityDeploy Include="Model\MikroModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MikroModel.Designer.cs</LastGenOutput>
@@ -168,7 +169,6 @@
     <None Include="Model\MikroModel.edmx.diagram">
       <DependentUpon>MikroModel.edmx</DependentUpon>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
