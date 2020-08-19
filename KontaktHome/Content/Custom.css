@@ -161,3 +161,18 @@
         background-color: transparent;
         border: none;
     }
+body {
+    font-family: 'Gilroy-Light', sans-serif;  
+}
+@font-face {
+    font-family: Gilroy-Light;
+    src: url("../dist/font/Gilroy-Light.otf") format("opentype");
+}
+@font-face {
+    font-family: Gilroy-Light;
+    src: url("../dist/font/Gilroy-Medium.otf") format("opentype");
+    font-weight:bold;
+}
+.brand-link {
+    background-color: #FF003C;
+}

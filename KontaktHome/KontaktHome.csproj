@@ -154,6 +154,9 @@
     <Content Include="dist\img\credit\visa.png" />
     <Content Include="dist\img\default-150x150.png" />
     <Content Include="dist\img\icons.png" />
+    <Content Include="dist\img\KontaktHomeFullLogo.png" />
+    <Content Include="dist\img\KontaktHomeLogo.fw.png" />
+    <Content Include="dist\img\KontaktHomeLogo2.fw.png" />
     <Content Include="dist\img\KontaktLogo.png" />
     <Content Include="dist\img\logo.jpg" />
     <Content Include="dist\img\logoyeni-1.png" />
@@ -1477,6 +1480,9 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="plugins\bs-custom-file-input\bs-custom-file-input.js.map" />
     <Content Include="plugins\bs-custom-file-input\bs-custom-file-input.min.js.map" />
+    <Content Include="dist\font\Gilroy-ExtraBold.otf" />
+    <Content Include="dist\font\Gilroy-Light.otf" />
+    <Content Include="dist\font\Gilroy-Medium.otf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
