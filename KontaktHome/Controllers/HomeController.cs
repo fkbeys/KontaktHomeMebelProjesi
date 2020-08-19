@@ -19,6 +19,7 @@ namespace KontaktHome.Controllers
     {
         private UserManager userManager = new UserManager();
         private OrderManager orderManager = new OrderManager();
+        private VisitManager visitManager = new VisitManager();
        
         // GET: Home
         [Auth]
@@ -29,7 +30,8 @@ namespace KontaktHome.Controllers
             widgets.WaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 1).Count();
             widgets.ProcessingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && orderstatuses.Contains(x.OrderStatus)).Count();
             widgets.SaleWaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus==7).Count();
-            widgets.ProductionOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 8).Count();
+            widgets.ProductionOrders = visitManager.ListQueryable().Where(x=>x.VisitStatus==1 && x.IsDeclined==false).Count();
+            //widgets.ProductionOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 8).Count();
 
             return View(widgets);
         }
