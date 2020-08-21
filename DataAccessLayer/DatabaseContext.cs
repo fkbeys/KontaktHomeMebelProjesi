@@ -21,6 +21,9 @@ namespace DataAccessLayer
         public DbSet<UserRolesMapping> UserRolesMappings { get; set; }
         public DbSet<AdditionalCharges> AdditionalCharges { get; set; }
         public DbSet<Production> Production { get; set; }
+        public DbSet<LocationGroup> LocationGroup { get; set; }
+        public DbSet<LocationSubGroup> LocationSubGroup { get; set; }
+        public DbSet<LocationNames> LocationName { get; set; }
         public override int SaveChanges()
         {
             var modifiedEntities = ChangeTracker.Entries()

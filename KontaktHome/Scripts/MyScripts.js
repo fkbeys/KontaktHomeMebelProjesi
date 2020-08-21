@@ -1279,3 +1279,91 @@ function deleteCharge(Id) {
         }
     })
 }
+
+$('#tableLocationGroup').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Admin/GetLocationGroups",
+        "type": 'POST',
+        "data": data,
+        "dataSrc": ""
+    },
+    "columns": [
+        {
+            "data": "0"
+        },
+        {
+            "data": "1"
+        },
+        {
+            data: null, render: function (data, type, full) {
+                return '<button type="button" onclick="showInPopup(\'/Admin/CreateEditLocationGroup?id='+full[0]+'\',\'Qrup Düzəliş\')" class="btn btn-info btn-sm">Ətraflı</button>';
+            }           
+            
+        }
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    }
+});
+$('#tableLocationSubGroup').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Admin/GetLocationSubGroups",
+        "type": 'POST',
+        "data": data,
+        "dataSrc": ""
+    },
+    "columns": [
+        {
+            "data": "0"
+        },
+        {
+            "data": "1"
+        },
+        {
+            "data": "2"
+        },
+        {
+            data: null, render: function () {
+                return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
+            }
+
+        }
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    }
+});
+$('#tableLocationNames').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Admin/GetLocationNames",
+        "type": 'POST',
+        "data": data,
+        "dataSrc": ""
+    },
+    "columns": [
+        {
+            "data": "0"
+        },
+        {
+            "data": "1"
+        },
+        {
+            "data": "2"
+        },
+        {
+            "data": "3"
+        },
+        {
+            data: null, render: function () {
+                return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
+            }
+
+        }
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    }
+});

@@ -93,6 +93,11 @@
     <Compile Include="Model\LocalModels\AdditionalCharges.cs" />
     <Compile Include="Model\LocalModels\ChangeLog.cs" />
     <Compile Include="Model\LocalModels\CustomerVisitData.cs" />
+    <Compile Include="Model\LocalModels\LocationGroup.cs" />
+    <Compile Include="Model\LocalModels\LocationNameList.cs" />
+    <Compile Include="Model\LocalModels\LocationNames.cs" />
+    <Compile Include="Model\LocalModels\LocationSubGroup.cs" />
+    <Compile Include="Model\LocalModels\LocationSubGroupList.cs" />
     <Compile Include="Model\LocalModels\LoginViewModel.cs" />
     <Compile Include="Messages\ErrorMessageCode.cs" />
     <Compile Include="Messages\ErrorMessageObj.cs" />

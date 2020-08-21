@@ -1,0 +1,24 @@
+﻿@using Entities.Model.LocalModels
+@model LocationGroup
+
+@{   
+    Layout = null;
+}
+
+
+<form action="CreateEditLocationGroup" onsubmit=" return jQueryAjaxPost(this);">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.ID)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label>Qrup Adı</label>
+                @Html.TextBoxFor(x => x.Value, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Qeyd Et</button>
+        </div>
+    </div>
+</form>

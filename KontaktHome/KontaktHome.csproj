@@ -1635,6 +1635,8 @@
     <Content Include="Views\Admin\Charges.cshtml" />
     <Content Include="Views\Admin\EditCharges.cshtml" />
     <Content Include="Scripts\MyScripts.min.js" />
+    <Content Include="Views\Admin\Locations.cshtml" />
+    <Content Include="Views\Admin\CreateEditLocationGroup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

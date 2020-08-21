@@ -58,6 +58,9 @@
   <ItemGroup>
     <Compile Include="ManagerBaseMikro.cs" />
     <Compile Include="Managers\LocalManagers\AdditionalChargesManager.cs" />
+    <Compile Include="Managers\LocalManagers\LocationGroupManager.cs" />
+    <Compile Include="Managers\LocalManagers\LocationNameManager.cs" />
+    <Compile Include="Managers\LocalManagers\LocationSubGroupManager.cs" />
     <Compile Include="Managers\LocalManagers\ProductionManager.cs" />
     <Compile Include="Managers\MikroManagers\AnaGrupManager.cs" />
     <Compile Include="Managers\LocalManagers\ChangeLogManager.cs" />
