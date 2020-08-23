@@ -1375,3 +1375,18 @@ $('#tableLocationNames').DataTable({
         { "width": "15%", "targets": 4 }
     ]
 });
+function loadSubGroups() {
+    var locationgroupid = $("#locationGroup").val();
+    $.ajax({
+        type: "GET",
+        url: "/Admin/GetLocationSubGroup",
+        data: { id:locationgroupid},
+        success: function (data) {
+            var selectList = '<option value="0"></option>';
+            for (var i = 0; i < data.length; i++) {
+                selectList += '<option value="' + data[i].ID + '">' + data[i].Value + '</option>';
+            }
+            $("#locationSubGroup").html(selectList);
+        }
+    });  
+}

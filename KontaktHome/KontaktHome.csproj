@@ -1638,6 +1638,7 @@
     <Content Include="Views\Admin\Locations.cshtml" />
     <Content Include="Views\Admin\CreateEditLocationGroup.cshtml" />
     <Content Include="Views\Admin\CreateEditLocationSubGroup.cshtml" />
+    <Content Include="Views\Admin\CreateEditLocationName.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

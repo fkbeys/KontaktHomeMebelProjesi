@@ -385,7 +385,7 @@ namespace KontaktHome.Controllers
             errors = new string[1];
             errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
             status = false;
-            return Json(new { status, errors , Url = Url.Action("Charges", "Admin") });
+            return Json(new { status, errors, Url = Url.Action("Charges", "Admin") });
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -393,7 +393,7 @@ namespace KontaktHome.Controllers
         {
             bool status = false;
             string[] errors;
-            if (id!=null)
+            if (id != null)
             {
                 BusinessLayerResult<AdditionalCharges> _charges = chargesManager.DeleteData(id);
                 if (_charges.Errors.Count > 0)
@@ -429,7 +429,7 @@ namespace KontaktHome.Controllers
             int j = 0;
             foreach (var item in _locationGroups)
             {
-                GroupData[j] = new object[] { item.ID,item.Value };
+                GroupData[j] = new object[] { item.ID, item.Value };
                 j++;
             }
             return Json(GroupData, JsonRequestBehavior.AllowGet);
@@ -444,7 +444,7 @@ namespace KontaktHome.Controllers
             int j = 0;
             foreach (var item in _locationSubGroupList)
             {
-                GroupData[j] = new object[] { item.id, item.groupName,item.subGroupName };
+                GroupData[j] = new object[] { item.id, item.groupName, item.subGroupName };
                 j++;
             }
             return Json(GroupData, JsonRequestBehavior.AllowGet);
@@ -459,7 +459,7 @@ namespace KontaktHome.Controllers
             int j = 0;
             foreach (var item in _locationNameList)
             {
-                GroupData[j] = new object[] { item.id, item.groupname, item.subgroupname,item.locationname };
+                GroupData[j] = new object[] { item.id, item.groupname, item.subgroupname, item.locationname };
                 j++;
             }
             return Json(GroupData, JsonRequestBehavior.AllowGet);
@@ -467,30 +467,30 @@ namespace KontaktHome.Controllers
 
         public ActionResult CreateEditLocationGroup(int? id)
         {
-            if (id==0)
+            if (id == 0)
             {
                 return View();
             }
             else
             {
                 BusinessLayerResult<LocationGroup> _locationGroup = locationGroupManager.FindGroup(id);
-                if (_locationGroup.Errors.Count>0)
+                if (_locationGroup.Errors.Count > 0)
                 {
                     return View();
                 }
-                return View(_locationGroup.Result);                
+                return View(_locationGroup.Result);
             }
-            
+
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEditLocationGroup(LocationGroup data)
         {
-            if (data.ID==0)
+            if (data.ID == 0)
             {
                 bool status = false;
                 string[] errors;
-                if (data.Value!=null)
+                if (data.Value != null)
                 {
                     data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
                     BusinessLayerResult<LocationGroup> _locationGroup = locationGroupManager.InsertData(data);
@@ -537,39 +537,39 @@ namespace KontaktHome.Controllers
                 errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
                 status = false;
                 return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
-            }            
+            }
         }
         public ActionResult CreateEditLocationSubGroup(int? id)
         {
-           
-            List<LocationGroup> _locationGroup =locationGroupManager.GetGroups();
+
+            List<LocationGroup> _locationGroup = locationGroupManager.GetGroups();
             var grouplist = _locationGroup.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Value }).ToList();
             ViewBag.Groups = grouplist;
-            if (id==0)
+            if (id == 0)
             {
                 return View();
             }
             else
             {
                 BusinessLayerResult<LocationSubGroup> _locationSubGroup = locationSubGroupManager.FindGroup(id);
-                if (_locationSubGroup.Errors.Count>0)
+                if (_locationSubGroup.Errors.Count > 0)
                 {
                     return View();
                 }
-                return View(_locationSubGroup.Result); 
+                return View(_locationSubGroup.Result);
             }
-            
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEditLocationSubGroup(LocationSubGroup data)
         {
-            if (data.ID==0)
+            if (data.ID == 0)
             {
                 bool status = false;
                 string[] errors;
-                if (data.Value != null && data.GroupID!=0)
+                if (data.Value != null && data.GroupID != 0)
                 {
                     data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
                     BusinessLayerResult<LocationSubGroup> _locationsubGroup = locationSubGroupManager.InsertData(data);
@@ -617,6 +617,103 @@ namespace KontaktHome.Controllers
                 status = false;
                 return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
             }
+        }
+        public ActionResult CreateEditLocationName(int? id)
+        {
+
+            List<LocationGroup> _locationGroup = locationGroupManager.GetGroups();
+            var grouplist = _locationGroup.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Value }).ToList();
+            ViewBag.Groups = grouplist;
+            if (id == 0)
+            {
+
+                ViewBag.SubGroups = new SelectList(Enumerable.Empty<SelectListItem>());
+                return View();
+            }
+            else
+            {
+                BusinessLayerResult<LocationNames> _locationNames = locationNameManager.FindName(id);
+                if (_locationNames.Errors.Count > 0)
+                {
+                    return View();
+                }
+                List<LocationSubGroup> _locationSubGroupList = locationSubGroupManager.GetSubGroup(_locationNames.Result.GroupID);
+                var subgrouplist = _locationSubGroupList.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Value }).ToList();
+                ViewBag.SubGroups = subgrouplist;
+                return View(_locationNames.Result);
+            }
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEditLocationName(LocationNames data)
+        {
+            if (data.ID == 0)
+            {
+                bool status = false;
+                string[] errors;
+                if (data.Value != null && data.GroupID != 0 && data.SubGroupID != 0)
+                {
+                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    BusinessLayerResult<LocationNames> _locationNames = locationNameManager.InsertData(data);
+                    if (_locationNames.Errors.Count > 0)
+                    {
+                        errors = new string[_locationNames.Errors.Count];
+                        for (int i = 0; i < _locationNames.Errors.Count; i++)
+                        {
+                            errors[i] = _locationNames.Errors[i].Message;
+                        }
+                        status = false;
+                        return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                    }
+                    status = true;
+                    return Json(new { status, Url = Url.Action("Locations", "Admin") });
+                }
+                errors = new string[1];
+                errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+                status = false;
+                return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+            }
+            else
+            {
+                bool status = false;
+                string[] errors;
+                if (data.Value != null && data.GroupID != 0 && data.SubGroupID != 0)
+                {
+                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    BusinessLayerResult<LocationNames> _locationNames = locationNameManager.UpdateData(data);
+                    if (_locationNames.Errors.Count > 0)
+                    {
+                        errors = new string[_locationNames.Errors.Count];
+                        for (int i = 0; i < _locationNames.Errors.Count; i++)
+                        {
+                            errors[i] = _locationNames.Errors[i].Message;
+                        }
+                        status = false;
+                        return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                    }
+                    status = true;
+                    return Json(new { status, Url = Url.Action("Locations", "Admin") });
+                }
+                errors = new string[1];
+                errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+                status = false;
+                return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+            }
+        }
+
+        [WebMethod]
+        public ActionResult GetLocationSubGroup(int? id)
+        {
+            List<LocationSubGroup> _locationSubGroupList = new List<LocationSubGroup>();
+            _locationSubGroupList = locationSubGroupManager.GetSubGroup(id);
+           
+            return Json(_locationSubGroupList.Select(x => new
+            {
+                ID = x.ID,
+                Value = x.Value
+            }).ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }

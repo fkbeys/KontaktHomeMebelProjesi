@@ -18,7 +18,7 @@ namespace BusinessLayer.Managers.LocalManagers
         {
             BusinessLayerResult<LocationNames> _locationNames = new BusinessLayerResult<LocationNames>();
             _locationNames.Result = db.LocationName.FirstOrDefault(x => x.Value.ToLower() == data.Value.ToLower() && x.SubGroupID == data.SubGroupID && x.GroupID == data.GroupID);
-            if (_locationNames.Result!=null)
+            if (_locationNames.Result==null)
             {
                 _locationNames.Result = data;
                 db.LocationName.Add(_locationNames.Result);
@@ -50,6 +50,39 @@ namespace BusinessLayer.Managers.LocalManagers
             foreach (var item in locationnames)
             {
                 _locationNames.Add(new LocationNameList() { id = item.id, subgroupname = item.subGroupName, groupname = item.groupName,locationname=item.locationName });
+            }
+            return _locationNames;
+
+        }
+        public BusinessLayerResult<LocationNames> FindName(int? id)
+        {
+            BusinessLayerResult<LocationNames> _locationNames = new BusinessLayerResult<LocationNames>();
+            _locationNames.Result = db.LocationName.FirstOrDefault(x => x.ID == id);
+            if (_locationNames == null)
+            {
+                _locationNames.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Qeyd mövcud deyil");
+            }
+
+            return _locationNames;
+        }
+        public BusinessLayerResult<LocationNames> UpdateData(LocationNames data)
+        {
+            BusinessLayerResult<LocationNames> _locationNames = new BusinessLayerResult<LocationNames>();
+            _locationNames.Result = db.LocationName.FirstOrDefault(x => x.ID == data.ID);
+            if (_locationNames.Result != null)
+            {
+                _locationNames.Result.Value = data.Value;
+                _locationNames.Result.SubGroupID = data.SubGroupID;
+                _locationNames.Result.GroupID = data.GroupID;
+                db.Entry(_locationNames.Result).State = EntityState.Modified;
+                if (db.SaveChanges() == 0)
+                {
+                    _locationNames.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi. Qeyd yenilənmədi");
+                }
+            }
+            else
+            {
+                _locationNames.AddError(ErrorMessageCode.DataAlreadyExists, "Xəta başverdi. Qeyd mövcud deyil");
             }
             return _locationNames;
 

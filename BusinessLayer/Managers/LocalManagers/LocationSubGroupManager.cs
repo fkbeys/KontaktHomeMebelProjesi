@@ -53,6 +53,11 @@ namespace BusinessLayer.Managers.LocalManagers
             return _subgrouplist;
            
         }
+        public List<LocationSubGroup> GetSubGroup(int? id)
+        {
+            List<LocationSubGroup> _locationSubgroup =db.LocationSubGroup.Where(x => x.GroupID == id).ToList();          
+            return _locationSubgroup;
+        }
 
         public BusinessLayerResult<LocationSubGroup> UpdateDate(LocationSubGroup data)
         {
