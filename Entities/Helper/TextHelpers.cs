@@ -17,8 +17,8 @@ namespace Entities.Helper
             }
             else if (text.Length == 1)
             {
-                char.ToUpper(text[0]);
-                return text;
+                textUpper=char.ToUpper(text[0]).ToString();
+                return textUpper;
             }
             else
             {

@@ -423,7 +423,7 @@ namespace KontaktHome.Controllers
         public async Task<ActionResult> GetLocationGroups()
         {
             List<LocationGroup> _locationGroups = new List<LocationGroup>();
-            _locationGroups = await locationGroupManager.GetGroups();
+            _locationGroups = await locationGroupManager.GetGroupsAsync();
 
             var GroupData = new object[_locationGroups.Count()];
             int j = 0;
@@ -538,6 +538,85 @@ namespace KontaktHome.Controllers
                 status = false;
                 return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
             }            
+        }
+        public ActionResult CreateEditLocationSubGroup(int? id)
+        {
+           
+            List<LocationGroup> _locationGroup =locationGroupManager.GetGroups();
+            var grouplist = _locationGroup.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Value }).ToList();
+            ViewBag.Groups = grouplist;
+            if (id==0)
+            {
+                return View();
+            }
+            else
+            {
+                BusinessLayerResult<LocationSubGroup> _locationSubGroup = locationSubGroupManager.FindGroup(id);
+                if (_locationSubGroup.Errors.Count>0)
+                {
+                    return View();
+                }
+                return View(_locationSubGroup.Result); 
+            }
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateEditLocationSubGroup(LocationSubGroup data)
+        {
+            if (data.ID==0)
+            {
+                bool status = false;
+                string[] errors;
+                if (data.Value != null && data.GroupID!=0)
+                {
+                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    BusinessLayerResult<LocationSubGroup> _locationsubGroup = locationSubGroupManager.InsertData(data);
+                    if (_locationsubGroup.Errors.Count > 0)
+                    {
+                        errors = new string[_locationsubGroup.Errors.Count];
+                        for (int i = 0; i < _locationsubGroup.Errors.Count; i++)
+                        {
+                            errors[i] = _locationsubGroup.Errors[i].Message;
+                        }
+                        status = false;
+                        return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                    }
+                    status = true;
+                    return Json(new { status, Url = Url.Action("Locations", "Admin") });
+                }
+                errors = new string[1];
+                errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+                status = false;
+                return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+            }
+            else
+            {
+                bool status = false;
+                string[] errors;
+                if (data.Value != null && data.GroupID != 0)
+                {
+                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    BusinessLayerResult<LocationSubGroup> _locationsubGroup = locationSubGroupManager.UpdateDate(data);
+                    if (_locationsubGroup.Errors.Count > 0)
+                    {
+                        errors = new string[_locationsubGroup.Errors.Count];
+                        for (int i = 0; i < _locationsubGroup.Errors.Count; i++)
+                        {
+                            errors[i] = _locationsubGroup.Errors[i].Message;
+                        }
+                        status = false;
+                        return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                    }
+                    status = true;
+                    return Json(new { status, Url = Url.Action("Locations", "Admin") });
+                }
+                errors = new string[1];
+                errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+                status = false;
+                return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+            }
         }
     }
 }

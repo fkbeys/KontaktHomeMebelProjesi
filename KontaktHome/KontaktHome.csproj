@@ -1637,6 +1637,7 @@
     <Content Include="Scripts\MyScripts.min.js" />
     <Content Include="Views\Admin\Locations.cshtml" />
     <Content Include="Views\Admin\CreateEditLocationGroup.cshtml" />
+    <Content Include="Views\Admin\CreateEditLocationSubGroup.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

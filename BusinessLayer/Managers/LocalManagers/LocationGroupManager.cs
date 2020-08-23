@@ -35,7 +35,7 @@ namespace BusinessLayer.Managers.LocalManagers
             return _locationGroup;
 
         }
-        public async Task<List<LocationGroup>> GetGroups()
+        public async Task<List<LocationGroup>> GetGroupsAsync()
         {
             List<LocationGroup> _locationGroup = new List<LocationGroup>();
             _locationGroup = await db.LocationGroup.ToListAsync();
@@ -71,6 +71,12 @@ namespace BusinessLayer.Managers.LocalManagers
             }
             return _locationGroup;
 
+        }
+        public List<LocationGroup> GetGroups()
+        {
+            List<LocationGroup> _locationGroup = new List<LocationGroup>();
+            _locationGroup = db.LocationGroup.ToList();
+            return _locationGroup;
         }
     }
 }

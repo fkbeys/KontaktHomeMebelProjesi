@@ -19,7 +19,7 @@ namespace BusinessLayer.Managers.LocalManagers
         {
             BusinessLayerResult<LocationSubGroup> _locationsubGroup = new BusinessLayerResult<LocationSubGroup>();
             _locationsubGroup.Result =db.LocationSubGroup.FirstOrDefault(x => x.Value.ToLower() == data.Value.ToLower() && x.GroupID==data.GroupID);
-            if (_locationsubGroup.Result != null)
+            if (_locationsubGroup.Result == null)
             {
                 _locationsubGroup.Result = data;
                 db.LocationSubGroup.Add(_locationsubGroup.Result);
@@ -33,8 +33,7 @@ namespace BusinessLayer.Managers.LocalManagers
                 _locationsubGroup.AddError(ErrorMessageCode.DataAlreadyExists, "Xəta başverdi. Qeyd mövcuddur");
             }
             return _locationsubGroup;
-        }
-        
+        }        
         public async Task<List<LocationSubGroupList>> GetSubGroups()
         {           
             var subgroups = await (from a in db.LocationSubGroup
@@ -55,5 +54,37 @@ namespace BusinessLayer.Managers.LocalManagers
            
         }
 
+        public BusinessLayerResult<LocationSubGroup> UpdateDate(LocationSubGroup data)
+        {
+            BusinessLayerResult<LocationSubGroup> _locationSubGroup = new BusinessLayerResult<LocationSubGroup>();
+            _locationSubGroup.Result = db.LocationSubGroup.FirstOrDefault(x => x.ID == data.ID);
+            if (_locationSubGroup.Result!=null)
+            {
+                _locationSubGroup.Result.Value = data.Value;
+                _locationSubGroup.Result.GroupID = data.GroupID;
+                db.Entry(_locationSubGroup.Result).State = EntityState.Modified;
+                if (db.SaveChanges()==0)
+                {
+                    _locationSubGroup.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi. Qeyd yenilənmədi");
+                }
+
+            }
+            else
+            {
+                _locationSubGroup.AddError(ErrorMessageCode.DataAlreadyExists, "Xəta başverdi. Qeyd mövcud deyil");
+            }
+            return _locationSubGroup;
+        }
+        public BusinessLayerResult<LocationSubGroup> FindGroup(int? id)
+        {
+            BusinessLayerResult<LocationSubGroup> _locationSubGroup = new BusinessLayerResult<LocationSubGroup>();
+            _locationSubGroup.Result = db.LocationSubGroup.FirstOrDefault(x => x.ID == id);
+            if (_locationSubGroup == null)
+            {
+                _locationSubGroup.AddError(ErrorMessageCode.DataNotFound, "Xəta başverdi. Qeyd mövcud deyil");
+            }
+
+            return _locationSubGroup;
+        }
     }
 }

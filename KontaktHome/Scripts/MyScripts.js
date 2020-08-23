@@ -1290,21 +1290,24 @@ $('#tableLocationGroup').DataTable({
     },
     "columns": [
         {
-            "data": "0"
+            "data": "0", "width": "10%"
         },
         {
-            "data": "1"
+            "data": "1", "width": "75%"
         },
         {
             data: null, render: function (data, type, full) {
-                return '<button type="button" onclick="showInPopup(\'/Admin/CreateEditLocationGroup?id='+full[0]+'\',\'Qrup Düzəliş\')" class="btn btn-info btn-sm">Ətraflı</button>';
+                return '<button type="button" onclick="showInPopup(\'/Admin/CreateEditLocationGroup?id='+full[0]+'\',\'Qrup Düzəliş\')" class="btn btn-info btn-sm m-1">Ətraflı</button>';
             }           
             
         }
     ],
     "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
-    }
+    },
+    "columnDefs": [
+        { "width": "15%", "targets": 2 }
+    ]
 });
 $('#tableLocationSubGroup').DataTable({
     "destroy": true,
@@ -1316,24 +1319,27 @@ $('#tableLocationSubGroup').DataTable({
     },
     "columns": [
         {
-            "data": "0"
+            "data": "0", "width":"10%"
         },
         {
-            "data": "1"
+            "data": "1", "width": "25%"
         },
         {
-            "data": "2"
+            "data": "2", "width": "50%"
         },
         {
-            data: null, render: function () {
-                return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
+            data: null, render: function (data, type, full) {
+                return '<button type="button" onclick="showInPopup(\'/Admin/CreateEditLocationSubGroup?id=' + full[0] + '\',\'Alt Qrup Düzəliş\')" class="btn btn-info btn-sm m-1">Ətraflı</button>';
             }
 
         }
     ],
     "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
-    }
+    },
+    "columnDefs": [
+        { "width": "15%", "targets": 3 }
+    ]
 });
 $('#tableLocationNames').DataTable({
     "destroy": true,
@@ -1345,25 +1351,27 @@ $('#tableLocationNames').DataTable({
     },
     "columns": [
         {
-            "data": "0"
+            "data": "0", "width": "10%"
         },
         {
-            "data": "1"
+            "data": "1", "width": "15%"
         },
         {
-            "data": "2"
+            "data": "2", "width": "20%"
         },
         {
-            "data": "3"
+            "data": "3", "width": "40%"
         },
         {
-            data: null, render: function () {
-                return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
+            data: null, render: function (data, type, full) {
+                return '<button type="button" onclick="showInPopup(\'/Admin/CreateEditLocationName?id=' + full[0] + '\',\'Nişangah Adı Düzəliş\')" class="btn btn-info btn-sm m-1">Ətraflı</button>';
             }
-
         }
     ],
     "language": {
         "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
-    }
+    },
+    "columnDefs": [
+        { "width": "15%", "targets": 4 }
+    ]
 });
