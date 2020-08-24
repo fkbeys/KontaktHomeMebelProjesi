@@ -74,6 +74,9 @@ namespace DataAccessLayer
             // one-to-many relationship
             modelBuilder.Entity<UserRolesMapping>().HasRequired<Users>(s=>s.User).WithMany(g=>g.UserRolesMappings).HasForeignKey<int>(s => s.UserID);
             modelBuilder.Entity<UserRolesMapping>().HasRequired<UserRoles>(s => s.UserRole).WithMany(g => g.UserRolesMappings).HasForeignKey<int>(s => s.RoleID);
+            modelBuilder.Entity<LocationSubGroup>().HasRequired<LocationGroup>(x => x.LocationGroup).WithMany(z => z.LocationSubGroup).HasForeignKey<int>(s => s.GroupID);
+            //modelBuilder.Entity<LocationNames>().HasRequired<LocationGroup>(x => x.LocationGroup).WithMany(z => z.LocationNames).HasForeignKey<int>(s => s.GroupID);
+            modelBuilder.Entity<LocationNames>().HasRequired<LocationSubGroup>(x => x.LocationSubGroup).WithMany(z => z.LocationNames).HasForeignKey<int>(s => s.SubGroupID);
         }
 
         public DatabaseContext()

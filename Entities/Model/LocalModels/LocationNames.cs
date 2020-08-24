@@ -17,5 +17,7 @@ namespace Entities.Model.LocalModels
         public int SubGroupID { get; set; }
         [Required, MaxLength(50)]
         public string Value { get; set; }
+       
+        public LocationSubGroup LocationSubGroup { get; set; }
     }
 }

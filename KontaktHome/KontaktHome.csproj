@@ -1403,8 +1403,6 @@
     <Content Include="plugins\select2\js\select2.full.min.js" />
     <Content Include="plugins\select2\js\select2.js" />
     <Content Include="plugins\select2\js\select2.min.js" />
-    <Content Include="plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.css" />
-    <Content Include="plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.min.css" />
     <Content Include="plugins\sweetalert2\sweetalert2.all.js" />
     <Content Include="plugins\sweetalert2\sweetalert2.all.min.js" />
     <Content Include="plugins\sweetalert2\sweetalert2.css" />
@@ -1431,7 +1429,6 @@
     <Content Include="plugins\.npmignore" />
     <Content Include="plugins\daterangepicker\bower.json" />
     <Content Include="plugins\daterangepicker\example\browserify\README.md" />
-    <Content Include="plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.scss" />
     <Content Include="plugins\toastr\toastr.js.map" />
     <Content Include="plugins\datetimepicker\css\bootstrap-datepicker.css.map" />
     <Content Include="plugins\datetimepicker\css\bootstrap-datepicker.standalone.css.map" />
@@ -1639,6 +1636,7 @@
     <Content Include="Views\Admin\CreateEditLocationGroup.cshtml" />
     <Content Include="Views\Admin\CreateEditLocationSubGroup.cshtml" />
     <Content Include="Views\Admin\CreateEditLocationName.cshtml" />
+    <Content Include="Views\Admin\EditStore.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

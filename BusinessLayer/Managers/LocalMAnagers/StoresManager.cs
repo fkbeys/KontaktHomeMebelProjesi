@@ -82,5 +82,23 @@ namespace BusinessLayer
             }
             return stores;
         }
+        public BusinessLayerResult<Stores> UpdateStore(Stores data)
+        {
+            BusinessLayerResult<Stores> stores = new BusinessLayerResult<Stores>();
+            stores.Result = Find(x => x.StoreID==data.StoreID);
+            if (stores.Result != null)
+            {
+                stores.Result.StoreName = data.StoreName;
+                if (base.Update(stores.Result) == 0)
+                {
+                    stores.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi. Qeyd yenilənmədi.");
+                }
+            }
+            else
+            {                
+                stores.AddError(ErrorMessageCode.DataNotFound, "Mağaza kodu mövcud deyil.");
+            }
+            return stores;
+        }
     }
 }

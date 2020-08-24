@@ -16,5 +16,7 @@ namespace Entities.Model.LocalModels
         [Required]
         [MaxLength(50)]
         public string Value { get; set; }
+        
+        public List<LocationSubGroup> LocationSubGroup { get; set; }
     }
 }

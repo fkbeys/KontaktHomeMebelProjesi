@@ -13,7 +13,11 @@ namespace Entities
     {
         [Key,DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int StoreID { get; set; }
+        [Required]
+        [MaxLength(50)]
         public string StoreCode { get; set; }
+        [Required]
+        [MaxLength(100)]
         public string StoreName { get; set; }
         public bool IsActive { get; set; }
     }

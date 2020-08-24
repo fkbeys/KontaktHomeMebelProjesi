@@ -119,6 +119,9 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "success";
                 return RedirectToAction("Index");
             }
+            List<Stores> magazalar = storesManager.List();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            ViewBag.Stores = magaza;
             return View(data);
         }
         public ActionResult DeleteUser(int? userid)
@@ -492,7 +495,7 @@ namespace KontaktHome.Controllers
                 string[] errors;
                 if (data.Value != null)
                 {
-                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    //data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
                     BusinessLayerResult<LocationGroup> _locationGroup = locationGroupManager.InsertData(data);
                     if (_locationGroup.Errors.Count > 0)
                     {
@@ -560,7 +563,6 @@ namespace KontaktHome.Controllers
             }
 
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEditLocationSubGroup(LocationSubGroup data)
@@ -571,7 +573,7 @@ namespace KontaktHome.Controllers
                 string[] errors;
                 if (data.Value != null && data.GroupID != 0)
                 {
-                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    //data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
                     BusinessLayerResult<LocationSubGroup> _locationsubGroup = locationSubGroupManager.InsertData(data);
                     if (_locationsubGroup.Errors.Count > 0)
                     {
@@ -644,7 +646,6 @@ namespace KontaktHome.Controllers
             }
 
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateEditLocationName(LocationNames data)
@@ -655,7 +656,7 @@ namespace KontaktHome.Controllers
                 string[] errors;
                 if (data.Value != null && data.GroupID != 0 && data.SubGroupID != 0)
                 {
-                    data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                    //data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
                     BusinessLayerResult<LocationNames> _locationNames = locationNameManager.InsertData(data);
                     if (_locationNames.Errors.Count > 0)
                     {
@@ -702,18 +703,115 @@ namespace KontaktHome.Controllers
                 return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
             }
         }
-
         [WebMethod]
         public ActionResult GetLocationSubGroup(int? id)
         {
             List<LocationSubGroup> _locationSubGroupList = new List<LocationSubGroup>();
             _locationSubGroupList = locationSubGroupManager.GetSubGroup(id);
-           
+
             return Json(_locationSubGroupList.Select(x => new
             {
                 ID = x.ID,
                 Value = x.Value
             }).ToList(), JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteLocation(int id, int loctype)
+        {
+            bool status = false;
+            string[] errors;
+            if (loctype == 3 && id > 0)
+            {
+                BusinessLayerResult<LocationNames> _locationNames = locationNameManager.DeleteData(id);
+                if (_locationNames.Errors.Count > 0)
+                {
+                    errors = new string[_locationNames.Errors.Count];
+                    for (int i = 0; i < _locationNames.Errors.Count; i++)
+                    {
+                        errors[i] = _locationNames.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("Locations", "Admin") });
+            }
+            else if (loctype == 2 && id > 0)
+            {
+                BusinessLayerResult<LocationSubGroup> _locationSubGroup = locationSubGroupManager.DeleteData(id);
+                if (_locationSubGroup.Errors.Count > 0)
+                {
+                    errors = new string[_locationSubGroup.Errors.Count];
+                    for (int i = 0; i < _locationSubGroup.Errors.Count; i++)
+                    {
+                        errors[i] = _locationSubGroup.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("Locations", "Admin") });
+            }
+            else if (loctype == 1 && id > 0)
+            {
+                BusinessLayerResult<LocationGroup> _locationGroup = locationGroupManager.DeleteData(id);
+                if (_locationGroup.Errors.Count > 0)
+                {
+                    errors = new string[_locationGroup.Errors.Count];
+                    for (int i = 0; i < _locationGroup.Errors.Count; i++)
+                    {
+                        errors[i] = _locationGroup.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("Locations", "Admin") });
+            }
+            errors = new string[1];
+            errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+            status = false;
+            return Json(new { status, errors, Url = Url.Action("Locations", "Admin") });
+        }
+        public ActionResult EditStore(int? id)
+        {
+            Stores _stores = new Stores();
+            _stores = storesManager.Find(x => x.StoreID == id);
+            if (_stores!=null)
+            {
+                return View(_stores);
+            }
+            TempData["msg"] = "Mağaza kodu mövcud deyil!";
+            TempData["typ"] = "error";
+            return RedirectToAction("CreateStore");         
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditStore(Stores data)
+        {
+            bool status = false;
+            string[] errors;
+            if (ModelState.IsValid)            
+            {              
+                BusinessLayerResult<Stores> _stores = storesManager.UpdateStore(data);
+                if (_stores.Errors.Count > 0)
+                {
+                    errors = new string[_stores.Errors.Count];
+                    for (int i = 0; i < _stores.Errors.Count; i++)
+                    {
+                        errors[i] = _stores.Errors[i].Message;
+                    }
+                    status = false;
+                    return Json(new { status, errors, Url = Url.Action("CreateStore", "Admin") });
+                }
+                status = true;
+                return Json(new { status, Url = Url.Action("CreateStore", "Admin") });
+            }
+            errors = new string[1];
+            errors[0] = "Daxil edilən məlumatlar düzgün deyil.";
+            status = false;
+            return Json(new { status, errors, Url = Url.Action("CreateStore", "Admin") });
         }
     }
 }

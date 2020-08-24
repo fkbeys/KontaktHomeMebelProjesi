@@ -78,5 +78,23 @@ namespace BusinessLayer.Managers.LocalManagers
             _locationGroup = db.LocationGroup.ToList();
             return _locationGroup;
         }
+        public BusinessLayerResult<LocationGroup> DeleteData(int id)
+        {
+            BusinessLayerResult<LocationGroup> _locationGroup = new BusinessLayerResult<LocationGroup>();
+            _locationGroup.Result = db.LocationGroup.FirstOrDefault(x => x.ID == id);
+            if (_locationGroup.Result != null)
+            {
+                db.LocationGroup.Remove(_locationGroup.Result);
+                if (db.SaveChanges() == 0)
+                {
+                    _locationGroup.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd silinmədi");
+                }
+            }
+            else
+            {
+                _locationGroup.AddError(ErrorMessageCode.DataNotFound, "Xəta baş verdi. Qeyd möcud deyil.");
+            }
+            return _locationGroup;
+        }
     }
 }

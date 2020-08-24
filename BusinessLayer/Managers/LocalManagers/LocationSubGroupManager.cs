@@ -91,5 +91,23 @@ namespace BusinessLayer.Managers.LocalManagers
 
             return _locationSubGroup;
         }
+        public BusinessLayerResult<LocationSubGroup> DeleteData(int id)
+        {
+            BusinessLayerResult<LocationSubGroup> _locationSubGroup = new BusinessLayerResult<LocationSubGroup>();
+            _locationSubGroup.Result = db.LocationSubGroup.FirstOrDefault(x => x.ID == id);
+            if (_locationSubGroup.Result != null)
+            {
+                db.LocationSubGroup.Remove(_locationSubGroup.Result);
+                if (db.SaveChanges() == 0)
+                {
+                    _locationSubGroup.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd silinmədi");
+                }
+            }
+            else
+            {
+                _locationSubGroup.AddError(ErrorMessageCode.DataNotFound, "Xəta baş verdi. Qeyd möcud deyil.");
+            }
+            return _locationSubGroup;
+        }
     }
 }

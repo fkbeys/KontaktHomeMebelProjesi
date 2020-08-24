@@ -14,7 +14,10 @@ namespace Entities.Model.LocalModels
         [Key]
         public int ID { get; set; }
         public int GroupID { get; set; }
-        [Required,MaxLength(50)]
+        [Required, MaxLength(50)]
         public string Value { get; set; }
+
+        public LocationGroup LocationGroup { get; set; }
+        public List<LocationNames> LocationNames { get; set; }
     }
 }
