@@ -54,6 +54,11 @@ namespace BusinessLayer.Managers.LocalManagers
             return _locationNames;
 
         }
+        public async Task<List<LocationNames>> GetLocationName()
+        {
+            List<LocationNames> _locationNames = await db.LocationName.ToListAsync();        
+            return _locationNames;
+        }
         public BusinessLayerResult<LocationNames> FindName(int? id)
         {
             BusinessLayerResult<LocationNames> _locationNames = new BusinessLayerResult<LocationNames>();

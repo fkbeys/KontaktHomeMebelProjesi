@@ -157,11 +157,11 @@
                             <div class="col-md-12">
                             </div>
                             <div class="col-md-12">
-                                <div class="form-group">                                   
+                                <div class="form-group">
                                     <div class="custom-control custom-checkbox">
                                         @Html.CheckBoxFor(model => model.CustomerWillAnswer, new { @class = "custom-control-input", @type = "checkbox", @id = "custWillAnswer" })
                                         @Html.LabelFor(c => c.CustomerWillAnswer, new { @class = "custom-control-label", @for = "custWillAnswer" })
-                                    </div>                                  
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -187,369 +187,70 @@
         <div class="modal-content">
             <div class="modal-header justify-content-center">
                 <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#Rayon">Rayon və qəsəbələr</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Metro">Metrostansiyalar</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#Nisangah">Nişangahlar</a></li>
+                    @for (int i = 0; i < ViewBag.LocationGroup.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            <li class="nav-item"><a class="nav-link active" data-toggle="pill" href="#@ViewBag.LocationGroup[i].Value.Replace(" ", "")">@ViewBag.LocationGroup[i].Value</a></li>
+                        }
+                        else
+                        {
+                            <li class="nav-item"><a class="nav-link" data-toggle="pill" href="#@ViewBag.LocationGroup[i].Value.Replace(" ", "")">@ViewBag.LocationGroup[i].Value</a></li>
+                        }
+                    }                   
                 </ul>
             </div>
             <div class="modal-body">
                 <div class="tab-content mt-2">
-                    <div id="Rayon" class="tab-pane fade show active">
-                        <ul class="location_list">
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Abşeron r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ceyranbatan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Çiçək</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Digah</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Fatmayı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Görədil</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Hökməli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Köhnə Corat</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qobu</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Masazır</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Mehdiabad</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Müşviqabad</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Novxanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Pirəkəşkül</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Saray</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yeni Corat</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zağulba</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Binəqədi r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">2-ci Alatava</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">28 May</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">6-cı mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">7-ci mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">8-ci mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">9-cu mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Biləcəri</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Binəqədi</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Xocəsən</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Xutor</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">M.Ə.Rəsulzadə</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sulutəpə</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Xətai r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Əhmədli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Həzi Aslanov</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Köhnə Günəşli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">NZS</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Xəzər r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Binə</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Buzovna</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dübəndi</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Gürgən</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qala</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Mərdəkan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şağan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şimal DRES</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şüvəlan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Türkan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zirə</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Qaradağ r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bibi Heybət</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ələt</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qızıldaş</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qobustan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Lökbatan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Puta</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sahil</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Səngəçal</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şıxov</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şubani</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Nərimanov r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Böyükşor</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Nəsimi r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">1-ci mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">2-ci mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">3-cü mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">4-cü mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">5-ci mikrorayon</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Kubinka</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Nizami r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">8-ci kilometr</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Keşlə</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Pirallahı r.</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Sabunçu r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bakıxanov</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Balaxanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bilgəh</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Kürdəxanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Maştağa</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Məmmədli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nardaran</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Pirşağı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ramana</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sabunçu</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Savalan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yeni Balaxanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yeni Ramana</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zabrat</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Səbail r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">20-ci sahə</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Badamdar</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bayıl</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Suraxanı r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bahar</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bülbülə</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dədə Qorqud</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Əmircan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Günəşli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Hövsan</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qaraçuxur</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Massiv A</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Massiv B</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Massiv D</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Massiv G</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Massiv V</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Suraxanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şərq</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yeni Günəşli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yeni Suraxanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zığ</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Yasamal r.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yasamal</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yeni Yasamal</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="Metro" class="tab-pane fade">
-                        <ul class="location_list">
-                            <li>
-                                <span class="location_title">2</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">20 Yanvar</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">28 May</span>
-                            </li>
-                            <li>
-                                <span class="location_title">A</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Avtovağzal</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Azadlıq Prospekti</span>
-                            </li>
-                            <li>
-                                <span class="location_title">B</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bakmil</span>
-                            </li>
-                            <li>
-                                <span class="location_title">D</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dərnəgül</span>
-                            </li>
-                            <li>
-                                <span class="location_title">E</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Elmlər Akademiyası</span>
-                            </li>
-                            <li>
-                                <span class="location_title">Ə</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Əhmədli</span>
-                            </li>
-                            <li>
-                                <span class="location_title">G</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Gənclik</span>
-                            </li>
-                            <li>
-                                <span class="location_title">H</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Həzi Aslanov</span>
-                            </li>
-                            <li>
-                                <span class="location_title">X</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Xalqlar Dostluğu</span>
-                            </li>
-                            <li>
-                                <span class="location_title">İ</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İçəri Şəhər</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İnşaatçılar</span>
-                            </li>
-                            <li>
-                                <span class="location_title">K</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Koroğlu</span>
-                            </li>
-                            <li>
-                                <span class="location_title">Q</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qara Qarayev</span>
-                            </li>
-                            <li>
-                                <span class="location_title">M</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Memar Əcəmi</span>
-                            </li>
-                            <li>
-                                <span class="location_title">N</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Neftçilər</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nəriman Nərimanov</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nəsimi</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nizami</span>
-                            </li>
-                            <li>
-                                <span class="location_title">S</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sahil</span>
-                            </li>
-                            <li>
-                                <span class="location_title">Ş</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şah İsmayıl Xətai</span>
-                            </li>
-                            <li>
-                                <span class="location_title">U</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ulduz</span>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="Nisangah" class="tab-pane fade">
-                        <ul class="location_list">
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">A</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ağ şəhər</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Axundov bağı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ayna Sultanova heykəli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Azadlıq meydanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Azərbaycan Dillər Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Azərbaycan kinoteatrı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Azərbaycan turizm institutu</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Azneft meydanı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">B</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bakı Asiya Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bakı Dövlət Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bakı Musiqi Akademiyası</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bakı Slavyan Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Bayıl parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Beşmərtəbə</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Botanika bağı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">C</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Cavanşir körpüsü</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">D</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dağüstü parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dostluq kinoteatrı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dövlət İdarəçilik Akademiyası</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Dövlət Statistika Komitəsi</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">F</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Fontanlar bağı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">H</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Hüseyn Cavid parkı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">X</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Xalça Muzeyi</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">İ</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İçəri Şəhər</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İdman kompleksi</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İqsadiyyat Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İncəsənət və Mədəniyyət Un.</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">İzmir parkı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">K</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Keşlə bazarı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Koala parkı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Q</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qış parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Qubernator parkı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">M</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">M.Ə.Sabir parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">M.Hüseynzadə parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Malokan bağı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Memarlıq və İnşaat Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Mərkəzi Univermaq</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Milli Konservatoriya</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Montin bazarı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">N</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Neapol dairəsi</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Neft Akademiyası</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Neftçi bazası</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nəriman Nərimanov parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nərimanov heykəli</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nəsimi bazarı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Nizami kinoteatrı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">P</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Park Zorge</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Pedaqoji Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Port Baku</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Prezident parkı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">R</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Respublika stadionu</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Rəssamlıq Akademiyası</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Rusiya səfirliyi</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">S</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sahil bağı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sea Breeze</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sevil Qazıyeva parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Səməd Vurğun parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sirk</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Sovetski</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Space TV</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Ş</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şəfa stadionu</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şəhidlər xiyabanı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şəlalə parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Şərq bazarı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">T</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Texniki Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Təhsil Nazirliyi</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Tibb Universiteti</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">TQDK</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">U</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Ukrayna dairəsi</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Y</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Yasamal bazarı</span>
-                            </li>
-                            <li class="location_list_item-wrap">
-                                <span class="location_title">Z</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zabitlər parkı</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zərifə Əliyeva adına park</span>
-                                <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">Zoopark</span>
-                            </li>
-                        </ul>
-                    </div>
+                    @for (int i = 0; i < ViewBag.LocationGroup.Count; i++)
+                    {
+                        if (i == 0)
+                        {
+                            <div id="@ViewBag.LocationGroup[i].Value.Replace(" ", "")" class="tab-pane fade show active">
+                                <ul class="location_list">
+                                    @foreach (var item in ViewBag.LocationSubGroup)
+                                    {
+                                        if (item.GroupID == ViewBag.LocationGroup[i].ID)
+                                        {
+                                            <li class="location_list_item-wrap">
+                                                <span class="location_title">@item.Value</span>
+                                                @foreach (var names in ViewBag.LocationNames)
+                                                {
+                                                    if (names.SubGroupID == item.ID)
+                                                    {
+                                                        <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">@names.Value</span>
+                                                    }
+                                                }
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <div id="@ViewBag.LocationGroup[i].Value.Replace(" ", "")" class="tab-pane fade">
+                                <ul class="location_list">
+                                    @foreach (var item in ViewBag.LocationSubGroup)
+                                    {
+                                        if (item.GroupID == ViewBag.LocationGroup[i].ID)
+                                        {
+                                            <li class="location_list_item-wrap">
+                                                <span class="location_title">@item.Value</span>
+                                                @foreach (var names in ViewBag.LocationNames)
+                                                {
+                                                    if (names.SubGroupID == item.ID)
+                                                    {
+                                                        <span class="location_list_item" onClick="setText(this)" data-dismiss="modal">@names.Value</span>
+                                                    }
+                                                }
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    }                   
                 </div>
             </div>
 

@@ -103,6 +103,7 @@
     <Compile Include="Messages\ErrorMessageObj.cs" />
     <Compile Include="Model\LocalModels\OrderData.cs" />
     <Compile Include="Model\LocalModels\OrderFileUpload.cs" />
+    <Compile Include="Model\LocalModels\OrderModel.cs" />
     <Compile Include="Model\LocalModels\Orders.cs" />
     <Compile Include="Model\LocalModels\OrderSearch.cs" />
     <Compile Include="Model\LocalModels\Production.cs" />

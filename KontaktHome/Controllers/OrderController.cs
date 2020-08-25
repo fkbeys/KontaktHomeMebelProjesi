@@ -17,6 +17,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -48,6 +49,9 @@ namespace KontaktHome.Controllers
         private UrunReceteleriManager urunReceteleriManager = new UrunReceteleriManager();
         private CariManager cariManager = new CariManager();
         private SifarisManager sifarisManager = new SifarisManager();
+        private LocationGroupManager locationGroupManager = new LocationGroupManager();
+        private LocationSubGroupManager locationSubGroupManager = new LocationSubGroupManager();
+        private LocationNameManager locationNameManager = new LocationNameManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -61,15 +65,24 @@ namespace KontaktHome.Controllers
         }
         //Seller
         [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
-        public ActionResult NewOrder(string status)
+        public async Task<ActionResult> NewOrder(string status)
         {
             ViewBag.Status = status;
+            List<LocationGroup> _locationGroups = new List<LocationGroup>();
+            _locationGroups = await locationGroupManager.GetGroupsAsync();
+            List<LocationSubGroup> _locationSubGroup = new List<LocationSubGroup>();
+            _locationSubGroup = await locationSubGroupManager.GetSubGroup();
+            List<LocationNames> _locationName = new List<LocationNames>();
+            _locationName = await locationNameManager.GetLocationName();
+            ViewBag.LocationGroup = _locationGroups;
+            ViewBag.LocationSubGroup = _locationSubGroup;
+            ViewBag.LocationNames = _locationName;
             return View();
         }
         [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewOrder(Orders data)
+        public async Task<ActionResult> NewOrder(Orders data)
         {
             DateTime currentDate = DateTime.Now;
             data.CreateOn = currentDate;
@@ -96,6 +109,15 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "success";
                 return RedirectToAction("NewOrder");
             }
+            List<LocationGroup> _locationGroups = new List<LocationGroup>();
+            _locationGroups = await locationGroupManager.GetGroupsAsync();
+            List<LocationSubGroup> _locationSubGroup = new List<LocationSubGroup>();
+            _locationSubGroup = await locationSubGroupManager.GetSubGroup();
+            List<LocationNames> _locationName = new List<LocationNames>();
+            _locationName = await locationNameManager.GetLocationName();
+            ViewBag.LocationGroup = _locationGroups;
+            ViewBag.LocationSubGroup = _locationSubGroup;
+            ViewBag.LocationNames = _locationName;
             return View(data);
         }
 

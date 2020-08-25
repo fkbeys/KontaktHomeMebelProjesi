@@ -1421,7 +1421,6 @@ function loadSubGroups() {
         }
     });
 }
-
 function deleteLocation(ID, LocType) {
     Swal.fire({
         title: ID + " nömrəli qeyd silinəcək!",

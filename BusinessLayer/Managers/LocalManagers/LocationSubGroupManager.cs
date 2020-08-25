@@ -53,12 +53,16 @@ namespace BusinessLayer.Managers.LocalManagers
             return _subgrouplist;
            
         }
+        public async Task<List<LocationSubGroup>> GetSubGroup()
+        {
+            List<LocationSubGroup> _subgrouplist = await db.LocationSubGroup.ToListAsync();
+            return _subgrouplist;
+        }
         public List<LocationSubGroup> GetSubGroup(int? id)
         {
             List<LocationSubGroup> _locationSubgroup =db.LocationSubGroup.Where(x => x.GroupID == id).ToList();          
             return _locationSubgroup;
         }
-
         public BusinessLayerResult<LocationSubGroup> UpdateDate(LocationSubGroup data)
         {
             BusinessLayerResult<LocationSubGroup> _locationSubGroup = new BusinessLayerResult<LocationSubGroup>();
