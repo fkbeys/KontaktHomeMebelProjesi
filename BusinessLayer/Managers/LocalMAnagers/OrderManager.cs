@@ -14,7 +14,7 @@ namespace BusinessLayer
     public class OrderManager : ManagerBase<Orders>
     {       
         public BusinessLayerResult<Orders> SaveOrder(Orders data)
-        {
+        {           
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             orders.Result = data;
             if (base.Insert(orders.Result) == 0)

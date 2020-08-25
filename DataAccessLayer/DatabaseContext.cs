@@ -39,7 +39,7 @@ namespace DataAccessLayer
                 {
                     if (prop.ToString() == "UpdateUser")
                     {
-                        userName= change.CurrentValues[prop]?.ToString();
+                        userName = change.CurrentValues[prop]?.ToString();
                     }
                     if (prop.ToString() != "LastUpdate" && prop.ToString() != "UpdateUser")
                     {
@@ -55,7 +55,7 @@ namespace DataAccessLayer
                                 OldValue = originalValue,
                                 NewValue = currentValue,
                                 DateChanged = now,
-                                ChangedUser=userName
+                                ChangedUser = userName
                             };
                             ChangeLogs.Add(log);
                         }

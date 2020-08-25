@@ -101,12 +101,10 @@ namespace Entities
 
         [DisplayName("Faktura Nömrəsi")]
         [StringLength(20, ErrorMessage = "Faktura nömrəsi 20 simvoldan Çox olabilməz")]
-     
-        [CustomValidation.RequiredIf("IsCompleted", "True",ErrorMessage ="Faktura nömrəsi boş olabilməz")]
-        public string InvoiceNo { get; set; }
-        //TODO: OrderStatuslar: 1. Gözləmədə 2.VisitorTəyinEdilib 3.Vizitor qebul edib 4. Vizit tamamlanib 5. Dizayner teyin edilib 6. dizayner qebul edib 7.Dizayn tamamlanib
-        //TODO: VisitorStatuslar: 1.Gözləmədə 2.Qəbul edilib 3.VizitEdilib 4.Vizit Tamamlanib
-        //TODO: DEsignerStatuslar 1.Gözləmədə 2. Qəbul edilib 3.Dizayn edilib 4. dizaynr tamamlanib
+
+        [CustomValidation.RequiredIf("IsCompleted", "True", ErrorMessage = "Faktura nömrəsi boş olabilməz")]
+        public string InvoiceNo { get; set; } = "0";
+        
 
 
     }
