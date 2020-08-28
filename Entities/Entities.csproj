@@ -128,11 +128,6 @@
     <Compile Include="Model\MikroModels\STOK_SATIS_FIYAT_LISTELERI_old.cs" />
     <Compile Include="Model\MikroModels\URUNLER_old.cs" />
     <Compile Include="Model\MikroModels\URUN_RECETELERI_old.cs" />
-    <Compile Include="Model\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\MikroModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,6 +137,9 @@
       <DependentUpon>MikroModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\SIPARISLER.cs">
+      <DependentUpon>MikroModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\SORUMLULUK_MERKEZLERI.cs">
       <DependentUpon>MikroModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\STOKLAR.cs">
@@ -172,6 +170,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>MikroModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="Model\MikroModel.edmx.diagram">
       <DependentUpon>MikroModel.edmx</DependentUpon>
     </None>
@@ -189,11 +188,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MikroModel.cs</LastGenOutput>
       <DependentUpon>MikroModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MikroModel.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

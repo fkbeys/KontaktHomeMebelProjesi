@@ -13,6 +13,7 @@
         <EntityTypeShape EntityType="MikroModel.Products" Width="1.5" PointX="8.5" PointY="0.75" />
         <EntityTypeShape EntityType="MikroModel.CARI_HESAPLAR" Width="1.5" PointX="8.5" PointY="3.5" />
         <EntityTypeShape EntityType="MikroModel.SIPARISLER" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="MikroModel.SORUMLULUK_MERKEZLERI" Width="1.5" PointX="13.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

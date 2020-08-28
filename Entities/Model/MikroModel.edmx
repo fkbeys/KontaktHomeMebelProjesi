@@ -327,6 +327,37 @@
           <Property Name="sip_FormulMiktarNo" Type="tinyint" />
           <Property Name="sip_FormulMiktar" Type="float" />
         </EntityType>
+        <EntityType Name="SORUMLULUK_MERKEZLERI">
+          <Key>
+            <PropertyRef Name="som_Guid" />
+          </Key>
+          <Property Name="som_Guid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="som_DBCno" Type="smallint" Nullable="false" />
+          <Property Name="som_SpecRECno" Type="int" />
+          <Property Name="som_iptal" Type="bit" />
+          <Property Name="som_fileid" Type="smallint" />
+          <Property Name="som_hidden" Type="bit" />
+          <Property Name="som_kilitli" Type="bit" />
+          <Property Name="som_degisti" Type="bit" />
+          <Property Name="som_checksum" Type="int" />
+          <Property Name="som_create_user" Type="smallint" />
+          <Property Name="som_create_date" Type="datetime" Nullable="false" />
+          <Property Name="som_lastup_user" Type="smallint" />
+          <Property Name="som_lastup_date" Type="datetime" />
+          <Property Name="som_special1" Type="nvarchar" MaxLength="4" />
+          <Property Name="som_special2" Type="nvarchar" MaxLength="4" />
+          <Property Name="som_special3" Type="nvarchar" MaxLength="4" />
+          <Property Name="som_kod" Type="nvarchar" MaxLength="25" />
+          <Property Name="som_isim" Type="nvarchar" MaxLength="40" />
+          <Property Name="som_DogrudanUrtSrmMrk" Type="bit" />
+          <Property Name="som_MasrafNereyeYuklenecek" Type="tinyint" />
+          <Property Name="som_DagAnahKodu" Type="nvarchar" MaxLength="25" />
+          <Property Name="som_MuhArtikeli" Type="nvarchar" MaxLength="10" />
+          <Property Name="som_MaliyetDagitimSekli" Type="tinyint" />
+          <Property Name="som_MaliyetDagitimKaynak" Type="tinyint" />
+          <Property Name="som_tipi" Type="tinyint" />
+          <Property Name="som_satis_fiyat_liste_no" Type="int" />
+        </EntityType>
         <EntityType Name="STOK_ANA_GRUPLARI">
           <Key>
             <PropertyRef Name="san_Guid" />
@@ -731,6 +762,7 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
         <EntityContainer Name="MikroModelStoreContainer">
           <EntitySet Name="CARI_HESAPLAR" EntityType="Self.CARI_HESAPLAR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SIPARISLER" EntityType="Self.SIPARISLER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SORUMLULUK_MERKEZLERI" EntityType="Self.SORUMLULUK_MERKEZLERI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOK_ANA_GRUPLARI" EntityType="Self.STOK_ANA_GRUPLARI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOK_SATIS_FIYAT_LISTELERI" EntityType="Self.STOK_SATIS_FIYAT_LISTELERI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STOKLAR" EntityType="Self.STOKLAR" Schema="dbo" store:Type="Tables" />
@@ -1148,6 +1180,7 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
           <EntitySet Name="Products" EntityType="MikroModel.Products" />
           <EntitySet Name="CARI_HESAPLAR" EntityType="MikroModel.CARI_HESAPLAR" />
           <EntitySet Name="SIPARISLER" EntityType="MikroModel.SIPARISLER" />
+          <EntitySet Name="SORUMLULUK_MERKEZLERI" EntityType="MikroModel.SORUMLULUK_MERKEZLERI" />
         </EntityContainer>
         <EntityType Name="Products">
           <Key>
@@ -1479,6 +1512,37 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
           <Property Name="sip_Olcu5" Type="Double" />
           <Property Name="sip_FormulMiktarNo" Type="Byte" />
           <Property Name="sip_FormulMiktar" Type="Double" />
+        </EntityType>
+        <EntityType Name="SORUMLULUK_MERKEZLERI">
+          <Key>
+            <PropertyRef Name="som_Guid" />
+          </Key>
+          <Property Name="som_Guid" Type="Guid" Nullable="false" />
+          <Property Name="som_DBCno" Type="Int16" Nullable="false" />
+          <Property Name="som_SpecRECno" Type="Int32" />
+          <Property Name="som_iptal" Type="Boolean" />
+          <Property Name="som_fileid" Type="Int16" />
+          <Property Name="som_hidden" Type="Boolean" />
+          <Property Name="som_kilitli" Type="Boolean" />
+          <Property Name="som_degisti" Type="Boolean" />
+          <Property Name="som_checksum" Type="Int32" />
+          <Property Name="som_create_user" Type="Int16" />
+          <Property Name="som_create_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="som_lastup_user" Type="Int16" />
+          <Property Name="som_lastup_date" Type="DateTime" Precision="3" />
+          <Property Name="som_special1" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="som_special2" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="som_special3" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="som_kod" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="som_isim" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="som_DogrudanUrtSrmMrk" Type="Boolean" />
+          <Property Name="som_MasrafNereyeYuklenecek" Type="Byte" />
+          <Property Name="som_DagAnahKodu" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="som_MuhArtikeli" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="som_MaliyetDagitimSekli" Type="Byte" />
+          <Property Name="som_MaliyetDagitimKaynak" Type="Byte" />
+          <Property Name="som_tipi" Type="Byte" />
+          <Property Name="som_satis_fiyat_liste_no" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -2212,6 +2276,38 @@ warning 6002: The table/view 'MikroDB_V16_Demo.dbo.Products' does not have a pri
                 <ScalarProperty Name="sip_SpecRECno" ColumnName="sip_SpecRECno" />
                 <ScalarProperty Name="sip_DBCno" ColumnName="sip_DBCno" />
                 <ScalarProperty Name="sip_Guid" ColumnName="sip_Guid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SORUMLULUK_MERKEZLERI">
+            <EntityTypeMapping TypeName="MikroModel.SORUMLULUK_MERKEZLERI">
+              <MappingFragment StoreEntitySet="SORUMLULUK_MERKEZLERI">
+                <ScalarProperty Name="som_satis_fiyat_liste_no" ColumnName="som_satis_fiyat_liste_no" />
+                <ScalarProperty Name="som_tipi" ColumnName="som_tipi" />
+                <ScalarProperty Name="som_MaliyetDagitimKaynak" ColumnName="som_MaliyetDagitimKaynak" />
+                <ScalarProperty Name="som_MaliyetDagitimSekli" ColumnName="som_MaliyetDagitimSekli" />
+                <ScalarProperty Name="som_MuhArtikeli" ColumnName="som_MuhArtikeli" />
+                <ScalarProperty Name="som_DagAnahKodu" ColumnName="som_DagAnahKodu" />
+                <ScalarProperty Name="som_MasrafNereyeYuklenecek" ColumnName="som_MasrafNereyeYuklenecek" />
+                <ScalarProperty Name="som_DogrudanUrtSrmMrk" ColumnName="som_DogrudanUrtSrmMrk" />
+                <ScalarProperty Name="som_isim" ColumnName="som_isim" />
+                <ScalarProperty Name="som_kod" ColumnName="som_kod" />
+                <ScalarProperty Name="som_special3" ColumnName="som_special3" />
+                <ScalarProperty Name="som_special2" ColumnName="som_special2" />
+                <ScalarProperty Name="som_special1" ColumnName="som_special1" />
+                <ScalarProperty Name="som_lastup_date" ColumnName="som_lastup_date" />
+                <ScalarProperty Name="som_lastup_user" ColumnName="som_lastup_user" />
+                <ScalarProperty Name="som_create_date" ColumnName="som_create_date" />
+                <ScalarProperty Name="som_create_user" ColumnName="som_create_user" />
+                <ScalarProperty Name="som_checksum" ColumnName="som_checksum" />
+                <ScalarProperty Name="som_degisti" ColumnName="som_degisti" />
+                <ScalarProperty Name="som_kilitli" ColumnName="som_kilitli" />
+                <ScalarProperty Name="som_hidden" ColumnName="som_hidden" />
+                <ScalarProperty Name="som_fileid" ColumnName="som_fileid" />
+                <ScalarProperty Name="som_iptal" ColumnName="som_iptal" />
+                <ScalarProperty Name="som_SpecRECno" ColumnName="som_SpecRECno" />
+                <ScalarProperty Name="som_DBCno" ColumnName="som_DBCno" />
+                <ScalarProperty Name="som_Guid" ColumnName="som_Guid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

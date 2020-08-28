@@ -1,6 +1,7 @@
 ﻿using BusinessLayer;
 using BusinessLayer.Managers;
 using BusinessLayer.Managers.LocalManagers;
+using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
 using Entities.Helper;
@@ -36,6 +37,7 @@ namespace KontaktHome.Controllers
         private LocationGroupManager locationGroupManager = new LocationGroupManager();
         private LocationSubGroupManager locationSubGroupManager = new LocationSubGroupManager();
         private LocationNameManager locationNameManager = new LocationNameManager();
+        private SormMerkeziManager sormMerkeziManager = new SormMerkeziManager();
         public ActionResult Index()
         {
             return View();
@@ -44,17 +46,32 @@ namespace KontaktHome.Controllers
         public ActionResult GetUsers()
         {
             string userStatus = "";
-            List<Users> user = userManager.List();
+            List<Users> user = userManager.List();          
             var UserData = new object[user.Count];
             int j = 0;
             foreach (var item in user)
             {
+                var userroles = (from users in userManager.ListQueryable()
+                                 join roleMapping in userRoleMappingManager.ListQueryable()
+                                 on users.UserID equals roleMapping.UserID
+                                 join role in userRolesManager.ListQueryable()
+                                 on roleMapping.RoleID equals role.ID
+                                 where users.UserID == item.UserID
+                                 select new
+                                 {                                     
+                                     RoleName = role.RoleName
+                                 });
                 if (item.IsActive == true)
                 {
                     userStatus = "Aktiv";
                 }
                 else { userStatus = "Bağlı"; }
-                UserData[j] = new object[] { j + 1, item.UserID, item.UserName, item.UserDisplayName, item.StoreCode, item.StoreName, userStatus };
+                string userRoleItem = "";
+                foreach (var userrole in userroles)
+                {
+                    userRoleItem = userRoleItem + " " + userrole.RoleName;
+                }
+                UserData[j] = new object[] { item.UserID, item.UserName, item.UserDisplayName, item.StoreCode, item.StoreName, userStatus, userRoleItem };
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
@@ -63,8 +80,8 @@ namespace KontaktHome.Controllers
         {
             Users user = new Users();
             user.myADUsers = GetADUsers();
-            List<Stores> magazalar = storesManager.List();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();
             ViewBag.Stores = magaza;
             return View(user);
         }
@@ -86,7 +103,9 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "success";
                 return RedirectToAction("Index");
             }
-            //TempData["msg"] = "0";
+            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();
+            ViewBag.Stores = magaza;
             return View(data);
         }
         public ActionResult EditUser(int? userid)
@@ -98,8 +117,8 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "error";
                 return RedirectToAction("Index");
             }
-            List<Stores> magazalar = storesManager.List();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();          
             ViewBag.Stores = magaza;
             return View(user);
         }
@@ -119,8 +138,8 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "success";
                 return RedirectToAction("Index");
             }
-            List<Stores> magazalar = storesManager.List();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();
             ViewBag.Stores = magaza;
             return View(data);
         }
@@ -166,11 +185,13 @@ namespace KontaktHome.Controllers
         }
         public ActionResult UserRoles(int UserID)
         {
+            Users userinformation = userManager.Find(x => x.UserID == UserID);
             UserRolesMapping roleMapping = new UserRolesMapping();
             roleMapping.UserID = UserID;
             List<UserRoles> userRoles = userRolesManager.List();
             var listroles = userRoles.Select(s => new SelectListItem { Value = s.ID.ToString(), Text = s.RoleName }).ToList<SelectListItem>();
             ViewBag.Roles = listroles;
+            ViewBag.UserName = userinformation.UserName;
             return View(roleMapping);
         }
         [HttpPost]
@@ -191,6 +212,8 @@ namespace KontaktHome.Controllers
                 TempData["msg"] = "İstifadəçi səlahiyyəti əlavə edildi!";
                 TempData["typ"] = "success";
             }
+            Users userinformation = userManager.Find(x => x.UserID == model.UserID);
+            ViewBag.UserName = userinformation.UserName;
             return View(model);
         }
         [WebMethod]

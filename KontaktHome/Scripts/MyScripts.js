@@ -473,16 +473,13 @@ $('#tableUsers').DataTable({
         },
         {
             "data": "5"
-        },
+        },        
         {
             "data": "6"
         },
-        {
-            //data: null, render: function () {
-            //    return "<a href='#' id='btnUserInfo' class='btn btn-info btn-sm m-1' role='button' ><i class='fas fa-pencil-alt'></i > Ətraflı</a> ";
-            //}
+        {           
             data: null, render: function (data, type, full) {
-                return '<a href="/Admin/EditUser?userid=' + full[1] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Admin/DeleteUser?userid=' + full[1] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>  <a href="/Admin/UserRoles?UserID=' + full[1] + '" class="btn btn-warning btn-sm  mt-1 mb-1"><i class="fas fa-user-shield"></i> Səlahiyyətlər</a>';
+                return '<a href="/Admin/EditUser?userid=' + full[0] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Admin/DeleteUser?userid=' + full[0] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>  <a href="/Admin/UserRoles?UserID=' + full[0] + '" class="btn btn-warning btn-sm  mt-1 mb-1"><i class="fas fa-user-shield"></i> Səlahiyyətlər</a>';
 
             }
         }

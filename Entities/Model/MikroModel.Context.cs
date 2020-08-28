@@ -33,5 +33,6 @@ namespace Entities.Model
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<CARI_HESAPLAR> CARI_HESAPLAR { get; set; }
         public virtual DbSet<SIPARISLER> SIPARISLER { get; set; }
+        public virtual DbSet<SORUMLULUK_MERKEZLERI> SORUMLULUK_MERKEZLERI { get; set; }
     }
 }
