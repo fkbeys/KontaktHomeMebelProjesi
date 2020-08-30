@@ -3,13 +3,7 @@
 @{
     ViewBag.Title = "CreateUser";
 }
-@section JavaScript{
-    <script>
-        document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
-        document.getElementById('sidemenu2_1').className = 'nav-link active';
-        document.getElementById('newUser').className = 'nav-link active';
-    </script>
-}
+
 <div class="content ">
     <div class="container">
         <!-- /.left panel -->
@@ -63,15 +57,15 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Mağaza Kodu</label>
-                                    @Html.DropDownListFor(model => model.StoreCode, new SelectList(ViewBag.Stores, "Value", "Text"),"", new { @class = "form-control", @id = "userStoreCode" })
+                                    @Html.DropDownListFor(model => model.StoreCode, new SelectList(ViewBag.Stores, "Value", "Text"), "", new { @class = "form-control", @id = "userStoreCode" })
                                     @*@Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Mağaza kodu..." } })
-                                    @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })*@
+                                        @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })*@
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Mağaza Adı</label>
-                                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "userStoreName", placeholder = "Mağaza adı..." , @readonly = "readonly" } })
+                                    @Html.EditorFor(model => model.StoreName, new { htmlAttributes = new { @class = "form-control", id = "userStoreName", placeholder = "Mağaza adı...", @readonly = "readonly" } })
                                     @Html.ValidationMessageFor(model => model.StoreName, "", new { @class = "text-danger" })
                                 </div>
                             </div>
@@ -81,7 +75,7 @@
                                     @Html.EditorFor(model => model.EditDate, new { htmlAttributes = new { @class = "form-control", id = "userEditdate", placeholder = "Gün ..." } })
                                     @Html.ValidationMessageFor(model => model.EditDate, "", new { @class = "text-danger" })
                                 </div>
-                            </div>                         
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -92,3 +86,12 @@
         </div>
     </div>
 </div>
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu2_1').className = 'nav-link active';
+        document.getElementById('newUser').className = 'nav-link active';
+        $('#userStoreCode').selectize();
+        $('#DomainUser').selectize();
+    </script>
+}
