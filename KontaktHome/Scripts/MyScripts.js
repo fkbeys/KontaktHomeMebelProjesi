@@ -449,6 +449,7 @@ function getDesignerActiveOrdersWithParametr() {
 }
 $('#tableUsers').DataTable({
     "destroy": true,
+    "lengthChange": true,
     "ajax": {
         "url": "../Admin/GetUsers",
         "type": 'POST',
@@ -492,23 +493,6 @@ $('#tableUsers').DataTable({
             "targets": [7],
             "searchable": false
         }
-    ],
-
-    "dom": 'Bfrtip',
-    "buttons": [{
-        extend: 'print',
-        text: 'Print',
-        title: 'istifadəçilər',
-        customize: function (win) {
-            $(win.document.body)
-                .css('font-size', '12pt');
-            $(win.document.body).find('table')
-                .addClass('compact')
-                .css('font-size', 'inherit');
-            $(win.document.body).find('h1').css('text-align', 'center');
-        }
-    }
-
     ]
 });
 $('#tableDesignerOrders').DataTable({

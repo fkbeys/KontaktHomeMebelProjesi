@@ -118,7 +118,7 @@ namespace KontaktHome.Controllers
                 return RedirectToAction("Index");
             }
             List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();          
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();          
             ViewBag.Stores = magaza;
             return View(user);
         }
@@ -139,7 +139,7 @@ namespace KontaktHome.Controllers
                 return RedirectToAction("Index");
             }
             List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
             ViewBag.Stores = magaza;
             return View(data);
         }
