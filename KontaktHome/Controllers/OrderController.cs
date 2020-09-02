@@ -52,6 +52,7 @@ namespace KontaktHome.Controllers
         private LocationGroupManager locationGroupManager = new LocationGroupManager();
         private LocationSubGroupManager locationSubGroupManager = new LocationSubGroupManager();
         private LocationNameManager locationNameManager = new LocationNameManager();
+        private SormMerkeziManager sormMerkeziManager = new SormMerkeziManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -98,7 +99,7 @@ namespace KontaktHome.Controllers
             {
                 data.CustomerName = TextHelpers.CapitalizeFirstLetter(data.CustomerName.Trim());
                 data.CustomerSurname = TextHelpers.CapitalizeFirstLetter(data.CustomerSurname.Trim());
-                data.CustomerFatherName = TextHelpers.CapitalizeFirstLetter(data.CustomerFatherName.Trim());               
+                data.CustomerFatherName = TextHelpers.CapitalizeFirstLetter(data.CustomerFatherName.Trim());
                 BusinessLayerResult<Orders> order = orderManager.SaveOrder(data);
                 if (order.Errors.Count > 0)
                 {
@@ -143,8 +144,8 @@ namespace KontaktHome.Controllers
                                ).ToList();
             }
             var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();
-            List<Stores> magazalar = storesManager.List();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.StoreCode, Text = x.StoreName }).ToList();
+            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
+            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
             ViewBag.Seller = saticilar;
             ViewBag.Stores = magaza;
             return View();
@@ -393,7 +394,7 @@ namespace KontaktHome.Controllers
             return View(data);
         }
 
-        [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
+        //[CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
 
         public ActionResult OrderInfo(int? Sira)
         {
@@ -490,7 +491,7 @@ namespace KontaktHome.Controllers
 
         }
 
-        [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
+        //[CustomAuthorize(Roles = "Admin,Kordinator,Vizitor,Satici,")]
         //[EncryptedActionParameter]
         public ActionResult VisitInfo(int? Sira)
         {
@@ -558,8 +559,12 @@ namespace KontaktHome.Controllers
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
                 data.visitImages = visitimages;
-                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
+                //List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
                 //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
+                List<STOK_ANA_GRUPLARI> anagruplar = new List<STOK_ANA_GRUPLARI>();
+                anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod="Metbex",san_isim="Mətbəx"});
+                anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ofis", san_isim = "Ofis Mebeli" });
+                anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ev", san_isim = "Ev Mebeli" });
                 data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
                 //ViewBag.AnaGruplar = listanagruplar;
                 return View(data);
@@ -581,7 +586,10 @@ namespace KontaktHome.Controllers
                 visitorstatus = 14;
             }
             data.order = orderManager.Find(x => x.OrderId == data.order.OrderId);
-            List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
+            List<STOK_ANA_GRUPLARI> anagruplar = new List<STOK_ANA_GRUPLARI>();
+            anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Metbex", san_isim = "Mətbəx" });
+            anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ofis", san_isim = "Ofis Mebeli" });
+            anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ev", san_isim = "Ev Mebeli" });
             data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
             if (data.visitImages == null)
             {
@@ -593,6 +601,7 @@ namespace KontaktHome.Controllers
                 {
                     if (item.ProductCode != null)
                     {
+                        //var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
                         var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
                         item.ProductName = anagrupadi;
                     }

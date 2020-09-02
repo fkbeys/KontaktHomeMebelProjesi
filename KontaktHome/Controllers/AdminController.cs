@@ -79,10 +79,8 @@ namespace KontaktHome.Controllers
         public ActionResult CreateUser()
         {
             Users user = new Users();
-            user.myADUsers = GetADUsers();
-            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();
-            ViewBag.Stores = magaza;
+            user.myADUsers = GetADUsers();           
+            ViewBag.Stores = sormMerkeziManager.listMagaza();
             return View(user);
         }
         [HttpPost]
@@ -95,17 +93,14 @@ namespace KontaktHome.Controllers
                 BusinessLayerResult<Users> newUser = userManager.InsertUser(data);
                 if (newUser.Errors.Count > 0)
                 {
-                    newUser.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
-                    //TempData["msg"] = "0";
+                    newUser.Errors.ForEach(x => ModelState.AddModelError("", x.Message));                   
                     return View(data);
                 }
                 TempData["msg"] = "Istifadəçi qeyd edildi!";
                 TempData["typ"] = "success";
                 return RedirectToAction("Index");
             }
-            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_kod, Text = x.som_isim }).ToList();
-            ViewBag.Stores = magaza;
+            ViewBag.Stores = sormMerkeziManager.listMagaza();
             return View(data);
         }
         public ActionResult EditUser(int? userid)
@@ -117,9 +112,7 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "error";
                 return RedirectToAction("Index");
             }
-            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();          
-            ViewBag.Stores = magaza;
+            ViewBag.Stores = sormMerkeziManager.listMagaza();
             return View(user);
         }
         [HttpPost]
@@ -137,10 +130,8 @@ namespace KontaktHome.Controllers
                 TempData["msg"] = "Istifadəçi yeniləndi!";
                 TempData["typ"] = "success";
                 return RedirectToAction("Index");
-            }
-            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
-            var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
-            ViewBag.Stores = magaza;
+            }          
+            ViewBag.Stores = sormMerkeziManager.listMagaza();
             return View(data);
         }
         public ActionResult DeleteUser(int? userid)
@@ -187,10 +178,8 @@ namespace KontaktHome.Controllers
         {
             Users userinformation = userManager.Find(x => x.UserID == UserID);
             UserRolesMapping roleMapping = new UserRolesMapping();
-            roleMapping.UserID = UserID;
-            List<UserRoles> userRoles = userRolesManager.List();
-            var listroles = userRoles.Select(s => new SelectListItem { Value = s.ID.ToString(), Text = s.RoleName }).ToList<SelectListItem>();
-            ViewBag.Roles = listroles;
+            roleMapping.UserID = UserID;           
+            ViewBag.Roles = userRolesManager.listUserRoles();
             ViewBag.UserName = userinformation.UserName;
             return View(roleMapping);
         }
@@ -198,9 +187,8 @@ namespace KontaktHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UserRoles(UserRolesMapping model)
         {
-            List<UserRoles> userRoles = userRolesManager.List();
-            var listroles = userRoles.Select(s => new SelectListItem { Value = s.ID.ToString(), Text = s.RoleName }).ToList<SelectListItem>();
-            ViewBag.Roles = listroles;
+           
+            ViewBag.Roles = userRolesManager.listUserRoles();
             BusinessLayerResult<UserRolesMapping> rolesMapping = userRoleMappingManager.InsertUserRoles(model);
             if (rolesMapping.Errors.Count > 0)
             {
@@ -261,8 +249,6 @@ namespace KontaktHome.Controllers
                     TempData["typ"] = "success";
                     return RedirectToAction("UserRoles", new { roles.Result.UserID });
                 }
-
-
             }
             return RedirectToAction("Index");
         }
@@ -341,7 +327,6 @@ namespace KontaktHome.Controllers
             TempData["msg"] = "Seçilən Mağaza aktiv olundu!";
             TempData["typ"] = "success";
             return RedirectToAction("CreateStore");
-
         }
 
         public ActionResult Charges()
@@ -517,8 +502,7 @@ namespace KontaktHome.Controllers
                 bool status = false;
                 string[] errors;
                 if (data.Value != null)
-                {
-                    //data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                {                    
                     BusinessLayerResult<LocationGroup> _locationGroup = locationGroupManager.InsertData(data);
                     if (_locationGroup.Errors.Count > 0)
                     {
@@ -567,7 +551,6 @@ namespace KontaktHome.Controllers
         }
         public ActionResult CreateEditLocationSubGroup(int? id)
         {
-
             List<LocationGroup> _locationGroup = locationGroupManager.GetGroups();
             var grouplist = _locationGroup.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Value }).ToList();
             ViewBag.Groups = grouplist;
@@ -584,7 +567,6 @@ namespace KontaktHome.Controllers
                 }
                 return View(_locationSubGroup.Result);
             }
-
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -645,7 +627,6 @@ namespace KontaktHome.Controllers
         }
         public ActionResult CreateEditLocationName(int? id)
         {
-
             List<LocationGroup> _locationGroup = locationGroupManager.GetGroups();
             var grouplist = _locationGroup.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Value }).ToList();
             ViewBag.Groups = grouplist;
@@ -667,7 +648,6 @@ namespace KontaktHome.Controllers
                 ViewBag.SubGroups = subgrouplist;
                 return View(_locationNames.Result);
             }
-
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -678,8 +658,7 @@ namespace KontaktHome.Controllers
                 bool status = false;
                 string[] errors;
                 if (data.Value != null && data.GroupID != 0 && data.SubGroupID != 0)
-                {
-                    //data.Value = TextHelpers.CapitalizeFirstLetter(data.Value);
+                {                  
                     BusinessLayerResult<LocationNames> _locationNames = locationNameManager.InsertData(data);
                     if (_locationNames.Errors.Count > 0)
                     {
@@ -731,12 +710,7 @@ namespace KontaktHome.Controllers
         {
             List<LocationSubGroup> _locationSubGroupList = new List<LocationSubGroup>();
             _locationSubGroupList = locationSubGroupManager.GetSubGroup(id);
-
-            return Json(_locationSubGroupList.Select(x => new
-            {
-                ID = x.ID,
-                Value = x.Value
-            }).ToList(), JsonRequestBehavior.AllowGet);
+            return Json(_locationSubGroupList.Select(x => new{ID = x.ID,Value = x.Value}).ToList(), JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

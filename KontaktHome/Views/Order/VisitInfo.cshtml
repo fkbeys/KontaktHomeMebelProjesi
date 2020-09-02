@@ -192,7 +192,7 @@
                                         {
                                             <td class="p-1" style="height:32px"></td>
                                         }
-                                    </tr>                                   
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -202,7 +202,7 @@
                 <div class="card-footer">
                     @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
                     {
-                        if (Model.order.IsActive == false && Model.order.OrderStatus<8)
+                        if (Model.order.IsActive == false && Model.order.OrderStatus < 8)
                         {
                             <button type="button" class="btn btn-primary" onclick="activateOrder(@Model.order.OrderId)">Aktiv Et</button>
                         }
@@ -236,7 +236,7 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>Mebel Tipi :</td>
-                                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].ProductCode)</td>
+                                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].ProductName)</td>
                                                     </tr>
                                                     <tr>
                                                         <td>En :</td>
@@ -270,16 +270,17 @@
                                                         <td>Qapaq :</td>
                                                         <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DoorType)</td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>Qapaq Rəngi :</td>
-                                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DoorColour)</td>
-                                                    </tr>
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
                                         <div class="col-md-6">
                                             <table class="table table-bordered table-form-custom">
                                                 <tbody>
+                                                    <tr>
+                                                        <td>Qapaq Rəngi :</td>
+                                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].DoorColour)</td>
+                                                    </tr>
                                                     <tr>
                                                         <td>Aksesuar :</td>
                                                         <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.visitData[i].Accessory)</td>
