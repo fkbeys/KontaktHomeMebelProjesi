@@ -57,9 +57,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Mağaza Kodu</label>
-                                    @Html.DropDownListFor(model => model.StoreCode, new SelectList(ViewBag.Stores, "Value", "Text"), "", new { @class = "form-control", @id = "userStoreCode" })
-                                    @*@Html.EditorFor(model => model.StoreCode, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Mağaza kodu..." } })
-                                        @Html.ValidationMessageFor(model => model.StoreCode, "", new { @class = "text-danger" })*@
+                                    @Html.DropDownListFor(model => model.StoreCode, new SelectList(ViewBag.Stores, "Value", "Text"), "", new { @class = "form-control", @id = "userStoreCode" })                                
                                 </div>
                             </div>
                             <div class="col-md-6">

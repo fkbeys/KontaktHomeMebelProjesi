@@ -49,19 +49,31 @@ namespace BusinessLayer.QueryResult
             {
                 return "Vizit Tamamlanıb";
             }
-            else if (status==5)
+            else if (status == 5)
             {
-                return "Dizayner Təyin Edilib";
+                return "Planlamacı Təyin Edilib";
             }
             else if (status == 6)
             {
-                return "Dizayner Qəbul Edib";
+                return "Planlamacı Qəbul Edib";
             }
             else if (status == 7)
             {
+                return "Planlama Tamamlanıb";
+            }
+            else if (status==8)
+            {
+                return "Dizayner Təyin Edilib";
+            }
+            else if (status == 9)
+            {
+                return "Dizayner Qəbul Edib";
+            }
+            else if (status == 10)
+            {
                 return "Dizayn Tamamlanıb";
             }
-            else if (status == 8)
+            else if (status == 11)
             {
                 return "Sifariş Yekunlaşıb";
             }
@@ -98,6 +110,29 @@ namespace BusinessLayer.QueryResult
             else if (status == 4)
             {
                 return "Dizayn Tamamlanıb";
+            }
+            else
+            {
+                return "";
+            }
+        }
+        public static string PlannerStatus(int status)
+        {
+            if (status == 1)
+            {
+                return "Gözləmədə";
+            }
+            else if (status == 2)
+            {
+                return "Qəbul Edilib";
+            }
+            else if (status == 3)
+            {
+                return "Planlama Edilir";
+            }
+            else if (status == 4)
+            {
+                return "Planlama Tamamlanıb";
             }
             else
             {

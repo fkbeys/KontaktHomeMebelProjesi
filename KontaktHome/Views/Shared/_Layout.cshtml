@@ -96,7 +96,8 @@
         Inputmask.extendAliases({
             decimal: {
                 alias: 'numeric',
-                digits: 3
+                digits: 3,
+                positionCaretOnClick:'select'
             }
         })
         Inputmask().mask(document.querySelectorAll('.inputmask'))

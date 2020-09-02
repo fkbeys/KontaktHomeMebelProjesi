@@ -34,6 +34,7 @@ namespace DataAccessLayer
             userRole.Add(new UserRoles() { RoleName = "Vizitor" });
             userRole.Add(new UserRoles() { RoleName = "Satici" });
             userRole.Add(new UserRoles() { RoleName = "Dizayner" });
+            userRole.Add(new UserRoles() { RoleName = "Planlamaci" });
             context.UserRoles.AddRange(userRole);
             context.SaveChanges();
 

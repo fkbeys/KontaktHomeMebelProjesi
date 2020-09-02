@@ -105,6 +105,7 @@ $(document).ready(function () {
     });
     cmbSelectVistorChange();
     cmbSelectDesignerChange();
+    cmbSelectPlannerChange();
 });
 function cmbSelectVistorChange() {
     if ($('#chkboxSetVisitor').is(":checked"))
@@ -117,6 +118,12 @@ function cmbSelectDesignerChange() {
         $("#containerDesigner").show();
     else
         $("#containerDesigner").hide();
+}
+function cmbSelectPlannerChange() {
+    if ($('#chkboxSetPlanner').is(":checked"))
+        $("#containerPlanner").show();
+    else
+        $("#containerPlanner").hide();
 }
 function getActiveOrdersWithParametr() {
 
@@ -447,6 +454,112 @@ function getDesignerActiveOrdersWithParametr() {
     }
 
 }
+function getPlannerActiveOrdersWithParametr() {
+    var isAllValid = true;
+    var firstdate = new Date($('#plannerfirstDate').val().trim());
+    var lastdate = new Date($('#plannerlastDate').val().trim());
+    var chkactive = document.getElementById("chkPlannerActiveOrders").checked;
+    var chkdelete = document.getElementById("chkPlannerClosedOrders").checked;
+    if (firstdate > lastdate) {
+        isAllValid = false;
+        Swal.fire(
+            'Başlanğıc tarixi bitiş tarixindən böyük olabilməz!',
+            '',
+            'error'
+        )
+    }
+    else if ($('#plannerfirstDate').val().trim() == "" & $('#plannerlastDate').val().trim() == "") {
+        isAllValid = false;
+        Swal.fire(
+            'Tarixlər boş olabilməz!',
+            '',
+            'error'
+        )
+    }
+
+    if (chkactive == false && chkdelete == false) {
+        isAllValid = false;
+        Swal.fire(
+            'Mütləq bir sifariş statusu seçilməlidir!',
+            '',
+            'error'
+        )
+    }
+    if (isAllValid == true) {
+
+        var data = {
+            firstDate: $('#plannerfirstDate').val().trim(),
+            lastDate: $('#plannerlastDate').val().trim(),
+            activeOrders: chkactive,
+            deletedOrders: chkdelete
+
+        }
+
+        $('#tablePlannerOrders').DataTable({
+            "destroy": true,
+            "ajax": {
+                "url": "../Order/GetPlannerActiveOrdersWithParametr",
+                "type": 'POST',
+                "data": data,
+                "dataSrc": ""
+            },
+            "columns": [
+                {
+                    "data": "0"
+                },
+                {
+                    "data": "1"
+                },
+                {
+                    "data": "2"
+                },
+                {
+                    "data": "3"
+                },
+                {
+                    "data": "4"
+                },
+                {
+                    "data": "5"
+                },
+                {
+                    "data": "6"
+                },
+                {
+                    "data": "7"
+                },
+                {
+                    data: null, render: function (data, type, full) {
+
+                        if (full[7] == 1) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptPlannerOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
+                        }
+                        else if (full[7] >= 2 && full[7] < 4) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/PlannerEdit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Planlama Et</a>';
+                        }
+                        else if (full[7] == 4) {
+                            return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
+                        }
+                    }
+                }
+            ],
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+            },
+            "columnDefs": [
+                {
+                    "targets": [8],
+                    "searchable": false
+                },
+                {
+                    "targets": [7, 6],
+                    "visible": false
+                }
+            ]
+        });
+    }
+
+}
 $('#tableUsers').DataTable({
     "destroy": true,
     "lengthChange": true,
@@ -536,6 +649,68 @@ $('#tableDesignerOrders').DataTable({
                 }
                 else if (full[7] >= 2 && full[7] < 4) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/DesignerEdit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Dizayn Et</a>';
+                }
+                else if (full[7] == 4) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';
+                }
+            }
+        }
+    ],
+    "language": {
+        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+    },
+    "columnDefs": [
+        {
+            "targets": [8],
+            "searchable": false
+        },
+        {
+            "targets": [7, 6],
+            "visible": false
+        }
+    ]
+});
+$('#tablePlannerOrders').DataTable({
+    "destroy": true,
+    "ajax": {
+        "url": "../Order/GetPlannerActiveOrders",
+        "type": 'POST',
+        "data": data,
+        "dataSrc": ""
+    },
+    "columns": [
+        {
+            "data": "0"
+        },
+        {
+            "data": "1"
+        },
+        {
+            "data": "2"
+        },
+        {
+            "data": "3"
+        },
+        {
+            "data": "4"
+        },
+        {
+            "data": "5"
+        },
+        {
+            "data": "6"
+        },
+        {
+            "data": "7"
+        },
+        {
+            data: null, render: function (data, type, full) {
+
+                if (full[7] == 1) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/AcceptPlannerOrder' + full[6] + '" class="btn btn-primary btn-sm  mt-1 mb-1"><i class="fas fa-check"></i> Qəbul Et</a>';
+                }
+                else if (full[7] >= 2 && full[7] < 4) {
+                    return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a> <a href="/Order/PlannerEdit' + full[6] + '" class="btn btn-success btn-sm  mt-1 mb-1"><i class="fas fa-user"></i> Planlama Et</a>';
                 }
                 else if (full[7] == 4) {
                     return '<a href="/Order/VisitInfo' + full[6] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Ətraflı</a>';

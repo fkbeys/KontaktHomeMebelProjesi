@@ -17,6 +17,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Helpers;
@@ -133,7 +134,6 @@ namespace KontaktHome.Controllers
             }
             else
             {
-                //istifadeciler = userManager.ListQueryable().Where(x => x.IsActive == true).ToList();
                 istifadeciler = (from user in userManager.ListQueryable()
                                  join roleMapping in userRolesMappingManager.ListQueryable()
                                  on user.UserID equals roleMapping.UserID
@@ -156,7 +156,6 @@ namespace KontaktHome.Controllers
         public ActionResult GetActiveOrders()
         {
             List<Orders> fakturalar = new List<Orders>();
-            //if (CurrentSession.User.IsSeller)
             if (User.IsInRole("Satici"))
             {
                 fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true && x.SellerCode == CurrentSession.User.UserName).ToList();
@@ -171,10 +170,8 @@ namespace KontaktHome.Controllers
             {
                 string orderStatus = Statuses.OrderStatus(item.OrderStatus);
                 string orderAktivstatus = Statuses.OrderActiveStatus(item.IsActive);
-                //string link = "?q=" + Encrypt.EncryptString("Sira=" + item.OrderId.ToString());
                 string link = "?Sira=" + item.OrderId.ToString();
                 string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
-
                 UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
                 j++;
             }
@@ -217,14 +214,12 @@ namespace KontaktHome.Controllers
 
         //All
         [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
-
-        public ActionResult EditOrder(int? Sira)
+        public async Task<ActionResult> EditOrder(int? Sira)
         {
             if (Sira == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            //List<Users> users = userManager.ListQueryable().Where(x => x.IsVisitor == true && x.IsActive == true).ToList();
             List<Users> users = (from user in userManager.ListQueryable()
                                  join roleMapping in userRolesMappingManager.ListQueryable()
                                  on user.UserID equals roleMapping.UserID
@@ -234,7 +229,6 @@ namespace KontaktHome.Controllers
                                  select user
                                ).ToList();
             var listvisitor = users.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
-            //List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
             List<Users> designers = (from user in userManager.ListQueryable()
                                      join roleMapping in userRolesMappingManager.ListQueryable()
                                      on user.UserID equals roleMapping.UserID
@@ -244,9 +238,19 @@ namespace KontaktHome.Controllers
                                      select user
                                ).ToList();
             var listdesigner = designers.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
+            List<Users> planners = (from user in userManager.ListQueryable()
+                                    join roleMapping in userRolesMappingManager.ListQueryable()
+                                    on user.UserID equals roleMapping.UserID
+                                    join role in userRoleManager.ListQueryable()
+                                    on roleMapping.RoleID equals role.ID
+                                    where role.RoleName == "Planlamaci" && user.IsActive == true
+                                    select user
+                              ).ToList();
+            var listplanner = planners.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             Orders order = orderManager.Find(x => x.OrderId == Sira);
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
+            ViewBag.Planner = listplanner;
             ViewBag.Link = "/Order/VisitInfo?Sira=" + order.OrderId.ToString();
             if (order == null)
             {
@@ -269,18 +273,25 @@ namespace KontaktHome.Controllers
                     return RedirectToAction("ActiveOrders");
                 }
             }
+            List<LocationGroup> _locationGroups = new List<LocationGroup>();
+            _locationGroups = await locationGroupManager.GetGroupsAsync();
+            List<LocationSubGroup> _locationSubGroup = new List<LocationSubGroup>();
+            _locationSubGroup = await locationSubGroupManager.GetSubGroup();
+            List<LocationNames> _locationName = new List<LocationNames>();
+            _locationName = await locationNameManager.GetLocationName();
+            ViewBag.LocationGroup = _locationGroups;
+            ViewBag.LocationSubGroup = _locationSubGroup;
+            ViewBag.LocationNames = _locationName;
             return View(order);
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditOrder(Orders data, FormCollection form)
+        public async Task<ActionResult> EditOrder(Orders data, FormCollection form)
         {
-            DateTime currentDate = DateTime.Now;
-            data.LastUpdate = currentDate;
+            data.LastUpdate = DateTime.Now;
             data.UpdateUser = CurrentSession.User.UserName;
-            //if (CurrentSession.User.IsCord == true || CurrentSession.User.IsAdmin == true)
             if (User.IsInRole("Kordinator") || User.IsInRole("Admin"))
             {
                 if (data.VisitorStatus < 3)
@@ -308,19 +319,48 @@ namespace KontaktHome.Controllers
                         data.VisitorName = "";
                     }
                 }
-                if (data.DesignerStatus < 3)
+                if (data.PlannerStatus < 3)
                 {
-                    string designerName = "";
                     if (data.VisitorStatus == 4)
                     {
-                        designerName = form["Designer"].ToString();
+                        //designerName = form["Designer"].ToString();
                         data.OrderStatus = 5;
+                    }
+                    if (data.IsPlannerAdded == true)
+                    {
+                        data.PlannerStatus = 1;
+                        //data.PlannerCode = designerName;
+                        BusinessLayerResult<Users> users = userManager.GetUserInformation(data.PlannerCode);
+                        if (users.Errors.Count == 0)
+                        {
+                            data.PlannerName = users.Result.UserDisplayName;
+                        }
+                        else
+                        {
+                            data.PlannerName = "User Not Found";
+                        }
+                    }
+                    else
+                    {
+                        data.PlannerStatus = 0;
+                        data.PlannerCode = "";
+                        data.PlannerName = "";
+                    }
+                }
+                //TODO: dizayner duzelis edilecek
+                if (data.DesignerStatus < 3)
+                {
+                    //string designerName = "";
+                    if (data.PlannerStatus == 4)
+                    {
+                        //designerName = form["Designer"].ToString();
+                        data.OrderStatus = 8;
                     }
                     if (data.IsDesignerAdded == true)
                     {
                         data.DesignerStatus = 1;
-                        data.DesignerCode = designerName;
-                        BusinessLayerResult<Users> users = userManager.GetUserInformation(designerName);
+                        //data.DesignerCode = designerName;
+                        BusinessLayerResult<Users> users = userManager.GetUserInformation(data.DesignerCode);
                         if (users.Errors.Count == 0)
                         {
                             data.DesignerName = users.Result.UserDisplayName;
@@ -339,9 +379,8 @@ namespace KontaktHome.Controllers
                 }
 
             }
-            else if (User.IsInRole("Satici")) /*(CurrentSession.User.IsSeller == true)*/
+            else if (User.IsInRole("Satici"))
             {
-                //TODO: seller duzelis
                 TimeSpan gunler = DateTime.Now - data.CreateOn;
                 decimal ferq = gunler.Days;
                 if (data.OrderStatus != 1)
@@ -366,7 +405,6 @@ namespace KontaktHome.Controllers
                                   select user
                           ).ToList();
             var listvisitor = users1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
-            //List<Users> designers = userManager.ListQueryable().Where(x => x.IsDesigner == true && x.IsActive == true).ToList();
             List<Users> designers1 = (from user in userManager.ListQueryable()
                                       join roleMapping in userRolesMappingManager.ListQueryable()
                                       on user.UserID equals roleMapping.UserID
@@ -374,10 +412,20 @@ namespace KontaktHome.Controllers
                                       on roleMapping.RoleID equals role.ID
                                       where role.RoleName == "Dizayner" && user.IsActive == true
                                       select user
-                               ).ToList();
+                                ).ToList();
             var listdesigner = designers1.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
+            List<Users> planners = (from user in userManager.ListQueryable()
+                                    join roleMapping in userRolesMappingManager.ListQueryable()
+                                    on user.UserID equals roleMapping.UserID
+                                    join role in userRoleManager.ListQueryable()
+                                    on roleMapping.RoleID equals role.ID
+                                    where role.RoleName == "Planlamaci" && user.IsActive == true
+                                    select user
+                          ).ToList();
+            var listplanner = planners.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList<SelectListItem>();
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
+            ViewBag.Planner = listplanner;
             ViewBag.Link = "/Order/VisitInfo?Sira=" + data.OrderId.ToString();
             if (ModelState.IsValid)
             {
@@ -391,11 +439,17 @@ namespace KontaktHome.Controllers
                 TempData["typ"] = "success";
                 return RedirectToAction("ActiveOrders");
             }
+            List<LocationGroup> _locationGroups = new List<LocationGroup>();
+            _locationGroups = await locationGroupManager.GetGroupsAsync();
+            List<LocationSubGroup> _locationSubGroup = new List<LocationSubGroup>();
+            _locationSubGroup = await locationSubGroupManager.GetSubGroup();
+            List<LocationNames> _locationName = new List<LocationNames>();
+            _locationName = await locationNameManager.GetLocationName();
+            ViewBag.LocationGroup = _locationGroups;
+            ViewBag.LocationSubGroup = _locationSubGroup;
+            ViewBag.LocationNames = _locationName;
             return View(data);
         }
-
-        //[CustomAuthorize(Roles = "Admin,Kordinator,Satici")]
-
         public ActionResult OrderInfo(int? Sira)
         {
             if (Sira == null)
@@ -457,7 +511,6 @@ namespace KontaktHome.Controllers
                 j++;
             }
             return Json(UserData, JsonRequestBehavior.AllowGet);
-
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
@@ -520,14 +573,16 @@ namespace KontaktHome.Controllers
                 data.visitData = visits;
                 data.visitImages = visitimages;
                 data.production = productionManager.ListQueryable().Where(x => x.OrderId == Sira).ToList();
-                List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
-                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
+                data.orderStatus = Statuses.OrderStatus(order.OrderStatus);
+                data.visitorStatus = Statuses.VisitorOrderStatus(order.VisitorStatus);
+                data.designerStaus = Statuses.DesignerStatus(order.DesignerStatus);
+                data.plannerStatus = Statuses.PlannerStatus(order.PlannerStatus);
+                data.itemGroups = new SelectList(anagrupManager.listAnaqruplar(), "san_kod", "san_isim");
                 return View(data);
             }
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
-
         public ActionResult CustomerVisit(int? Sira)
         {
             if (Sira == null)
@@ -559,14 +614,7 @@ namespace KontaktHome.Controllers
                 data.orderFiles = uploadedFiles;
                 data.visitData = visits;
                 data.visitImages = visitimages;
-                //List<STOK_ANA_GRUPLARI> anagruplar = anagrupManager.List().ToList();
-                //var listanagruplar = anagruplar.Select(s => new SelectListItem { Value = s.san_kod, Text = s.san_isim }).ToList<SelectListItem>();
-                List<STOK_ANA_GRUPLARI> anagruplar = new List<STOK_ANA_GRUPLARI>();
-                anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod="Metbex",san_isim="Mətbəx"});
-                anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ofis", san_isim = "Ofis Mebeli" });
-                anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ev", san_isim = "Ev Mebeli" });
-                data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
-                //ViewBag.AnaGruplar = listanagruplar;
+                data.itemGroups = new SelectList(anagrupManager.listAnaqruplar(), "san_kod", "san_isim");
                 return View(data);
             }
         }
@@ -586,11 +634,7 @@ namespace KontaktHome.Controllers
                 visitorstatus = 14;
             }
             data.order = orderManager.Find(x => x.OrderId == data.order.OrderId);
-            List<STOK_ANA_GRUPLARI> anagruplar = new List<STOK_ANA_GRUPLARI>();
-            anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Metbex", san_isim = "Mətbəx" });
-            anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ofis", san_isim = "Ofis Mebeli" });
-            anagruplar.Add(new STOK_ANA_GRUPLARI() { san_kod = "Ev", san_isim = "Ev Mebeli" });
-            data.itemGroups = new SelectList(anagruplar, "san_kod", "san_isim");
+            data.itemGroups = new SelectList(anagrupManager.listAnaqruplar(), "san_kod", "san_isim");
             if (data.visitImages == null)
             {
                 data.visitImages = new List<VisitImages>();
@@ -601,8 +645,7 @@ namespace KontaktHome.Controllers
                 {
                     if (item.ProductCode != null)
                     {
-                        //var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
-                        var anagrupadi = anagruplar.Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
+                        var anagrupadi = anagrupManager.listAnaqruplar().Where(x => x.san_kod == item.ProductCode).Select(p => p.san_isim).Single();
                         item.ProductName = anagrupadi;
                     }
                     else if (data.visitData.Count == 1)
@@ -850,10 +893,19 @@ namespace KontaktHome.Controllers
                 BusinessLayerResult<VisitImages> imageData = imagesManager.SaveImages(visitImages);
             }
             BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, designerstatus);
-            TempData["msg"] = "Qeyd Yeniləndi!";
-            TempData["typ"] = "success";
-            return RedirectToAction("DesignerOrders");
-
+            if (order.Errors.Count > 0)
+            {
+                visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                TempData["msg"] = "Qeyd Yenilənmədi!";
+                TempData["typ"] = "error";
+                return View(data);
+            }
+            else
+            {
+                TempData["msg"] = "Qeyd Yeniləndi!";
+                TempData["typ"] = "success";
+                return RedirectToAction("DesignerOrders");
+            }
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Dizayner")]
@@ -1094,7 +1146,7 @@ namespace KontaktHome.Controllers
             productionManager.DeleteProdData(data.deleted_items);
             status = true;
             string link = "?Sira=" + data.order_No.ToString();
-            return Json(new { status, link, Url = Url.Action("DesignerEdit", "Order") });
+            return Json(new { status, link, Url = Url.Action("PlannerEdit", "Order") });
 
         }
         [ValidateAntiForgeryToken]
@@ -1308,6 +1360,165 @@ namespace KontaktHome.Controllers
             status = false;
             return Json(new { status, errors });
 
+        }
+        [CustomAuthorize(Roles = "Admin,Kordinator,Planlamaci")]
+        public ActionResult PlannerOrders(string status)
+        {
+            ViewBag.Status = status;
+            return View();
+        }
+        [CustomAuthorize(Roles = "Admin,Kordinator,Planlamaci")]
+        [WebMethod]
+        public ActionResult GetPlannerActiveOrders()
+        {
+            string userName = CurrentSession.User.UserName;
+            List<Orders> fakturalar = new List<Orders>();
+            fakturalar = orderManager.ListQueryable().Where(x => x.IsActive == true & x.PlannerCode == userName & x.VisitorStatus == 4 & x.PlannerStatus < 4).ToList();
+            var UserData = new object[fakturalar.Count];
+            int j = 0;
+            foreach (var item in fakturalar)
+            {
+                string orderStatus = Statuses.PlannerStatus(item.PlannerStatus);
+                string link = "?Sira=" + item.OrderId.ToString();
+                string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
+                UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.PlannerStatus };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+
+        }
+        [CustomAuthorize(Roles = "Admin,Kordinator,Planlamaci")]
+        [WebMethod]
+        public ActionResult GetPlannerActiveOrdersWithParametr(OrderSearch data)
+        {
+            string userName = CurrentSession.User.UserName;
+            IEnumerable<Orders> fakturalar = orderManager.GetPlannerOrdersWithParametr(data, userName);
+            var UserData = new object[fakturalar.Count()];
+            int j = 0;
+            foreach (var item in fakturalar)
+            {
+                string orderStatus = Statuses.PlannerStatus(item.PlannerStatus);
+                string link = "?Sira=" + item.OrderId.ToString();
+                string customer = item.CustomerSurname + " " + item.CustomerName + " " + item.CustomerFatherName;
+                UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.Location, orderStatus, link, item.PlannerStatus };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Planlamaci")]
+        public ActionResult AcceptPlannerOrder(int? Sira)
+        {
+            if (Sira == null)
+            {
+                return RedirectToAction("/Home/HasError");
+            }
+            Orders order = orderManager.Find(x => x.OrderId == Sira);
+            if (order == null)
+            {
+                return RedirectToAction("/Home/HasError");
+            }
+            else
+            {
+                if (order.DesignerStatus >= 2)
+                {
+                    return RedirectToAction("PlannerOrders");
+                }
+                BusinessLayerResult<Orders> data = orderManager.AcceptOrder(order, 32);
+                if (data.Errors.Count > 0)
+                {
+                    data.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                    TempData["msg"] = "0";
+                    return RedirectToAction("PlannerOrders");
+                }
+            }
+            TempData["msg"] = "Siafriş Qəbul Edildi!";
+            TempData["typ"] = "success";
+            return RedirectToAction("PlannerOrders");
+        }
+
+        [CustomAuthorize(Roles = "Admin,Kordinator,Planlamaci")]
+
+        public ActionResult PlannerEdit(int? Sira)
+        {
+            if (Sira == null)
+            {
+                return RedirectToAction("/Home/HasError");
+            }
+
+            Orders order = orderManager.Find(x => x.OrderId == Sira);
+            if (order == null)
+            {
+                return RedirectToAction("/Home/HasError");
+            }
+            else if (order.PlannerStatus < 2)
+            {
+                TempData["msg"] = "Sifariş Qəbul Edilməyib!";
+                TempData["typ"] = "error";
+                return RedirectToAction("PlannerOrders");
+            }
+            else
+            {
+                List<Visits> visits = visitManager.List(x => x.OrderId == Sira).ToList();
+                OrderFileUpload uploadedFiles = new OrderFileUpload();
+                CustomerVisitData data = new CustomerVisitData();
+                var visitGuid = visits.Where(x => x.OrderId == Sira).Select(m => m.VisitGuid).First();
+                data.order = order;
+                data.orderFiles = uploadedFiles;
+                data.visitData = visits;
+                data.visitImages = imagesManager.List(x => x.VisitGuid == visitGuid);
+                data.orderStatus = Statuses.OrderStatus(order.OrderStatus);
+                data.visitorStatus = Statuses.VisitorOrderStatus(order.VisitorStatus);
+                data.designerStaus = Statuses.DesignerStatus(order.DesignerStatus);
+                data.plannerStatus = Statuses.PlannerStatus(order.PlannerStatus);
+                return View(data);
+            }
+        }
+        //TODO: Planlamaci ucun deyisiklik edilecek
+        [CustomAuthorize(Roles = "Admin,Kordinator,Planlamaci")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult PlannerEdit(CustomerVisitData data, string designCommand)
+        {
+            int plannerstatus = 0;
+            if (designCommand.Equals("Save"))
+            {
+                plannerstatus = 33;
+            }
+            else if (designCommand.Equals("Finish"))
+            {
+                plannerstatus = 34;
+            }
+            data.order = orderManager.Find(x => x.OrderId == data.order.OrderId);
+            var visitGuid = data.visitData.Where(x => x.OrderId == data.order.OrderId).Select(m => m.VisitGuid).First();
+            data.visitImages = imagesManager.List(x => x.VisitGuid == visitGuid);
+            List<VisitImages> visitImages = new List<VisitImages>();
+
+            BusinessLayerResult<Visits> visitData = visitManager.DesignerUpdate(data.visitData, data.order.OrderId, CurrentSession.User);
+            if (visitData.Errors.Count > 0)
+            {
+                visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
+                data.orderStatus = Statuses.OrderStatus(data.order.OrderStatus);
+                data.visitorStatus = Statuses.VisitorOrderStatus(data.order.VisitorStatus);
+                data.designerStaus = Statuses.DesignerStatus(data.order.DesignerStatus);
+                data.plannerStatus = Statuses.PlannerStatus(data.order.PlannerStatus);
+                return View(data);
+            }          
+            BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, plannerstatus);
+            if (order.Errors.Count>0)
+            {
+                visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));                
+                TempData["msg"] = "Qeyd Yenilənmədi!";
+                TempData["typ"] = "error";
+                return View(data);
+            }
+            else
+            {
+                TempData["msg"] = "Qeyd Yeniləndi!";
+                TempData["typ"] = "success";
+                return RedirectToAction("PlannerOrders");
+            }
         }
     }
 }

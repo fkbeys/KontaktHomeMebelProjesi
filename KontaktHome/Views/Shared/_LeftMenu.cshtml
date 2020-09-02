@@ -54,6 +54,17 @@
                     </li>
                 </ul>
             }
+            @if (HttpContext.Current.User.IsInRole("Planlamaci") || HttpContext.Current.User.IsInRole("Admin"))
+            {
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a id="plannerOrders" href="/Order/PlannerOrders" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Planlamacı Sifarişləri</p>
+                        </a>
+                    </li>
+                </ul>
+            }
         </li>
         <!-- Section 2-->
         @if (HttpContext.Current.User.IsInRole("Admin"))

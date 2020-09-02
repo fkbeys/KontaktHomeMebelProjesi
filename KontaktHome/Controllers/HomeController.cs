@@ -1,5 +1,4 @@
 ﻿using BusinessLayer;
-using BusinessLayer.Managers.MikroManagers;
 using BusinessLayer.QueryResult;
 using Entities;
 using Entities.Model;
@@ -20,19 +19,17 @@ namespace KontaktHome.Controllers
         private UserManager userManager = new UserManager();
         private OrderManager orderManager = new OrderManager();
         private VisitManager visitManager = new VisitManager();
-       
+
         // GET: Home
         [Auth]
         public ActionResult Index()
-        {            
-            int[] orderstatuses = new int[] { 2,3,4,5,6 };
+        {
+            int[] orderstatuses = new int[] { 2, 3, 4, 5, 6 };
             Widgets widgets = new Widgets();
             widgets.WaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 1).Count();
             widgets.ProcessingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && orderstatuses.Contains(x.OrderStatus)).Count();
-            widgets.SaleWaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus==7).Count();
-            widgets.ProductionOrders = visitManager.ListQueryable().Where(x=>x.VisitStatus==1 && x.IsDeclined==false).Count();
-            //widgets.ProductionOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 8).Count();
-
+            widgets.SaleWaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 7).Count();
+            widgets.ProductionOrders = visitManager.ListQueryable().Where(x => x.VisitStatus == 1 && x.IsDeclined == false).Count();
             return View(widgets);
         }
         public ActionResult Login()
@@ -56,9 +53,9 @@ namespace KontaktHome.Controllers
                         return View(model);
                     }
 
-                    CurrentSession.Set<Users>("login", res.Result); // Session'a kullanıcı bilgi saklama..      
+                    CurrentSession.Set<Users>("login", res.Result);
                     FormsAuthentication.SetAuthCookie(model.Username, false);
-                    return RedirectToAction("Index");   // yönlendirme..
+                    return RedirectToAction("Index");
                 }
                 if (ConfigurationManager.AppSettings["LoginMode"] == "Domain")
                 {
@@ -72,9 +69,9 @@ namespace KontaktHome.Controllers
                                 res.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                                 return View(model);
                             }
-                            CurrentSession.Set<Users>("login", res.Result); // Session'a kullanıcı bilgi saklama..
+                            CurrentSession.Set<Users>("login", res.Result);
                             FormsAuthentication.SetAuthCookie(model.Username, false);
-                            return RedirectToAction("Index");   // yönlendirme..
+                            return RedirectToAction("Index");
                         }
                         else
                         {
@@ -84,7 +81,7 @@ namespace KontaktHome.Controllers
 
                     }
                 }
-            }           
+            }
             return View(model);
         }
         public ActionResult HasError()

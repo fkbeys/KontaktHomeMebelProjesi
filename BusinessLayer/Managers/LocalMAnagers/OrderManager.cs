@@ -59,6 +59,10 @@ namespace BusinessLayer
                 orders.Result.CustomerWillAnswer = data.CustomerWillAnswer;
                 orders.Result.IsCompleted = data.IsCompleted;
                 orders.Result.InvoiceNo = data.InvoiceNo;
+                orders.Result.PlannerCode = data.PlannerCode;
+                orders.Result.PlannerName = data.PlannerName;
+                orders.Result.PlannerStatus = data.PlannerStatus;
+                orders.Result.IsPlannerAdded = data.IsPlannerAdded;
                 if (data.IsCompleted == true)
                 {
                     orders.Result.IsActive = false;
@@ -83,7 +87,7 @@ namespace BusinessLayer
             BusinessLayerResult<Orders> orders = new BusinessLayerResult<Orders>();
             if (getOrder != null)
             {
-                // 1* vizitor, 2* designer
+                // 1* Vizitor, 2* Designer ,3* Planner
                 orders.Result = Find(x => x.OrderId == data.OrderId);
                 if (status == 12)
                 {
@@ -102,7 +106,7 @@ namespace BusinessLayer
                 else if (status == 22)
                 {
                     orders.Result.DesignerStatus = 2;
-                    orders.Result.OrderStatus = 6;
+                    orders.Result.OrderStatus = 9;
                 }
                 else if (status == 23)
                 {
@@ -111,6 +115,20 @@ namespace BusinessLayer
                 else if (status == 24)
                 {
                     orders.Result.DesignerStatus = 4;
+                    orders.Result.OrderStatus = 10;
+                }
+                else if (status == 32)
+                {
+                    orders.Result.PlannerStatus = 2;
+                    orders.Result.OrderStatus = 6;
+                }
+                else if (status == 33)
+                {
+                    orders.Result.PlannerStatus = 3;                   
+                }
+                else if (status == 34)
+                {
+                    orders.Result.PlannerStatus = 4;
                     orders.Result.OrderStatus = 7;
                 }
 
@@ -286,6 +304,26 @@ namespace BusinessLayer
             if (data.deletedOrders == true && data.activeOrders == true)
             {
                 orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.DesignerCode == designerName).ToList();
+            }
+            return orders;
+        }
+        public IEnumerable<Orders> GetPlannerOrdersWithParametr(OrderSearch data, string plannerName)
+        {
+            DateTime startdate = Convert.ToDateTime(data.firstDate);
+            DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
+            IEnumerable<Orders> orders = new List<Orders>();
+
+            if (data.activeOrders == true && data.deletedOrders == false)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.PlannerCode == plannerName & x.IsActive == true).ToList();
+            }
+            if (data.deletedOrders == true && data.activeOrders == false)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.PlannerCode == plannerName & x.IsActive == false).ToList();
+            }
+            if (data.deletedOrders == true && data.activeOrders == true)
+            {
+                orders = ListQueryable().Where(x => x.CreateOn >= startdate & x.CreateOn <= enddate & x.PlannerCode == plannerName).ToList();
             }
             return orders;
         }

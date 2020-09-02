@@ -1,0 +1,108 @@
+﻿
+@{
+    ViewBag.Title = "PlannerOrders";
+}
+
+
+<div class="row">
+    @if (TempData["msg"] != null)
+    {
+        <script>
+                var message = '@TempData["msg"].ToString()';
+                var type='@TempData["typ"].ToString()';
+                Swal.fire(
+                   message,
+                    '',
+                    type
+                )
+        </script>
+    }
+    <div class="col-md-12">
+        <div class="card card-info">
+            <div class="card-header">
+                <h4 class="card-title">Aktiv Dizayner Sifarişləri</h4>
+            </div>
+            <div class="card-body">
+                <div class="row col-md-6">
+                    <div class="col-md-6 col-xl-4" id="sandbox-container">
+                        <div class="form-group">
+                            <label>Başlanğıc Tarixi</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control " id="plannerfirstDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-md-6 col-xl-4" id="sandbox-container">
+                        <div class="form-group">
+                            <label>Bitiş Tarixi</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
+                                </div>
+                                <input type="text" class="form-control " id="plannerlastDate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="chkPlannerActiveOrders" value="option1" checked>
+                            <label for="chkPlannerActiveOrders" class="custom-control-label">Aktiv Sifarişlər</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                            <input class="custom-control-input" type="checkbox" id="chkPlannerClosedOrders" value="option1">
+                            <label for="chkPlannerClosedOrders" class="custom-control-label">Tamamlanmış və İmtina Edilmiş Sifarişlər</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <button type="submit" onclick="getPlannerActiveOrdersWithParametr()" class="btn btn-primary">Axtar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12">
+    <div class="card card-primary">
+        <div class="card-body">
+            <div class="col-md-12">
+                <div class="table-responsive" id="visitorOrdersPrint">
+                    <table id="tablePlannerOrders" class="display" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Sifariş No</th>
+                                <th>Tarix</th>
+                                <th>Müştəri Məlumatları</th>
+                                <th>Tel No</th>
+                                <th>Nişangah</th>
+                                <th>Status</th>
+                                <th>Link</th>
+                                <th>StatusId</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section JavaScript{
+    <script>
+        document.getElementById('sidemenu1').className = 'nav-item has-treeview menu-open';
+        document.getElementById('sidemenu1_1').className = 'nav-link active';
+        document.getElementById('plannerOrders').className = 'nav-link active';
+        document.getElementById('plannerfirstDate').value = getToday();
+        document.getElementById('plannerlastDate').value = getToday();
+    </script>
+}
+

@@ -77,56 +77,20 @@
                                         <td>Sifariş Qeyd :</td>
                                         <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.Note)</td>
                                     </tr>
-
+                                    <tr>
+                                        <td>Siafriş Status:</td>
+                                        <td class="p-1" style="height:32px">@Model.orderStatus</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Satıcı Kodu :</td>
+                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.SellerCode)</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="col-sm-6">
                             <table class="table table-bordered table-form-custom">
                                 <tbody>
-                                    <tr>
-                                        <td>Siafriş Status:</td>
-                                        @if (Model.order.OrderStatus == 1)
-                                        {
-                                            <td class="p-1" style="height:32px">Gözləmədə</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 2)
-                                        {
-                                            <td class="p-1" style="height:32px">Vizitor Təyin Edilib</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 3)
-                                        {
-                                            <td class="p-1" style="height:32px">Vizitor Təyin Edilib</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 4)
-                                        {
-                                            <td class="p-1" style="height:32px">Vizit Tamamlanıb</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 5)
-                                        {
-                                            <td class="p-1" style="height:32px">Dizayner Təyin Edilib</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 6)
-                                        {
-                                            <td class="p-1" style="height:32px">Dizayner Qəbul Edib</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 7)
-                                        {
-                                            <td class="p-1" style="height:32px">Dizayn Tamamlanıb</td>
-                                        }
-                                        else if (Model.order.OrderStatus == 8)
-                                        {
-                                            <td class="p-1" style="height:32px">Sifariş Yekunlaşıb</td>
-                                        }
-                                        else
-                                        {
-                                            <td class="p-1" style="height:32px"> </td>
-                                        }
-                                    </tr>
-                                    <tr>
-                                        <td>Satıcı Kodu :</td>
-                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.SellerCode)</td>
-                                    </tr>
                                     <tr>
                                         <td>Vizitor Kodu :</td>
                                         <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.VisitorCode)</td>
@@ -137,30 +101,19 @@
                                     </tr>
                                     <tr>
                                         <td>Vizitor Status:</td>
-                                        @if (Model.order.VisitorStatus == 1)
-                                        {
-                                            <td class="p-1" style="height:32px">Gözləmədə</td>
-                                        }
-                                        else if (Model.order.VisitorStatus == 2)
-                                        {
-                                            <td class="p-1" style="height:32px">Qəbul Edilib</td>
-                                        }
-                                        else if (Model.order.VisitorStatus == 3)
-                                        {
-                                            <td class="p-1" style="height:32px">Vizit Edilib</td>
-                                        }
-                                        else if (Model.order.VisitorStatus == 4)
-                                        {
-                                            <td class="p-1" style="height:32px">Vizit Tamamlanıb</td>
-                                        }
+                                        <td class="p-1" style="height:32px">@Model.visitorStatus</td>
                                     </tr>
                                     <tr>
-                                        <td>Məhsul Sayı :</td>
-                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.ItemCount)</td>
+                                        <td>Planlamacı Kodu :</td>
+                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.PlannerCode)</td>
                                     </tr>
                                     <tr>
-                                        <td>Məhsul Açıqlama :</td>
-                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.ItemDescription)</td>
+                                        <td>Planlamacı Adı :</td>
+                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.PlannerName)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Planlama Status :</td>
+                                        <td class="p-1" style="height:32px">@Model.plannerStatus</td>
                                     </tr>
                                     <tr>
                                         <td>Dizayner Kodu :</td>
@@ -172,26 +125,15 @@
                                     </tr>
                                     <tr>
                                         <td>Dizayner Status :</td>
-                                        @if (Model.order.DesignerStatus == 1)
-                                        {
-                                            <td class="p-1" style="height:32px">Gözləmədə</td>
-                                        }
-                                        else if (Model.order.DesignerStatus == 2)
-                                        {
-                                            <td class="p-1" style="height:32px">Qəbul Edilib</td>
-                                        }
-                                        else if (Model.order.DesignerStatus == 3)
-                                        {
-                                            <td class="p-1" style="height:32px">Dizayn Edilib</td>
-                                        }
-                                        else if (Model.order.DesignerStatus == 4)
-                                        {
-                                            <td class="p-1" style="height:32px">Dizayn Tamamlanıb</td>
-                                        }
-                                        else
-                                        {
-                                            <td class="p-1" style="height:32px"></td>
-                                        }
+                                        <td class="p-1" style="height:32px">@Model.designerStaus</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Məhsul Sayı :</td>
+                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.ItemCount)</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Məhsul Açıqlama :</td>
+                                        <td class="p-1" style="height:32px">@Html.DisplayFor(x => x.order.ItemDescription)</td>
                                     </tr>
                                 </tbody>
                             </table>

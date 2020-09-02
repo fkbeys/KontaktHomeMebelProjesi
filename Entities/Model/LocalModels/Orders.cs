@@ -70,7 +70,9 @@ namespace Entities
         public bool IsActive { get; set; }
 
         public int OrderStatus { get; set; }
+        [StringLength(50)]
         public string VisitorCode { get; set; }
+        [StringLength(50)]
         public string VisitorName { get; set; }
         [DisplayName("Vizitor Təyin Et")]
         public bool IsVisitorAdded { get; set; }
@@ -89,7 +91,9 @@ namespace Entities
         public int VisitorStatus { get; set; }
         [DisplayName("Dizayner Təyin Et")]
         public bool IsDesignerAdded { get; set; }
+        [StringLength(50)]
         public string DesignerCode { get; set; }
+        [StringLength(50)]
         public string DesignerName { get; set; }
         public int DesignerStatus { get; set; }
         [DataType(DataType.MultilineText)]
@@ -104,7 +108,14 @@ namespace Entities
 
         [CustomValidation.RequiredIf("IsCompleted", "True", ErrorMessage = "Faktura nömrəsi boş olabilməz")]
         public string InvoiceNo { get; set; } = "0";
-        
+        public int PlannerStatus { get; set; }
+        [DisplayName("Planlamacı Təyin Et")]
+        public bool IsPlannerAdded { get; set; }
+        [StringLength(50)]
+        public string PlannerCode { get; set; }
+        [StringLength(50)]
+        public string PlannerName { get; set; }
+
 
 
     }

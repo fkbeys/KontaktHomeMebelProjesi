@@ -15,5 +15,9 @@ namespace Entities.Model.LocalModels
         public SelectList itemGroups { get; set; }
         public List<VisitImages> visitImages { get; set; }
         public List<Production> production { get; set; }
+        public string orderStatus { get; set; }
+        public string visitorStatus { get; set; }
+        public string plannerStatus { get; set; }
+        public string designerStaus { get; set; }
     }
 }
