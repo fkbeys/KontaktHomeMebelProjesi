@@ -208,7 +208,7 @@ function getActiveOrdersWithParametr() {
                             return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Order/EditOrder' + full[7] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-pencil-alt"></i> Düzəliş Et</a> <a href="/Order/CloseOrder' + full[7] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> İmtina</a> <a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
                         }
                         else {
-                            return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a><a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Vizit Məlumatları</a>';
+                            return '<a href="/Order/OrderInfo' + full[7] + '" class="btn btn-primary btn-sm mt-1 mb-1 mr-1"><i class="fas fa-search"></i> Ətraflı</a><a href="/Order/VisitInfo' + full[7] + '" class="btn btn-warning btn-sm mt-1 mb-1 mr-1"><i class="fas fa-search"></i> Vizit Məlumatları</a><button type="button" class="btn btn-info btn-sm mt-1 mb-1 mr-1" onclick="activateOrder(' + full[0] + ',1)"> <i class="fas fa-lock-open"></i> Sifarişi Aktiv Et</button>';
                         }
 
                     }
@@ -587,11 +587,11 @@ $('#tableUsers').DataTable({
         },
         {
             "data": "5"
-        },        
+        },
         {
             "data": "6"
         },
-        {           
+        {
             data: null, render: function (data, type, full) {
                 return '<a href="/Admin/EditUser?userid=' + full[0] + '" class="btn btn-info btn-sm mt-1 mb-1"><i class="fas fa-search"></i> Ətraflı</a> <a href="/Admin/DeleteUser?userid=' + full[0] + '" class="btn btn-danger btn-sm  mt-1 mb-1"><i class="far fa-trash-alt"></i> Sil</a>  <a href="/Admin/UserRoles?UserID=' + full[0] + '" class="btn btn-warning btn-sm  mt-1 mb-1"><i class="fas fa-user-shield"></i> Səlahiyyətlər</a>';
 
@@ -939,7 +939,7 @@ $('#tableStores').DataTable({
     },
     "columns": [
         {
-            "data": "0", "width":"10%"
+            "data": "0", "width": "10%"
         },
         {
             "data": "1", "width": "30%"
@@ -1067,39 +1067,6 @@ $.fancyConfirm = function (opts) {
         }
     });
 }
-//datattable serverside processing
-//$("#tableProducts").DataTable({   
-//    "serverSide": true, // for process server side  
-//    "filter": true, // this is for disable filter (search box)  
-//    "orderMulti": false, // for disable multiple column at once  
-//    "pageLength": 1,
-
-//    "ajax": {
-//        "url": "../Order/GetProducts",
-//        "type": "POST",
-//        "datatype": "json"
-//    },
-
-//    "columns": [
-//        { "data": "product_code" },
-//        { "data": "product_name" },
-//        { "data": "product_price" },
-//        { "data": "product_quantity" },      
-//        {
-//            "render": function (data, type, full, meta) { return '<a class="btn btn-info" href="/Demo/Edit/' + full.product_code + '">Edit</a>'; }
-//        },
-//        {
-//            data: null, render: function (data, type, row) {
-//                return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.product_code + "'); >Delete</a>";
-//            }
-//        }
-
-//    ],    
-//    "language": {
-//        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
-//    }
-
-//});
 function LoadProducts() {
     $('#tableProducts').DataTable({
         "destroy": "true",
@@ -1271,30 +1238,39 @@ function acceptOrder(orderId, visitId) {
             orderid: orderId,
             visitid: visitId
         },
-        success: function (d) {
-            if (d.status == true) {
-                $('#saveModal').modal('hide');
+        success: function (d) {           
+            if (d.status == true) {               
                 Swal.fire('Qeyd Tamamlandı', '', 'success');
                 window.location.href = d.Url + d.link;
             }
-            else {
-                $('#saveModal').modal('hide');
+            else {               
                 var errortext = '';
                 for (var i = 0; i < d.errors.length; i++) {
-                    errortext += d.errors[i] + "<br>"
+                    errortext += d.errors[i];
                 }
                 $('#errors').replaceWith('<div id="errors" class="alert alert-danger col-md-12" role="alert">' + errortext + '</div>');
-                Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
-                this.disabled = false;
-            }
+                //Swal.fire('Xəta başverdi', '' + errortext + '', 'error');
+                Swal.fire({
+                    title: 'Xəta başverdi',
+                    text: '' + errortext + '',
+                    icon: 'error',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',                   
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.value) {
+                        $('#saveModal').modal('hide');
+                    }
+                })
+                
+            }            
         },
-        error: function () {
-            $('#saveModal').modal('hide');
+        error: function () {            
             alert('Error. Please try again.');
+            $('#saveModal').modal('hide');
         }
     });
 }
-
 function finishOrder(orderId) {
     var form = $('#__AjaxAntiForgeryForm');
     var token = $('input[name="__RequestVerificationToken"]', form).val();
@@ -1331,7 +1307,7 @@ function finishOrder(orderId) {
     });
 }
 
-function activateOrder(orderId) {
+function activateOrder(orderId, status) {
     Swal.fire({
         title: 'Sifariş aktiv ediləcək',
         text: "Davam etmək istəyirsinizmi?",
@@ -1350,7 +1326,8 @@ function activateOrder(orderId) {
                 type: "POST",
                 data: {
                     __RequestVerificationToken: token,
-                    orderid: orderId
+                    orderid: orderId,
+                    menuStatus: status
                 },
                 success: function (d) {
                     if (d.status == true) {
@@ -1405,7 +1382,6 @@ $('#btnChargesSave').click(function () {
         }
     });
 });
-
 function deleteCharge(Id) {
     Swal.fire({
         title: 'Qeyd silinəcək?',
@@ -1448,7 +1424,6 @@ function deleteCharge(Id) {
         }
     })
 }
-
 $('#tableLocationGroup').DataTable({
     "destroy": true,
     "ajax": {

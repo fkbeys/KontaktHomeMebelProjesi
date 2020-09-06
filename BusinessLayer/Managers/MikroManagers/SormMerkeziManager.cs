@@ -17,6 +17,11 @@ namespace BusinessLayer.Managers.MikroManagers
             List<SORUMLULUK_MERKEZLERI> _sormmerkezi = db.SORUMLULUK_MERKEZLERI.ToList();
             return _sormmerkezi;
         }
+        public List<SORUMLULUK_MERKEZLERI> GetData(string storeCode)
+        {
+            List<SORUMLULUK_MERKEZLERI> _sormmerkezi = db.SORUMLULUK_MERKEZLERI.ToList().Where(x => x.som_kod == storeCode).ToList();
+            return _sormmerkezi;
+        }
         public List<SelectListItem> listMagaza()
         {
             List<SORUMLULUK_MERKEZLERI> magazalar = GetData();

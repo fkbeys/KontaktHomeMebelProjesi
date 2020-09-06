@@ -24,6 +24,7 @@ namespace DataAccessLayer
         public DbSet<LocationGroup> LocationGroup { get; set; }
         public DbSet<LocationSubGroup> LocationSubGroup { get; set; }
         public DbSet<LocationNames> LocationName { get; set; }
+        public DbSet<StockInfo> StockInfo { get; set; }
         public override int SaveChanges()
         {
             var modifiedEntities = ChangeTracker.Entries()

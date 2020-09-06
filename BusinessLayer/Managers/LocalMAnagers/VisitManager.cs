@@ -88,6 +88,27 @@ namespace BusinessLayer
             }
             return visitdata;
         }
+        public BusinessLayerResult<Visits> SellerUpdate(List<Visits> data, Users user)
+        {
+            BusinessLayerResult<Visits> visitdata = new BusinessLayerResult<Visits>();
+            foreach (var item in data)
+            {
+                visitdata.Result = Find(x => x.VisitID == item.VisitID);
+                if (visitdata.Result != null)
+                {
+                    visitdata.Result.UpdateUser = user.UserName;
+                    visitdata.Result.LastUpdate = DateTime.Now;
+                    visitdata.Result.IsDeclined = item.IsDeclined;
+                    visitdata.Result.DeclineReason = item.DeclineReason;
+                    visitdata.Result.FinalPrice = item.FinalPrice;
+                }
+                if (base.Update(visitdata.Result) == 0)
+                {
+                    visitdata.AddError(ErrorMessageCode.DataUpdateError, "Xəta başverdi. Qeyd Yenilənmədi");
+                }
+            }
+            return visitdata;
+        }
         public BusinessLayerResult<Visits> VisitUpdateStatus(Visits data, Users user)
         {
             BusinessLayerResult<Visits> visitdata = new BusinessLayerResult<Visits>();
@@ -269,6 +290,6 @@ namespace BusinessLayer
                 _visits.AddError(ErrorMessageCode.DataNotFound, "Xəta baş verdi.Məlumatlar mövcud deyil.");
             }
             return _visits;
-        }      
+        }
     }
 }

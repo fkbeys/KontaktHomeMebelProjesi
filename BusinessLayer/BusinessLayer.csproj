@@ -95,6 +95,7 @@
     <Compile Include="Managers\MikroManagers\StoklarManager.cs" />
     <Compile Include="Managers\MikroManagers\UrunManager.cs" />
     <Compile Include="Managers\MikroManagers\UrunReceteleriManager.cs" />
+    <Compile Include="Managers\StockInfoManager.cs" />
     <Compile Include="Security\Encrypt.cs" />
     <Compile Include="Managers\LocalManagers\ImagesManager.cs" />
     <Compile Include="ManagerBase.cs" />

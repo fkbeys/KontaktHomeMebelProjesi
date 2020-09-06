@@ -178,11 +178,11 @@ namespace BusinessLayer
             {
                 _orders.Result.LastUpdate = DateTime.Now;
                 _orders.Result.IsActive = false;
-                _orders.Result.OrderStatus = 8;
+                _orders.Result.OrderStatus = 11;
                 _orders.Result.UpdateUser = user.UserName;
                 if (base.Update(_orders.Result)==0)
                 {
-                    _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş tamamlanmad;");
+                    _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş tamamlanmadı");
                 }
 
             }
@@ -192,7 +192,7 @@ namespace BusinessLayer
             }
             return _orders;
         }
-        public BusinessLayerResult<Orders> ActivateOrder(int orderid, Users user)
+        public BusinessLayerResult<Orders> ActivateOrder(int orderid, Users user,int status)
         {
             BusinessLayerResult<Orders> _orders = new BusinessLayerResult<Orders>();
             _orders.Result = Find(x => x.OrderId == orderid);
@@ -201,6 +201,10 @@ namespace BusinessLayer
                 _orders.Result.LastUpdate = DateTime.Now;
                 _orders.Result.IsActive = true;               
                 _orders.Result.UpdateUser = user.UserName;
+                if (status==2)
+                {
+                    _orders.Result.OrderStatus = 10;
+                }
                 if (base.Update(_orders.Result) == 0)
                 {
                     _orders.AddError(ErrorMessageCode.DataUpdateError, "Sifariş aktiv edilmədi");
@@ -213,7 +217,7 @@ namespace BusinessLayer
             }
             return _orders;
         }
-        public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data, string sellerName)
+        public IEnumerable<Orders> GetOrdersWithParametr(OrderSearch data, string sellerName,string store)
         {
             DateTime startdate = Convert.ToDateTime(data.firstDate);
             DateTime enddate = Convert.ToDateTime(data.lastDate + " 23:59:59");
@@ -245,15 +249,15 @@ namespace BusinessLayer
             {
                 if (data.activeOrders == true && data.deletedOrders == false)
                 {
-                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == true && x.SellerCode == sellerName).ToList();
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == true  && x.OrderStore==store).ToList();
                 }
                 if (data.deletedOrders == true && data.activeOrders == false)
                 {
-                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == false && x.SellerCode == sellerName).ToList();
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.IsActive == false  && x.OrderStore == store).ToList();
                 }
                 if (data.deletedOrders == true && data.activeOrders == true)
                 {
-                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.SellerCode == sellerName).ToList();
+                    orders = ListQueryable().Where(x => x.CreateOn >= startdate && x.CreateOn <= enddate && x.OrderStore == store).ToList();
                 }
                 if (data.sellerCode != null)
                 {

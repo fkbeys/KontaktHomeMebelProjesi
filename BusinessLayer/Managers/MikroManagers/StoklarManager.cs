@@ -23,7 +23,7 @@ namespace BusinessLayer.Managers.MikroManagers
             Guid _guid = Guid.NewGuid();
             if (_stoklar.Result != null)
             {
-                //_stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Xəta baş verdi. Daxil edilən stok mövcuddur.");
+                _stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Məhsul kodu \""+data.sto_kod+"\" Mikroda mövcuddur.");
             }
             else
             {
@@ -242,7 +242,7 @@ namespace BusinessLayer.Managers.MikroManagers
 
                 if (base.Insert(_stoklar.Result) == 0)
                 {
-                    _stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Xəta baş verdi. Stok karti yaradılmadı.");
+                    _stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Məhsul kartı yaradılmadı.");
                 }              
 
             }

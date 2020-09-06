@@ -54,6 +54,7 @@ namespace KontaktHome.Controllers
         private LocationSubGroupManager locationSubGroupManager = new LocationSubGroupManager();
         private LocationNameManager locationNameManager = new LocationNameManager();
         private SormMerkeziManager sormMerkeziManager = new SormMerkeziManager();
+        private StockInfoManager stockInfoManager = new StockInfoManager();
 
         public string orderStatus { get; set; }
         // GET: Order
@@ -128,9 +129,18 @@ namespace KontaktHome.Controllers
         public ActionResult ActiveOrders()
         {
             List<Users> istifadeciler = new List<Users>();
+            List<SORUMLULUK_MERKEZLERI> magazalar = new List<SORUMLULUK_MERKEZLERI>();
             if (User.IsInRole("Satici"))
             {
-                istifadeciler = userManager.ListQueryable().Where(x => x.IsActive == true && x.UserName == CurrentSession.User.UserName).ToList();
+                istifadeciler = (from user in userManager.ListQueryable()
+                                 join roleMapping in userRolesMappingManager.ListQueryable()
+                                 on user.UserID equals roleMapping.UserID
+                                 join role in userRoleManager.ListQueryable()
+                                 on roleMapping.RoleID equals role.ID
+                                 where role.RoleName == "Satici" && user.IsActive == true && user.StoreCode==CurrentSession.User.StoreCode
+                                 select user
+                               ).ToList();
+                magazalar = sormMerkeziManager.GetData(CurrentSession.User.StoreCode);
             }
             else
             {
@@ -142,9 +152,9 @@ namespace KontaktHome.Controllers
                                  where role.RoleName == "Satici" && user.IsActive == true
                                  select user
                                ).ToList();
+                magazalar = sormMerkeziManager.GetData();
             }
-            var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();
-            List<SORUMLULUK_MERKEZLERI> magazalar = sormMerkeziManager.GetData();
+            var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();           
             var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
             ViewBag.Seller = saticilar;
             ViewBag.Stores = magaza;
@@ -186,11 +196,13 @@ namespace KontaktHome.Controllers
             {
                 IEnumerable<Orders> fakturalar = new List<Orders>();
                 string sellerName = null;
+                string storeCode = null;
                 if (User.IsInRole("Satici"))
                 {
                     sellerName = CurrentSession.User.UserName;
+                    storeCode = CurrentSession.User.StoreCode;
                 }
-                fakturalar = orderManager.GetOrdersWithParametr(data, sellerName);
+                fakturalar = orderManager.GetOrdersWithParametr(data, sellerName,storeCode);
                 var UserData = new object[fakturalar.Count()];
                 int j = 0;
                 foreach (var item in fakturalar)
@@ -296,13 +308,13 @@ namespace KontaktHome.Controllers
             {
                 if (data.VisitorStatus < 3)
                 {
-                    string visitorName = form["Visitor"].ToString();
+                    //string visitorName = form["Visitor"].ToString();
                     if (data.IsVisitorAdded == true)
                     {
                         data.OrderStatus = 2;
-                        data.VisitorCode = visitorName;
+                        //data.VisitorCode = visitorName;
                         data.VisitorStatus = 1;
-                        BusinessLayerResult<Users> users = userManager.GetUserInformation(visitorName);
+                        BusinessLayerResult<Users> users = userManager.GetUserInformation(data.VisitorCode);
                         if (users.Errors.Count == 0)
                         {
                             data.VisitorName = users.Result.UserDisplayName;
@@ -578,8 +590,16 @@ namespace KontaktHome.Controllers
                 data.designerStaus = Statuses.DesignerStatus(order.DesignerStatus);
                 data.plannerStatus = Statuses.PlannerStatus(order.PlannerStatus);
                 data.itemGroups = new SelectList(anagrupManager.listAnaqruplar(), "san_kod", "san_isim");
+                data.stockInfo = stockInfoManager.ListQueryable().Where(x => x.OrderNo == Sira).ToList();
                 return View(data);
             }
+        }
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public ActionResult SellerVisitEdit(OrderData data)
+        {
+            BusinessLayerResult<Visits> visitDataUpdate = visitManager.SellerUpdate(data.visitData, CurrentSession.User);           
+            return RedirectToAction("VisitInfo", "Order", new { Sira=data.order.OrderId } );
         }
 
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
@@ -1158,7 +1178,7 @@ namespace KontaktHome.Controllers
         [CustomAuthorize(Roles = "Admin,Kordinator")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public JsonResult SaveToMikro(int? orderid, int? visitid)
+        public JsonResult SaveToMikro(int? orderid, int? visitid)//TODO: mikro insert duzelisler et
         {
             bool status = false;
             string[] errors;
@@ -1170,7 +1190,7 @@ namespace KontaktHome.Controllers
                 {
                     if (_visit.VisitStatus == 0)
                     {
-                        string stokKodu = _order.CustomerSurname + _order.CustomerName + "-" + _order.OrderId.ToString() + "-" + _visit.VisitID.ToString();
+                        string stokKodu = _order.OrderId.ToString("D4") + "." + _visit.VisitID.ToString() + "-" + _order.CustomerSurname + _order.CustomerName;
                         string stokAdi = _order.CustomerSurname + _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
                         STOKLAR stokdata = new STOKLAR();
                         stokdata.sto_kod = stokKodu;
@@ -1275,6 +1295,24 @@ namespace KontaktHome.Controllers
                             status = false;
                             return Json(new { status, errors });
                         }
+                        StockInfo _stockInfo = new StockInfo();
+                        _stockInfo.StockName = stokKodu;
+                        _stockInfo.Price = _visit.FinalPrice;
+                        _stockInfo.VisitNo = _visit.VisitID;
+                        _stockInfo.OrderNo = _order.OrderId;
+                        _stockInfo.PaymentStatus = 0;
+                        _stockInfo.SendStatus = 0;
+                        BusinessLayerResult<StockInfo> insertStockInfo = stockInfoManager.InsertData(_stockInfo);
+                        if (insertStockInfo.Errors.Count>0)
+                        {
+                            errors = new string[insertStockInfo.Errors.Count];
+                            for (int i = 0; i < insertStockInfo.Errors.Count; i++)
+                            {
+                                errors[i] = insertStockInfo.Errors[i].Message;
+                            }
+                            status = false;
+                            return Json(new { status, errors });
+                        }
                         status = true;
                         string link = "?Sira=" + orderid.ToString();
                         return Json(new { status, link, Url = Url.Action("VisitInfo", "Order") });
@@ -1334,13 +1372,13 @@ namespace KontaktHome.Controllers
         [CustomAuthorize(Roles = "Admin,Kordinator")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public JsonResult ActivateOrder(int? orderid)
+        public JsonResult ActivateOrder(int? orderid,int? menuStatus)
         {
             bool status = false;
             string[] errors;
             if (orderid != null)
             {
-                BusinessLayerResult<Orders> orderresult = orderManager.ActivateOrder(Convert.ToInt32(orderid), CurrentSession.User);
+                BusinessLayerResult<Orders> orderresult = orderManager.ActivateOrder(Convert.ToInt32(orderid), CurrentSession.User, Convert.ToInt32(menuStatus));
                 if (orderresult.Errors.Count > 0)
                 {
                     errors = new string[orderresult.Errors.Count];

@@ -109,6 +109,7 @@
     <Compile Include="Model\LocalModels\Production.cs" />
     <Compile Include="Model\LocalModels\ProductionData.cs" />
     <Compile Include="Model\LocalModels\SaveRecipe.cs" />
+    <Compile Include="Model\LocalModels\StockInfo.cs" />
     <Compile Include="Model\LocalModels\UserRoles.cs" />
     <Compile Include="Model\LocalModels\UserRolesMapping.cs" />
     <Compile Include="Model\LocalModels\Widgets.cs" />
