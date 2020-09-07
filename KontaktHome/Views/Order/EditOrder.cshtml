@@ -15,11 +15,11 @@
                 @Html.HiddenFor(model => model.OrderId)
                 @Html.HiddenFor(model => model.OrderStatus)
                 @Html.HiddenFor(model => model.CreateOn)
-                @Html.HiddenFor(model => model.VisitorStatus)
+                @*@Html.HiddenFor(model => model.VisitorStatus)*@
                 @Html.HiddenFor(model => model.DesignerStatus)
-                @Html.HiddenFor(model => model.VisitorName)              
-                @Html.HiddenFor(model => model.DesignerName)             
-                @Html.HiddenFor(model => model.PlannerStatus)             
+                @Html.HiddenFor(model => model.VisitorName)
+                @Html.HiddenFor(model => model.DesignerName)
+                @Html.HiddenFor(model => model.PlannerStatus)
                 @Html.HiddenFor(model => model.PlannerName)
                 @Html.AntiForgeryToken()
                 <div class="form-group col-lg-12">
@@ -214,6 +214,12 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <label>Vizitor Statusu</label>
+                                    <div class="col-form-txt">
+                                        @Html.DropDownListFor(model => model.VisitorStatus, new SelectList(ViewBag.VisitorStatuses, "Value", "Text"), new { @class = "form-control" })
+                                    </div>
+                                </div>
                             </div>
                             if (Model.VisitorStatus == 4)
                             {
@@ -235,6 +241,12 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-sm-6">
+                                        <label>Planlamacı Statusu</label>
+                                        <div class="col-form-txt">
+                                            @Html.DropDownListFor(model => model.PlannerCode, new SelectList(ViewBag.PlannerStatuses, "Value", "Text"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
                                 </div>
                             }
                             if (Model.PlannerStatus == 4)
@@ -252,33 +264,38 @@
                                         <div class="form-group">
                                             <label>Dizayner Adı</label>
                                             <div class="col-form-txt">
-                                                @*@Html.DropDownList("Designer", (ViewBag.Designer as SelectList), "", new { @class = "form-control", @id = "designerCode" })*@
                                                 @Html.DropDownListFor(model => model.DesignerCode, new SelectList(ViewBag.Designer, "Value", "Text"), "", new { @class = "form-control", @id = "designerCode" })
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-sm-6">
+                                        <label>Dizayner Statusu</label>
+                                        <div class="col-form-txt">
+                                            @Html.DropDownListFor(model => model.DesignerStatus, new SelectList(ViewBag.DesignerStatuses, "Value", "Text"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
                                 </div>
-                            }
+                            }                          
                             @*if (Model.OrderStatus == 7)
-                        {
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="custom-control custom-checkbox">
-                                        @Html.CheckBoxFor(model => model.IsCompleted, new { @class = "custom-control-input", @id = "chkCompleted", @type = "checkbox", })
-                                        @Html.LabelFor(model => model.IsCompleted, new { @for = "chkCompleted", @class = "custom-control-label" })
+                                {
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="custom-control custom-checkbox">
+                                                @Html.CheckBoxFor(model => model.IsCompleted, new { @class = "custom-control-input", @id = "chkCompleted", @type = "checkbox", })
+                                                @Html.LabelFor(model => model.IsCompleted, new { @for = "chkCompleted", @class = "custom-control-label" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Faktura Nömrəsi</label>
-                                        @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Faktura Nömrəsi ..." } })
-                                        @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Faktura Nömrəsi</label>
+                                                @Html.EditorFor(model => model.InvoiceNo, new { htmlAttributes = new { @class = "form-control", id = "", placeholder = "Faktura Nömrəsi ..." } })
+                                                @Html.ValidationMessageFor(model => model.InvoiceNo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        }*@
+                                }*@
 
                         }
                     </div>

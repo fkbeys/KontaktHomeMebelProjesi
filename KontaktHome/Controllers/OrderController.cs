@@ -263,6 +263,8 @@ namespace KontaktHome.Controllers
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
             ViewBag.Planner = listplanner;
+            //ViewBag.OrderStatus = Statuses.ListOrderStatuses();
+          
             ViewBag.Link = "/Order/VisitInfo?Sira=" + order.OrderId.ToString();
             if (order == null)
             {
@@ -294,6 +296,9 @@ namespace KontaktHome.Controllers
             ViewBag.LocationGroup = _locationGroups;
             ViewBag.LocationSubGroup = _locationSubGroup;
             ViewBag.LocationNames = _locationName;
+            ViewBag.VisitorStatuses = Statuses.ListVisitorStatuses();
+            ViewBag.DesignerStatuses = Statuses.ListDesignerStatuses();
+            ViewBag.PlannerStatuses = Statuses.ListPlannerStatuses();
             return View(order);
         }
 
@@ -327,6 +332,11 @@ namespace KontaktHome.Controllers
                     else
                     {
                         data.OrderStatus = 1;
+                        data.VisitorStatus = 0;
+                        data.PlannerStatus = 0;
+                        data.DesignerStatus = 0;
+                        data.IsDesignerAdded = false;
+                        data.IsPlannerAdded = false;                        
                         data.VisitorCode = "";
                         data.VisitorName = "";
                     }
@@ -439,6 +449,7 @@ namespace KontaktHome.Controllers
             ViewBag.Designer = listdesigner;
             ViewBag.Planner = listplanner;
             ViewBag.Link = "/Order/VisitInfo?Sira=" + data.OrderId.ToString();
+           
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Orders> order = orderManager.UpdateOrder(data);
@@ -460,6 +471,9 @@ namespace KontaktHome.Controllers
             ViewBag.LocationGroup = _locationGroups;
             ViewBag.LocationSubGroup = _locationSubGroup;
             ViewBag.LocationNames = _locationName;
+            ViewBag.VisitorStatuses = Statuses.ListVisitorStatuses();
+            ViewBag.DesignerStatuses = Statuses.ListDesignerStatuses();
+            ViewBag.PlannerStatuses = Statuses.ListPlannerStatuses();
             return View(data);
         }
         public ActionResult OrderInfo(int? Sira)

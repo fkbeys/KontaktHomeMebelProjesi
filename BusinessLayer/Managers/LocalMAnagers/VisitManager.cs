@@ -268,7 +268,10 @@ namespace BusinessLayer
                     if (_visits.Result != null)
                     {
                         _visits.Result.Price = item.Price;
-                        _visits.Result.FinalPrice = item.FinalPrice;
+                        if (_visits.Result.VisitStatus==0)
+                        {
+                            _visits.Result.FinalPrice = item.FinalPrice;
+                        }                       
                         _visits.Result.IsDeclined = item.IsDeclined;
                         _visits.Result.DeclineReason = item.DeclineReason;
                         _visits.Result.LastUpdate = DateTime.Now;

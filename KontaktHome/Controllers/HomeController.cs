@@ -28,7 +28,7 @@ namespace KontaktHome.Controllers
             Widgets widgets = new Widgets();
             widgets.WaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 1).Count();
             widgets.ProcessingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && orderstatuses.Contains(x.OrderStatus)).Count();
-            widgets.SaleWaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 7).Count();
+            widgets.SaleWaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus >6 && x.OrderStatus<11).Count();
             widgets.ProductionOrders = visitManager.ListQueryable().Where(x => x.VisitStatus == 1 && x.IsDeclined == false).Count();
             return View(widgets);
         }

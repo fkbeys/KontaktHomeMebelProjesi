@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace BusinessLayer.QueryResult
 {
@@ -138,6 +139,49 @@ namespace BusinessLayer.QueryResult
             {
                 return "";
             }
+        }
+        public static List<SelectListItem> ListOrderStatuses()
+        {
+            List<SelectListItem> orderStatuses = new List<SelectListItem>();
+            orderStatuses.Add(new SelectListItem { Value = "1", Text = "Gözləmədə" });
+            orderStatuses.Add(new SelectListItem { Value = "2", Text = "Vizitor Təyin Edilib" });
+            orderStatuses.Add(new SelectListItem { Value = "3", Text = "Vizitor Qəbul Edib" });
+            orderStatuses.Add(new SelectListItem { Value = "4", Text = "Vizit Tamamlanıb" });
+            orderStatuses.Add(new SelectListItem { Value = "5", Text = "Planlamacı Təyin Edilib" });
+            orderStatuses.Add(new SelectListItem { Value = "6", Text = "Planlamacı Qəbul Edib" });
+            orderStatuses.Add(new SelectListItem { Value = "7", Text = "Planlama Tamamlanıb" });
+            orderStatuses.Add(new SelectListItem { Value = "8", Text = "Dizayner Təyin Edilib" });
+            orderStatuses.Add(new SelectListItem { Value = "9", Text = "Dizayner Qəbul Edib" });
+            orderStatuses.Add(new SelectListItem { Value = "10", Text = "Dizayn Tamamlanıb" });
+            orderStatuses.Add(new SelectListItem { Value = "11", Text = "Sifariş Yekunlaşıb" });
+            return orderStatuses;
+        }
+        public static List<SelectListItem> ListVisitorStatuses()
+        {
+            List<SelectListItem> visitorStatuses = new List<SelectListItem>();            
+            visitorStatuses.Add(new SelectListItem { Value = "1", Text = "Gözləmədə" });
+            visitorStatuses.Add(new SelectListItem { Value = "2", Text = "Qəbul Edilib" });
+            visitorStatuses.Add(new SelectListItem { Value = "3", Text = "Vizit Edilib" });
+            visitorStatuses.Add(new SelectListItem { Value = "4", Text = "Vizit Tamamlanıb" });          
+            return visitorStatuses;
+        }
+        public static List<SelectListItem> ListDesignerStatuses()
+        {
+            List<SelectListItem> designerStatuses = new List<SelectListItem>();
+            designerStatuses.Add(new SelectListItem { Value = "1", Text = "Gözləmədə" });
+            designerStatuses.Add(new SelectListItem { Value = "2", Text = "Qəbul Edilib" });
+            designerStatuses.Add(new SelectListItem { Value = "3", Text = "Dizayn Edilir" });
+            designerStatuses.Add(new SelectListItem { Value = "4", Text = "Dizayn Tamamlanıb" });
+            return designerStatuses;
+        }
+        public static List<SelectListItem> ListPlannerStatuses()
+        {
+            List<SelectListItem> plannerStatus = new List<SelectListItem>();
+            plannerStatus.Add(new SelectListItem { Value = "1", Text = "Gözləmədə" });
+            plannerStatus.Add(new SelectListItem { Value = "2", Text = "Qəbul Edilib" });
+            plannerStatus.Add(new SelectListItem { Value = "3", Text = "Planlama Edilir"});
+            plannerStatus.Add(new SelectListItem { Value = "4", Text = "Planlama Tamamlanıb" });
+            return plannerStatus;
         }
     }
 }
