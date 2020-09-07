@@ -311,14 +311,14 @@ namespace KontaktHome.Controllers
             data.UpdateUser = CurrentSession.User.UserName;
             if (User.IsInRole("Kordinator") || User.IsInRole("Admin"))
             {
-                if (data.VisitorStatus < 3)
-                {
-                    //string visitorName = form["Visitor"].ToString();
+                if (data.VisitorStatus < 4)
+                {                   
                     if (data.IsVisitorAdded == true)
                     {
                         data.OrderStatus = 2;
-                        //data.VisitorCode = visitorName;
-                        data.VisitorStatus = 1;
+                        data.PlannerStatus = 0;
+                        data.DesignerStatus = 0;
+                        data.VisitorStatus = 1;                        
                         BusinessLayerResult<Users> users = userManager.GetUserInformation(data.VisitorCode);
                         if (users.Errors.Count == 0)
                         {
@@ -341,17 +341,16 @@ namespace KontaktHome.Controllers
                         data.VisitorName = "";
                     }
                 }
-                if (data.PlannerStatus < 3)
+                if (data.PlannerStatus < 4 && data.PlannerStatus >0)
                 {
                     if (data.VisitorStatus == 4)
-                    {
-                        //designerName = form["Designer"].ToString();
+                    {                      
                         data.OrderStatus = 5;
                     }
                     if (data.IsPlannerAdded == true)
                     {
                         data.PlannerStatus = 1;
-                        //data.PlannerCode = designerName;
+                        data.DesignerStatus = 0;
                         BusinessLayerResult<Users> users = userManager.GetUserInformation(data.PlannerCode);
                         if (users.Errors.Count == 0)
                         {
@@ -365,12 +364,14 @@ namespace KontaktHome.Controllers
                     else
                     {
                         data.PlannerStatus = 0;
+                        data.OrderStatus = 4;
                         data.PlannerCode = "";
                         data.PlannerName = "";
+                        data.DesignerStatus = 0;
                     }
                 }
                 //TODO: dizayner duzelis edilecek
-                if (data.DesignerStatus < 3)
+                if (data.DesignerStatus < 4 && data.DesignerStatus>0)
                 {
                     //string designerName = "";
                     if (data.PlannerStatus == 4)
@@ -395,6 +396,7 @@ namespace KontaktHome.Controllers
                     else
                     {
                         data.DesignerStatus = 0;
+                        data.OrderStatus = 7;
                         data.DesignerCode = "";
                         data.DesignerName = "";
                     }

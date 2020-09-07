@@ -16,10 +16,10 @@
                 @Html.HiddenFor(model => model.OrderStatus)
                 @Html.HiddenFor(model => model.CreateOn)
                 @*@Html.HiddenFor(model => model.VisitorStatus)*@
-                @Html.HiddenFor(model => model.DesignerStatus)
+                @*@Html.HiddenFor(model => model.DesignerStatus)*@
                 @Html.HiddenFor(model => model.VisitorName)
                 @Html.HiddenFor(model => model.DesignerName)
-                @Html.HiddenFor(model => model.PlannerStatus)
+                @*@Html.HiddenFor(model => model.PlannerStatus)*@
                 @Html.HiddenFor(model => model.PlannerName)
                 @Html.AntiForgeryToken()
                 <div class="form-group col-lg-12">
@@ -244,7 +244,7 @@
                                     <div class="col-sm-6">
                                         <label>Planlamacı Statusu</label>
                                         <div class="col-form-txt">
-                                            @Html.DropDownListFor(model => model.PlannerCode, new SelectList(ViewBag.PlannerStatuses, "Value", "Text"), new { @class = "form-control" })
+                                            @Html.DropDownListFor(model => model.PlannerStatus, new SelectList(ViewBag.PlannerStatuses, "Value", "Text"), new { @class = "form-control" })
                                         </div>
                                     </div>
                                 </div>

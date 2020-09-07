@@ -392,7 +392,7 @@
                                         }
                                         else
                                         {
-                                            if (proddata.Count > 0 && Model.order.OrderStatus==7 && HttpContext.Current.User.IsInRole("Satici"))
+                                            if (proddata.Count > 0 && Model.order.OrderStatus==7 && HttpContext.Current.User.IsInRole("Satici") && Model.visitData[i].VisitStatus==0)
                                             {
                                                 <div class="row">
                                                     <div class="col-sm-12">
