@@ -244,6 +244,10 @@ namespace BusinessLayer
                 {
                     orders = orders.Where(x => x.OrderStore == data.storeCode);
                 }
+                if (data.status>0)
+                {
+                    orders = orders.Where(x => x.OrderStatus == data.status);
+                }
             }
             else
             {
@@ -266,6 +270,10 @@ namespace BusinessLayer
                 if (data.storeCode != null)
                 {
                     orders = orders.Where(x => x.OrderStore == data.storeCode);
+                }
+                if (data.status > 0)
+                {
+                    orders = orders.Where(x => x.OrderStatus == data.status);
                 }
             }
 

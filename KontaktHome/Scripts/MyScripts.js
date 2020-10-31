@@ -163,7 +163,8 @@ function getActiveOrdersWithParametr() {
             deletedOrders: deletedCheck,
             activeOrders: activeCheck,
             sellerCode: document.getElementById('saticilar').value,
-            storeCode: document.getElementById('magazalar').value
+            storeCode: document.getElementById('magazalar').value,
+            status: document.getElementById('statuslar').value
         }
 
         $('#tableActiveOrders').DataTable({
