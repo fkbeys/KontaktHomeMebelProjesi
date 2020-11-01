@@ -152,6 +152,19 @@
         }
         $('#saticilar').selectize();
         $('#magazalar').selectize();
+
+
+        var axtaris = '@ViewBag.Axtaris.firstDate';
+        if (axtaris != '') {
+            document.getElementById('firstDate').value = '@ViewBag.Axtaris.firstDate';
+            document.getElementById('lastDate').value = '@ViewBag.Axtaris.lastDate';
+            $('#saticilar').data('selectize').setValue("@ViewBag.Axtaris.sellerCode");
+            $('#magazalar').data('selectize').setValue("@ViewBag.Axtaris.storeCode");
+          
+            document.getElementById('statuslar').value = '@ViewBag.Axtaris.status';
+            document.getElementById("chkActiveOrders").checked = '@ViewBag.Axtaris.activeOrders';
+            document.getElementById("chkClosedOrders").checked = '@ViewBag.Axtaris.deletedOrders';
+        }
     </script>
     }  
 

@@ -4,9 +4,11 @@ using Entities;
 using Entities.Model;
 using KontaktHome.Filters;
 using KontaktHome.Models;
+using System;
 using System.Configuration;
 using System.DirectoryServices.AccountManagement;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -24,6 +26,14 @@ namespace KontaktHome.Controllers
         [Auth]
         public ActionResult Index()
         {
+            HttpCookie searchCookie = Request.Cookies["axtarisCookie"];
+            if (searchCookie != null && searchCookie.Values != null)
+            {
+                searchCookie.Value = "";
+                searchCookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(searchCookie);
+            }           
+           
             int[] orderstatuses = new int[] { 2, 3, 4, 5, 6 };
             Widgets widgets = new Widgets();
             widgets.WaitingOrders = orderManager.ListQueryable().Where(x => x.IsActive == true && x.OrderStatus == 1).Count();

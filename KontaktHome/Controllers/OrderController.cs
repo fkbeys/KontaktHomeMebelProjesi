@@ -63,7 +63,7 @@ namespace KontaktHome.Controllers
             //Response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1.
             //Response.Cache.AppendCacheExtension("no-store, must-revalidate");
             //Response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
-            //Response.AppendHeader("Expires", "0"); // Proxies.
+            //Response.AppendHeader("Expires", "0"); // Proxies.           
             return View();
         }
         //Seller
@@ -158,6 +158,20 @@ namespace KontaktHome.Controllers
             var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
             ViewBag.Seller = saticilar;
             ViewBag.Stores = magaza;
+
+            HttpCookie searchCookie = Request.Cookies["axtarisCookie"];
+            OrderSearch axtaris = new OrderSearch();
+            if (searchCookie != null && searchCookie.Values != null && searchCookie.Expires<DateTime.Now)
+            {
+                axtaris.firstDate=searchCookie["firstDate"];
+                axtaris.lastDate=searchCookie["lastDate"];
+                axtaris.sellerCode = searchCookie["sellerCode"];
+                axtaris.storeCode=searchCookie["storeCode"];
+                axtaris.deletedOrders=Convert.ToBoolean(searchCookie["deletedOrders"]);
+                axtaris.activeOrders=Convert.ToBoolean(searchCookie["activeOrders"]);
+                axtaris.status=Convert.ToInt16(searchCookie["status"]);
+            }           
+            ViewBag.Axtaris = axtaris;
             return View();
         }
 
@@ -165,6 +179,22 @@ namespace KontaktHome.Controllers
         [WebMethod]
         public ActionResult GetActiveOrders()
         {
+            //axtaris cookie
+            HttpCookie searchCookie = Request.Cookies["axtarisCookie"];
+            if (searchCookie!=null && searchCookie.Values!=null)
+            {
+                OrderSearch axtaris = new OrderSearch();
+                axtaris.firstDate = searchCookie["firstDate"];
+                axtaris.lastDate = searchCookie["lastDate"];
+                axtaris.sellerCode = searchCookie["sellerCode"];
+                axtaris.storeCode = searchCookie["storeCode"];
+                axtaris.deletedOrders = Convert.ToBoolean(searchCookie["deletedOrders"]);
+                axtaris.activeOrders = Convert.ToBoolean(searchCookie["activeOrders"]);
+                axtaris.status = Convert.ToInt16(searchCookie["status"]);
+
+                return RedirectToAction("GetActiveOrdersWithParametr",axtaris);
+            }
+
             List<Orders> fakturalar = new List<Orders>();
             if (User.IsInRole("Satici"))
             {
@@ -215,6 +245,19 @@ namespace KontaktHome.Controllers
                     UserData[j] = new object[] { item.OrderId, item.CreateOn.ToString("MM/dd/yyyy"), customer, item.Tel1, item.SellerCode, item.OrderStore, orderStatus, link, orderAktivstatus };
                     j++;
                 }
+
+                //axtaris cookie
+                HttpCookie searchCookie = new HttpCookie("axtarisCookie");
+                searchCookie["firstDate"] = data.firstDate;
+                searchCookie["lastDate"] = data.lastDate;
+                searchCookie["sellerCode"] = data.sellerCode;
+                searchCookie["storeCode"] = data.storeCode;
+                searchCookie["deletedOrders"] = data.deletedOrders.ToString();
+                searchCookie["activeOrders"] = data.activeOrders.ToString();
+                searchCookie["status"] = data.status.ToString();
+                searchCookie.Expires = DateTime.Now.AddMinutes(10);
+                Response.Cookies.Add(searchCookie);
+
                 return Json(UserData, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
