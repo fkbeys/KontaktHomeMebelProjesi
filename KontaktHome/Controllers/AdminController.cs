@@ -161,18 +161,29 @@ namespace KontaktHome.Controllers
         }
         public IEnumerable<SelectListItem> GetADUsers()
         {
+
             List<SelectListItem> _users = new List<SelectListItem>();
-            PrincipalContext domainconnect = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings["DomainName"], ConfigurationManager.AppSettings["DomainDc"], ConfigurationManager.AppSettings["UserName"], ConfigurationManager.AppSettings["Password"]);
-            GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(domainconnect, IdentityType.Name, ConfigurationManager.AppSettings["GroupName"]);
-            if (adGroup != null)
-            {
-                foreach (Principal p in adGroup.GetMembers(true))
-                {
-                    _users.Add(new SelectListItem { Text = p.Name, Value = p.SamAccountName });
-                }
-            }
             IEnumerable<SelectListItem> myADUsers = _users;
-            return myADUsers;
+            try
+            {
+                PrincipalContext domainconnect = new PrincipalContext(ContextType.Domain, ConfigurationManager.AppSettings["DomainName"], ConfigurationManager.AppSettings["DomainDc"], ConfigurationManager.AppSettings["UserName"], ConfigurationManager.AppSettings["Password"]);
+                GroupPrincipal adGroup = GroupPrincipal.FindByIdentity(domainconnect, IdentityType.Name, ConfigurationManager.AppSettings["GroupName"]);
+                if (adGroup != null)
+                {
+                    foreach (Principal p in adGroup.GetMembers(true))
+                    {
+                        _users.Add(new SelectListItem { Text = p.Name, Value = p.SamAccountName });
+                    }
+                }
+                myADUsers = _users;
+                return myADUsers;
+            }
+            catch (Exception)
+            {
+                return myADUsers;
+            }
+           
+            
         }
         public ActionResult UserRoles(int UserID)
         {

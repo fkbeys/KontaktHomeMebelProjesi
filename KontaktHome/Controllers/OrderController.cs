@@ -158,7 +158,7 @@ namespace KontaktHome.Controllers
             var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
             ViewBag.Seller = saticilar;
             ViewBag.Stores = magaza;
-
+            //read cookies---------------------------------
             HttpCookie searchCookie = Request.Cookies["axtarisCookie"];
             OrderSearch axtaris = new OrderSearch();
             if (searchCookie != null && searchCookie.Values != null && searchCookie.Expires<DateTime.Now)
@@ -172,6 +172,7 @@ namespace KontaktHome.Controllers
                 axtaris.status=Convert.ToInt16(searchCookie["status"]);
             }           
             ViewBag.Axtaris = axtaris;
+            //----------------------------------------------
             return View();
         }
 
@@ -179,7 +180,7 @@ namespace KontaktHome.Controllers
         [WebMethod]
         public ActionResult GetActiveOrders()
         {
-            //axtaris cookie
+            //axtaris cookie------------------------------------------
             HttpCookie searchCookie = Request.Cookies["axtarisCookie"];
             if (searchCookie!=null && searchCookie.Values!=null)
             {
@@ -194,7 +195,7 @@ namespace KontaktHome.Controllers
 
                 return RedirectToAction("GetActiveOrdersWithParametr",axtaris);
             }
-
+            //----------------------------------------------------------
             List<Orders> fakturalar = new List<Orders>();
             if (User.IsInRole("Satici"))
             {

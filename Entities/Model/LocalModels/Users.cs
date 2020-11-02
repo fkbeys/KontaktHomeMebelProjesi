@@ -16,11 +16,11 @@ namespace Entities
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserID { get; set; }       
-        [Required, StringLength(50)]
+        [Required(ErrorMessage ="İstifadəçi kodu seçilməyib"), StringLength(50)]
         public string UserName { get; set; }
         [StringLength(50)]
         public string UserPassword { get; set; }
-        [Required, StringLength(50)]
+        [Required(ErrorMessage = "İstifadəçi adı seçilməyib"), StringLength(50)]
         public string UserDisplayName { get; set; }     
         [Required]
         [DisplayName("Aktiv")]
