@@ -63,6 +63,7 @@ namespace BusinessLayer
                 orders.Result.PlannerName = data.PlannerName;
                 orders.Result.PlannerStatus = data.PlannerStatus;
                 orders.Result.IsPlannerAdded = data.IsPlannerAdded;
+                orders.Result.ItemCount = data.ItemCount;
                 if (data.IsCompleted == true)
                 {
                     orders.Result.IsActive = false;
