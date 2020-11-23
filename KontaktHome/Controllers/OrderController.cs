@@ -63,7 +63,7 @@ namespace KontaktHome.Controllers
             //Response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1.
             //Response.Cache.AppendCacheExtension("no-store, must-revalidate");
             //Response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
-            //Response.AppendHeader("Expires", "0"); // Proxies.           
+            //Response.AppendHeader("Expires", "0"); // Proxies.
             return View();
         }
         //Seller
@@ -154,7 +154,7 @@ namespace KontaktHome.Controllers
                                ).ToList();
                 magazalar = sormMerkeziManager.GetData();
             }
-            var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();           
+            var saticilar = istifadeciler.Select(s => new SelectListItem { Value = s.UserName, Text = s.UserDisplayName }).ToList();
             var magaza = magazalar.Select(x => new SelectListItem { Value = x.som_isim, Text = x.som_kod }).ToList();
             ViewBag.Seller = saticilar;
             ViewBag.Stores = magaza;
@@ -170,7 +170,7 @@ namespace KontaktHome.Controllers
                 axtaris.deletedOrders=Convert.ToBoolean(searchCookie["deletedOrders"]);
                 axtaris.activeOrders=Convert.ToBoolean(searchCookie["activeOrders"]);
                 axtaris.status=Convert.ToInt16(searchCookie["status"]);
-            }           
+            }
             ViewBag.Axtaris = axtaris;
             //----------------------------------------------
             return View();
@@ -308,7 +308,7 @@ namespace KontaktHome.Controllers
             ViewBag.Designer = listdesigner;
             ViewBag.Planner = listplanner;
             //ViewBag.OrderStatus = Statuses.ListOrderStatuses();
-          
+
             ViewBag.Link = "/Order/VisitInfo?Sira=" + order.OrderId.ToString();
             if (order == null)
             {
@@ -356,13 +356,13 @@ namespace KontaktHome.Controllers
             if (User.IsInRole("Kordinator") || User.IsInRole("Admin"))
             {
                 if (data.VisitorStatus < 4)
-                {                   
+                {
                     if (data.IsVisitorAdded == true)
                     {
                         data.OrderStatus = 2;
                         data.PlannerStatus = 0;
                         data.DesignerStatus = 0;
-                        data.VisitorStatus = 1;                        
+                        data.VisitorStatus = 1;
                         BusinessLayerResult<Users> users = userManager.GetUserInformation(data.VisitorCode);
                         if (users.Errors.Count == 0)
                         {
@@ -380,7 +380,7 @@ namespace KontaktHome.Controllers
                         data.PlannerStatus = 0;
                         data.DesignerStatus = 0;
                         data.IsDesignerAdded = false;
-                        data.IsPlannerAdded = false;                        
+                        data.IsPlannerAdded = false;
                         data.VisitorCode = "";
                         data.VisitorName = "";
                     }
@@ -388,7 +388,7 @@ namespace KontaktHome.Controllers
                 if (data.PlannerStatus < 4 && data.PlannerStatus >0)
                 {
                     if (data.VisitorStatus == 4)
-                    {                      
+                    {
                         data.OrderStatus = 5;
                     }
                     if (data.IsPlannerAdded == true)
@@ -495,7 +495,7 @@ namespace KontaktHome.Controllers
             ViewBag.Designer = listdesigner;
             ViewBag.Planner = listplanner;
             ViewBag.Link = "/Order/VisitInfo?Sira=" + data.OrderId.ToString();
-           
+
             if (ModelState.IsValid)
             {
                 BusinessLayerResult<Orders> order = orderManager.UpdateOrder(data);
@@ -658,7 +658,7 @@ namespace KontaktHome.Controllers
         [HttpPost]
         public ActionResult SellerVisitEdit(OrderData data)
         {
-            BusinessLayerResult<Visits> visitDataUpdate = visitManager.SellerUpdate(data.visitData, CurrentSession.User);           
+            BusinessLayerResult<Visits> visitDataUpdate = visitManager.SellerUpdate(data.visitData, CurrentSession.User);
             return RedirectToAction("VisitInfo", "Order", new { Sira=data.order.OrderId } );
         }
 
@@ -1130,30 +1130,30 @@ namespace KontaktHome.Controllers
             //var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
 
 
-            ////Paging Size (10,20,50,100)    
+            ////Paging Size (10,20,50,100)
             //int pageSize = length != null ? Convert.ToInt32(length) : 0;
             //int skip = start != null ? Convert.ToInt32(start) : 0;
             //int recordsTotal = 0;
 
-            //// Getting all Customer data    
+            //// Getting all Customer data
             //var customerData = productManager.GetProducts();
 
-            ////Sorting    
+            ////Sorting
             ////if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
             ////{
             ////    customerData = customerData.OrderBy(sortColumn + " " + sortColumnDir);
             ////}
-            ////Search    
+            ////Search
             //if (!string.IsNullOrEmpty(searchValue))
             //{
             //    customerData = customerData.Where(m => m.product_name == searchValue).ToList();
             //}
 
-            ////total number of rows count     
+            ////total number of rows count
             //recordsTotal = customerData.Count();
-            ////Paging     
+            ////Paging
             //var data = customerData.Skip(skip).Take(pageSize).ToList();
-            ////Returning Json Data    
+            ////Returning Json Data
             //return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
 
 
@@ -1250,7 +1250,7 @@ namespace KontaktHome.Controllers
                 {
                     if (_visit.VisitStatus == 0)
                     {
-                        string stokKodu = _order.OrderId.ToString("D4") + "." + _visit.VisitID.ToString() + "-" + _order.CustomerSurname + _order.CustomerName;
+                        string stokKodu = _order.OrderId.ToString("D4") + "." + _visit.VisitID.ToString() + "-" + _order.CustomerSurname.Substring(0,1) + _order.CustomerName.Substring(0,1);
                         string stokAdi = _order.CustomerSurname + _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
                         STOKLAR stokdata = new STOKLAR();
                         stokdata.sto_kod = stokKodu;
@@ -1602,11 +1602,11 @@ namespace KontaktHome.Controllers
                 data.designerStaus = Statuses.DesignerStatus(data.order.DesignerStatus);
                 data.plannerStatus = Statuses.PlannerStatus(data.order.PlannerStatus);
                 return View(data);
-            }          
+            }
             BusinessLayerResult<Orders> order = orderManager.AcceptOrder(data.order, plannerstatus);
             if (order.Errors.Count>0)
             {
-                visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));                
+                visitData.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                 TempData["msg"] = "Qeyd Yenilənmədi!";
                 TempData["typ"] = "error";
                 return View(data);

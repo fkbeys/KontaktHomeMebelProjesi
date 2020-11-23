@@ -18,12 +18,13 @@ namespace BusinessLayer.Managers.MikroManagers
     {
         public BusinessLayerResult<STOKLAR> InsertData(STOKLAR data, Users user)
         {
+
             BusinessLayerResult<STOKLAR> _stoklar = new BusinessLayerResult<STOKLAR>();
             _stoklar.Result = Find(x => x.sto_kod == data.sto_kod);
             Guid _guid = Guid.NewGuid();
             if (_stoklar.Result != null)
             {
-                _stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Məhsul kodu \""+data.sto_kod+"\" Mikroda mövcuddur.");
+                _stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Məhsul kodu \"" + data.sto_kod + "\" Mikroda mövcuddur.");
             }
             else
             {
@@ -240,11 +241,11 @@ namespace BusinessLayer.Managers.MikroManagers
                 _stoklar.Result.sto_GEKAP_birim = 0;
                 _stoklar.Result.sto_resim_url = "";
 
+
                 if (base.Insert(_stoklar.Result) == 0)
                 {
                     _stoklar.AddError(ErrorMessageCode.DataAlreadyExists, "Məhsul kartı yaradılmadı.");
-                }              
-
+                }
             }
             return _stoklar;
         }
