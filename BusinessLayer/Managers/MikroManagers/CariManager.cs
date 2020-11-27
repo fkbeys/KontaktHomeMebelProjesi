@@ -39,10 +39,10 @@ namespace BusinessLayer.Managers.MikroManagers
                 _carihesaplar.Result.cari_kod = data.cari_kod;
                 _carihesaplar.Result.cari_unvan1 = data.cari_unvan1;
                 _carihesaplar.Result.cari_unvan2 = data.cari_unvan2;
-                _carihesaplar.Result.cari_hareket_tipi = 0;
+                _carihesaplar.Result.cari_hareket_tipi = 1;
                 _carihesaplar.Result.cari_baglanti_tipi = 0;
-                _carihesaplar.Result.cari_stok_alim_cinsi = 0;
-                _carihesaplar.Result.cari_stok_satim_cinsi = 0;
+                _carihesaplar.Result.cari_stok_alim_cinsi = 2;
+                _carihesaplar.Result.cari_stok_satim_cinsi = 2;
                 _carihesaplar.Result.cari_muh_kod = "";
                 _carihesaplar.Result.cari_muh_kod1 = "";
                 _carihesaplar.Result.cari_muh_kod2 = "";
@@ -209,8 +209,6 @@ namespace BusinessLayer.Managers.MikroManagers
                 _carihesaplar.Result.cari_banka_tcmb_subekod10 = "";
                 _carihesaplar.Result.cari_banka_tcmb_kod10 = "";
                 _carihesaplar.Result.cari_banka_hesapno10 = "";
-
-
 
                 if (base.Insert(_carihesaplar.Result) == 0)
                 {

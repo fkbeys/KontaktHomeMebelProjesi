@@ -1251,7 +1251,7 @@ namespace KontaktHome.Controllers
                     if (_visit.VisitStatus == 0)
                     {
                         string stokKodu = _order.OrderId.ToString("D4") + "." + _visit.VisitID.ToString() + "-" + _order.CustomerSurname.Substring(0,1) + _order.CustomerName.Substring(0,1);
-                        string stokAdi = _order.CustomerSurname + _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
+                        string stokAdi = _order.CustomerSurname +" "+ _order.CustomerName + " sifarisNo-" + _order.OrderId.ToString() + " vizitNo-" + _visit.VisitID.ToString();
                         STOKLAR stokdata = new STOKLAR();
                         stokdata.sto_kod = stokKodu;
                         stokdata.sto_isim = stokAdi;
@@ -1293,12 +1293,13 @@ namespace KontaktHome.Controllers
                             status = false;
                             return Json(new { status, errors });
                         }
-                        string carikod = _order.CustomerSurname + _order.CustomerName + "-" + _order.OrderId.ToString();
+                        string carikod = _order.CustomerSurname +"_"+_order.CustomerName + "_" + _order.OrderId.ToString();
                         CARI_HESAPLAR carihesaplar = new CARI_HESAPLAR();
                         carihesaplar.cari_kod = carikod;
                         carihesaplar.cari_unvan1 = _order.CustomerSurname;
                         carihesaplar.cari_unvan2 = _order.CustomerName;
                         carihesaplar.cari_CepTel = RemoveCharacters.TelephoneClean(_order.Tel1);
+                        carihesaplar.cari_grup_kodu = "Müştəri";
                         BusinessLayerResult<CARI_HESAPLAR> _carihesaplar = cariManager.InsertData(carihesaplar, CurrentSession.User);
                         if (_carihesaplar.Errors.Count > 0)
                         {

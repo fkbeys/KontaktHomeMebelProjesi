@@ -52,7 +52,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _stoklar.Result.sto_cins = 4;
                 _stoklar.Result.sto_doviz_cinsi = 0;
                 _stoklar.Result.sto_detay_takip = 0;
-                _stoklar.Result.sto_birim1_ad = "";
+                _stoklar.Result.sto_birim1_ad = "ƏDƏD";
                 _stoklar.Result.sto_birim1_katsayi = 1;
                 _stoklar.Result.sto_birim1_agirlik = 0;
                 _stoklar.Result.sto_birim1_en = 0;
@@ -141,7 +141,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _stoklar.Result.sto_uretici_kodu = "";
                 _stoklar.Result.sto_sektor_kodu = "";
                 _stoklar.Result.sto_reyon_kodu = "";
-                _stoklar.Result.sto_muhgrup_kodu = "";
+                _stoklar.Result.sto_muhgrup_kodu = "Metbex mebel";
                 _stoklar.Result.sto_ambalaj_kodu = "";
                 _stoklar.Result.sto_marka_kodu = "";
                 _stoklar.Result.sto_beden_kodu = "";

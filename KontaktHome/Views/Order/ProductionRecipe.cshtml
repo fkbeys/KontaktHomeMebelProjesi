@@ -10,7 +10,7 @@
 <div class="content">
     <div class="col-md-12">
         <div id="errors" class="col-md-12">
-            
+
         </div>
         <div class="card card-secondary">
             <div class="card-header">
@@ -118,6 +118,9 @@
                     </div>
                 </div>
                 <div class="row pt-2 mt-2 border-top">
+
+                    <button class="btn btn-primary mb-2" type="button" onclick="exportToexcell('faqs')">Excel Köçür</button>
+
                     <div id="recipeitemAlert"></div>
                     <div class="table-responsive">
                         <table id="faqs" class="table table-bordered table-hover table-striped">
@@ -128,8 +131,8 @@
                                     <th style="width:10%">Qiymət</th>
                                     <th style="width:10%">Miqdar</th>
                                     <th style="width:10%">Toplam</th>
-                                    <th style="display:none" >ID</th>
-                                    <th style="width:10%"></th>
+                                    <th style="display:none">ID</th>
+                                    <th style="width:10%" class="noExl"></th>
                                 </tr>
                             </thead>
                             <tbody id="tableProd">
@@ -137,15 +140,15 @@
                                 {
                                     for (int i = 0; i < Model.productionItems.Count; i++)
                                     {
-                                <tr id="faqs-row@(i)">
-                                    <td style="padding:0.60rem">@Model.productionItems[i].ProductCode</td>
-                                    <td style="padding:0.60rem">@Model.productionItems[i].ProductName</td>
-                                    <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductPrice"></td>
-                                    <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductQuantity"></td>
-                                    <td style="padding:0.60rem">@Model.productionItems[i].ProductTotal</td>
-                                    <td style="padding:0.60rem;display:none">@Model.productionItems[i].Id</td>
-                                    <td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(this)"><i class="fa fa-trash"></i> Sil</button></td>
-                                </tr>
+                                        <tr id="faqs-row@(i)">
+                                            <td style="padding:0.60rem">@Model.productionItems[i].ProductCode</td>
+                                            <td style="padding:0.60rem">@Model.productionItems[i].ProductName</td>
+                                            <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductPrice"></td>
+                                            <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductQuantity"></td>
+                                            <td style="padding:0.60rem">@Model.productionItems[i].ProductTotal</td>
+                                            <td style="padding:0.60rem;display:none">@Model.productionItems[i].Id</td>
+                                            <td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(this)"><i class="fa fa-trash"></i> Sil</button></td>
+                                        </tr>
                                     }
                                 }
                             </tbody>
@@ -171,18 +174,42 @@
                                     </tr>
                                     <tr>
                                         <td>Məsrəf Növü :</td>
-                                        <td>@Html.DropDownList("productCharge", Model.itemGroups, "", new { @class = "form-control", @id = "productCharge", @onChange = "calculateTotal()" })</td>
+                                        @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+                                        {
+                                            <td>@Html.DropDownList("productCharge", Model.itemGroups, "", new { @class = "form-control", @id = "productCharge", @onChange = "calculateTotal()" })</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@Html.DropDownList("productCharge", Model.itemGroups, "", new { @class = "form-control", @id = "productCharge", @onChange = "calculateTotal()", @disabled = "disabled" })</td>
+                                        }
+
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Məsrəf Faizi :</td>
                                         @if (Model.productionItems.Count > 0)
                                         {
-                                            <td><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" value="@Model.productionItems[0].ProductCharges" id="chargeValue" onChange="calculateTotal()" /></td>
+                                            if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+                                            {
+                                                <td><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" value="@Model.productionItems[0].ProductCharges" id="chargeValue" onChange="calculateTotal()" /></td>
+                                            }
+                                            else
+                                            {
+                                                <td><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" value="@Model.productionItems[0].ProductCharges" id="chargeValue" onChange="calculateTotal()" readonly="readonly" /></td>
+                                            }
+
                                         }
                                         else
                                         {
-                                            <td><input type="text" class="form-control" value="0.00" id="chargeValue" onChange="calculateTotal()" /></td>
+                                            if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
+                                            {
+                                                <td><input type="text" class="form-control" value="150" id="chargeValue" onChange="calculateTotal()" /></td>
+                                            }
+                                            else
+                                            {
+                                                <td><input type="text" class="form-control" value="150" id="chargeValue" onChange="calculateTotal()" readonly="readonly" /></td>
+                                            }
+
                                         }
                                         <td>%</td>
                                     </tr>
@@ -259,6 +286,12 @@
             $('#faqs tbody').append(html);
             faqs_row++;
             Inputmask().mask(document.querySelectorAll('.inputmask'));
-        }       
+        }
+        function exportToexcell(tablename) {
+            var orderid=document.getElementById("orderNo").innerText;
+            var visiztid = document.getElementById("visitNo").innerText;
+            sendToExcel(tablename, orderid, visiztid);
+        }
+
     </script>
 }

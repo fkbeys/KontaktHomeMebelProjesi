@@ -1125,7 +1125,7 @@ function removeproduct(obj) {
         deletedItems.push(id);
         currow.remove();
         //var form = $('#__AjaxAntiForgeryForm');
-        //var token = $('input[name="__RequestVerificationToken"]', form).val();     
+        //var token = $('input[name="__RequestVerificationToken"]', form).val();
         //$.ajax({
         //    url: '/Order/DeleteProduct',
         //    type: "POST",
@@ -1133,9 +1133,9 @@ function removeproduct(obj) {
         //        __RequestVerificationToken: token,
         //        id: id
         //    },
-        //    success: function (d) {               
-        //        if (d.status == true) {                   
-        //            Swal.fire('Qeyd Silindi', '', 'success');     
+        //    success: function (d) {
+        //        if (d.status == true) {
+        //            Swal.fire('Qeyd Silindi', '', 'success');
         //            currow.remove();
         //        }
         //        else {
@@ -1239,12 +1239,12 @@ function acceptOrder(orderId, visitId) {
             orderid: orderId,
             visitid: visitId
         },
-        success: function (d) {           
-            if (d.status == true) {               
+        success: function (d) {
+            if (d.status == true) {
                 Swal.fire('Qeyd Tamamlandı', '', 'success');
                 window.location.href = d.Url + d.link;
             }
-            else {               
+            else {
                 var errortext = '';
                 for (var i = 0; i < d.errors.length; i++) {
                     errortext += d.errors[i];
@@ -1256,17 +1256,17 @@ function acceptOrder(orderId, visitId) {
                     text: '' + errortext + '',
                     icon: 'error',
                     showCancelButton: false,
-                    confirmButtonColor: '#3085d6',                   
+                    confirmButtonColor: '#3085d6',
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.value) {
                         $('#saveModal').modal('hide');
                     }
                 })
-                
-            }            
+
+            }
         },
-        error: function () {            
+        error: function () {
             alert('Error. Please try again.');
             $('#saveModal').modal('hide');
         }
@@ -1596,4 +1596,16 @@ function deleteLocation(ID, LocType) {
             });
         }
     })
+}
+function sendToExcel(tableneame, orderid, visitid) {
+    var excellname = "Sifaris_" + orderid + "_Vizit_" + visitid;
+    $('#'+tableneame).table2excel({
+        exclude: ".noExl",
+        name: "Worksheet Name",
+        filename: excellname,
+        fileext: ".xls",
+        exclude_img: true,
+        exclude_links: true,
+        exclude_inputs: true
+    });
 }

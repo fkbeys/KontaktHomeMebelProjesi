@@ -283,35 +283,38 @@
                                         </div>
                                         @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin") || HttpContext.Current.User.IsInRole("Dizayner"))
                                         {
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <table class="table table-bordered table-hover table-striped">
-                                                        <thead class="thead-dark">
+                                    <div class="row">
+                                        <div class="col-md-12 mt-2 mb-2">
+                                            <button class="btn btn-primary" type="button" onclick="sendToExcel('faqs-@mehsulsayi', @Model.order.OrderId ,@Model.visitData[i].VisitID )">Excel Köçür</button>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <table class="table table-bordered table-hover table-striped" id="faqs-@mehsulsayi">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th style="width:30%">Stok Kodu</th>
+                                                        <th style="width:30%">Stok Adı</th>
+                                                        <th style="width:10%">Qiymət</th>
+                                                        <th style="width:10%">Miqdar</th>
+                                                        <th style="width:10%">Toplam</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tableProd">
+                                                    @{
+                                                        foreach (var item in proddata)
+                                                        {
                                                             <tr>
-                                                                <th style="width:30%">Stok Kodu</th>
-                                                                <th style="width:30%">Stok Adı</th>
-                                                                <th style="width:10%">Qiymət</th>
-                                                                <th style="width:10%">Miqdar</th>
-                                                                <th style="width:10%">Toplam</th>
+                                                                <td style="padding:0.60rem">@item.ProductCode</td>
+                                                                <td style="padding:0.60rem">@item.ProductName</td>
+                                                                <td style="padding:0.20rem">@item.ProductPrice</td>
+                                                                <td style="padding:0.20rem">@item.ProductQuantity</td>
+                                                                <td style="padding:0.60rem">@item.ProductTotal</td>
                                                             </tr>
-                                                        </thead>
-                                                        <tbody id="tableProd">
-                                                            @{
-                                                                foreach (var item in proddata)
-                                                                {
-                                                                    <tr>
-                                                                        <td style="padding:0.60rem">@item.ProductCode</td>
-                                                                        <td style="padding:0.60rem">@item.ProductName</td>
-                                                                        <td style="padding:0.20rem">@item.ProductPrice</td>
-                                                                        <td style="padding:0.20rem">@item.ProductQuantity</td>
-                                                                        <td style="padding:0.60rem">@item.ProductTotal</td>
-                                                                    </tr>
-                                                                }
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                             if (proddata.Count > 0)
                                             {
                                                 <div class="row mt-3">
@@ -392,7 +395,7 @@
                                         }
                                         else
                                         {
-                                            if (proddata.Count > 0 && Model.order.OrderStatus==7 && HttpContext.Current.User.IsInRole("Satici") && Model.visitData[i].VisitStatus==0)
+                                            if (proddata.Count > 0 && Model.order.OrderStatus == 7 && HttpContext.Current.User.IsInRole("Satici") && Model.visitData[i].VisitStatus == 0)
                                             {
                                                 <div class="row">
                                                     <div class="col-sm-12">
@@ -444,7 +447,7 @@
                                     <div class="card-footer" style="display: none;">
                                         @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
                                         {
-                                            if (Model.order.OrderStatus == 10 && proddata.Count > 0 && Model.visitData[i].VisitStatus == 0 && Model.order.IsActive==true)
+                                            if (Model.order.OrderStatus == 10 && proddata.Count > 0 && Model.visitData[i].VisitStatus == 0 && Model.order.IsActive == true)
                                             {
                                                 <button type="button" class="btn btn-primary" onclick="acceptOrder(@Model.order.OrderId,@Model.visitData[i].VisitID)">Təsdiqlə</button>
                                             }
@@ -528,5 +531,4 @@
         </div>
     </div>
 </div>
-
 
