@@ -141,7 +141,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _stoklar.Result.sto_uretici_kodu = "";
                 _stoklar.Result.sto_sektor_kodu = "";
                 _stoklar.Result.sto_reyon_kodu = "";
-                _stoklar.Result.sto_muhgrup_kodu = "Metbex mebel";
+                //_stoklar.Result.sto_muhgrup_kodu = "Metbex mebel";
                 _stoklar.Result.sto_ambalaj_kodu = "";
                 _stoklar.Result.sto_marka_kodu = "";
                 _stoklar.Result.sto_beden_kodu = "";

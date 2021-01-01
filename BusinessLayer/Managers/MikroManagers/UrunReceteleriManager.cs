@@ -25,9 +25,14 @@ namespace BusinessLayer.Managers.MikroManagers
             else
             {
                 if (data.Count>0)
-                {                                       
-                    for (int i = 0; i < data.Count; i++)                   
+                {
+                    for (int i = 0; i < data.Count; i++)
                     {
+                        byte? recetetuketimturu = 0;
+                        if (data[i].ProductType=="Xidmət")
+                        {
+                            recetetuketimturu = 1;
+                        }
                         Guid _guid = Guid.NewGuid();
                         DateTime tarix = DateTime.Now;
                         _urunreceteleri.Result = new URUN_RECETELERI();
@@ -55,7 +60,7 @@ namespace BusinessLayer.Managers.MikroManagers
                         _urunreceteleri.Result.rec_aciklama = "";
                         _urunreceteleri.Result.rec_anabirim = 1;
                         _urunreceteleri.Result.rec_anamiktar = 1;
-                        _urunreceteleri.Result.rec_tuketim_tur =0;
+                        _urunreceteleri.Result.rec_tuketim_tur = recetetuketimturu;
                         _urunreceteleri.Result.rec_tuketim_kod = data[i].ProductCode;
                         _urunreceteleri.Result.rec_tuketim_tanim_kodu = "";
                         _urunreceteleri.Result.rec_tuketim_recete_cinsi = 0;

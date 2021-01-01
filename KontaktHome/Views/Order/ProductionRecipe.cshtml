@@ -114,7 +114,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-info float-right" data-toggle="modal" onclick="LoadProducts()" data-target="#stokModal"><i class="fas fa-plus"> Stok Seç</i></button>
+                        <button type="button" class="btn btn-info float-right" data-toggle="modal" onclick="LoadProducts()" data-target="#stokModal"><i class="fas fa-plus"> Məhsul Seç</i></button>
+                        <button type="button" class="btn btn-primary float-right mr-3" data-toggle="modal" onclick="LoadService()" data-target="#xidmetModal"><i class="fas fa-plus"> Xidmət Seç</i></button>
                     </div>
                 </div>
                 <div class="row pt-2 mt-2 border-top">
@@ -126,8 +127,9 @@
                         <table id="faqs" class="table table-bordered table-hover table-striped">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th style="width:30%">Stok Kodu</th>
-                                    <th style="width:30%">Stok Adı</th>
+                                    <th style="width:10%">Növü</th>
+                                    <th style="width:25%">Kodu</th>
+                                    <th style="width:25%">Adı</th>
                                     <th style="width:10%">Qiymət</th>
                                     <th style="width:10%">Miqdar</th>
                                     <th style="width:10%">Toplam</th>
@@ -141,6 +143,7 @@
                                     for (int i = 0; i < Model.productionItems.Count; i++)
                                     {
                                         <tr id="faqs-row@(i)">
+                                            <td style="padding:0.60rem">@Model.productionItems[i].ProductType</td>
                                             <td style="padding:0.60rem">@Model.productionItems[i].ProductCode</td>
                                             <td style="padding:0.60rem">@Model.productionItems[i].ProductName</td>
                                             <td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="@Model.productionItems[i].ProductPrice"></td>
@@ -270,22 +273,66 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="xidmetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xidmətlər</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="tableServices" class="display" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Xidmət Kodu</th>
+                                <th>Xidmət Adı</th>
+                                <th>Qiyməti</th>
+                                <th>Miqdarı</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section JavaScript{
     <script>
         var faqs_row = @Model.productionItems.Count;
-        function addfaqs(productcode, productname, price) {
+        function addfaqs(producttype,productcode, productname, price) {
             html = '<tr id="faqs-row' + faqs_row + '">';
-            html += '<td style="padding:0.60rem">' + productcode + '</td>';
-            html += '<td style="padding:0.60rem">' + productname + '</td>';
-            html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="' + price + '"></td>';
-            html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="0"></td>';
-            html += '<td style="padding:0.60rem">0</td>';
-            html += '<td style="padding:0.60rem;display:none">0</td>';
+            if (producttype=="Məhsul") {
+                html += '<td style="padding:0.60rem">' + producttype + '</td>';
+                html += '<td style="padding:0.60rem">' + productcode + '</td>';
+                html += '<td style="padding:0.60rem">' + productname + '</td>';
+                html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="' + price + '"></td>';
+                html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" value="0"></td>';
+                html += '<td style="padding:0.60rem">0</td>';
+                html += '<td style="padding:0.60rem;display:none">0</td>';
+            }
+            else {
+                html += '<td style="padding:0.60rem">' + producttype + '</td>';
+                html += '<td style="padding:0.60rem">' + productcode + '</td>';
+                html += '<td style="padding:0.60rem">' + productname + '</td>';
+                html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" disabled value="' + price + '"></td>';
+                html += '<td style="padding:0.20rem"><input type="text" class="form-control inputmask" data-inputmask-alias="decimal" inputmode="numeric" onChange="calculateProduct(this)" disabled value="1"></td>';
+                html += '<td style="padding:0.60rem">' + price + '</td>';
+                html += '<td style="padding:0.60rem;display:none">0</td>';
+            }
             html += '<td style="padding:0.40rem"><button type="button" class="btn btn-sm btn-danger" onclick="removeproduct(this)"><i class="fa fa-trash"></i> Sil</button></td>';
             html += '</tr>';
             $('#faqs tbody').append(html);
             faqs_row++;
             Inputmask().mask(document.querySelectorAll('.inputmask'));
+            calculateTotal();
         }
         function exportToexcell(tablename) {
             var orderid=document.getElementById("orderNo").innerText;

@@ -41,7 +41,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _urunler.Result.uru_lastup_date = tarix;
                 _urunler.Result.uru_special1 = "";
                 _urunler.Result.uru_special2 = "";
-                _urunler.Result.uru_special3 = "";               
+                _urunler.Result.uru_special3 = "";
                 _urunler.Result.uru_gider1 = 1;
                 _urunler.Result.uru_gider2 = 1;
                 _urunler.Result.uru_gider3 = 1;
@@ -68,7 +68,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _urunler.Result.uru_masterrecete = "";
                 _urunler.Result.uru_SorumlulukMerkezi = "";
                 _urunler.Result.uru_varsayilanismerkezi = "";
-                _urunler.Result.uru_Muhgrup_kodu = "";
+                //_urunler.Result.uru_Muhgrup_kodu = "";
                 _urunler.Result.uru_masterkalip_kodu = "";
                 _urunler.Result.uru_recete_ismi1 = "";
                 _urunler.Result.uru_recete_ismi2 = "";

@@ -35,6 +35,7 @@ namespace Entities.Model.LocalModels
         public string CreateUser { get; set; }
         public DateTime LastupDate { get; set; }
         public string LastupUser { get; set; }
+        public string ProductType { get; set; }
 
     }
 }

@@ -34,7 +34,7 @@ namespace BusinessLayer.Managers.LocalManagers
                     {
                         _production.AddError(ErrorMessageCode.DataInsertError, "Xəta başverdi.Qeyd Tamamlanmadı.");
                     }
-                }             
+                }
             }
             return _production;
         }
@@ -60,6 +60,7 @@ namespace BusinessLayer.Managers.LocalManagers
                         _production.OrderId = item.OrderId;
                         _production.DocSum = cem;
                         _production.DocTotal = yekun;
+                        _production.ProductType = item.ProductType;
                         if (base.Update(_production) == 0)
                         {
                             _productionresult.AddError(ErrorMessageCode.DataUpdateError, "Xəta baş verdi. Məlumat yenilənmədi");
@@ -71,7 +72,7 @@ namespace BusinessLayer.Managers.LocalManagers
                     }
                 }
             }
-            return _productionresult;           
+            return _productionresult;
         }
 
         public void DeleteProdData(int[] prodId)
@@ -87,7 +88,7 @@ namespace BusinessLayer.Managers.LocalManagers
                         base.Delete(_production);
                     }
                 }
-            }            
+            }
         }
 
 

@@ -1158,6 +1158,13 @@ namespace KontaktHome.Controllers
 
 
         }
+        [WebMethod]
+        public ActionResult GetServices()
+        {
+            List<Products> product = new List<Products>();
+            product = productManager.GetServices();
+            return Json(new { data = product });
+        }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -1255,6 +1262,11 @@ namespace KontaktHome.Controllers
                         STOKLAR stokdata = new STOKLAR();
                         stokdata.sto_kod = stokKodu;
                         stokdata.sto_isim = stokAdi;
+                        stokdata.sto_muhgrup_kodu = "";
+                        if (_visit.ProductCode== "Metbex")
+                        {
+                            stokdata.sto_muhgrup_kodu = "Metbex mebel";
+                        }
                         BusinessLayerResult<STOKLAR> _stoklar = stoklarManager.InsertData(stokdata, CurrentSession.User);
                         if (_stoklar.Errors.Count > 0)
                         {
@@ -1282,6 +1294,10 @@ namespace KontaktHome.Controllers
                         }
                         URUNLER urundata = new URUNLER();
                         urundata.uru_stok_kod = stokKodu;
+                        if (_visit.ProductCode == "Metbex")
+                        {
+                            urundata.uru_Muhgrup_kodu = "Metbex Mebel";
+                        }
                         BusinessLayerResult<URUNLER> _urunler = urunManager.InsertData(urundata, CurrentSession.User);
                         if (_urunler.Errors.Count > 0)
                         {

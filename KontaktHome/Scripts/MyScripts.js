@@ -1083,7 +1083,30 @@ function LoadProducts() {
             { "data": "product_price" },
             { "data": "product_quantity" },
             {
-                "render": function (data, type, full, meta) { return '<button type="button" class="btn btn-primary btn-sm" onclick="addfaqs(\'' + full.product_code + '\',\'' + full.product_name + '\',\'' + full.product_price + '\')">Əlavə Et</i></button>'; }
+                "render": function (data, type, full, meta) { return '<button type="button" class="btn btn-primary btn-sm" onclick="addfaqs(\'Məhsul\',\'' + full.product_code + '\',\'' + full.product_name + '\',\'' + full.product_price + '\')">Əlavə Et</i></button>'; }
+            }
+        ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+        }
+    });
+}
+function LoadService() {
+    $('#tableServices').DataTable({
+        "destroy": "true",
+        "ajax": {
+            "url": "../Order/GetServices",
+            "cache": "false",
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "product_code" },
+            { "data": "product_name" },
+            { "data": "product_price" },
+            { "data": "product_quantity" },
+            {
+                "render": function (data, type, full, meta) { return '<button type="button" class="btn btn-primary btn-sm" onclick="addfaqs(\'Xidmət\',\'' + full.product_code + '\',\'' + full.product_name + '\',\'' + full.product_price + '\')">Əlavə Et</i></button>'; }
             }
         ],
         "language": {
@@ -1093,10 +1116,10 @@ function LoadProducts() {
 }
 function calculateProduct(obj) {
     var currow = $(obj).closest('tr');
-    var price = currow.find('td:eq(2) input[type="text"]').val();
-    var quamtity = currow.find('td:eq(3) input[type="text"]').val();
+    var price = currow.find('td:eq(3) input[type="text"]').val();
+    var quamtity = currow.find('td:eq(4) input[type="text"]').val();
     var total = parseFloat(price) * parseFloat(quamtity);
-    currow.find('td:eq(4)').html(total.toFixed(2));
+    currow.find('td:eq(5)').html(total.toFixed(2));
     calculateTotal();
 }
 function calculateTotal() {
@@ -1104,7 +1127,7 @@ function calculateTotal() {
     let table = document.querySelector("#faqs tbody");
     if (table.rows.length > 0) {
         for (let row of table.rows) {
-            Cemi = Cemi + parseFloat(row.cells[4].innerText);
+            Cemi = Cemi + parseFloat(row.cells[5].innerText);
         }
     }
     var Faiz = document.getElementById("chargeValue").value;
@@ -1174,13 +1197,14 @@ $('#recipeSave').click(function () {
     if (isAllValid == true) {
         for (let row of table.rows) {
             recipeItems.push({
-                ProductCode: row.cells[0].innerText,
-                ProductName: row.cells[1].innerText,
-                ProductPrice: row.cells[2].children[0].value,
-                ProductQuantity: row.cells[3].children[0].value,
-                ProductTotal: row.cells[4].innerText,
+                ProductType: row.cells[0].innerText,
+                ProductCode: row.cells[1].innerText,
+                ProductName: row.cells[2].innerText,
+                ProductPrice: row.cells[3].children[0].value,
+                ProductQuantity: row.cells[4].children[0].value,
+                ProductTotal: row.cells[5].innerText,
                 ProductCharges: document.getElementById("chargeValue").value,
-                Id: row.cells[5].innerText,
+                Id: row.cells[6].innerText,
                 OrderId: document.getElementById("orderNo").innerText,
                 VisitId: document.getElementById("visitNo").innerText
             });
