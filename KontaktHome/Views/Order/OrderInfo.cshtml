@@ -250,7 +250,10 @@
                 <div class="card-footer">
                     @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
                     {
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                        @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalLong">
+                            Dəyişən Qeydlər_Old
+                        </button>*@
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#logModal" onclick="LoadLogs('@Model.OrderId')">
                             Dəyişən Qeydlər
                         </button>
                     }
@@ -262,7 +265,7 @@
 <!-- Modal -->
 @if (HttpContext.Current.User.IsInRole("Kordinator") || HttpContext.Current.User.IsInRole("Admin"))
 {
-    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    @*<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -301,12 +304,85 @@
                 </div>
             </div>
         </div>
+    </div>*@
+    <!-- Modal -->
+    <div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dəyişən Qeydlər</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="tableLogs" class="display" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th >Sütun</th>
+                                    <th >Köhnə Dəyər</th>
+                                    <th >Yeni Dəyər</th>
+                                    <th >Dəyişmə Tarixi</th>
+                                    <th >Dəyişən İstifadəçi</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Bağla</button>
+                </div>
+            </div>
+        </div>
     </div>
 }
 @section JavaScript{
     <script>
     document.getElementById('visitorCode').value='@Model.VisitorCode';
-    document.getElementById('designerCode').value='@Model.DesignerCode';
+        document.getElementById('designerCode').value = '@Model.DesignerCode';
+        function LoadLogs(orderId) {
+            $('#tableLogs').DataTable({
+                "destroy": "true",
+                "ajax": {
+                    "url": "../Order/GetChangeLog",
+                    "cache": "false",
+                    "type": "POST",
+                    "dataSrc": "",
+                    "data": { orderid: orderId }
+                },
+                "columns": [
+                    { "data": "0" },
+                    { "data": "1" },
+                    { "data": "2" },
+                    { "data": "3" },
+                    { "data": "4" }
+                ],
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+                }
+            });
+            //$('#tableLogs').DataTable({
+            //    "destroy": "true",
+            //    "ajax": {
+            //        "url": "../Order/GetChangeLog",
+            //        "cache": "false",
+            //        "type": "POST",
+            //        "datatype": "json",
+            //        "data": { orderid: orderId }
+            //    },
+            //    "columns": [
+            //        { "data": "PropertyName" },
+            //        { "data": "OldValue" },
+            //        { "data": "NewValue" },
+            //        { "data": "DateChanged" },
+            //        { "data": "ChangedUser" }
+            //    ],
+            //    "language": {
+            //        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Azerbaijan.json"
+            //    }
+            //});
+        }
     </script>
 }
 

@@ -551,11 +551,47 @@ namespace KontaktHome.Controllers
             {
                 return HttpNotFound();
             }
-            List<ChangeLog> changeLog = changeLogManager.List(x => x.PrimaryKeyValue == order.OrderId.ToString() && x.EntityName == "Orders").ToList();
+          //  List<ChangeLog> changeLog = changeLogManager.List(x => x.PrimaryKeyValue == order.OrderId.ToString() && x.EntityName == "Orders").ToList();
+            //foreach (var item in changeLog)
+            //{
+            //    item.PropertyName = TextHelpers.OrdersTableTranslate(item.PropertyName);
+            //}
             ViewBag.Visitor = listvisitor;
             ViewBag.Designer = listdesigner;
-            ViewBag.ChangeLog = changeLog;
+            //ViewBag.ChangeLog = changeLog;
             return View(order);
+        }
+        [WebMethod]
+        public ActionResult GetChangeLog(int orderid)
+        {
+            List<ChangeLog> changeLog = new List<ChangeLog>();
+            changeLog.AddRange(changeLogManager.List(x => x.PrimaryKeyValue == orderid.ToString() && x.EntityName == "Orders").ToList());
+            List<Visits> visit = visitManager.List(x => x.OrderId == orderid).ToList();
+            if (visit.Count>0)
+            {
+                foreach (var item in visit)
+                {
+                    changeLog.AddRange(changeLogManager.List(x => x.PrimaryKeyValue == item.VisitID.ToString() && x.EntityName == "Visits").ToList());
+                }
+            }
+            List<Production> production = productionManager.List(x => x.OrderId == orderid).ToList();
+            if (production.Count>0)
+            {
+                foreach (var item in production)
+                {
+                    changeLog.AddRange(changeLogManager.List(x => x.PrimaryKeyValue == item.Id.ToString() && x.EntityName == "Production").ToList());
+                }
+            }
+            var UserData = new object[changeLog.Count];
+            int j = 0;
+            foreach (var item in changeLog)
+            {
+                item.PropertyName = TextHelpers.TableTranslate(item.PropertyName);
+                UserData[j] = new object[] { item.PropertyName, item.OldValue, item.NewValue, item.DateChanged.ToString(),item.ChangedUser };
+                j++;
+            }
+            return Json(UserData, JsonRequestBehavior.AllowGet);
+            //return Json(new { data = changeLog });
         }
         //Visitor
         [CustomAuthorize(Roles = "Admin,Kordinator,Vizitor")]
@@ -1309,7 +1345,7 @@ namespace KontaktHome.Controllers
                             status = false;
                             return Json(new { status, errors });
                         }
-                        string carikod = _order.CustomerSurname +"_"+_order.CustomerName + "_" + _order.OrderId.ToString();
+                        string carikod = _order.CustomerSurname.Substring(0, 1) + "_"+_order.CustomerName.Substring(0, 1) + "_" + _order.OrderId.ToString();
                         CARI_HESAPLAR carihesaplar = new CARI_HESAPLAR();
                         carihesaplar.cari_kod = carikod;
                         carihesaplar.cari_unvan1 = _order.CustomerSurname;
