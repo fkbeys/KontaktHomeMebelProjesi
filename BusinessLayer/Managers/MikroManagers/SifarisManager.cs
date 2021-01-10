@@ -74,7 +74,7 @@ namespace BusinessLayer.Managers.MikroManagers
                 _siparisler.Result.sip_opno = 0;
                 _siparisler.Result.sip_aciklama = "";
                 _siparisler.Result.sip_aciklama2 = "";
-                _siparisler.Result.sip_depono = 0;
+                _siparisler.Result.sip_depono = 2;//
                 _siparisler.Result.sip_OnaylayanKulNo = 0;
                 _siparisler.Result.sip_vergisiz_fl = false;
                 _siparisler.Result.sip_kapat_fl = false;

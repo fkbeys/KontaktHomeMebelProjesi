@@ -69,7 +69,7 @@ namespace BusinessLayer.Managers.MikroManagers
                         _urunreceteleri.Result.rec_uretim_tuketim = 0;
                         _urunreceteleri.Result.rec_satirno = i;
                         _urunreceteleri.Result.rec_satir_acik = "";
-                        _urunreceteleri.Result.rec_depono = 1;
+                        _urunreceteleri.Result.rec_depono = 2;//depo no
                         _urunreceteleri.Result.rec_fireyuzde = 0;
                         _urunreceteleri.Result.rec_baslama_tarihi = Convert.ToDateTime("1899-12-30 00:00:00.000");
                         _urunreceteleri.Result.rec_bitis_tarihi = Convert.ToDateTime("1899-12-30 00:00:00.000");
