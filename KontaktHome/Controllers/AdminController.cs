@@ -46,7 +46,7 @@ namespace KontaktHome.Controllers
         public ActionResult GetUsers()
         {
             string userStatus = "";
-            List<Users> user = userManager.List();          
+            List<Users> user = userManager.List();
             var UserData = new object[user.Count];
             int j = 0;
             foreach (var item in user)
@@ -58,7 +58,7 @@ namespace KontaktHome.Controllers
                                  on roleMapping.RoleID equals role.ID
                                  where users.UserID == item.UserID
                                  select new
-                                 {                                     
+                                 {
                                      RoleName = role.RoleName
                                  });
                 if (item.IsActive == true)
@@ -79,7 +79,7 @@ namespace KontaktHome.Controllers
         public ActionResult CreateUser()
         {
             Users user = new Users();
-            user.myADUsers = GetADUsers();           
+            user.myADUsers = GetADUsers();
             ViewBag.Stores = sormMerkeziManager.listMagaza();
             return View(user);
         }
@@ -93,7 +93,7 @@ namespace KontaktHome.Controllers
                 BusinessLayerResult<Users> newUser = userManager.InsertUser(data);
                 if (newUser.Errors.Count > 0)
                 {
-                    newUser.Errors.ForEach(x => ModelState.AddModelError("", x.Message));                   
+                    newUser.Errors.ForEach(x => ModelState.AddModelError("", x.Message));
                     return View(data);
                 }
                 TempData["msg"] = "Istifadəçi qeyd edildi!";
@@ -130,7 +130,7 @@ namespace KontaktHome.Controllers
                 TempData["msg"] = "Istifadəçi yeniləndi!";
                 TempData["typ"] = "success";
                 return RedirectToAction("Index");
-            }          
+            }
             ViewBag.Stores = sormMerkeziManager.listMagaza();
             return View(data);
         }
@@ -182,14 +182,14 @@ namespace KontaktHome.Controllers
             {
                 return myADUsers;
             }
-           
-            
+
+
         }
         public ActionResult UserRoles(int UserID)
         {
             Users userinformation = userManager.Find(x => x.UserID == UserID);
             UserRolesMapping roleMapping = new UserRolesMapping();
-            roleMapping.UserID = UserID;           
+            roleMapping.UserID = UserID;
             ViewBag.Roles = userRolesManager.listUserRoles();
             ViewBag.UserName = userinformation.UserName;
             return View(roleMapping);
@@ -198,7 +198,7 @@ namespace KontaktHome.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UserRoles(UserRolesMapping model)
         {
-           
+
             ViewBag.Roles = userRolesManager.listUserRoles();
             BusinessLayerResult<UserRolesMapping> rolesMapping = userRoleMappingManager.InsertUserRoles(model);
             if (rolesMapping.Errors.Count > 0)
@@ -339,14 +339,12 @@ namespace KontaktHome.Controllers
             TempData["typ"] = "success";
             return RedirectToAction("CreateStore");
         }
-
         public ActionResult Charges()
         {
             List<AdditionalCharges> _charges = chargesManager.List();
             ViewBag.Charges = _charges;
             return View();
         }
-
         [HttpPost]
         public ActionResult SaveCharges(AdditionalCharges charges)
         {
@@ -436,7 +434,6 @@ namespace KontaktHome.Controllers
             status = false;
             return Json(new { status, errors, Url = Url.Action("Charges", "Admin") });
         }
-
         public ActionResult Locations()
         {
             return View();
@@ -486,7 +483,6 @@ namespace KontaktHome.Controllers
             }
             return Json(GroupData, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult CreateEditLocationGroup(int? id)
         {
             if (id == 0)
@@ -513,7 +509,7 @@ namespace KontaktHome.Controllers
                 bool status = false;
                 string[] errors;
                 if (data.Value != null)
-                {                    
+                {
                     BusinessLayerResult<LocationGroup> _locationGroup = locationGroupManager.InsertData(data);
                     if (_locationGroup.Errors.Count > 0)
                     {
@@ -669,7 +665,7 @@ namespace KontaktHome.Controllers
                 bool status = false;
                 string[] errors;
                 if (data.Value != null && data.GroupID != 0 && data.SubGroupID != 0)
-                {                  
+                {
                     BusinessLayerResult<LocationNames> _locationNames = locationNameManager.InsertData(data);
                     if (_locationNames.Errors.Count > 0)
                     {
@@ -792,7 +788,7 @@ namespace KontaktHome.Controllers
             }
             TempData["msg"] = "Mağaza kodu mövcud deyil!";
             TempData["typ"] = "error";
-            return RedirectToAction("CreateStore");         
+            return RedirectToAction("CreateStore");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -800,8 +796,8 @@ namespace KontaktHome.Controllers
         {
             bool status = false;
             string[] errors;
-            if (ModelState.IsValid)            
-            {              
+            if (ModelState.IsValid)
+            {
                 BusinessLayerResult<Stores> _stores = storesManager.UpdateStore(data);
                 if (_stores.Errors.Count > 0)
                 {

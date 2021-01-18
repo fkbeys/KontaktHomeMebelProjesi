@@ -21,6 +21,7 @@
         });
     };
 }(jQuery));
+var deletedItems = [];
 $("#itemCount").inputFilter(function (value) {
     return /^\d*$/.test(value);
 });
@@ -1136,11 +1137,11 @@ function calculateTotal() {
     $('#productTotal').html(Cemi.toFixed(2));
     $('#productSum').html(Total.toFixed(2));
 }
-var deletedItems = [];
+
 function removeproduct(obj) {
     var currow = $(obj).closest('tr');
     var row_index = currow.index();
-    var id = document.getElementById("tableProd").rows[row_index].cells[5].innerHTML;
+    var id = document.getElementById("tableProd").rows[row_index].cells[6].innerHTML;
     if (id == 0) {
         currow.remove();
     }

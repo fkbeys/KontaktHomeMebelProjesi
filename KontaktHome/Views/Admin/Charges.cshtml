@@ -91,7 +91,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Yeni Məsrəf</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Məsrəf Düzəliş</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -107,7 +107,7 @@
         document.getElementById('sidemenu2').className = 'nav-item has-treeview menu-open';
         document.getElementById('sidemenu2_1').className = 'nav-link active';
         document.getElementById('newCharges').className = 'nav-link active';
-        showInPopup = (url, title) => {          
+        showInPopup = (url, title) => {
             $.ajax({
                 type: 'GET',
                 url: url,
