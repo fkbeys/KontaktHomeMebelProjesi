@@ -1314,20 +1314,20 @@ namespace KontaktHome.Controllers
                             status = false;
                             return Json(new { status, errors });
                         }
-                        STOK_SATIS_FIYAT_LISTELERI satisqiymeti = new STOK_SATIS_FIYAT_LISTELERI();
-                        satisqiymeti.sfiyat_stokkod = stokKodu;
-                        satisqiymeti.sfiyat_fiyati = _visit.FinalPrice;
-                        BusinessLayerResult<STOK_SATIS_FIYAT_LISTELERI> _fiyatliste = satisFiyatiManager.InsertData(satisqiymeti, CurrentSession.User);
-                        if (_fiyatliste.Errors.Count > 0)
-                        {
-                            errors = new string[_fiyatliste.Errors.Count];
-                            for (int i = 0; i < _fiyatliste.Errors.Count; i++)
-                            {
-                                errors[i] = _fiyatliste.Errors[i].Message;
-                            }
-                            status = false;
-                            return Json(new { status, errors });
-                        }
+                        //STOK_SATIS_FIYAT_LISTELERI satisqiymeti = new STOK_SATIS_FIYAT_LISTELERI();
+                        //satisqiymeti.sfiyat_stokkod = stokKodu;
+                        //satisqiymeti.sfiyat_fiyati = _visit.FinalPrice;
+                        //BusinessLayerResult<STOK_SATIS_FIYAT_LISTELERI> _fiyatliste = satisFiyatiManager.InsertData(satisqiymeti, CurrentSession.User);
+                        //if (_fiyatliste.Errors.Count > 0)
+                        //{
+                        //    errors = new string[_fiyatliste.Errors.Count];
+                        //    for (int i = 0; i < _fiyatliste.Errors.Count; i++)
+                        //    {
+                        //        errors[i] = _fiyatliste.Errors[i].Message;
+                        //    }
+                        //    status = false;
+                        //    return Json(new { status, errors });
+                        //}
                         URUNLER urundata = new URUNLER();
                         urundata.uru_stok_kod = stokKodu;
                         if (_visit.ProductCode == "Metbex")
